@@ -1,0 +1,67 @@
+<?php
+
+use Ramsey\Uuid\Uuid;
+
+require '../../vendor/autoload.php';
+require '../util/db.php';
+
+$email = escape($_POST['email']);
+$password = md5(escape($_POST['password']));
+
+function login()
+{
+    global $email;
+    global $password;
+    global $db;
+
+    $role = $_POST['role'];
+
+    $sql = "SELECT * FROM $role WHERE email = '$email' AND password = '$password'";
+    if ($result = $db->query($sql)) {
+        if ($result->num_rows > 0) {
+            session_start();
+            $user_data = mysqli_fetch_assoc($result);
+            $_SESSION['user_id'] = $user_data["id_$role"];
+            $_SESSION['nama'] = $user_data['nama'];
+            $_SESSION['email'] = $user_data['email'];
+            $_SESSION['role'] = $role;
+            redirect("../../client/$role/index.php");
+        } else {
+            // Jika gagal login
+            redirect("../../client/$role/login.php");
+        }
+    } else {
+        // Jika user tidak ditemukan
+        redirect("../../client/$role/login.php");
+    }
+}
+
+if (isset($_POST['login'])) {
+    login();
+} else if (isset($_POST['register'])) {
+
+    function is_email_available()
+    {
+        global $email;
+        global $db;
+        $sql = "SELECT COUNT(*) jumlah_user FROM siswa WHERE email = '$email'";
+        $result = $db->query($sql)->fetch_assoc();
+        $jumlah_user = $result['jumlah_user'];
+        return $jumlah_user < 1;
+    }
+
+    if (is_email_available()) {
+        $id_siswa = Uuid::uuid4()->toString();
+        $nama = escape($_POST['nama']);
+        $sql = "INSERT INTO siswa (id_siswa, nama, email, password) VALUES('$id_siswa', '$nama', '$email', '$password')";
+        if ($result = $db->query($sql)) {
+            login();
+        } else {
+            // Jika register gagal
+            redirect("../../client/siswa/register.php");
+        }
+    } else {
+        // Jika email sudah digunakan
+        redirect("../../client/siswa/register.php");
+    }
+}

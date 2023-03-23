@@ -1,0 +1,24 @@
+{
+    "name": "evanightly/si-smart",
+    "description": "Sistem Administrasi dan KBM Bimbel SMART",
+    "type": "project",
+    "config": {
+        "platform-check": false
+    },
+    "require": {
+        "ramsey/uuid": "^4.7",
+        "vlucas/phpdotenv": "^5.5"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Evanightly\\SiSmart\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "evanightly",
+            "email": "adamhenderson3x3@gmail.com"
+        }
+    ]
+}

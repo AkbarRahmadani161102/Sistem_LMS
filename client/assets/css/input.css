@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Monserrat";
+    src: url("../fonts/Montserrat.ttf");
+}
+
+@font-face {
+    font-family: "Poppins-Regular";
+    src: url("../fonts/Poppins-Regular.ttf");
+}
+
+@layer base {
+    html {
+        font-family: Monserrat;
+    }
+
+    h1 {
+        @apply text-5xl;
+    }
+
+    h2 {
+        @apply text-4xl;
+    }
+
+    h3 {
+        @apply text-3xl;
+    }
+
+    h4 {
+        @apply text-2xl;
+    }
+
+    h5 {
+        @apply text-xl;
+    }
+
+    h6 {
+        @apply text-lg;
+    }
+
+    p,
+    a {
+        @apply text-base;
+    }
+}
+
+@layer components {
+    hr.vr {
+        @apply w-0.5;
+        @apply h-12;
+        @apply bg-gray-400;
+        @apply mx-3;
+    }
+    .dashboard-sidebar {
+        @apply w-fit;
+        @apply flex;
+        @apply flex-col;
+        @apply p-10;
+    }
+
+    .dashboard-sidebar-menu {
+        @apply flex;
+        @apply flex-col;
+        @apply gap-3;
+    }
+
+    .dashboard-sidebar-header {
+        @apply mt-3;
+        @apply text-gray-400;
+    }
+
+    .dashboard-sidebar-item {
+        @apply py-3;
+        @apply px-8;
+        @apply rounded;
+        @apply flex;
+        @apply gap-2;
+        @apply text-black;
+        @apply hover:text-amber-500;
+        @apply transition;
+    }
+
+    .dashboard-sidebar-item.active {
+        @apply text-white;
+        @apply bg-zinc-800;
+    }
+
+    .dashboard-sidebar-item.active i {
+        @apply text-amber-500;
+    }
+}

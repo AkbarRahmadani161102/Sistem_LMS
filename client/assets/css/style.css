@@ -1,0 +1,89 @@
+:root {
+    --orange: #FF8C00;
+    --dark: #2E2E2E;
+    --gray: #6C757D;
+    --light-gray: #F8F9FA;
+    --light-gray-2: #ADB5BD;
+    --blue: #007BFF;
+    --dark-blue: #002BFF;
+    --light-blue: #80DFFF;
+    --white: #fff;
+    --green: #28A745;
+    --red: #DC3545;
+    --yellow: #FFC107;
+    --dark-gray: #343A40;
+}
+
+.register_siswa .image {
+    background: url('../image/register_siswa.jpg') no-repeat center;
+    background-size: cover;
+}
+
+.login_siswa .image {
+    background: url('../image/login_siswa.jpg') no-repeat center;
+    background-size: cover;
+}
+
+.dashboard-left-navigation .nav-link i {
+    margin-right: .2rem;
+}
+
+.dashboard-left-navigation .nav-link {
+    color: var(--dark);
+    border-radius: .375rem;
+    padding: .8rem 2rem;
+    vertical-align: baseline;
+}
+
+.dashboard-left-navigation .nav-link.disabled {
+    color: var(--light-gray-2);
+    font-weight: 500;
+}
+
+.dashboard-left-navigation .nav-link.active {
+    background: var(--dark);
+    color: var(--white);
+}
+
+.dashboard-left-navigation a {
+    color: var(--dark);
+}
+
+.dashboard-left-navigation a:hover {
+    color: var(--orange);
+}
+
+.dashboard-left-navigation a.disabled {
+    padding: 0;
+    color: var(--dark);
+}
+
+.dashboard-top-navigation .right_navigation .user_detail img {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 1px solid var(--orange);
+}
+
+.dashboard-top-navigation .right_navigation .user_detail .vr {
+    height: 100%;
+    margin: 0 1rem ;
+}
+
+.dashboard-top-navigation .right_navigation .user_detail .notification {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ov-orange {
+    color: var(--orange);
+}
+
+.ov-bg-orange {
+    background-color: var(--orange);
+}
