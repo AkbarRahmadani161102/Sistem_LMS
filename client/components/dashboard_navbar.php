@@ -26,7 +26,7 @@ $data_instruktur = $db->query($sql);
         <img class="w-10 h-10 rounded-full border border-amber-500 border" src="https://images.pexels.com/photos/302769/pexels-photo-302769.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="User image">
         <div class="flex-col ml-3 hidden md:flex w-fit">
             <p class="m-0 text-secondary font-semibold"><?= $_SESSION['nama'] ?></p>
-            <p class="m-0 text-secondary">Siswa</p>
+            <p class="m-0 text-secondary"><?= ucfirst($_SESSION['role']) ?></p>
         </div>
 
         <button data-dropdown-toggle="dropdown" class="ml-5" type="button"><i class="ri-arrow-down-s-line text-2xl hover:text-amber-500"></i></button>
