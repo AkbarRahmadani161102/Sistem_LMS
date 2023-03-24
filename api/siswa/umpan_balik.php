@@ -2,7 +2,7 @@
 
 include_once '../util/db.php';
 
-if (escape(isset($_POST['create']))) {
+if (escape(isset($_POST['create_instruktur']))) {
     $id_instruktur = escape($_POST['id_instruktur']);
     $deskripsi = escape($_POST['deskripsi']);
     $rating = escape($_POST['rating']);
@@ -13,17 +13,17 @@ if (escape(isset($_POST['create']))) {
     $feedback_created = $db->query($sql)->num_rows > 0;
     if ($feedback_created) {
         echo ("Failed to create feedback");
-        die(redirect("../../client/siswa/feedback.php"));
+        die(redirect("../../client/siswa/umpan_balik_instruktur.php"));
     }
 
     if (strlen($deskripsi) > 0) {
         $sql = "INSERT INTO kuesioner_instruktur (id_siswa, id_instruktur, deskripsi, rating) VALUES('$id_siswa', '$id_instruktur',' $deskripsi', $rating)";
         $db->query($sql);
-        redirect("../../client/siswa/feedback.php");
+        redirect("../../client/siswa/umpan_balik_instruktur.php");
     }
-} else if (escape(isset($_POST['delete']))) {
-    $id_kuesioner = escape($_POST['delete']);
+} else if (escape(isset($_POST['delete_instruktur']))) {
+    $id_kuesioner = escape($_POST['delete_instruktur']);
     $sql = "DELETE FROM kuesioner_instruktur WHERE id_kuesioner = $id_kuesioner";
     $db->query($sql) or die($db->errno);
-    redirect("../../client/siswa/feedback.php");
+    redirect("../../client/siswa/umpan_balik_instruktur.php");
 }

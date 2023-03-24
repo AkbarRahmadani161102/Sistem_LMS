@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 // Redirect Function
 function redirect($location){
     header("Location: $location");

@@ -10,7 +10,7 @@ if (isset($_POST['update_profil'])) {
     $nomor_telepon = escape($_POST['no_telp']);
     $alamat = escape($_POST['alamat']);
 
-    $contain_letter = preg_match("/[a-z][A-Z]/", $nomor_telepon) === 1;
+    $contain_letter = preg_match("/[a-zA-Z]/", $nomor_telepon) === 1;
     if (!$contain_letter) {
         $_SESSION['nama'] = $nama;
         $sql = "UPDATE $role SET nama = '$nama', no_telp = '$nomor_telepon', alamat = '$alamat'  WHERE id_$role = '$id_user'";
@@ -24,9 +24,14 @@ if (isset($_POST['update_kredensial'])) {
     $confirm_password = escape($_POST['confirm_password']);
 
     if ($password === $confirm_password) {
-        $password = md5($password);
-        $sql = "UPDATE $role SET email = '$email', password = '$password' WHERE id_$role = '$id_user'";
-        $db->query($sql);
+        $sql = "SELECT * FROM siswa WHERE email = '$email'";
+        if ($result = $db->query($sql)) {
+            if ($result->num_rows < 1) {
+                $password = md5($password);
+                $sql = "UPDATE $role SET email = '$email', password = '$password' WHERE id_$role = '$id_user'";
+                $db->query($sql);
+            }
+        }
     }
-    redirect("../../client/$role/pengaturan.php");
+    // redirect("../../client/$role/pengaturan.php");
 }

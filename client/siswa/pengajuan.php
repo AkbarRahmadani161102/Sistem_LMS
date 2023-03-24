@@ -1,7 +1,6 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-include_once('../../api/util/db.php');
 user_access('siswa');
 
 $id_siswa = $_SESSION['user_id'];
@@ -9,45 +8,45 @@ $sql = "SELECT * FROM pengajuan p WHERE p.id_siswa = '$id_siswa'";
 $data_tunggakan = $db->query($sql);
 ?>
 
-<div class="w-full min-h-screen flex">
-    <?php include_once './components/dashboard_sidebar.php' ?>
+<div id="pengajuan" class="w-full min-h-screen flex">
+    <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
-        <?php include_once './components/dashboard_navbar.php' ?>
-        <div class="w-full px-10">
+        <div class="p-4 sm:ml-64">
+            <?php include_once '../components/dashboard_navbar.php';
+            generate_breadcrumb([['title' => 'Pengajuan', 'filename' => 'pengajuan.php']]);
+            ?>
 
-            <div class="flex items-center gap-2">
-                <a class="text-xl text-gray-400 hover:text-amber-500" href="#">Home</a>
-                <i class="ri-arrow-right-s-line text-gray-400 text-xl"></i>
-                <a class="text-xl text-slate-800 hover:text-amber-500" href="#">Pengajuan</a>
-            </div>
-            <div class="mt-7 flex w-full gap-5">
-                <h4 class="font-semibold">Data Pengajuan</h4>
+            <div class="flex gap-2 items-center">
+                <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Pengajuan</h4>
                 <button class="px-4 py-2 bg-green-300 rounded" data-modal-target="add-pengajuan-modal" data-modal-toggle="add-pengajuan-modal">Ajukan Pengajuan</button>
             </div>
-            <table class="mt-5 w-full text-sm text-left shadow-xl rounded">
-                <thead class="text-xs text-gray-700 uppercase bg-white">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">#</th>
-                        <th scope="col" class="px-6 py-3">Judul</th>
-                        <th scope="col" class="px-6 py-3">Keterangan</th>
-                        <th scope="col" class="px-6 py-3">Status</th>
-                        <th scope="col" class="px-6 py-3"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($row = $data_tunggakan->fetch_assoc()) : ?>
-                        <tr class="bg-white">
-                            <th class="px-6 py-4 text-amber-500"></th>
-                            <td class="px-6 py-4"><?= $row['judul'] ?></td>
-                            <td class="px-6 py-4"><?= $row['keterangan'] ?></td>
-                            <td class="px-6 py-4"><?= $row['status'] ?></td>
-                            <form action="../../api/siswa/pengajuan.php" method="post">
-                                <td class="px-6 py-4"><button type="submit" name="delete" value="<?= $row['id_pengajuan'] ?>" class="text-red-500"><i class="ri-delete-bin-line"></i></button></td>
-                            </form>
+
+            <div class="relative overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3"></th>
+                            <th scope="col" class="px-6 py-3">Judul</th>
+                            <th scope="col" class="px-6 py-3">Keterangan</th>
+                            <th scope="col" class="px-6 py-3">Status</th>
+                            <th scope="col" class="px-6 py-3"></th>
                         </tr>
-                    <?php endwhile ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = $data_tunggakan->fetch_assoc()) : ?>
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <th class="px-6 py-4 text-amber-500"></th>
+                                <td class="px-6 py-4"><?= $row['judul'] ?></td>
+                                <td class="px-6 py-4"><?= $row['keterangan'] ?></td>
+                                <td class="px-6 py-4"><?= $row['status'] ?></td>
+                                <form action="../../api/siswa/pengajuan.php" method="post">
+                                    <td class="px-6 py-4"><button type="submit" name="delete" value="<?= $row['id_pengajuan'] ?>" class="text-red-500"><i class="ri-delete-bin-line"></i></button></td>
+                                </form>
+                            </tr>
+                        <?php endwhile ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

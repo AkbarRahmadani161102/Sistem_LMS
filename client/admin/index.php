@@ -1,20 +1,15 @@
 <?php
 include_once('../template/header.php');
-include_once('../../api/auth/access_control.php');
 user_access('admin');
 ?>
 
-<div class="w-full min-h-screen flex">
-    <?php include_once './components/dashboard_sidebar.php' ?>
+<div id="index" class="w-full min-h-screen flex">
+    <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
-        <?php include_once './components/dashboard_navbar.php' ?>
-        <div class="w-full px-10">
-
-            <div class="flex items-center gap-2">
-                <a class="text-xl text-gray-400 hover:text-amber-500 transition" href="#">Home</a>
-                <i class="ri-arrow-right-s-line text-gray-400 text-xl"></i>
-                <a class="text-xl text-slate-800 hover:text-amber-500 transition" href="#">Dashboard</a>
-            </div>
+        <div class="p-4 sm:ml-64">
+            <?php include_once '../components/dashboard_navbar.php';
+            generate_breadcrumb([['title' => 'Dashboard', 'filename' => 'index.php']]);
+            ?>
 
             <div class="flex flex-col gap-4">
                 <div class="flex w-full mt-7 gap-4 justify-between">

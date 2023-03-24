@@ -1,5 +1,6 @@
 <?php
 require_once('../../vendor/autoload.php');
+require_once('../../config.php');
 require_once('util.php');
 
 use Dotenv\Dotenv;
@@ -8,10 +9,12 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(__DIR__, '../../.env')->load();
 
 // Connect Database
-$db = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASS'], $_ENV['DB_NAME']);
+if (ENVIRONMENT === 'PRODUCTION')
+    $db = mysqli_connect($_ENV['PROD_DB_HOST'], $_ENV['PROD_DB_USER'], $_ENV['PROD_DB_PASS'], $_ENV['PROD_DB_NAME']);
+else
+    $db = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASS'], $_ENV['DB_NAME']);
 
 // Check connection
 if ($db === false) {
     die("ERROR: Could not connect. " . mysqli_connect_error());
 }
-

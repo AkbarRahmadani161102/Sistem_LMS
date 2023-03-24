@@ -4,47 +4,46 @@ include_once('../../api/auth/access_control.php');
 user_access('siswa');
 ?>
 
-<div id="jadwal" class="w-full min-h-screen flex">
+<div id="tunggakan" class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">
             <?php include_once '../components/dashboard_navbar.php';
-            generate_breadcrumb([['title' => 'Jadwal', 'filename' => 'jadwal.php']]);
+            generate_breadcrumb([['title' => 'Pengaturan', 'filename' => 'pengaturan.php']]);
             ?>
-            <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Jadwal Kelas 2B</h4>
+
+            <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Tunggakan</h4>
 
             <div class="relative overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="px-6 py-3"></th>
-                            <th scope="col" class="px-6 py-3">Mata Pelajaran</th>
-                            <th scope="col" class="px-6 py-3">Instruktur</th>
-                            <th scope="col" class="px-6 py-3">Hari</th>
-                            <th scope="col" class="px-6 py-3">Jam Mulai</th>
-                            <th scope="col" class="px-6 py-3">Jam Selesai</th>
+                            <th scope="col" class="px-6 py-3">Tanggal Pembayaran</th>
+                            <th scope="col" class="px-6 py-3">Tenggat Pembayaran</th>
+                            <th scope="col" class="px-6 py-3">Nominal (Rp)</th>
+                            <th scope="col" class="px-6 py-3">Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <th class="px-6 py-4 text-amber-500"></th>
-                            <td class="px-6 py-4">Bahasa Indonesia</td>
-                            <td class="px-6 py-4">Mega</td>
-                            <td class="px-6 py-4">Senin</td>
-                            <td class="px-6 py-4">13.00</td>
-                            <td class="px-6 py-4">14.00</td>
+                            <td class="px-6 py-4">18 September 2022</td>
+                            <td class="px-6 py-4">-</td>
+                            <td class="px-6 py-4">500.000</td>
+                            <td class="px-6 py-4 text-red-500">Belum Lunas</td>
                         </tr>
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <th class="px-6 py-4 text-amber-500"></th>
-                            <td class="px-6 py-4">Seni Budaya</td>
-                            <td class="px-6 py-4">Wati</td>
-                            <td class="px-6 py-4">Senin</td>
-                            <td class="px-6 py-4">14.00</td>
-                            <td class="px-6 py-4">15.00</td>
+                            <td class="px-6 py-4">18 Agustus 2022</td>
+                            <td class="px-6 py-4">-</td>
+                            <td class="px-6 py-4">500.000</td>
+                            <td class="px-6 py-4 text-green-500">Lunas</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 </div>

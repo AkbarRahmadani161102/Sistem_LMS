@@ -10,4 +10,5 @@
 // );
 
 session_start();
-var_dump($_SESSION);
+print_r($_SESSION);
+// session_destroy();

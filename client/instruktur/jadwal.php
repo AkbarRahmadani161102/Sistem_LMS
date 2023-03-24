@@ -1,5 +1,6 @@
 <?php
 include_once('../template/header.php');
+include_once('../../api/auth/access_control.php');
 user_access('instruktur');
 ?>
 
@@ -38,6 +39,18 @@ user_access('instruktur');
                                 <h6>4A</h6>IPAS
                             </td>
                             <td class="px-6 py-4 text-center"></td>
+                            <td class="px-6 py-4 text-center"></td>
+                        </tr>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <th class="px-6 py-4 text-amber-500">14.00 - 15.00</th>
+                            <td class="px-6 py-4 text-center"></td>
+                            <td class="px-6 py-4 text-center">
+                                <h6>2B</h6>Bahasa Indonesia
+                            </td>
+                            <td class="px-6 py-4 text-center"></td>
+                            <td class="px-6 py-4 text-center">
+                                <h6>1D</h6>Biologi
+                            </td>
                             <td class="px-6 py-4 text-center"></td>
                         </tr>
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
