@@ -24,14 +24,11 @@ if (isset($_POST['update_kredensial'])) {
     $confirm_password = escape($_POST['confirm_password']);
 
     if ($password === $confirm_password) {
-        $sql = "SELECT * FROM siswa WHERE email = '$email'";
-        if ($result = $db->query($sql)) {
-            if ($result->num_rows < 1) {
-                $password = md5($password);
-                $sql = "UPDATE $role SET email = '$email', password = '$password' WHERE id_$role = '$id_user'";
-                $db->query($sql);
-            }
+        if ($result->num_rows < 1) {
+            $password = md5($password);
+            $sql = "UPDATE $role SET email = '$email', password = '$password' WHERE id_$role = '$id_user'";
+            $db->query($sql);
         }
     }
-    // redirect("../../client/$role/pengaturan.php");
+    redirect("../../client/$role/pengaturan.php");
 }
