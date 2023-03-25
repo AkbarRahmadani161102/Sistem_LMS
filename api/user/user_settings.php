@@ -10,8 +10,8 @@ if (isset($_POST['update_profil'])) {
     $nomor_telepon = escape($_POST['no_telp']);
     $alamat = escape($_POST['alamat']);
 
-    $contain_letter = preg_match("/[a-zA-Z]/", $nomor_telepon) === 1;
-    if (!$contain_letter) {
+    $is_number = preg_match("/^[0-9]*$/", $nomor_telepon) === 1;
+    if ($is_number) {
         $_SESSION['nama'] = $nama;
         $sql = "UPDATE $role SET nama = '$nama', no_telp = '$nomor_telepon', alamat = '$alamat'  WHERE id_$role = '$id_user'";
         $db->query($sql);
