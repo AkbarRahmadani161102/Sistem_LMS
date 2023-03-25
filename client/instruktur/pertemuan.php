@@ -18,7 +18,6 @@ user_access('instruktur');
             ?>
             <div class="flex justify-between items-center">
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Pertemuan Bulan Agustus</h4>
-                <a href="./penilaian.php?id=blablabla" class="px-4 py-2 bg-green-300 rounded">Input penilaian hari ini</a>
             </div>
             <div class="relative overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">

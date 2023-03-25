@@ -1,5 +1,4 @@
 <?php
-
 include_once '../util/db.php';
 
 $id_admin = $_SESSION['user_id'];
@@ -15,7 +14,7 @@ if (isset($_POST['update_profil'])) {
         $sql = "UPDATE admin SET nama = '$nama', no_telp = '$nomor_telepon', alamat = '$alamat'  WHERE id_admin = '$id_admin'";
         $db->query($sql);
     }
-    redirect('../../client/admin/pengaturan.php');
+    redirect('../../client/admin/admin.php');
 }
 if (isset($_POST['update_kredensial'])) {
     $email = escape($_POST['email']);
@@ -27,5 +26,5 @@ if (isset($_POST['update_kredensial'])) {
         $sql = "UPDATE admin SET email = '$email', password = '$password' WHERE id_admin = '$id_admin'";
         $db->query($sql);
     }
-    redirect('../../client/admin/pengaturan.php');
+    redirect('../../client/admin/admin.php');
 }

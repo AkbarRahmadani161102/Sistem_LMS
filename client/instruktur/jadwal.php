@@ -68,11 +68,6 @@ user_access('instruktur');
                     </tbody>
                 </table>
             </div>
-            <a class="text-gray-400 text-semibold flex items-center mt-5 group hover:text-amber-500" href="./jadwal.php">
-                <span>Lihat lebih lanjut</span>
-                <span class="text-xl group-hover:translate-x-2 transition"><i class="ri-arrow-right-s-line align-bottom"></i></span>
-            </a>
-
         </div>
     </div>
 </div>

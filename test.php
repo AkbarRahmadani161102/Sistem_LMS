@@ -11,4 +11,7 @@
 
 session_start();
 print_r($_SESSION);
+echo count($_SESSION['detail_role']);
+
+
 // session_destroy();

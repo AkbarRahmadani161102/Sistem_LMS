@@ -14,17 +14,38 @@ function login()
     global $password;
     global $db;
 
-    $role = $_POST['role'];
+    $role = isset($_POST['role']) ? $_POST['role'] : $_SESSION['role'];
 
     $sql = "SELECT * FROM $role WHERE email = '$email' AND password = '$password'";
+
     if ($result = $db->query($sql)) {
         if ($result->num_rows > 0) {
-            session_start();
             $user_data = mysqli_fetch_assoc($result);
             $_SESSION['user_id'] = $user_data["id_$role"];
             $_SESSION['nama'] = $user_data['nama'];
             $_SESSION['email'] = $user_data['email'];
             $_SESSION['role'] = $role;
+
+            if ($role === 'admin') {
+                /**
+                 * ID Role:
+                 * 1. Super Admin
+                 * 2. Admin Keuangan
+                 * 3. Admin Akademik
+                 */
+
+                $id_admin = $user_data["id_$role"];
+
+                $sql = "SELECT a.nama, r.id_role , r.title FROM admin a, role r, detail_role dr WHERE a.id_admin = dr.id_admin AND dr.id_role = r.id_role AND a.id_admin = '$id_admin'";
+                $result = $db->query($sql) or die(mysqli_error($db));
+                $result->fetch_assoc();
+
+                $detail_role = [];
+                foreach ($result as $key => $value) {
+                    array_push($detail_role, ['id_role' => $value['id_role'], 'title' => $value['title']]);
+                }
+                $_SESSION['detail_role'] = $detail_role;
+            }
             redirect("../../client/$role/index.php");
         } else {
             // Jika gagal login
@@ -55,6 +76,7 @@ if (isset($_POST['login'])) {
         $nama = escape($_POST['nama']);
         $sql = "INSERT INTO siswa (id_siswa, nama, email, password) VALUES('$id_siswa', '$nama', '$email', '$password')";
         if ($result = $db->query($sql)) {
+            $_SESSION['role'] = 'siswa';
             login();
         } else {
             // Jika register gagal

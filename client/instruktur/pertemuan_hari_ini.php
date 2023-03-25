@@ -7,11 +7,10 @@ user_access('instruktur');
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">
-            <?php include_once '../components/dashboard_navbar.php';
-            generate_breadcrumb([['title' => 'Pertemuan', 'filename' => 'pertemuan.php']]);
-            ?>
+            <?php include_once '../components/dashboard_navbar.php'; ?>
 
             <?php if (!isset($_GET['id'])) : ?>
+                <?php generate_breadcrumb([['title' => 'Pertemuan Hari Ini', 'filename' => 'pertemuan_hari_ini.php']]); ?>
                 <div class="flex justify-between items-center">
                     <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Pertemuan Hari ini</h4>
                 </div>
@@ -50,6 +49,7 @@ user_access('instruktur');
             <?php endif ?>
 
             <?php if (isset($_GET['id'])) : ?>
+                <?php generate_breadcrumb([['title' => 'Pertemuan Hari Ini', 'filename' => 'pertemuan_hari_ini.php'],['title' => 'Pertemuan Kelas 2A', 'filename' => 'pertemuan_hari_ini.php']]); ?>
                 <div class="flex justify-between items-center">
                     <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Pertemuan Kelas 2A</h4>
                 </div>
