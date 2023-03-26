@@ -130,7 +130,7 @@ $data_user = $db->query($sql)->fetch_assoc();
                     </div>
                 </div>
             <?php else : ?>
-                <div class="mt-5 flex flex-col md:flex-row gap-5 p-28 bg-white dark:bg-gray-700 rounded">
+                <div class="mt-5 flex flex-col lg:flex-row gap-5 p-3 lg:p-20 bg-white dark:bg-gray-700 rounded">
                     <div class="bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg px-5 py-4 flex flex-1 flex-col justify-between">
                         <h5 class="my-3 font-semibold text-slate-800 dark:text-white">Ubah Data Profil</h5>
                         <form class="w-full" action="../../api/user/user_settings.php" method="post">
@@ -150,7 +150,7 @@ $data_user = $db->query($sql)->fetch_assoc();
                         </form>
                     </div>
 
-                    <hr class="rotate-180 bg-amber-500 h-40 w-1 mt-28 rounded-lg">
+                    <hr class="hidden lg:block rotate-180 bg-amber-500 h-40 w-1 mt-28 rounded-lg">
 
                     <div class="bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg px-5 py-4 flex flex-1 flex-col justify-between">
                         <h5 class="my-3 font-semibold text-slate-800 dark:text-white">Ubah Data Kredensial</h5>

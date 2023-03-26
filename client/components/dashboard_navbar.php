@@ -41,7 +41,7 @@ $data_instruktur = $db->query($sql);
         <button data-dropdown-toggle="dropdown" class="ml-5" type="button"><i class="ri-arrow-down-s-line text-2xl hover:text-amber-500"></i></button>
         <div id="dropdown" class="z-10 hidden bg-white rounded-lg shadow-lg">
             <ul class="text-sm text-gray-700">
-                <a href="./pengaturan.php" class="block px-4 py-2 hover:bg-amber-500 rounded hover:text-white gap-2 flex align-center"><i class="ri-settings-4-line"></i> Pengaturan</a>
+                <a href="../user/user_settings.php" class="block px-4 py-2 hover:bg-amber-500 rounded hover:text-white gap-2 flex align-center"><i class="ri-settings-4-line"></i> Pengaturan</a>
                 <button id="theme-toggle" type="button" class="block px-4 py-2 hover:bg-amber-500 rounded hover:text-white gap-2 flex align-center w-full">
                     <i id="theme-toggle-dark-icon" class="hidden ri-moon-line"></i>
                     <span id="theme-toggle-dark-icon-text" class="hidden font-medium">Light Mode</span>
