@@ -23,18 +23,17 @@ $data_instruktur = $db->query($sql);
         <a href="./notifikasi.php" class="rounded-full px-3 py-1.5 border hover:bg-amber-500 hover:border-amber-500 hover:text-white transition active:translate-y-1"><i class="ri-notification-line"></i></a>
 
         <hr class="vr hidden md:block">
-        <img class="w-10 h-10 rounded-full border border-amber-500 border" src="https://images.pexels.com/photos/302769/pexels-photo-302769.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="User image">
+
+        <img class="w-10 h-10 rounded-full border border-amber-500 border" src="../assets/image/example.png" alt="User image">
         <div class="flex-col ml-3 hidden md:flex w-fit">
             <p class="m-0 text-secondary font-semibold"><?= $_SESSION['nama'] ?></p>
             <p class="m-0 text-secondary">
                 <?php
                 if (isset($_SESSION['detail_role']))
-                    foreach ($_SESSION['detail_role'] as $key => $value) {
+                    foreach ($_SESSION['detail_role'] as $key => $value)
                         echo $value['title'] . '<br/>';
-                    }
                 else
                     echo ucfirst($_SESSION['role']);
-
                 ?>
             </p>
         </div>
