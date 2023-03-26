@@ -30,61 +30,101 @@ $data_user = $db->query($sql)->fetch_assoc();
 
                             <div class="pt-5 flex flex-1 gap-11 flex-col lg:flex-row">
 
-                                <div class="flex flex-1 flex-col p-5 rounded-[1rem] border gap-9">
-                                    <h5 class="font-semibold mb-3">Informasi Personal</h5>
-                                    <div class="flex flex-1 gap-5 lg:gap-36">
-                                        <div class="flex flex-col gap-2">
-                                            <label class="text-lg text-gray-500 dark:text-white">Nama Lengkap</label>
-                                            <p class="font-semibold"><?= $data_user['nama'] ?></p>
-                                        </div>
-                                        <div class="flex flex-col gap-2">
-                                            <label class="text-lg text-gray-500 dark:text-white">Kontak</label>
-                                            <p class="font-semibold"><?= $data_user['no_telp'] ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-1 gap-5 lg:gap-36">
-                                        <div class="flex flex-col gap-2">
-                                            <label class="text-lg text-gray-500 dark:text-white">Email</label>
-                                            <p class="font-semibold"><?= $data_user['email'] ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-1 gap-5 lg:gap-36">
-                                        <div class="flex flex-col gap-2">
-                                            <label class="text-lg text-gray-500 dark:text-white">Alamat</label>
-                                            <p class="font-semibold"><?= $data_user['alamat'] ?></p>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="flex flex-1 flex-col p-5 rounded-[1rem] border gap-9">
-                                    <h5 class="font-semibold mb-3">Informasi Akademik</h5>
-                                    <?php if($_SESSION['role'] === 'siswa'):?>
+
+                                <?php if ($_SESSION['role'] === 'siswa') : ?>
+                                    <div class="flex flex-1 flex-col p-5 rounded-[1rem] border gap-9">
+                                        <h5 class="font-semibold mb-3">Informasi Personal</h5>
+                                        <div class="flex flex-1 gap-5 lg:gap-36">
+                                            <div class="flex flex-col gap-2">
+                                                <label class="text-lg text-gray-500 dark:text-white">Nama Lengkap</label>
+                                                <p class="font-semibold"><?= $data_user['nama'] ?></p>
+                                            </div>
+                                            <div class="flex flex-col gap-2">
+                                                <label class="text-lg text-gray-500 dark:text-white">Kontak</label>
+                                                <p class="font-semibold"><?= $data_user['no_telp'] ?></p>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-1 gap-5 lg:gap-36">
+                                            <div class="flex flex-col gap-2">
+                                                <label class="text-lg text-gray-500 dark:text-white">Email</label>
+                                                <p class="font-semibold"><?= $data_user['email'] ?></p>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-1 gap-5 lg:gap-36">
+                                            <div class="flex flex-col gap-2">
+                                                <label class="text-lg text-gray-500 dark:text-white">Alamat</label>
+                                                <p class="font-semibold"><?= $data_user['alamat'] ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-1 flex-col p-5 rounded-[1rem] border gap-9">
+                                        <h5 class="font-semibold mb-3">Informasi Akademik</h5>
                                         <div class="flex flex-1 gap-5 lg:gap-36 flex-wrap">
-                                        <div class="flex flex-col gap-2">
-                                            <label class="text-lg text-gray-500 dark:text-white">Jenjang</label>
-                                            <p class="font-semibold">SMA</p>
+                                            <div class="flex flex-col gap-2">
+                                                <label class="text-lg text-gray-500 dark:text-white">Jenjang</label>
+                                                <p class="font-semibold">SMA</p>
+                                            </div>
+                                            <div class="flex flex-col gap-2">
+                                                <label class="text-lg text-gray-500 dark:text-white">Kelas</label>
+                                                <p class="font-semibold">2A</p>
+                                            </div>
+                                            <div class="flex flex-col gap-2">
+                                                <label class="text-lg text-gray-500 dark:text-white">Ketua Kelas</label>
+                                                <p class="font-semibold">Peni Yudianto</p>
+                                            </div>
                                         </div>
-                                        <div class="flex flex-col gap-2">
-                                            <label class="text-lg text-gray-500 dark:text-white">Kelas</label>
-                                            <p class="font-semibold">2A</p>
-                                        </div>
-                                        <div class="flex flex-col gap-2">
-                                            <label class="text-lg text-gray-500 dark:text-white">Ketua Kelas</label>
-                                            <p class="font-semibold">Peni Yudianto</p>
+                                        <div class="flex flex-1 gap-5 lg:gap-36 flex-wrap">
+                                            <div class="flex flex-col gap-2">
+                                                <label class="text-lg text-gray-500 dark:text-white">Tanggal Pendaftaran</label>
+                                                <p class="font-semibold"><?= $data_user['tgl_dibuat'] ?></p>
+                                            </div>
+                                            <div class="flex flex-col gap-2">
+                                                <label class="text-lg text-gray-500 dark:text-white">Status Keaktifan</label>
+                                                <p class="font-semibold text-green-500">Aktif</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <?php endif?>
-                                    <div class="flex flex-1 gap-5 lg:gap-36 flex-wrap">
-                                        <div class="flex flex-col gap-2">
-                                            <label class="text-lg text-gray-500 dark:text-white">Tanggal Pendaftaran</label>
-                                            <p class="font-semibold"><?= $data_user['tgl_dibuat'] ?></p>
+                                <?php else : ?>
+                                    <div class="flex flex-1 flex-col p-5 rounded-[1rem] border gap-9">
+                                        <h5 class="font-semibold mb-3">Informasi Personal</h5>
+                                        <div class="flex flex-1 gap-5 lg:gap-36 flex-col md:flex-row">
+                                            <div class="flex flex-col gap-2">
+                                                <label class="text-lg text-gray-500 dark:text-white">Nama Lengkap</label>
+                                                <p class="font-semibold"><?= $data_user['nama'] ?></p>
+                                            </div>
+                                            <div class="flex flex-col gap-2">
+                                                <label class="text-lg text-gray-500 dark:text-white">Email</label>
+                                                <p class="font-semibold"><?= $data_user['email'] ?></p>
+                                            </div>
+                                            <div class="flex flex-col gap-2">
+                                                <label class="text-lg text-gray-500 dark:text-white">Kontak</label>
+                                                <p class="font-semibold"><?= $data_user['no_telp'] ?></p>
+                                            </div>
                                         </div>
-                                        <div class="flex flex-col gap-2">
-                                            <label class="text-lg text-gray-500 dark:text-white">Status Keaktifan</label>
-                                            <p class="font-semibold text-green-500">Aktif</p>
+                                        <div class="flex flex-1 gap-5 lg:gap-36">
+                                            <div class="flex flex-col gap-2">
+                                                <label class="text-lg text-gray-500 dark:text-white">Alamat</label>
+                                                <p class="font-semibold"><?= $data_user['alamat'] ?></p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+
+                                    <div class="flex flex-col p-5 rounded-[1rem] border gap-9 w-fit">
+                                        <h5 class="font-semibold mb-3">Informasi Administrasi</h5>
+                                        <div class="flex flex-col gap-5 flex-wrap h-full justify-around">
+                                            <div class="flex flex-col gap-2">
+                                                <label class="text-lg text-gray-500 dark:text-white">Tanggal Pendaftaran</label>
+                                                <p class="font-semibold"><?= $data_user['tgl_dibuat'] ?></p>
+                                            </div>
+                                            <div class="flex flex-col gap-2">
+                                                <label class="text-lg text-gray-500 dark:text-white">Status Keaktifan</label>
+                                                <p class="font-semibold text-green-500">Aktif</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif ?>
                             </div>
                         </div>
                     </div>
