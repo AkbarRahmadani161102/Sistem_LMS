@@ -10,8 +10,7 @@ function user_access(string $role)
         $detail_role_titles = [];
         foreach ($detail_role as $key => $value)
             $detail_role_titles[] = $value['title'];
-
-        if (!in_array($role, $detail_role_titles))
+        if (!in_array($role, $detail_role_titles) && $value['title'] !== 'Super Admin')
             redirect('../../client/admin/index.php');
 
         return;

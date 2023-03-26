@@ -28,7 +28,7 @@ $siswa->fetch_assoc();
 $hari = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
 ?>
 
-<div id="anggota_kelas" class="w-full min-h-screen flex">
+<div id="jadwal" class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">
