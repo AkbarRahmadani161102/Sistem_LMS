@@ -41,6 +41,7 @@ $menu_instruktur = [
 $menu_superadmin = [
     'MENU' => [
         ['Dashboard', './index.php', '<i class="ri-pie-chart-line"></i>'],
+        ['Role Admin', './admin_role.php', '<i class="ri-key-2-line"></i>'],
         ['Admin', './admin.php', '<i class="ri-admin-line"></i>'],
         ['Instruktur', './instruktur.php', '<i class="ri-user-settings-line"></i>'],
         ['Siswa', './siswa.php', '<i class="ri-user-2-line"></i>'],

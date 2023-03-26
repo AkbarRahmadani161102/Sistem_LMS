@@ -4,7 +4,7 @@ include_once('../../api/auth/access_control.php');
 include_once('../../api/util/db.php');
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">

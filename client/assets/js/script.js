@@ -13,9 +13,8 @@ setInterval(() => {
 $(document).ready(() => {
     const url = location.href
     const urlFilename = url.substring(url.lastIndexOf('/') + 1)
-    $(`nav#dashboard-sidebar a[href*='${urlFilename}']`).addClass('active')
-
-
+    // console.log($(`a[href]`))
+    $(`nav#dashboard-sidebar a[href$='${urlFilename}']`).addClass('active')
 })
 
 var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
