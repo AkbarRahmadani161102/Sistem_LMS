@@ -11,6 +11,7 @@ $menu_siswa = [
     'ADMINISTRASI' => [
         ['Tunggakan', './tunggakan.php', '<i class="ri-money-dollar-circle-line"></i>'],
         ['Umpan Balik', './umpan_balik_instruktur.php', '<i class="ri-feedback-line"></i>'],
+        ['Umpan Balik Sistem', './umpan_balik_sistem.php', '<i class="ri-feedback-line"></i>'],
         ['Pengajuan', './pengajuan.php', '<i class="ri-mail-send-line"></i>'],
     ],
     'PENGATURAN' => [
@@ -47,7 +48,9 @@ $menu_superadmin = [
         ['Siswa', './siswa.php', '<i class="ri-user-2-line"></i>'],
     ],
     'KBM' => [
-        ['Jadwal', './jadwal.php', '<i class="ri-calendar-2-line"></i>'],
+        ['Jenjang', './jenjang.php', '<i class="ri-stack-line"></i>'],
+        ['Kelas', './kelas.php', '<i class="ri-bookmark-3-line"></i>'],
+        ['Mapel', './mapel.php', '<i class="ri-book-2-line"></i>'],
         ['Penilaian', './pertemuan.php', '<i class="ri-star-line"></i>'],
         ['Presensi', './pertemuan_hari_ini.php', '<i class="ri-check-line"></i>'],
     ],
@@ -68,7 +71,9 @@ $menu_admin_akademik = [
         ['Siswa', './siswa.php', '<i class="ri-user-2-line"></i>'],
     ],
     'KBM' => [
-        ['Jadwal', './jadwal.php', '<i class="ri-calendar-2-line"></i>'],
+        ['Jenjang', './jenjang.php', '<i class="ri-stack-line"></i>'],
+        ['Kelas', './kelas.php', '<i class="ri-bookmark-3-line"></i>'],
+        ['Mapel', './mapel.php', '<i class="ri-book-2-line"></i>'],
         ['Penilaian', './pertemuan.php', '<i class="ri-star-line"></i>'],
         ['Presensi', './pertemuan_hari_ini.php', '<i class="ri-check-line"></i>'],
     ],

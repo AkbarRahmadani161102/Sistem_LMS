@@ -9,7 +9,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         'register-siswa': "url('../image/register_siswa.jpg')",
-        'login-siswa': "url('../image/login_siswa.jpg')",
+        'login-siswa': "url('../image/login_siswa.png')",
         'login-instruktur': "url('../image/login_instruktur.png')",
         'login-admin': "url('../image/login_admin.png')",
       }
