@@ -49,10 +49,12 @@ function login()
             redirect("../../client/$role/index.php");
         } else {
             // Jika gagal login
+            echo "<script> alert ('Email atau Password anda salah')</script>";
             redirect("../../client/$role/login.php");
         }
     } else {
         // Jika user tidak ditemukan
+        echo "<script> alert ('Email atau Password anda belum terdaftar')</script>";
         redirect("../../client/$role/login.php");
     }
 }
@@ -80,10 +82,12 @@ if (isset($_POST['login'])) {
             login();
         } else {
             // Jika register gagal
+            echo "<script> alert ('Register gagal')</script>";
             redirect("../../client/siswa/register.php");
         }
     } else {
         // Jika email sudah digunakan
+        echo "<script> alert ('Email sudah terdaftar')</script>";
         redirect("../../client/siswa/register.php");
     }
 }
