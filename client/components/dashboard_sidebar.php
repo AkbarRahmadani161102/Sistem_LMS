@@ -53,7 +53,7 @@ $menu_superadmin = [
         ['Kelas', "../$role/kelas.php", '<i class="ri-bookmark-3-line"></i>'],
         ['Mapel', "../$role/mapel.php", '<i class="ri-book-2-line"></i>'],
         ['Penilaian', "../$role/pertemuan.php", '<i class="ri-star-line"></i>'],
-        ['Presensi', "../$role/pertemuan_hari_ini.php", '<i class="ri-check-line"></i>'],
+        ['Presensi', "../$role/presensi.php", '<i class="ri-check-line"></i>'],
     ],
     'ADMINISTRASI' => [
         ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>'],
