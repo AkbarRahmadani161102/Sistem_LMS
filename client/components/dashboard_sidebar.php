@@ -107,7 +107,9 @@ $menu_admin_akademik_keuangan = [
         ['Siswa', "../$role/siswa.php", '<i class="ri-user-2-line"></i>'],
     ],
     'KBM' => [
-        ['Jadwal', "../$role/jadwal.php", '<i class="ri-calendar-2-line"></i>'],
+        ['Jenjang', "../$role/jenjang.php", '<i class="ri-stack-line"></i>'],
+        ['Kelas', "../$role/kelas.php", '<i class="ri-bookmark-3-line"></i>'],
+        ['Mapel', "../$role/mapel.php", '<i class="ri-book-2-line"></i>'],
         ['Penilaian', "../$role/pertemuan.php", '<i class="ri-star-line"></i>'],
         ['Presensi', "../$role/pertemuan_hari_ini.php", '<i class="ri-check-line"></i>'],
     ],
