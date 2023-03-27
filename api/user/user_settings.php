@@ -16,7 +16,7 @@ if (isset($_POST['update_profil'])) {
         $sql = "UPDATE $role SET nama = '$nama', no_telp = '$nomor_telepon', alamat = '$alamat'  WHERE id_$role = '$id_user'";
         $db->query($sql);
     }
-    redirect("../../client/$role/pengaturan.php");
+    redirect("../../client/user/user_settings.php");
 }
 if (isset($_POST['update_kredensial'])) {
     $email = escape($_POST['email']);
@@ -30,5 +30,5 @@ if (isset($_POST['update_kredensial'])) {
             $db->query($sql);
         }
     }
-    redirect("../../client/$role/pengaturan.php");
+    redirect("../../client/user/user_settings.php");
 }

@@ -17,10 +17,10 @@ $(document).ready(() => {
     $(`nav#dashboard-sidebar a[href$='${urlFilename}']`).addClass('active')
 })
 
-var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-var themeToggleDarkIconText = document.getElementById('theme-toggle-dark-icon-text');
-var themeToggleLightIconText = document.getElementById('theme-toggle-light-icon-text');
+let themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+let themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+let themeToggleDarkIconText = document.getElementById('theme-toggle-dark-icon-text');
+let themeToggleLightIconText = document.getElementById('theme-toggle-light-icon-text');
 
 // Change the icons inside the button based on previous settings
 if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -31,35 +31,38 @@ if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localS
     themeToggleDarkIconText.classList.remove('hidden')
 }
 
-var themeToggleBtn = document.getElementById('theme-toggle');
+const themeToggleBtn = $('#theme-toggle');
 
-themeToggleBtn.addEventListener('click', function () {
+themeToggleBtn.each(function () {
+    $(this).on('click', () => {
+        console.log("click")
 
-    // toggle icons inside button
-    themeToggleDarkIcon.classList.toggle('hidden');
-    themeToggleDarkIconText.classList.toggle('hidden')
-    themeToggleLightIcon.classList.toggle('hidden');
-    themeToggleLightIconText.classList.toggle('hidden')
+        // toggle icons inside button
+        themeToggleDarkIcon.classList.toggle('hidden');
+        themeToggleDarkIconText.classList.toggle('hidden')
+        themeToggleLightIcon.classList.toggle('hidden');
+        themeToggleLightIconText.classList.toggle('hidden')
 
-    // if set via local storage previously
-    if (localStorage.getItem('color-theme')) {
-        if (localStorage.getItem('color-theme') === 'light') {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('color-theme', 'dark');
+        // if set via local storage previously
+        if (localStorage.getItem('color-theme')) {
+            if (localStorage.getItem('color-theme') === 'light') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            }
+
+            // if NOT set via local storage previously
         } else {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('color-theme', 'light');
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
         }
 
-        // if NOT set via local storage previously
-    } else {
-        if (document.documentElement.classList.contains('dark')) {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('color-theme', 'light');
-        } else {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('color-theme', 'dark');
-        }
-    }
-
-});
+    })
+})

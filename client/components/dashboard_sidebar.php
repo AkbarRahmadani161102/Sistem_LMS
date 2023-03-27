@@ -1,121 +1,122 @@
 <?php
+$role = $_SESSION['role'];
+
 $menu_siswa = [
     'MENU' => [
-        ['Dashboard', './index.php', '<i class="ri-pie-chart-line"></i>'],
+        ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
     ],
     'KBM' => [
-        ['Anggota Kelas', './anggota_kelas.php', '<i class="ri-team-line"></i>'],
-        ['Jadwal', './jadwal.php', '<i class="ri-calendar-2-line"></i>'],
-        ['Pertemuan', './pertemuan.php', '<i class="ri-calendar-event-line"></i>'],
+        ['Anggota Kelas', "../$role/anggota_kelas.php", '<i class="ri-team-line"></i>'],
+        ['Jadwal', "../$role/jadwal.php", '<i class="ri-calendar-2-line"></i>'],
+        ['Pertemuan', "../$role/pertemuan.php", '<i class="ri-calendar-event-line"></i>'],
     ],
     'ADMINISTRASI' => [
-        ['Tunggakan', './tunggakan.php', '<i class="ri-money-dollar-circle-line"></i>'],
-        ['Umpan Balik', './umpan_balik_instruktur.php', '<i class="ri-feedback-line"></i>'],
-        ['Umpan Balik Sistem', './umpan_balik_sistem.php', '<i class="ri-feedback-line"></i>'],
-        ['Pengajuan', './pengajuan.php', '<i class="ri-mail-send-line"></i>'],
+        ['Tunggakan', "../$role/tunggakan.php", '<i class="ri-money-dollar-circle-line"></i>'],
+        ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>'],
+        ['Pengajuan', "../$role/pengajuan.php", '<i class="ri-mail-send-line"></i>'],
     ],
     'PENGATURAN' => [
-        ['Preferensi', './pengaturan.php', '<i class="ri-settings-4-line"></i>'],
+        ['Preferensi', '../user/user_settings.php', '<i class="ri-settings-4-line"></i>'],
         ['Logout', '../../api/auth/logout.php', '<i class="ri-door-open-line"></i>'],
     ],
 ];
 
 $menu_instruktur = [
     'MENU' => [
-        ['Dashboard', './index.php', '<i class="ri-pie-chart-line"></i>'],
+        ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
     ],
     'KBM' => [
-        ['Jadwal', './jadwal.php', '<i class="ri-calendar-2-line"></i>'],
-        ['Pertemuan', './pertemuan.php', '<i class="ri-calendar-event-line"></i>'],
-        ['Pertemuan hari ini', './pertemuan_hari_ini.php', '<i class="ri-calendar-check-fill"></i>'],
+        ['Jadwal', "../$role/jadwal.php", '<i class="ri-calendar-2-line"></i>'],
+        ['Pertemuan', "../$role/pertemuan.php", '<i class="ri-calendar-event-line"></i>'],
+        ['Pertemuan hari ini', "../$role/pertemuan_hari_ini.php", '<i class="ri-calendar-check-fill"></i>'],
     ],
     'ADMINISTRASI' => [
-        ['Umpan Balik', './umpan_balik_instruktur.php', '<i class="ri-feedback-line"></i>'],
-        ['Analisis Pendapatan', './analisis_pendapatan.php', '<i class="ri-line-chart-line"></i>'],
+        ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>'],
+        ['Analisis Pendapatan', "../$role/analisis_pendapatan.php", '<i class="ri-line-chart-line"></i>'],
     ],
     'PENGATURAN' => [
-        ['Preferensi', './pengaturan.php', '<i class="ri-settings-4-line"></i>'],
+        ['Preferensi', '../user/user_settings.php', '<i class="ri-settings-4-line"></i>'],
         ['Logout', '../../api/auth/logout.php', '<i class="ri-door-open-line"></i>'],
     ],
 ];
 
 $menu_superadmin = [
     'MENU' => [
-        ['Dashboard', './index.php', '<i class="ri-pie-chart-line"></i>'],
-        ['Role Admin', './admin_role.php', '<i class="ri-key-2-line"></i>'],
-        ['Admin', './admin.php', '<i class="ri-admin-line"></i>'],
-        ['Instruktur', './instruktur.php', '<i class="ri-user-settings-line"></i>'],
-        ['Siswa', './siswa.php', '<i class="ri-user-2-line"></i>'],
+        ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
+        ['Role Admin', "../$role/admin_role.php", '<i class="ri-key-2-line"></i>'],
+        ['Admin', "../$role/admin.php", '<i class="ri-admin-line"></i>'],
+        ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-settings-line"></i>'],
+        ['Siswa', "../$role/siswa.php", '<i class="ri-user-2-line"></i>'],
     ],
     'KBM' => [
-        ['Jenjang', './jenjang.php', '<i class="ri-stack-line"></i>'],
-        ['Kelas', './kelas.php', '<i class="ri-bookmark-3-line"></i>'],
-        ['Mapel', './mapel.php', '<i class="ri-book-2-line"></i>'],
-        ['Penilaian', './pertemuan.php', '<i class="ri-star-line"></i>'],
-        ['Presensi', './pertemuan_hari_ini.php', '<i class="ri-check-line"></i>'],
+        ['Jenjang', "../$role/jenjang.php", '<i class="ri-stack-line"></i>'],
+        ['Kelas', "../$role/kelas.php", '<i class="ri-bookmark-3-line"></i>'],
+        ['Mapel', "../$role/mapel.php", '<i class="ri-book-2-line"></i>'],
+        ['Penilaian', "../$role/pertemuan.php", '<i class="ri-star-line"></i>'],
+        ['Presensi', "../$role/pertemuan_hari_ini.php", '<i class="ri-check-line"></i>'],
     ],
     'ADMINISTRASI' => [
-        ['Umpan Balik', './umpan_balik_instruktur.php', '<i class="ri-feedback-line"></i>'],
-        ['Analisis Pendapatan', './analisis_pendapatan.php', '<i class="ri-line-chart-line"></i>'],
+        ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>'],
+        ['Analisis Pendapatan', "../$role/analisis_pendapatan.php", '<i class="ri-line-chart-line"></i>'],
     ],
     'PENGATURAN' => [
-        ['Preferensi', './pengaturan.php', '<i class="ri-settings-4-line"></i>'],
+        ['Preferensi', '../user/user_settings.php', '<i class="ri-settings-4-line"></i>'],
         ['Logout', '../../api/auth/logout.php', '<i class="ri-door-open-line"></i>'],
     ],
 ];
 
 $menu_admin_akademik = [
     'MENU' => [
-        ['Dashboard', './index.php', '<i class="ri-pie-chart-line"></i>'],
-        ['Instruktur', './instruktur.php', '<i class="ri-user-settings-line"></i>'],
-        ['Siswa', './siswa.php', '<i class="ri-user-2-line"></i>'],
+        ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
+        ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-settings-line"></i>'],
+        ['Siswa', "../$role/siswa.php", '<i class="ri-user-2-line"></i>'],
     ],
     'KBM' => [
-        ['Jenjang', './jenjang.php', '<i class="ri-stack-line"></i>'],
-        ['Kelas', './kelas.php', '<i class="ri-bookmark-3-line"></i>'],
-        ['Mapel', './mapel.php', '<i class="ri-book-2-line"></i>'],
-        ['Penilaian', './pertemuan.php', '<i class="ri-star-line"></i>'],
-        ['Presensi', './pertemuan_hari_ini.php', '<i class="ri-check-line"></i>'],
+        ['Jenjang', "../$role/jenjang.php", '<i class="ri-stack-line"></i>'],
+        ['Kelas', "../$role/kelas.php", '<i class="ri-bookmark-3-line"></i>'],
+        ['Mapel', "../$role/mapel.php", '<i class="ri-book-2-line"></i>'],
+        ['Penilaian', "../$role/pertemuan.php", '<i class="ri-star-line"></i>'],
+        ['Presensi', "../$role/pertemuan_hari_ini.php", '<i class="ri-check-line"></i>'],
     ],
     'ADMINISTRASI' => [
-        ['Umpan Balik', './umpan_balik_instruktur.php', '<i class="ri-feedback-line"></i>'],
+        ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>'],
     ],
     'PENGATURAN' => [
-        ['Preferensi', './pengaturan.php', '<i class="ri-settings-4-line"></i>'],
+        ['Preferensi', '../user/user_settings.php', '<i class="ri-settings-4-line"></i>'],
         ['Logout', '../../api/auth/logout.php', '<i class="ri-door-open-line"></i>'],
     ],
 ];
 
 $menu_admin_keuangan = [
     'MENU' => [
-        ['Dashboard', './index.php', '<i class="ri-pie-chart-line"></i>'],
+        ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
     ],
     'ADMINISTRASI' => [
-        ['Analisis Pendapatan', './analisis_pendapatan.php', '<i class="ri-line-chart-line"></i>'],
+        ['Analisis Pendapatan', "../$role/analisis_pendapatan.php", '<i class="ri-line-chart-line"></i>'],
     ],
     'PENGATURAN' => [
-        ['Preferensi', './pengaturan.php', '<i class="ri-settings-4-line"></i>'],
+        ['Preferensi', '../user/user_settings.php', '<i class="ri-settings-4-line"></i>'],
         ['Logout', '../../api/auth/logout.php', '<i class="ri-door-open-line"></i>'],
     ],
 ];
 
 $menu_admin_akademik_keuangan = [
     'MENU' => [
-        ['Dashboard', './index.php', '<i class="ri-pie-chart-line"></i>'],
-        ['Instruktur', './instruktur.php', '<i class="ri-user-settings-line"></i>'],
-        ['Siswa', './siswa.php', '<i class="ri-user-2-line"></i>'],
+        ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
+        ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-settings-line"></i>'],
+        ['Siswa', "../$role/siswa.php", '<i class="ri-user-2-line"></i>'],
     ],
     'KBM' => [
-        ['Jadwal', './jadwal.php', '<i class="ri-calendar-2-line"></i>'],
-        ['Penilaian', './pertemuan.php', '<i class="ri-star-line"></i>'],
-        ['Presensi', './pertemuan_hari_ini.php', '<i class="ri-check-line"></i>'],
+        ['Jadwal', "../$role/jadwal.php", '<i class="ri-calendar-2-line"></i>'],
+        ['Penilaian', "../$role/pertemuan.php", '<i class="ri-star-line"></i>'],
+        ['Presensi', "../$role/pertemuan_hari_ini.php", '<i class="ri-check-line"></i>'],
     ],
     'ADMINISTRASI' => [
-        ['Umpan Balik', './umpan_balik_instruktur.php', '<i class="ri-feedback-line"></i>'],
-        ['Analisis Pendapatan', './analisis_pendapatan.php', '<i class="ri-line-chart-line"></i>'],
+        ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>'],
+        ['Analisis Pendapatan', "../$role/analisis_pendapatan.php", '<i class="ri-line-chart-line"></i>'],
     ],
     'PENGATURAN' => [
-        ['Preferensi', './pengaturan.php', '<i class="ri-settings-4-line"></i>'],
+        ['Preferensi', '../user/user_settings.php', '<i class="ri-settings-4-line"></i>'],
         ['Logout', '../../api/auth/logout.php', '<i class="ri-door-open-line"></i>'],
     ],
 ];

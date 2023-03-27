@@ -2,9 +2,10 @@
 
 function generate_breadcrumb(array $list_breadcrumbs)
 {
+    $role = $_SESSION['role'];
 
     echo "<div class='flex items-center gap-2 mt-5'>";
-    echo "<a class='text-xl text-gray-400 hover:text-amber-500 transition' href='./index.php'>Home</a>";
+    echo "<a class='text-xl text-gray-400 hover:text-amber-500 transition' href='../$role/index.php'>Home</a>";
 
     foreach ($list_breadcrumbs as $key => $file) {
         $filename = $file['filename'];
