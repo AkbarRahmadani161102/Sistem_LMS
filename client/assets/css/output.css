@@ -804,6 +804,10 @@ hr.vr {
   visibility: hidden;
 }
 
+.collapse {
+  visibility: collapse;
+}
+
 .static {
   position: static;
 }
@@ -818,25 +822,6 @@ hr.vr {
 
 .relative {
   position: relative;
-}
-
-.inset-1\/2 {
-  top: 50%;
-  right: 50%;
-  bottom: 50%;
-  left: 50%;
-}
-
-.inset-auto {
-  top: auto;
-  right: auto;
-  bottom: auto;
-  left: auto;
-}
-
-.inset-x-1\/2 {
-  left: 50%;
-  right: 50%;
 }
 
 .inset-x-1\/4 {
@@ -962,6 +947,10 @@ hr.vr {
 
 .mt-8 {
   margin-top: 2rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
 }
 
 .block {
@@ -1126,6 +1115,10 @@ hr.vr {
   flex: 1 1 0%;
 }
 
+.shrink-0 {
+  flex-shrink: 0;
+}
+
 .-translate-x-full {
   --tw-translate-x: -100%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -1142,6 +1135,10 @@ hr.vr {
 
 .resize-none {
   resize: none;
+}
+
+.list-disc {
+  list-style-type: disc;
 }
 
 .appearance-none {
@@ -1260,6 +1257,10 @@ hr.vr {
   border-left-width: calc(1px * calc(1 - var(--tw-divide-x-reverse)));
 }
 
+.self-end {
+  align-self: flex-end;
+}
+
 .self-center {
   align-self: center;
 }
@@ -1354,6 +1355,10 @@ hr.vr {
 
 .border-t-2 {
   border-top-width: 2px;
+}
+
+.border-t-0 {
+  border-top-width: 0px;
 }
 
 .border-amber-500 {
@@ -1610,6 +1615,10 @@ hr.vr {
   padding-top: 1.5rem;
 }
 
+.pl-5 {
+  padding-left: 1.25rem;
+}
+
 .text-left {
   text-align: left;
 }
@@ -1837,6 +1846,16 @@ hr.vr {
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-gray-500:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-gray-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+}
+
 .hover\:px-0:hover {
   padding-left: 0px;
   padding-right: 0px;
@@ -1860,6 +1879,10 @@ hr.vr {
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.hover\:underline:hover {
+  text-decoration-line: underline;
 }
 
 .focus\:z-10:focus {
@@ -2017,6 +2040,11 @@ hr.vr {
 .dark .dark\:text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.dark .dark\:text-blue-500 {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity));
 }
 
 .dark .dark\:placeholder-gray-400::-moz-placeholder {
