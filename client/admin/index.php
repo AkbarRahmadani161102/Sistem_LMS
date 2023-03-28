@@ -9,6 +9,14 @@ $data_pengajuan_siswa->fetch_assoc();
 $sql = "SELECT * FROM kelas LIMIT 7";
 $data_kelas = $db->query($sql) or die($sql);
 $data_kelas->fetch_assoc();
+
+$sql = "SELECT DISTINCT YEAR(tgl_dibuat) tahun FROM siswa ORDER BY tahun";
+$tahun_pertumbuhan_siswa = $db->query($sql) or die($db->error);
+$tahun_pertumbuhan_siswa->fetch_assoc();
+
+$sql = "SELECT DISTINCT YEAR(tgl_dibuat) tahun FROM instruktur ORDER BY tahun";
+$tahun_pertumbuhan_instruktur = $db->query($sql) or die($db->error);
+$tahun_pertumbuhan_instruktur->fetch_assoc();
 ?>
 
 <div id="index" class="w-full min-h-screen flex">
@@ -23,9 +31,10 @@ $data_kelas->fetch_assoc();
                 <div class="flex flex-1 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5 divide-y">
                     <div class="flex justify-between items-center">
                         <h4>Pertumbuhan Siswa</h4>
-                        <select name="" id="" class="rounded-lg text-gray-800">
-                            <option value="">2022</option>
-                            <option value="">2023</option>
+                        <select name="" id="tahun_pertumbuhan_siswa" class="rounded-lg text-gray-800">
+                            <?php foreach ($tahun_pertumbuhan_siswa as $key => $value) : ?>
+                                <option value="<?= $value['tahun']; ?>"><?= $value['tahun']; ?></option>
+                            <?php endforeach ?>
                         </select>
                     </div>
                     <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative px-5 py-12">
@@ -35,9 +44,10 @@ $data_kelas->fetch_assoc();
                 <div class="flex flex-1 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5 divide-y">
                     <div class="flex justify-between items-center">
                         <h4>Pertumbuhan Instruktur</h4>
-                        <select name="" id="" class="rounded-lg text-gray-800">
-                            <option value="">2022</option>
-                            <option value="">2023</option>
+                        <select name="" id="tahun_pertumbuhan_instruktur" class="rounded-lg text-gray-800">
+                            <?php foreach ($tahun_pertumbuhan_instruktur as $key => $value) : ?>
+                                <option value="<?= $value['tahun']; ?>"><?= $value['tahun']; ?></option>
+                            <?php endforeach ?>
                         </select>
                     </div>
                     <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative px-5 py-12">
@@ -105,21 +115,20 @@ $data_kelas->fetch_assoc();
 
 <script>
     (async () => {
-        Chart.Legend.fit = function() {
-            this.height = this.height + 250;
-        };
-
         const chartPertumbuhanSiswa = document.getElementById('chart_pertumbuhan_siswa');
         const chartPertumbuhanInstruktur = document.getElementById('chart_pertumbuhan_instruktur');
         const chartKehadiranSiswa = document.getElementById('chart_kehadiran_siswa_hari_ini');
         const chartKehadiranInstruktur = document.getElementById('chart_kehadiran_instruktur_hari_ini');
 
-        const pertumbuhanSiswa = await $.get(window.location.href.replace('client', 'api'), {
-            pertumbuhan_siswa: true
+        const tahun_siswa = $('select#tahun_pertumbuhan_siswa option:selected').text()
+        const tahun_instruktur = $('select#tahun_pertumbuhan_instruktur option:selected').text()
+
+        let pertumbuhanSiswa = await $.get(window.location.href.replace('client', 'api'), {
+            pertumbuhan_siswa: tahun_siswa
         })
 
-        const instruktur = await $.get(window.location.href.replace('client', 'api'), {
-            pertumbuhan_instruktur: true
+        let pertumbuhanInstruktur = await $.get(window.location.href.replace('client', 'api'), {
+            pertumbuhan_instruktur: tahun_instruktur
         })
 
         const isDarkMode = $('html').hasClass('dark')
@@ -182,7 +191,7 @@ $data_kelas->fetch_assoc();
             },
         }
 
-        new Chart(chartPertumbuhanSiswa, {
+        let objChartPertumbuhanSiswa = new Chart(chartPertumbuhanSiswa, {
             type: 'line',
             data: {
                 datasets: [{
@@ -194,15 +203,15 @@ $data_kelas->fetch_assoc();
             options: lineOptions
         });
 
-        new Chart(chartPertumbuhanInstruktur, {
+        let objChartPertumbuhanInstruktur = new Chart(chartPertumbuhanInstruktur, {
             type: 'line',
             data: {
                 datasets: [{
                     label: 'Instruktur',
-                    data: [...instruktur.map(data => data.jumlah_instruktur)],
+                    data: [...pertumbuhanInstruktur.map(data => data.jumlah_instruktur)],
                     borderColor: '#f59e0b'
                 }],
-                labels: [...instruktur.map(data => data.bulan)]
+                labels: [...pertumbuhanInstruktur.map(data => data.bulan)]
             },
             options: lineOptions
         });
@@ -240,6 +249,24 @@ $data_kelas->fetch_assoc();
             },
             options: pieOptions
         });
+
+        $('select#tahun_pertumbuhan_siswa').on('change', async function() {
+            pertumbuhanSiswa = await $.get(window.location.href.replace('client', 'api'), {
+                pertumbuhan_siswa: $(this).val()
+            })
+            objChartPertumbuhanSiswa.data.datasets[0].data = [...pertumbuhanSiswa.map(data => data.jumlah_siswa)]
+            objChartPertumbuhanSiswa.data.labels = [...pertumbuhanSiswa.map(data => data.bulan)]
+            objChartPertumbuhanSiswa.update()
+        })
+
+        $('select#tahun_pertumbuhan_instruktur').on('change', async function() {
+            pertumbuhanInstruktur = await $.get(window.location.href.replace('client', 'api'), {
+                pertumbuhan_instruktur: $(this).val()
+            })
+            objChartPertumbuhanInstruktur.data.datasets[0].data = [...pertumbuhanInstruktur.map(data => data.jumlah_instruktur)]
+            objChartPertumbuhanInstruktur.data.labels = [...pertumbuhanInstruktur.map(data => data.bulan)]
+            objChartPertumbuhanInstruktur.update()
+        })
     })()
 </script>
 
