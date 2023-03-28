@@ -69,7 +69,7 @@ if (isset($_GET['edit'])) {
                             <label class="text-gray-800 dark:text-white" for="ketua_kelas">Ketua Kelas</label>
                             <select name="ketua_kelas" id="ketua_kelas" class="rounded">
                                 <?php foreach ($data_siswa as $key => $siswa) : ?>
-                                    <?php print_r($siswa)?>
+                                    <?= $siswa ?>
                                 <?php endforeach ?>
                             </select>
                         </div>
@@ -105,16 +105,16 @@ if (isset($_GET['edit'])) {
                                         <?php else : ?>
                                             <div class="flex gap-1">
                                                 <?= $value['jumlah_siswa'] ?>
-                                                <button data-popover-target="popover-right" data-popover-placement="right" type="button" class="text-white"><i class="ri-question-line"></i></button>
-                                                <div data-popover id="popover-right" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                                <button data-popover-target="data_anggota_kelas<?= $key ?>" data-popover-placement="right" type="button" class="text-white"><i class="ri-question-line"></i></button>
+                                                <div data-popover id="data_anggota_kelas<?= $key ?>" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                                     <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
                                                         <h5 class="font-semibold text-gray-900 dark:text-white">Anggota Kelas</h5>
                                                     </div>
                                                     <div class="px-3 py-2 space-y-2">
                                                         <?php
                                                         $id_kelas = $value['id_kelas'];
-                                                        $sql = "SELECT s.nama FROM detail_kelas dk, siswa s WHERE dk.id_siswa = s.id_siswa AND dk.id_kelas = $id_kelas";
-                                                        $data_anggota_kelas = $db->query($sql) or die($db->error);
+                                                        $sql_anggota_kelas = "SELECT s.nama FROM detail_kelas dk, siswa s WHERE dk.id_siswa = s.id_siswa AND dk.id_kelas = '$id_kelas'";
+                                                        $data_anggota_kelas = $db->query($sql_anggota_kelas) or die($db->error);
                                                         $data_anggota_kelas->fetch_assoc();
                                                         ?>
                                                         <?php foreach ($data_anggota_kelas as $key => $siswa) : ?>
