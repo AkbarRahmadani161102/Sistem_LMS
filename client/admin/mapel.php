@@ -15,7 +15,7 @@ $result->fetch_assoc();
             <?php include_once '../components/dashboard_navbar.php'; ?>
 
             <div class="flex items-center gap-5">
-                <h4 class="my-7 font-semibold text-gray-800 dark:text-white">mapel</h4>
+                <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Mapel</h4>
 
                 <button data-modal-target="add_mapel_modal" data-modal-toggle="add_mapel_modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                     Tambah Mapel

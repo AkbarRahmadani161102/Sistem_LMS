@@ -35,8 +35,6 @@ const themeToggleBtn = $('#theme-toggle');
 
 themeToggleBtn.each(function () {
     $(this).on('click', () => {
-        console.log("click")
-
         // toggle icons inside button
         themeToggleDarkIcon.classList.toggle('hidden');
         themeToggleDarkIconText.classList.toggle('hidden')

@@ -1,6 +1,14 @@
 <?php
 include_once('../template/header.php');
 user_access('admin');
+
+$sql = "SELECT p.*, s.nama nama_siswa FROM pengajuan p, siswa s WHERE p.id_siswa = s.id_siswa LIMIT 6";
+$data_pengajuan_siswa = $db->query($sql) or die($sql);
+$data_pengajuan_siswa->fetch_assoc();
+
+$sql = "SELECT * FROM kelas LIMIT 7";
+$data_kelas = $db->query($sql) or die($sql);
+$data_kelas->fetch_assoc();
 ?>
 
 <div id="index" class="w-full min-h-screen flex">
@@ -11,145 +19,81 @@ user_access('admin');
             generate_breadcrumb([['title' => 'Dashboard', 'filename' => 'index.php']]);
             ?>
 
-            <div class="flex flex-col gap-4">
-                <div class="flex w-full mt-7 gap-4 justify-between">
-                    <div class="flex w-fit flex-col bg-stone-100 p-3 px-4 rounded shadow-lg gap-2 justify-between">
-                        <div class="flex items-center gap-2 font-semibold">
-                            <div class="w-5 h-5 bg-amber-500 rounded-full">&nbsp;</div>
-                            <h6>Update</h6>
-                        </div>
-                        <p>Pendapatan meningkat <span class="text-amber-500">20%</span> dalam 1 bulan</p>
-                        <a class="text-stone-400 flex items-center group hover:text-amber-500 transition hover:gap-2" href="#">Lihat hasil analisis <i class="ri-arrow-right-s-line"></i></a>
+            <div class="mt-8 flex flex-col lg:flex-row gap-12">
+                <div class="flex flex-1 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5 divide-y">
+                    <div class="flex justify-between items-center">
+                        <h4>Pertumbuhan Siswa</h4>
+                        <select name="" id="" class="rounded-lg text-gray-800">
+                            <option value="">2022</option>
+                            <option value="">2023</option>
+                        </select>
                     </div>
-                    <div class="flex w-fit flex-col bg-stone-100 p-3 px-4 rounded shadow-lg gap-2 justify-between">
-                        <div class="flex items-center gap-2 font-semibold">
-                            <h6>Rata-rata pendapatan instruktur</h6>
-                        </div>
-                        <h5 class="font-semibold">Rp. <span>500.000</span></h5>
-                        <p class="flex items-center gap-2"><span class="text-amber-500 flex items-center gap-2"><i class="ri-line-chart-line text-2xl"></i> 5%</span> Dibandingkan bulan lalu</p>
-                    </div>
-                    <div class="flex w-fit flex-col bg-stone-100 p-3 px-4 rounded shadow-lg gap-2 justify-between">
-                        <div class="flex items-center gap-2 font-semibold">
-                            <h6>Peningkatan peserta didik</h6>
-                        </div>
-                        <h5 class="font-semibold"><span>12</span> Siswa</h5>
-                        <p class="flex items-center gap-2"><span class="text-amber-500 flex items-center gap-2"><i class="ri-line-chart-line text-2xl"></i> 20%</span> Dibandingkan bulan lalu</p>
-                    </div>
-                    <div class="flex w-fit flex-col bg-stone-100 p-3 px-4 rounded shadow-lg gap-2 justify-between">
-                        <div class="flex items-center gap-2 font-semibold">
-                            <h6>Peningkatan tenaga pengajar</h6>
-                        </div>
-                        <h5 class="font-semibold"><span>5</span> Instruktur</h5>
-                        <p class="flex items-center gap-2"><span class="text-amber-500 flex items-center gap-2"><i class="ri-line-chart-line text-2xl"></i> 20%</span> Dibandingkan bulan lalu</p>
+                    <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative px-5 py-12">
+                        <canvas id="chart_pertumbuhan_siswa"></canvas>
                     </div>
                 </div>
+                <div class="flex flex-1 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5 divide-y">
+                    <div class="flex justify-between items-center">
+                        <h4>Pertumbuhan Instruktur</h4>
+                        <select name="" id="" class="rounded-lg text-gray-800">
+                            <option value="">2022</option>
+                            <option value="">2023</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative px-5 py-12">
+                        <canvas id="chart_pertumbuhan_instruktur"></canvas>
+                    </div>
+                </div>
+            </div>
 
-                <div class="flex w-full justify-between gap-4">
-
-                    <div class="flex w-fit flex-col bg-stone-100 p-3 px-4 rounded shadow-lg gap-2 justify-between gap-4">
-                        <a href="pengajuan.php" class="text-lg font-semibold">Pengajuan Siswa</a>
-                        <div class="flex w-fit gap-3 items-center">
-                            <div class="bg-gradient-to-r from-blue-500 to-green-200 w-14 h-12 rounded-full">
-                                &nbsp;
+            <div class="mt-8 flex flex-col lg:flex-row items-start gap-12">
+                <div class="flex w-full flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5">
+                    <div class="flex justify-between items-center">
+                        <h4>Pengajuan Siswa</h4>
+                    </div>
+                    <?php foreach ($data_pengajuan_siswa as $key => $value) : ?>
+                        <a href="./pengajuan?id=<?= $value['id_pengajuan'] ?>" class="flex flex-col flex-1 rounded-lg p-5 bg-white dark:bg-gray-500 gap-2">
+                            <div class="flex justify-between">
+                                <h6><?= $value['nama_siswa'] ?></h6>
+                                <h6 class="<?= $value['status'] === 'Pending' ? 'text-amber-500' : 'text-green-500' ?>"><?= $value['status'] ?></h6>
                             </div>
-                            <div class="flex w-full flex-col gap-2">
-                                <div class="flex justify-between gap-5">
-                                    <a href="pengajuan.php?id_pengajuan=321321412" class="font-semibold">Adit</a>
-                                    <p class="text-amber-500 font-semibold">Selesai</p>
-                                </div>
-                                <div class="flex justify-between text-neutral-500 gap-5">
-                                    <p>Pengajuan kelas privat</p>
-                                    <p>20 Maret 2022</p>
-                                </div>
+                            <div class="flex justify-between">
+                                <p class="text-sm"><?= $value['judul'] ?></p>
+                                <p class="text-sm text-gray-500 dark:text-gray-200"><?= $value['tgl_dibuat'] ?></p>
+                            </div>
+                        </a>
+                    <?php endforeach ?>
+                </div>
+
+                <div class="flex w-full flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5">
+                    <div class="flex justify-between items-center">
+                        <h4>Ketersediaan Kelas</h4>
+                    </div>
+                    <?php foreach ($data_kelas as $key => $value) : ?>
+                        <div class="flex flex-col flex-1 rounded-lg p-5 bg-white dark:bg-gray-500">
+                            <div class="flex justify-between">
+                                <h6><?= $value['nama'] ?></h6>
+                                <h6 class="<?= $value['status'] === 'Reguler' ? 'text-green-500' : 'text-amber-500' ?>"><?= $value['status'] ?></h6>
                             </div>
                         </div>
-                        <div class="flex w-fit gap-3 items-center">
-                            <div class="bg-gradient-to-r from-blue-500 to-green-200 w-14 h-12 rounded-full">
-                                &nbsp;
-                            </div>
-                            <div class="flex w-full flex-col gap-2">
-                                <div class="flex justify-between gap-5">
-                                    <a href="pengajuan.php?id_pengajuan=321321412" class="font-semibold">Adit</a>
-                                    <p class="text-amber-500 font-semibold">Selesai</p>
-                                </div>
-                                <div class="flex justify-between text-neutral-500 gap-5">
-                                    <p>Pengajuan kelas privat</p>
-                                    <p>20 Maret 2022</p>
-                                </div>
-                            </div>
+                    <?php endforeach ?>
+                </div>
+
+                <div class="flex flex-col w-full lg:w-fit gap-12">
+                    <div class="flex w-full lg:w-80 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5">
+                        <div class="flex justify-between items-center">
+                            <h4>Kehadiran Siswa</h4>
                         </div>
-                        <div class="flex w-fit gap-3 items-center">
-                            <div class="bg-gradient-to-r from-blue-500 to-green-200 w-14 h-12 rounded-full">
-                                &nbsp;
-                            </div>
-                            <div class="flex w-full flex-col gap-2">
-                                <div class="flex justify-between gap-5">
-                                    <a href="pengajuan.php?id_pengajuan=321321412" class="font-semibold">Adit</a>
-                                    <p class="text-amber-500 font-semibold">Selesai</p>
-                                </div>
-                                <div class="flex justify-between text-neutral-500 gap-5">
-                                    <p>Pengajuan kelas privat</p>
-                                    <p>20 Maret 2022</p>
-                                </div>
-                            </div>
+                        <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative p-16 lg:p-0 border-t-2 lg:border-0">
+                            <canvas id="chart_kehadiran_siswa_hari_ini"></canvas>
                         </div>
                     </div>
-
-                    <div class="flex flex col">
-                        <div class="flex w-fit flex-col bg-stone-100 p-3 px-4 rounded shadow-lg gap-4">
-                            <a href="pengajuan.php" class="text-lg font-semibold">Ketersediaan Kelas</a>
-
-                            <div class="flex flex-col gap-3">
-                                <div class="flex justify-between gap-10">
-                                    <p>Ruang 1</p>
-                                    <p class="text-amber-500 font-semibold">Tersedia</p>
-                                </div>
-                                <div class="flex justify-between gap-10">
-                                    <p>Ruang 2</p>
-                                    <p>Sedang Digunakan</p>
-                                </div>
-                                <div class="flex justify-between gap-10">
-                                    <p>Ruang 3</p>
-                                    <p>Sedang Digunakan</p>
-                                </div>
-                            </div>
+                    <div class="flex w-full lg:w-80 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5">
+                        <div class="flex justify-between items-center">
+                            <h4>Kehadiran Instruktur</h4>
                         </div>
-                    </div>
-
-                    <div class="flex flex col">
-                        <div class="flex w-fit flex-col bg-stone-100 rounded shadow-lg px-5 items-center justify-center gap-1 font-semibold text-center">
-                            <h6>Jumlah Admin</h6>
-                            <h6 class="text-amber-500">2 Staff</h6>
-                        </div>
-                    </div>
-                    <div class="flex flex col">
-                        <div class="flex w-fit flex-col bg-stone-100 rounded shadow-lg px-5 items-center justify-center gap-1 font-semibold text-center">
-                            <h6>Jumlah Instruktur</h6>
-                            <h6 class="text-amber-500">16 Instruktur</h6>
-                        </div>
-                    </div>
-                    <div class="flex flex col">
-                        <div class="flex w-fit flex-col bg-stone-100 rounded shadow-lg px-5 items-center justify-center gap-4 font-semibold text-center">
-                            <div class="flex flex-col">
-                                <h6>Jumlah Siswa</h6>
-                                <h6 class="text-amber-500">96 Siswa</h6>
-                            </div>
-                            <div class="flex gap-2">
-                                <div class="flex flex-col w-full">
-                                    <h6>SD</h6>
-                                    <h6 class="text-amber-500">12</h6>
-                                </div>
-                                <div class="flex flex-col w-full">
-                                    <h6>SMP</h6>
-                                    <h6 class="text-amber-500">42</h6>
-                                </div>
-                                <div class="flex flex-col w-full">
-                                    <h6>SMA</h6>
-                                    <h6 class="text-amber-500">42</h6>
-                                </div>
-                            </div>
-
-
+                        <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative p-16 lg:p-0 border-t-2 lg:border-0">
+                            <canvas id="chart_kehadiran_instruktur_hari_ini"></canvas>
                         </div>
                     </div>
                 </div>
@@ -158,5 +102,145 @@ user_access('admin');
         </div>
     </div>
 </div>
+
+<script>
+    (async () => {
+        Chart.Legend.fit = function() {
+            this.height = this.height + 250;
+        };
+
+        const chartPertumbuhanSiswa = document.getElementById('chart_pertumbuhan_siswa');
+        const chartPertumbuhanInstruktur = document.getElementById('chart_pertumbuhan_instruktur');
+        const chartKehadiranSiswa = document.getElementById('chart_kehadiran_siswa_hari_ini');
+        const chartKehadiranInstruktur = document.getElementById('chart_kehadiran_instruktur_hari_ini');
+
+        const pertumbuhanSiswa = await $.get(window.location.href.replace('client', 'api'), {
+            pertumbuhan_siswa: true
+        })
+
+        const instruktur = await $.get(window.location.href.replace('client', 'api'), {
+            pertumbuhan_instruktur: true
+        })
+
+        const isDarkMode = $('html').hasClass('dark')
+        const color = isDarkMode ? "#fff" : "#1f2937"
+
+        const lineOptions = {
+            responsive: true,
+            layout: {
+                padding: 20
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color,
+                    },
+                    grid: {
+                        drawOnChartArea: false,
+                        drawTicks: false
+                    },
+                    border: {
+                        color,
+                    }
+                },
+                y: {
+                    ticks: {
+                        color,
+                    },
+                    grid: {
+                        drawOnChartArea: false,
+                        drawTicks: false
+                    },
+                    border: {
+                        color,
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            elements: {
+                point: {
+                    radius: 0,
+                    hitRadius: 50
+                }
+            }
+        }
+
+        const pieOptions = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 10,
+                        color,
+                    }
+                }
+            },
+        }
+
+        new Chart(chartPertumbuhanSiswa, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Siswa',
+                    data: [...pertumbuhanSiswa.map(data => data.jumlah_siswa)]
+                }],
+                labels: [...pertumbuhanSiswa.map(data => data.bulan)]
+            },
+            options: lineOptions
+        });
+
+        new Chart(chartPertumbuhanInstruktur, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Instruktur',
+                    data: [...instruktur.map(data => data.jumlah_instruktur)],
+                    borderColor: '#f59e0b'
+                }],
+                labels: [...instruktur.map(data => data.bulan)]
+            },
+            options: lineOptions
+        });
+
+        new Chart(chartKehadiranSiswa, {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    label: 'Siswa',
+                    data: [70, 8, 5],
+                    backgroundColor: [
+                        "#22c55e",
+                        "#f59e0b",
+                        "#ef4444"
+                    ]
+                }],
+                labels: ['Hadir', 'Izin', 'Tidak Ada Keterangan']
+            },
+            options: pieOptions
+        });
+
+        new Chart(chartKehadiranInstruktur, {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    label: 'Instruktur',
+                    data: [11, 0, 5],
+                    backgroundColor: [
+                        "#22c55e",
+                        "#f59e0b",
+                        "#ef4444"
+                    ]
+                }],
+                labels: ['Hadir', 'Izin', 'Tidak Ada Keterangan']
+            },
+            options: pieOptions
+        });
+    })()
+</script>
 
 <?php include_once('../template/footer.php') ?>
