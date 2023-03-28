@@ -820,6 +820,25 @@ hr.vr {
   position: relative;
 }
 
+.inset-1\/2 {
+  top: 50%;
+  right: 50%;
+  bottom: 50%;
+  left: 50%;
+}
+
+.inset-auto {
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+}
+
+.inset-x-1\/2 {
+  left: 50%;
+  right: 50%;
+}
+
 .inset-x-1\/4 {
   left: 25%;
   right: 25%;
