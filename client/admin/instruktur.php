@@ -1,28 +1,36 @@
 <?php
+
+use function PHPSTORM_META\map;
+
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
 user_access('Super Admin');
+$sql = "SELECT * FROM jenjang";
+$data_jenjang = $db->query($sql) or die($db);
+$data_jenjang->fetch_assoc();
 
 $sql = "SELECT * FROM mapel";
 $data_mapel = $db->query($sql) or die($db);
 $data_mapel->fetch_assoc();
 
 if (isset($_GET['edit'])) {
-    $id_admin = $_GET['edit'];
-    $sql = "SELECT * FROM instruktur";
+    $id_instruktur = $_GET['edit'];
+    $sql = "SELECT * FROM instruktur WHERE id_instruktur = '$id_instruktur'";
     $result = $db->query($sql) or die($db);
-    $result->fetch_assoc();
+    $result = $result->fetch_assoc();
 
-    $status_instruktur = [];
-    foreach ($result as $key => $value) {
-        $status_instruktur[] = $value['status'];
+    $data_mapel_instruktur = [];
+    $sql = "SELECT * FROM detail_mapel d, mapel m WHERE d.id_mapel = m.id_mapel AND id_instruktur = '$id_instruktur'";
+    $detail_mapel = $db->query($sql) or die($db);
+    $detail_mapel->fetch_assoc();
+    foreach ($detail_mapel as $key => $mapel) {
+        $data_mapel_instruktur[] = $mapel['id_mapel'];
     }
 } else {
     $sql = "SELECT * FROM instruktur";
     $result = $db->query($sql) or die($db);
     $result->fetch_assoc();
 }
-
 ?>
 
 <div id="anggota_kelas" class="w-full min-h-screen flex">
@@ -34,71 +42,90 @@ if (isset($_GET['edit'])) {
             <div class="flex items-center gap-5">
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Instruktur</h4>
 
-                <button data-modal-target="add_instruktur_modal" data-modal-toggle="add_instruktur_modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-                    Tambah Instruktur
-                </button>
+                <?php if (!isset($_GET['edit'])) : ?>
+                    <button data-modal-target="add_instruktur_modal" data-modal-toggle="add_instruktur_modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                        Tambah Instruktur
+                    </button>
+                <?php endif ?>
             </div>
 
             <?php if (isset($_GET['edit'])) : ?>
                 <?php generate_breadcrumb([['title' => 'Data Instruktur', 'filename' => 'instruktur.php'], ['title' => 'Edit Data Instruktur', 'filename' => '#']]); ?>
 
-                <?php foreach ($result as $key => $instruktur_data) :  ?>
-                    <div class="flex gap-5 mt-5 flex-col md:flex-row">
-                        <div class="flex flex-1 flex-col gap-5 bg-gray-200 dark:bg-gray-700 shadow-lg rounded p-5">
-                            <h4 class="text-gray-800 dark:text-white">Data Personal</h4>
-                            <form class="flex-1 flex flex-col justify-between" action="../../api/admin/instruktur.php" method="post">
-                                <div class="mb-5">
-                                    <label for="nama" class="form-label text-secondary text-gray-400 dark:text-white">Nama</label>
-                                    <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="nama" name="nama" value="<?= $instruktur_data['nama'] ?>" maxlength="50" required>
-                                </div>
-                                <div class="mb-5">
-                                    <label for="no_telp" class="form-label text-secondary text-gray-400 dark:text-white">No Telp</label>
-                                    <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="no_telp" name="no_telp" value="<?= $instruktur_data['no_telp'] ?>" maxlength="14" required>
-                                </div>
-                                <div class="mb-5">
-                                    <label for="alamat" class="form-label text-secondary text-gray-400 dark:text-white">Alamat</label>
-                                    <textarea class="resize-none border rounded w-full py-1.5 border-gray-400 mt-1" name="alamat" id="" cols="30" rows="3" maxlength="50"><?= $instruktur_data['alamat'] ?>"</textarea>
-                                </div>
-                                <button type="submit" class="w-full bg-orange-500 rounded py-1.5 text-white" name="update_profil" value="<?= $instruktur_data['id_instruktur'] ?>">Ubah Data Profil</button>
-                            </form>
-                        </div>
-
-                        <div class="flex flex-1 flex-col gap-5 bg-gray-200 dark:bg-gray-700 shadow-lg rounded p-5">
-                            <h4 class="text-gray-800 dark:text-white">Data Kredensial</h4>
-                            <form class="flex-1 flex flex-col justify-between" action="../../api/admin/instruktur.php" method="post">
-                                <div class="mb-5">
-                                    <label for="email" class="form-label text-secondary text-gray-400 dark:text-white">Email</label>
-                                    <input type="email" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="email" name="email" value="<?= $instruktur_data['email'] ?>" maxlength="30" required>
-                                </div>
-                                <div class="mb-5">
-                                    <label for="password" class="form-label text-secondary text-gray-400 dark:text-white">Password</label>
-                                    <input type="password" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="password" name="password" value="<?= $instruktur_data['password'] ?>" maxlength="50" required>
-                                </div>
-                                <div class="mb-5">
-                                    <label for="confirm_password" class="form-label text-secondary text-gray-400 dark:text-white">Konfirmasi Password</label>
-                                    <input type="password" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="confirm_password" name="confirm_password" value="<?= $instruktur_data['password'] ?>" maxlength="50" required>
-                                </div>
-                                <button type="submit" class="w-full bg-red-500 rounded py-1.5 text-white" name="update_kredensial" value="<?= $instruktur_data['id_instruktur'] ?>">Ubah Data Kredensial</button>
-                            </form>
-                        </div>
-                        <div class="flex flex-1 flex-col gap-5 bg-gray-200 dark:bg-gray-700 shadow-lg rounded p-5">
-                            <h4 class="text-gray-800 dark:text-white">Data Mapel</h4>
-                            <div id="form_mapel_instruktur" class="flex-1 flex flex-col" method="post">
-                            <div class="flex flex-col gap-5">
-                                <?php foreach ($data_mapel as $key => $value) : ?>
-                                    <label class="flex items-center bg-white dark:bg-gray-200 p-5 rounded">
-                                        <input name="mapel[]" type="checkbox" value="<?= $value['id_mapel'] ?>" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600">
-                                        <p for="<?= $value['id_mapel'] ?>" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-800"><?= $value['nama'] ?></p>
-                                    </label>
-                                <?php endforeach ?>
+                <div class="flex gap-5 mt-5 flex-col lg:flex-row lg:items-start">
+                    <div class="flex flex-1 flex-col gap-5 bg-gray-200 dark:bg-gray-700 shadow-lg rounded p-5">
+                        <h4 class="text-gray-800 dark:text-white">Data Personal</h4>
+                        <form class="flex-1 flex flex-col justify-between" action="../../api/admin/instruktur.php" method="post">
+                            <div class="mb-5">
+                                <label for="nama" class="form-label text-secondary text-gray-400 dark:text-white">Nama</label>
+                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="nama" name="nama" value="<?= $result['nama'] ?>" maxlength="50" required>
                             </div>
-                            <button type="submit" class="w-full bg-gray-500 rounded py-1.5 text-white" name="update_mapel" value="<?= $instruktur_data['id_instruktur'] ?>">Ubah Mapel</button>
-                        </div>
+                            <div class="mb-5">
+                                <label for="no_telp" class="form-label text-secondary text-gray-400 dark:text-white">No Telp</label>
+                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="no_telp" name="no_telp" value="<?= $result['no_telp'] ?>" maxlength="14" required>
+                            </div>
+                            <div class="mb-5">
+                                <label for="alamat" class="form-label text-secondary text-gray-400 dark:text-white">Alamat</label>
+                                <textarea class="resize-none border rounded w-full py-1.5 border-gray-400 mt-1" name="alamat" id="" cols="30" rows="3" maxlength="50"><?= $result['alamat'] ?>"</textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-orange-500 rounded py-1.5 text-white" name="update_profil" value="<?= $result['id_instruktur'] ?>">Ubah Data Profil</button>
+                        </form>
                     </div>
-                    <?php return // Agar menampilkan 1 data saja 
-                    ?>
-                <?php endforeach ?>
-
+                    <div class="flex flex-1 flex-col gap-5 bg-gray-200 dark:bg-gray-700 shadow-lg rounded p-5">
+                        <h4 class="text-gray-800 dark:text-white">Data Kredensial</h4>
+                        <form class="flex-1 flex flex-col justify-between" action="../../api/admin/instruktur.php" method="post">
+                            <div class="mb-5">
+                                <label for="email" class="form-label text-secondary text-gray-400 dark:text-white">Email</label>
+                                <input type="email" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="email" name="email" value="<?= $result['email'] ?>" maxlength="30" required>
+                            </div>
+                            <div class="mb-5">
+                                <label for="password" class="form-label text-secondary text-gray-400 dark:text-white">Password</label>
+                                <input type="password" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="password" name="password" value="<?= $result['password'] ?>" maxlength="50" required>
+                            </div>
+                            <div class="mb-5">
+                                <label for="confirm_password" class="form-label text-secondary text-gray-400 dark:text-white">Konfirmasi Password</label>
+                                <input type="password" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="confirm_password" name="confirm_password" value="<?= $result['password'] ?>" maxlength="50" required>
+                            </div>
+                            <button type="submit" class="w-full bg-red-500 rounded py-1.5 text-white" name="update_kredensial" value="<?= $result['id_instruktur'] ?>">Ubah Data Kredensial</button>
+                        </form>
+                    </div>
+                    <div class="flex flex-1 flex-col gap-5 bg-gray-200 dark:bg-gray-700 shadow-lg rounded p-5">
+                        <h4 class="text-gray-800 dark:text-white">Data Mapel yang Diampu</h4>
+                        <form id="form_mapel_instruktur" class="flex-1 flex flex-col" action="../../api/admin/instruktur.php" method="post">
+                            <div class="flex flex-col gap-5">
+                                <div id="accordion-collapse" data-accordion="collapse">
+                                    <?php foreach ($data_jenjang as $key => $jenjang) : ?>
+                                        <h2 id="accordion-collapse-heading-<?= $key ?>">
+                                            <button type="button" data-accordion-target="#accordion-collapse-body-<?= $key ?>" aria-expanded="true" aria-controls="accordion-collapse-body-<?= $key ?>" class="flex items-center justify-between w-full p-3 font-medium text-left text-gray-500 dark:text-gray-400 hover:bg-gray-100 bg-white text-gray-800 dark:bg-gray-500 dark:text-white dark:hover:bg-gray-800 <?= $key === 0 ? 'rounded-t-xl' : '' ?>">
+                                                <span class="text-base"><?= $jenjang['nama'] ?></span>
+                                            </button>
+                                        </h2>
+                                        <div id="accordion-collapse-body-<?= $key ?>" class="hidden" aria-labelledby="accordion-collapse-heading-<?= $key ?>">
+                                            <div class="p-5 dark:bg-gray-900">
+                                                <?php
+                                                $id_jenjang = $jenjang['id_jenjang'];
+                                                $sql = "SELECT * FROM mapel WHERE id_jenjang = '$id_jenjang'";
+                                                $data_mapel = $db->query($sql) or die($db->error);
+                                                $data_mapel->fetch_assoc();
+                                                foreach ($data_mapel as $key => $mapel) : ?>
+                                                    <div class="flex flex-1 items-center mb-4">
+                                                        <label for="mapel<?= $mapel['id_mapel'] ?>" class="cursor-pointer ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 flex flex-1 hover:bg-gray-500 hover:text-white items-center gap-2 rounded px-2 py-1">
+                                                            <input id="mapel<?= $mapel['id_mapel'] ?>" value="<?= $mapel['id_mapel'] ?>" name="mapel[]" type="checkbox" <?= in_array($mapel['id_mapel'], $data_mapel_instruktur) ? 'checked' : '' ?> class="w-4 h-4 text-blue-600 bg-gray-100 dark:bg-gray-700 dark:border-gray-600">
+                                                            <div class="flex flex-1 justify-between">
+                                                                <p><?= $mapel['nama'] ?> </p>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                <?php endforeach ?>
+                                            </div>
+                                        </div>
+                                    <?php endforeach ?>
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full bg-gray-500 dark:bg-gray-600 dark:text-white rounded-b-lg py-1.5 text-white" name="update_mapel" value="<?= $result['id_instruktur'] ?>">Ubah Mapel</button>
+                        </form>
+                    </div>
+                </div>
             <?php else : ?>
                 <?php generate_breadcrumb([['title' => 'Data Instruktur', 'filename' => 'instruktur.php']]); ?>
                 <div class="relative overflow-x-auto mt-5">
@@ -126,16 +153,16 @@ if (isset($_GET['edit'])) {
                                     <td class="px-6 py-4"><?= $value['email'] ?></td>
                                     <td class="px-6 py-4"><?= $value['status'] ?></td>
                                     <td class="px-6 py-4">
-                                        <?php
-                                        $id_instruktur = $value['id_instruktur'];
-                                        $sql = "SELECT m.nama FROM instruktur i, mapel m, detail_mapel dm WHERE dm.id_mapel = m.id_mapel AND dm.id_instruktur = i.id_instruktur AND i.id_instruktur = '$id_instruktur'";
-                                        $roles = $db->query($sql) or die(mysqli_error($db));
-                                        $roles->fetch_assoc();
-                                        foreach ($roles as $key => $role) {
-                                            echo $role['nama'];
-                                            echo "<br/>";
-                                        }
-                                        ?>
+                                        <ul>
+                                            <?php
+                                            $id_instruktur = $value['id_instruktur'];
+                                            $sql = "SELECT j.nama nama_jenjang, m.nama nama_mapel  FROM instruktur i, mapel m, detail_mapel dm, jenjang j WHERE dm.id_mapel = m.id_mapel AND dm.id_instruktur = i.id_instruktur AND m.id_jenjang = j.id_jenjang AND i.id_instruktur = '$id_instruktur'";
+                                            $mapel_diampu = $db->query($sql) or die(mysqli_error($db));
+                                            $mapel_diampu->fetch_assoc();
+                                            foreach ($mapel_diampu as $key => $mapel) : ?>
+                                                <li><?= $mapel['nama_jenjang'] ?> - <?= $mapel['nama_mapel'] ?> </li>
+                                            <?php endforeach ?>
+                                        </ul>
                                     </td>
                                     <td class="px-6 py-4">
                                         <?php
@@ -148,7 +175,6 @@ if (isset($_GET['edit'])) {
                                             : $range->format('%R%a days/%R%y years');
                                         ?>
                                     </td>
-                                    
                                     <td class="px-6 py-4">
                                         <a href="?edit=<?= $value['id_instruktur'] ?>">
                                             <i class="ri-edit-box-line text-blue-500"></i>
@@ -162,14 +188,12 @@ if (isset($_GET['edit'])) {
                         </tbody>
                     </table>
                 </div>
-
             <?php endif ?>
-
         </div>
     </div>
 </div>
 
-<div id="add_instruktur_modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+<div id="add_instruktur_modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
     <div class="relative w-full h-full max-w-7xl md:h-auto">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -215,12 +239,34 @@ if (isset($_GET['edit'])) {
                         <div id="form_mapel_instruktur" class="flex-1 flex flex-col" method="post">
                             <p class="text-normal text-gray-400 dark:text-white">Mapel</p>
                             <div class="flex flex-col gap-5">
-                                <?php foreach ($data_mapel as $key => $value) : ?>
-                                    <label class="flex items-center bg-white dark:bg-gray-200 p-5 rounded">
-                                        <input name="mapel[]" type="checkbox" value="<?= $value['id_mapel'] ?>" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600">
-                                        <p for="<?= $value['id_mapel'] ?>" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-800"><?= $value['nama'] ?></p>
-                                    </label>
-                                <?php endforeach ?>
+                                <div id="accordion-collapse" data-accordion="collapse">
+                                    <?php foreach ($data_jenjang as $key => $jenjang) : ?>
+                                        <h2 id="accordion-collapse-heading-<?= $key ?>">
+                                            <button type="button" data-accordion-target="#accordion-collapse-body-<?= $key ?>" aria-expanded="true" aria-controls="accordion-collapse-body-<?= $key ?>" class="flex items-center justify-between w-full p-3 font-medium text-left text-gray-500 dark:text-gray-400 hover:bg-gray-200 bg-gray-200 text-gray-800 dark:bg-gray-500 dark:text-white dark:hover:bg-gray-800 <?= $key === 0 ? 'rounded-t-xl' : '' ?>">
+                                                <span class="text-base"><?= $jenjang['nama'] ?></span>
+                                            </button>
+                                        </h2>
+                                        <div id="accordion-collapse-body-<?= $key ?>" class="hidden" aria-labelledby="accordion-collapse-heading-<?= $key ?>">
+                                            <div class="p-5 dark:bg-gray-900">
+                                                <?php
+                                                $id_jenjang = $jenjang['id_jenjang'];
+                                                $sql = "SELECT * FROM mapel WHERE id_jenjang = '$id_jenjang'";
+                                                $data_mapel = $db->query($sql) or die($db->error);
+                                                $data_mapel->fetch_assoc();
+                                                foreach ($data_mapel as $key => $mapel) : ?>
+                                                    <div class="flex flex-1 items-center mb-4">
+                                                        <label for="mapel<?= $mapel['id_mapel'] ?>" class="cursor-pointer ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 flex flex-1 hover:bg-gray-500 hover:text-white items-center gap-2 rounded px-2 py-1">
+                                                            <input id="mapel<?= $mapel['id_mapel'] ?>" value="<?= $mapel['id_mapel'] ?>" name="mapel[]" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 dark:bg-gray-700 dark:border-gray-600">
+                                                            <div class="flex flex-1 justify-between">
+                                                                <p><?= $mapel['nama'] ?> </p>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                <?php endforeach ?>
+                                            </div>
+                                        </div>
+                                    <?php endforeach ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -232,7 +278,5 @@ if (isset($_GET['edit'])) {
         </div>
     </div>
 </div>
-
-<?php
-$result->free_result();
-include_once('../template/footer.php') ?>
+</div>
+<?php include_once('../template/footer.php') ?>

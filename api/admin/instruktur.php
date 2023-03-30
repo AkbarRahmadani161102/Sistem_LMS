@@ -12,7 +12,7 @@ if (isset($_POST['create'])) {
     $alamat = escape($_POST['alamat']);
     $email = escape($_POST['email']);
     $password = md5(escape($_POST['password']));
-    
+
     $contain_letter = preg_match("/[a-z][A-Z]/", $no_telp) === 1;
 
     function is_email_available()
@@ -28,17 +28,13 @@ if (isset($_POST['create'])) {
         if (is_email_available()) {
             $sql = "INSERT INTO instruktur (id_instruktur, nama, no_telp, alamat, email, password, status) VALUES ('$id_instruktur', '$nama', '$no_telp', '$alamat', '$email' , '$password', 'Aktif')";
             $db->query($sql) or die($db->error);
-            if(isset($_POST['hak_akses'])){
-                $hak_akses = $_POST['hak_akses'];
-                foreach ($hak_akses as $key => $value) {
+            if (isset($_POST['mapel'])) {
+                $mapel = $_POST['mapel'];
+                foreach ($mapel as $key => $value) {
                     $sql = "INSERT INTO detail_mapel (id_mapel, id_instruktur) VALUES('$value', '$id_instruktur')";
-                    if ($value === '1') {
-                        $db->query($sql) or die($db->error);
-                        break;
-                    }
                     $db->query($sql) or die($db->error);
                 }
-            } 
+            }
         }
         // Email Sudah Ada
     }
@@ -84,18 +80,16 @@ if (isset($_POST['update_kredensial'])) {
 }
 if (isset($_POST['update_mapel'])) {
     $id_instruktur = escape($_POST['update_mapel']);
-    $mapel = $_POST['mapel'];
 
     $sql = "DELETE FROM detail_mapel WHERE id_instruktur = '$id_instruktur'";
     $db->query($sql) or die($db->error);
 
-    foreach ($mapel as $key => $value) {
-        $sql = "INSERT INTO detail_mapel (id_mapel, id_instruktur) VALUES('$value', '$id_instruktur')";
-        if ($value === '1') {
+    if (isset($_POST['mapel'])) {
+        $mapel = $_POST['mapel'];
+        foreach ($mapel as $key => $value) {
+            $sql = "INSERT INTO detail_mapel (id_mapel, id_instruktur) VALUES('$value', '$id_instruktur')";
             $db->query($sql) or die($db->error);
-            break;
         }
-        $db->query($sql) or die($db->error);
     }
     redirect("../../client/admin/instruktur.php?edit=$id_instruktur");
 }
