@@ -13,8 +13,13 @@ setInterval(() => {
 $(document).ready(() => {
     const url = location.href
     const urlFilename = url.substring(url.lastIndexOf('/') + 1)
-    // console.log($(`a[href]`))
-    $(`nav#dashboard-sidebar a[href$='${urlFilename}']`).addClass('active')
+
+    $('nav#dashboard-sidebar a').each(function () {
+        const href = $(this).attr('href')
+        typeof href !== "undefined"
+            && href.match(/(.*)\/(.*.php)/)[2] === urlFilename
+            && $(this).addClass('active')
+    })
 })
 
 let themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
