@@ -16,6 +16,7 @@ if (isset($_POST['update'])) {
     $db->query($sql) or die($db->error);
 }
 if(isset($_POST['delete'])) {
+    $id_mapel = escape($_POST['delete']);
     $sql = "DELETE FROM mapel WHERE id_mapel = '$id_mapel'";
     $db->query($sql) or die($db->error);
 
