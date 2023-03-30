@@ -16,8 +16,13 @@ if (isset($_POST['update'])) {
     $db->query($sql) or die($db->error);
 }
 if(isset($_POST['delete'])) {
-    $id_mapel = escape($_POST['delete']);
-    $sql = "DELETE FROM mapel WHERE id_mapel = $id_mapel";
+    $sql = "DELETE FROM mapel WHERE id_mapel = '$id_mapel'";
+    $db->query($sql) or die($db->error);
+
+    $sql = "DELETE FROM detail_mapel WHERE id_mapel = '$id_mapel'";
+    $db->query($sql) or die($db->error);
+
+    $sql = "DELETE FROM jadwal WHERE id_mapel = '$id_mapel'";
     $db->query($sql) or die($db->error);
 }
 redirect('../../client/admin/mapel.php');
