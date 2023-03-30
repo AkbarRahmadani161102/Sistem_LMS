@@ -95,24 +95,22 @@ if (isset($_POST['update_mapel'])) {
 }
 if (isset($_POST['delete'])) {
     $id_instruktur = escape($_POST['delete']);
-    if ($_SESSION['user_id'] !== $id_admin) {
-        $sql = "DELETE FROM gaji WHERE id_instruktur = '$id_instruktur'";
-        $db->query($sql) or die($db->error);
+    $sql = "DELETE FROM gaji WHERE id_instruktur = '$id_instruktur'";
+    $db->query($sql) or die($db->error);
 
-        $sql = "DELETE FROM detail_mapel WHERE id_instruktur = '$id_instruktur'";
-        $db->query($sql) or die($db->error);
+    $sql = "DELETE FROM detail_mapel WHERE id_instruktur = '$id_instruktur'";
+    $db->query($sql) or die($db->error);
 
-        $sql = "DELETE FROM instruktur WHERE id_instruktur = '$id_instruktur'";
-        $db->query($sql) or die($db->error);
+    $sql = "DELETE FROM instruktur WHERE id_instruktur = '$id_instruktur'";
+    $db->query($sql) or die($db->error);
 
-        $sql = "DELETE FROM kuesioner_instruktur WHERE id_instruktur = '$id_instruktur'";
-        $db->query($sql) or die($db->error);
+    $sql = "DELETE FROM kuesioner_instruktur WHERE id_instruktur = '$id_instruktur'";
+    $db->query($sql) or die($db->error);
 
-        $sql = "DELETE FROM notifikasi_instruktur WHERE id_instruktur = '$id_instruktur'";
-        $db->query($sql) or die($db->error);
+    $sql = "DELETE FROM notifikasi_instruktur WHERE id_instruktur = '$id_instruktur'";
+    $db->query($sql) or die($db->error);
 
-        $sql = "DELETE FROM penilaian WHERE id_instruktur = '$id_instruktur'";
-        $db->query($sql) or die($db->error);
-    }
+    $sql = "DELETE FROM penilaian WHERE id_instruktur = '$id_instruktur'";
+    $db->query($sql) or die($db->error);
     redirect("../../client/admin/instruktur.php");
 }
