@@ -49,6 +49,7 @@ $menu_superadmin = [
         ['Siswa', "../$role/siswa.php", '<i class="ri-user-2-line"></i>'],
     ],
     'KBM' => [
+        ['Jadwal', "../$role/jadwal.php", '<i class="ri-stack-line"></i>'],
         ['Jenjang', "../$role/jenjang.php", '<i class="ri-stack-line"></i>'],
         ['Kelas', "../$role/kelas.php", '<i class="ri-bookmark-3-line"></i>'],
         ['Mapel', "../$role/mapel.php", '<i class="ri-book-2-line"></i>'],
@@ -72,6 +73,7 @@ $menu_admin_akademik = [
         ['Siswa', "../$role/siswa.php", '<i class="ri-user-2-line"></i>'],
     ],
     'KBM' => [
+        ['Jadwal', "../$role/jadwal.php", '<i class="ri-stack-line"></i>'],
         ['Jenjang', "../$role/jenjang.php", '<i class="ri-stack-line"></i>'],
         ['Kelas', "../$role/kelas.php", '<i class="ri-bookmark-3-line"></i>'],
         ['Mapel', "../$role/mapel.php", '<i class="ri-book-2-line"></i>'],

@@ -12,12 +12,12 @@ setInterval(() => {
 
 $(document).ready(() => {
     const url = location.href
-    const urlFilename = url.substring(url.lastIndexOf('/') + 1)
+    const urlFilename = url.substring(url.lastIndexOf('/') + 1).match(/(.*.php)/)[0]
 
     $('nav#dashboard-sidebar a').each(function () {
         const href = $(this).attr('href')
         typeof href !== "undefined"
-            && href.match(/(.*)\/(.*.php)/)[2] === urlFilename
+            && href.match(/(.*)\/(.*.php)(.*)/)[2] === urlFilename
             && $(this).addClass('active')
     })
 })
