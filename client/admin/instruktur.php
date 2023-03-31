@@ -43,7 +43,7 @@ if (isset($_GET['edit'])) {
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Instruktur</h4>
 
                 <?php if (!isset($_GET['edit'])) : ?>
-                    <button data-modal-target="add_instruktur_modal" data-modal-toggle="add_instruktur_modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                    <button data-modal-target="add_instruktur_modal" data-modal-toggle="add_instruktur_modal" class="btn" type="button">
                         Tambah Instruktur
                     </button>
                 <?php endif ?>
@@ -175,12 +175,12 @@ if (isset($_GET['edit'])) {
                                             : $range->format('%R%a days/%R%y years');
                                         ?>
                                     </td>
-                                    <td class="px-6 py-4">
-                                        <a href="?edit=<?= $value['id_instruktur'] ?>">
-                                            <i class="ri-edit-box-line text-blue-500"></i>
+                                    <td class="px-6 py-4 flex gap-2">
+                                        <a class="btn btn--outline-blue group"  href="?edit=<?= $value['id_instruktur'] ?>">
+                                            <i class="ri-edit-box-line text-blue-500 group-hover:text-white"></i>
                                         </a>
                                         <form action="../../api/admin/instruktur.php" method="post">
-                                            <button type="submit" name="delete" value="<?= $value['id_instruktur'] ?>"><i class="ri-delete-bin-6-line text-red-500"></i></button>
+                                            <button class="btn btn--outline-blue group"  type="submit" name="delete" value="<?= $value['id_instruktur'] ?>"><i class="ri-delete-bin-6-line text-red-500 group-hover:text-white"></i></button>
                                         </form>
                                     </td>
                                 </tr>

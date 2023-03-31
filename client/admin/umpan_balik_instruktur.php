@@ -3,7 +3,7 @@ include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
 user_access('Admin Akademik');
 
-$sql = "SELECT * FROM kuesioner_instruktur";
+$sql = "SELECT k.*, s.nama nama_siswa, i.nama nama_instruktur FROM kuesioner_instruktur k, siswa s, instruktur i WHERE k.id_siswa = s.id_siswa AND k.id_instruktur = i.id_instruktur";
 $result = $db->query($sql) or die($sql);
 $result->fetch_assoc();
 ?>
@@ -34,8 +34,8 @@ $result->fetch_assoc();
                         <?php foreach ($result as $key => $value) : ?>
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                <td class="px-6 py-4"></td>
-                                <td class="px-6 py-4"></td>
+                                <td class="px-6 py-4"><?= $value['nama_siswa'] ?></td>
+                                <td class="px-6 py-4"><?= $value['nama_instruktur'] ?></td>
                                 <td class="px-6 py-4"><?= $value['deskripsi'] ?></td>
                                 <td class="px-6 py-4"><?= $value['tgl_dibuat'] ?></td>
                             </tr>

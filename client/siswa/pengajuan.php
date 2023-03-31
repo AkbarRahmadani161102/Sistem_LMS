@@ -18,7 +18,7 @@ $data_tunggakan = $db->query($sql);
 
             <div class="flex gap-2 items-center">
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Pengajuan</h4>
-                <button class="px-4 py-2 bg-green-300 rounded" data-modal-target="add-pengajuan-modal" data-modal-toggle="add-pengajuan-modal">Ajukan Pengajuan</button>
+                <button class="btn" data-modal-target="add-pengajuan-modal" data-modal-toggle="add-pengajuan-modal">Ajukan Pengajuan</button>
             </div>
 
             <div class="relative overflow-x-auto">
@@ -51,12 +51,12 @@ $data_tunggakan = $db->query($sql);
     </div>
 </div>
 
-<div id="add-pengajuan-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-    <div class="relative w-full h-full max-w-2xl md:h-auto">
-        <div class="relative bg-white rounded-lg shadow">
+<div id="add-pengajuan-modal" tabindex="-1" aria-hidden="true" class="modal">
+    <div class="modal__backdrop">
+        <div class="modal__content">
             <!-- Modal header -->
-            <div class="flex items-start justify-between p-4 border-b rounded-t">
-                <h3 class="text-xl font-semibold text-gray-900">
+            <div class="modal__header">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                     Ajukan Pengajuan
                 </h3>
                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="add-pengajuan-modal">
@@ -66,9 +66,9 @@ $data_tunggakan = $db->query($sql);
                     <span class="sr-only">Close modal</span>
                 </button>
             </div>
-            <form action="../../api/siswa/pengajuan.php" method="post">
+            <form class="form" action="../../api/siswa/pengajuan.php" method="post">
                 <!-- Modal body -->
-                <div class="p-6 space-y-6">
+                <div class="modal__body">
                     <label class="block" for="judul">Judul</label>
                     <input id="judul" class="border rounded w-full py-1.5 px-2 border-gray-400 mt-1" name="judul" />
 
@@ -76,7 +76,7 @@ $data_tunggakan = $db->query($sql);
                     <textarea name="keterangan" id="keterangan" rows="4" class="border rounded w-full py-1.5 px-2 border-gray-400 mt-1" placeholder="Write your thoughts here..."></textarea>
                 </div>
                 <!-- Modal footer -->
-                <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
+                <div class="modal__footer">
                     <button data-modal-hide="add-pengajuan-modal" name="create" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
                     <button data-modal-hide="add-pengajuan-modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
                 </div>

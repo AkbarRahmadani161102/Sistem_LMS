@@ -28,7 +28,7 @@ user_access('siswa');
                     </thead>
                     <tbody>
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th class="px-6 py-4 text-amber-500"></th>
+                            <th class="px-6 py-4 text-amber-500">1</th>
                             <td class="px-6 py-4">Bahasa Indonesia</td>
                             <td class="px-6 py-4">Mega</td>
                             <td class="px-6 py-4">12 Maret 2022</td>
@@ -36,7 +36,7 @@ user_access('siswa');
                             <td class="px-6 py-4">14.00</td>
                         </tr>
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th class="px-6 py-4 text-amber-500"></th>
+                            <th class="px-6 py-4 text-amber-500">2</th>
                             <td class="px-6 py-4">Seni Budaya</td>
                             <td class="px-6 py-4">Maharani</td>
                             <td class="px-6 py-4">12 Maret 2022</td>

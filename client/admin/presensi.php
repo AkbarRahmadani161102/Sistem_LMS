@@ -15,11 +15,10 @@ $result->fetch_assoc();
             <?php include_once '../components/dashboard_navbar.php'; ?>
 
             <div class="flex items-center gap-5">
-                <h4 class="my-7 font-semibold text-gray-800 dark:text-white">presensi</h4>
-
+                <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Presensi</h4>
             </div>
 
-            <?php generate_breadcrumb([['title' => 'presensi', 'filename' => 'presensi.php']]); ?>
+            <?php generate_breadcrumb([['title' => 'Presensi', 'filename' => 'presensi.php']]); ?>
             <div class="relative overflow-x-auto mt-5">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

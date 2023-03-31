@@ -32,7 +32,7 @@ $menu_instruktur = [
     ],
     'ADMINISTRASI' => [
         ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>'],
-        ['Analisis Pendapatan', "../$role/analisis_pendapatan.php", '<i class="ri-line-chart-line"></i>'],
+        // ['Analisis Pendapatan', "../$role/analisis_pendapatan.php", '<i class="ri-line-chart-line"></i>'],
     ],
     'PENGATURAN' => [
         ['Preferensi', '../user/user_settings.php', '<i class="ri-settings-4-line"></i>'],
@@ -58,7 +58,7 @@ $menu_superadmin = [
     ],
     'ADMINISTRASI' => [
         ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>'],
-        ['Analisis Pendapatan', "../$role/analisis_pendapatan.php", '<i class="ri-line-chart-line"></i>'],
+        // ['Analisis Pendapatan', "../$role/analisis_pendapatan.php", '<i class="ri-line-chart-line"></i>'],
     ],
     'PENGATURAN' => [
         ['Preferensi', '../user/user_settings.php', '<i class="ri-settings-4-line"></i>'],
@@ -94,7 +94,7 @@ $menu_admin_keuangan = [
         ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
     ],
     'ADMINISTRASI' => [
-        ['Analisis Pendapatan', "../$role/analisis_pendapatan.php", '<i class="ri-line-chart-line"></i>'],
+        // ['Analisis Pendapatan', "../$role/analisis_pendapatan.php", '<i class="ri-line-chart-line"></i>'],
     ],
     'PENGATURAN' => [
         ['Preferensi', '../user/user_settings.php', '<i class="ri-settings-4-line"></i>'],
@@ -117,7 +117,7 @@ $menu_admin_akademik_keuangan = [
     ],
     'ADMINISTRASI' => [
         ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>'],
-        ['Analisis Pendapatan', "../$role/analisis_pendapatan.php", '<i class="ri-line-chart-line"></i>'],
+        // ['Analisis Pendapatan', "../$role/analisis_pendapatan.php", '<i class="ri-line-chart-line"></i>'],
     ],
     'PENGATURAN' => [
         ['Preferensi', '../user/user_settings.php', '<i class="ri-settings-4-line"></i>'],

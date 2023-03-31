@@ -37,7 +37,7 @@ if (isset($_GET['edit'])) {
             <div class="flex items-center gap-5">
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Kelas</h4>
                 <?php if (!isset($_GET['edit'])) : ?>
-                    <button data-modal-target="add_kelas_modal" data-modal-toggle="add_kelas_modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                    <button data-modal-target="add_kelas_modal" data-modal-toggle="add_kelas_modal" class="btn" type="button">
                         Tambah kelas
                     </button>
                 <?php endif ?>
@@ -127,13 +127,13 @@ if (isset($_GET['edit'])) {
                                         <?php endif ?>
                                     </td>
                                     <td class="px-6 py-4 flex gap-4">
-                                        <a href="?edit=<?= $value['id_kelas'] ?>" class="px-5 py-2 border border-blue-500 rounded group hover:bg-blue-500">
-                                            <i class="ri-edit-box-line text-blue-500 text-base group-hover:text-white"></i>
+                                        <a class="btn btn--outline-blue group" href="?edit=<?= $value['id_kelas'] ?>" class="px-5 py-2 border border-blue-500 rounded group hover:bg-blue-500">
+                                            <i class="ri-edit-box-line text-blue-500 group-hover:text-white"></i>
                                         </a>
                                         <?php if ($value['jumlah_siswa'] <= 1) : ?>
                                             <form action="../../api/admin/kelas.php" method="post">
-                                                <button type="submit" class="px-5 py-2 border border-red-500 rounded group hover:bg-red-500" name="delete" value="<?= $value['id_kelas'] ?>">
-                                                    <i class="ri-delete-bin-6-line text-red-500 text-base group-hover:text-white"></i>
+                                                <button type="submit" class="btn btn--outline-blue group" name="delete" value="<?= $value['id_kelas'] ?>">
+                                                    <i class="ri-delete-bin-6-line text-red-500 group-hover:text-white"></i>
                                                 </button>
                                             </form>
                                         <?php endif ?>

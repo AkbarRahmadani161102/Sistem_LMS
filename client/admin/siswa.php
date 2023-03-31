@@ -47,7 +47,7 @@ if (isset($_GET['edit'])) {
             <div class="flex items-center gap-5">
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Siswa</h4>
                 <?php if (!isset($_GET['edit'])) : ?>
-                    <button data-modal-target="add_siswa_modal" data-modal-toggle="add_siswa_modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                    <button data-modal-target="add_siswa_modal" data-modal-toggle="add_siswa_modal" class="btn" type="button">
                         Tambah Siswa
                     </button>
                 <?php endif ?>
@@ -167,12 +167,12 @@ if (isset($_GET['edit'])) {
                                     </td>
                                     <td class="px-6 py-4"> <?= $siswa['tgl_dibuat'] ?> </td>
 
-                                    <td class="px-6 py-4">
-                                        <a href="?edit=<?= $siswa['id_siswa'] ?>">
-                                            <i class="ri-edit-box-line text-blue-500"></i>
+                                    <td class="px-6 py-4 flex gap-2">
+                                        <a class="btn btn--outline-blue group" href="?edit=<?= $siswa['id_siswa'] ?>">
+                                            <i class="ri-edit-box-line text-blue-500 group-hover:text-white"></i>
                                         </a>
                                         <form action="../../api/admin/siswa.php" method="post">
-                                            <button type="submit" name="delete" value="<?= $siswa['id_siswa'] ?>"><i class="ri-delete-bin-6-line text-red-500"></i></button>
+                                            <button class="btn btn--outline-blue group" type="submit" name="delete" value="<?= $siswa['id_siswa'] ?>"><i class="ri-delete-bin-6-line text-red-500 group-hover:text-white"></i></button>
                                         </form>
                                     </td>
                                 </tr>

@@ -28,7 +28,7 @@ user_access('siswa');
                     </thead>
                     <tbody>
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th class="px-6 py-4 text-amber-500"></th>
+                            <th class="px-6 py-4 text-amber-500">1</th>
                             <td class="px-6 py-4">Mamat</td>
                             <td class="px-6 py-4">123</td>
                             <td class="px-6 py-4">Malang</td>

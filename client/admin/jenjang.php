@@ -17,7 +17,7 @@ $result->fetch_assoc();
             <div class="flex items-center gap-5">
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Jenjang</h4>
 
-                <button data-modal-target="add_jenjang_modal" data-modal-toggle="add_jenjang_modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                <button data-modal-target="add_jenjang_modal" data-modal-toggle="add_jenjang_modal" class="btn" type="button">
                     Tambah Jenjang
                 </button>
             </div>
@@ -35,15 +35,15 @@ $result->fetch_assoc();
                     <tbody>
                         <?php foreach ($result as $key => $value) : ?>
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th class="px-6 py-4 text-amber-500"><?= $key + 1?></th>
+                                <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
                                 <td class="px-6 py-4"><?= $value['nama'] ?></td>
                                 <td class="px-6 py-4 flex gap-4">
-                                    <button type="button" class="px-5 py-2 border border-blue-500 rounded group hover:bg-blue-500" data-modal-target="edit<?= $value['id_jenjang'] ?>" data-modal-toggle="edit<?= $value['id_jenjang'] ?>">
-                                        <i class="ri-edit-box-line text-blue-500 text-base group-hover:text-white"></i>
+                                    <button type="button" class="btn btn--outline-blue group" data-modal-target="edit<?= $value['id_jenjang'] ?>" data-modal-toggle="edit<?= $value['id_jenjang'] ?>">
+                                        <i class="ri-edit-box-line text-blue-500 group-hover:text-white"></i>
                                     </button>
                                     <form action="../../api/admin/jenjang.php" method="post">
-                                        <button type="submit" class="px-5 py-2 border border-red-500 rounded group hover:bg-red-500" name="delete" value="<?= $value['id_jenjang'] ?>">
-                                            <i class="ri-delete-bin-6-line text-red-500 text-base group-hover:text-white"></i>
+                                        <button type="submit" class="btn btn--outline-blue group" name="delete" value="<?= $value['id_jenjang'] ?>">
+                                            <i class="ri-delete-bin-6-line text-red-500 group-hover:text-white"></i>
                                         </button>
                                     </form>
                                 </td>
@@ -72,7 +72,7 @@ $result->fetch_assoc();
                                             </div>
                                             <!-- Modal footer -->
                                             <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                                <button data-modal-hide="add_jenjang_modal" type="submit" name="update" value="<?= $value['id_jenjang']?>" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Ubah</button>
+                                                <button data-modal-hide="add_jenjang_modal" type="submit" name="update" value="<?= $value['id_jenjang'] ?>" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Ubah</button>
                                             </div>
                                         </form>
                                     </div>

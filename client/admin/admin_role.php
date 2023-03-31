@@ -17,7 +17,7 @@ $result->fetch_assoc();
             <div class="flex items-center gap-5">
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Role Admin</h4>
 
-                <button data-modal-target="add_role_modal" data-modal-toggle="add_role_modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                <button data-modal-target="add_role_modal" data-modal-toggle="add_role_modal" class="btn" type="button">
                     Tambah Role
                 </button>
             </div>
@@ -38,24 +38,24 @@ $result->fetch_assoc();
                                 <th class="px-6 py-4 text-amber-500"></th>
                                 <td class="px-6 py-4"><?= $value['title'] ?></td>
                                 <td class="px-6 py-4 flex gap-4">
-                                    <button type="button" class="px-5 py-2 border border-blue-500 rounded group hover:bg-blue-500" data-modal-target="edit<?= $value['id_role'] ?>" data-modal-toggle="edit<?= $value['id_role'] ?>">
-                                        <i class="ri-edit-box-line text-blue-500 text-base group-hover:text-white"></i>
+                                    <button type="button" class="btn btn--outline-blue group" data-modal-target="edit<?= $value['id_role'] ?>" data-modal-toggle="edit<?= $value['id_role'] ?>">
+                                        <i class="ri-edit-box-line text-blue-500 group-hover:text-white"></i>
                                     </button>
                                     <form action="../../api/admin/admin_role.php" method="post">
-                                        <button type="submit" class="px-5 py-2 border border-red-500 rounded group hover:bg-red-500" name="delete" value="<?= $value['id_role'] ?>">
-                                            <i class="ri-delete-bin-6-line text-red-500 text-base group-hover:text-white"></i>
+                                        <button type="submit" class="btn btn--outline-blue group" name="delete" value="<?= $value['id_role'] ?>">
+                                            <i class="ri-delete-bin-6-line text-red-500 group-hover:text-white"></i>
                                         </button>
                                     </form>
                                 </td>
                             </tr>
 
-                            <div id="edit<?= $value['id_role'] ?>" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-                                <div class="relative w-full h-full max-w-2xl md:h-auto">
+                            <div id="edit<?= $value['id_role'] ?>" tabindex="-1" aria-hidden="true" class="modal">
+                                <div class="modal__backdrop">
                                     <!-- Modal content -->
-                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                    <div class="modal__content">
                                         <!-- Modal header -->
                                         <form action="../../api/admin/admin_role.php" method="post">
-                                            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                                            <div class="modal__header">
                                                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                                                     Edit Role <?= $value['title'] ?>
                                                 </h3>
@@ -67,12 +67,12 @@ $result->fetch_assoc();
                                                 </button>
                                             </div>
                                             <!-- Modal body -->
-                                            <div class="p-6 space-y-6">
-                                                <input type="text" name="title" class="w-full p-3 rounded" value="<?= $value['title'] ?>">
+                                            <div class="modal__body">
+                                                <input type="text" name="title" class="input" value="<?= $value['title'] ?>">
                                             </div>
                                             <!-- Modal footer -->
-                                            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                                <button type="submit" name="update" value="<?= $value['id_role']?>" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Ubah</button>
+                                            <div class="modal__footer">
+                                                <button type="submit" name="update" value="<?= $value['id_role'] ?>" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Ubah</button>
                                             </div>
                                         </form>
                                     </div>
@@ -87,13 +87,13 @@ $result->fetch_assoc();
     </div>
 </div>
 
-<div id="add_role_modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-    <div class="relative w-full h-full max-w-2xl md:h-auto">
+<div id="add_role_modal" tabindex="-1" aria-hidden="true" class="modal">
+    <div class="modal__backdrop">
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div class="modal__content">
             <!-- Modal header -->
-            <form action="../../api/admin/admin_role.php" method="post">
-                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+            <form class="form" action="../../api/admin/admin_role.php" method="post">
+                <div class="modal__header">
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                         Tambah Role
                     </h3>
@@ -105,12 +105,13 @@ $result->fetch_assoc();
                     </button>
                 </div>
                 <!-- Modal body -->
-                <div class="p-6 space-y-6">
-                    <input type="text" name="title" class="w-full p-3 rounded">
+                <div class="modal__body">
+                    <label for="title">Nama role</label>
+                    <input id="title" type="text" name="title" class="input">
                 </div>
                 <!-- Modal footer -->
-                <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button ype="submit" name="create" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Ubah</button>
+                <div class="modal__footer">
+                    <button ype="submit" name="create" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Tambah</button>
                 </div>
             </form>
         </div>

@@ -158,12 +158,12 @@ if (isset($_GET['edit'])) {
                                     <td class="px-6 py-4"><?= $jadwal['jam_mulai'] ?></td>
                                     <td class="px-6 py-4"><?= $jadwal['jam_selesai'] ?></td>
                                     <td class="px-6 py-4 flex gap-4">
-                                        <a href="?edit=<?= $jadwal['id_jadwal'] ?>" type="button" class="px-5 py-2 border border-blue-500 rounded group hover:bg-blue-500">
-                                            <i class="ri-edit-box-line text-blue-500 text-base group-hover:text-white"></i>
+                                        <a class="btn btn--outline-blue group" href="?edit=<?= $jadwal['id_jadwal'] ?>" type="button" class="px-5 py-2 border border-blue-500 rounded group hover:bg-blue-500">
+                                            <i class="ri-edit-box-line text-blue-500 group-hover:text-white"></i>
                                         </a>
                                         <form action="../../api/admin/jadwal.php" method="post">
-                                            <button type="submit" class="px-5 py-2 border border-red-500 rounded group hover:bg-red-500" name="delete" value="<?= $jadwal['id_jadwal'] ?>">
-                                                <i class="ri-delete-bin-6-line text-red-500 text-base group-hover:text-white"></i>
+                                            <button class="btn btn--outline-blue group" type="submit" class="px-5 py-2 border border-red-500 rounded group hover:bg-red-500" name="delete" value="<?= $jadwal['id_jadwal'] ?>">
+                                                <i class="ri-delete-bin-6-line text-red-500 group-hover:text-white"></i>
                                             </button>
                                         </form>
                                     </td>

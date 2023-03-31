@@ -29,9 +29,6 @@ $data_user = $db->query($sql)->fetch_assoc();
                             </div>
 
                             <div class="pt-5 flex flex-1 gap-11 flex-col lg:flex-row">
-
-
-
                                 <?php if ($_SESSION['role'] === 'siswa') : ?>
                                     <div class="flex flex-1 flex-col p-5 rounded-[1rem] border gap-9">
                                         <h5 class="font-semibold mb-3">Informasi Personal</h5>
@@ -133,20 +130,20 @@ $data_user = $db->query($sql)->fetch_assoc();
                 <div class="mt-5 flex flex-col lg:flex-row gap-5 p-3 lg:p-20 bg-white dark:bg-gray-700 rounded">
                     <div class="bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg px-5 py-4 flex flex-1 flex-col justify-between">
                         <h5 class="my-3 font-semibold text-slate-800 dark:text-white">Ubah Data Profil</h5>
-                        <form class="w-full" action="../../api/user/user_settings.php" method="post">
-                            <div class="mb-5">
+                        <form class="form" action="../../api/user/user_settings.php" method="post">
+                            <div class="mb-5 space-y-2">
                                 <label for="nama" class="form-label text-secondary text-gray-400">Nama Lengkap</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="nama" name="nama" value="<?= $data_user['nama'] ?>" maxlength="50" required>
+                                <input type="text" class="input" id="nama" name="nama" value="<?= $data_user['nama'] ?>" maxlength="50" required>
                             </div>
-                            <div class="mb-5">
+                            <div class="mb-5 space-y-2">
                                 <label for="no_telp" class="form-label text-secondary text-gray-400">Nomor Telepon</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="no_telp" name="no_telp" value="<?= $data_user['no_telp'] ?>" maxlength="14" required>
+                                <input type="text" class="input" id="no_telp" name="no_telp" value="<?= $data_user['no_telp'] ?>" maxlength="14" required>
                             </div>
-                            <div class="mb-5">
+                            <div class="mb-5 space-y-2">
                                 <label for="alamat" class="form-label text-secondary text-gray-400">Alamat</label>
-                                <textarea class="border rounded w-full py-1.5 border-gray-400 mt-1 resize-none" id="alamat" name="alamat" required maxlength="40"><?= $data_user['alamat'] ?></textarea>
+                                <textarea class="input resize-none" id="alamat" name="alamat" required maxlength="40"><?= $data_user['alamat'] ?></textarea>
                             </div>
-                            <button type="submit" class="w-full bg-green-500 rounded py-1.5 text-white" name="update_profil">Ubah Profil</button>
+                            <button type="submit" class="btn w-full bg-green-500 dark:bg-green-500 text-white dark:text-white" name="update_profil">Ubah Profil</button>
                         </form>
                     </div>
 
@@ -154,20 +151,20 @@ $data_user = $db->query($sql)->fetch_assoc();
 
                     <div class="bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg px-5 py-4 flex flex-1 flex-col justify-between">
                         <h5 class="my-3 font-semibold text-slate-800 dark:text-white">Ubah Data Kredensial</h5>
-                        <form class="w-full" action="../../api/user/user_settings.php" method="post">
-                            <div class="mb-5">
+                        <form class="form" action="../../api/user/user_settings.php" method="post">
+                            <div class="mb-5 space-y-2">
                                 <label for="email" class="form-label text-secondary text-gray-400">Email</label>
-                                <input type="email" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="email" name="email" value="<?= $data_user['email'] ?>" maxlength="30" required>
+                                <input type="email" class="input" id="email" name="email" value="<?= $data_user['email'] ?>" maxlength="30" required>
                             </div>
-                            <div class="mb-5">
+                            <div class="mb-5 space-y-2">
                                 <label for="password" class="form-label text-secondary text-gray-400">Password</label>
-                                <input type="password" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="password" name="password" maxlength="50" required>
+                                <input type="password" class="input" id="password" name="password" maxlength="50" required>
                             </div>
-                            <div class="mb-5">
+                            <div class="mb-5 space-y-2">
                                 <label for="confirm_password" class="form-label text-secondary text-gray-400">Konfirmasi Password</label>
-                                <input type="password" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="confirm_password" name="confirm_password" maxlength="50" required>
+                                <input type="password" class="input" id="confirm_password" name="confirm_password" maxlength="50" required>
                             </div>
-                            <button type="submit" class="w-full bg-red-500 rounded py-1.5 text-white" name="update_kredensial">Ubah Kredensial</button>
+                            <button type="submit" class="btn w-full bg-red-500 dark:bg-red-500 text-white dark:text-white" name="update_kredensial">Ubah Kredensial</button>
                         </form>
                     </div>
                 </div>
