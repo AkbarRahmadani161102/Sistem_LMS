@@ -13,6 +13,7 @@
 }
 
 @layer base {
+    
     html {
         font-family: Monserrat;
     }
@@ -90,3 +91,24 @@
         @apply text-amber-500;
     }
 }
+
+@layer utilities {
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+  
+    ::-webkit-scrollbar-track {
+      background: #6b7280;
+    }
+  
+    ::-webkit-scrollbar-thumb {
+        background-color: #fff;
+      border-radius: 100vh;
+      border: 1px solid #fff;
+    }
+  
+    ::-webkit-scrollbar-thumb:hover {
+      background: #374151;
+    }
+  }
