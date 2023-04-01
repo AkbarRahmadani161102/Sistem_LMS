@@ -11,8 +11,17 @@ if (isset($_POST['create'])) {
     if ($jam_mulai < $jam_selesai) {
         $sql = "INSERT INTO jadwal (id_mapel, id_kelas, hari, jam_mulai, jam_selesai) VALUES ('$id_mapel', '$id_kelas', '$hari', '$jam_mulai', '$jam_selesai')";
         $db->query($sql) or die($db->error);
-    }
 
+        $id_jadwal = $db->insert_id;
+        redirect("../../client/admin/jadwal.php?assign_instruktur=$id_jadwal");
+    }
+}
+
+if (isset($_POST['assign_instruktur'])) {
+    $id_jadwal = $_POST['assign_instruktur'];
+    $id_instruktur = $_POST['instruktur'];
+    $sql = "UPDATE jadwal SET id_instruktur = '$id_instruktur' WHERE id_jadwal = '$id_jadwal'";
+    $db->query($sql) or die($db->error);
 }
 
 if (isset($_POST['update'])) {

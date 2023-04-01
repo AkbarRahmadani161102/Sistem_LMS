@@ -19,7 +19,7 @@
                 <input type="hidden" name="role" value="siswa">
                 <button type="submit" class="btn w-full bg-amber-500 dark:bg-amber-500 dark:text-white" name="login">Login</button>
             </form>
-            <p class="text-center text-gray-400 dark:text-white">Belum memiliki akun? <a class="text-orange-500" href="./register.php">Klik Disini</a></p>
+            <p class="text-center text-gray-400 dark:text-white">Belum memiliki akun? <a class="text-amber-500" href="./register.php">Klik Disini</a></p>
         </div>
     </div>
 </div>

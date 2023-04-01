@@ -50,6 +50,7 @@ $menu_superadmin = [
     ],
     'KBM' => [
         ['Jadwal', "../$role/jadwal.php", '<i class="ri-stack-line"></i>'],
+        ['Pertemuan', "../$role/pertemuan.php", '<i class="ri-calendar-event-line"></i>'],
         ['Jenjang', "../$role/jenjang.php", '<i class="ri-stack-line"></i>'],
         ['Kelas', "../$role/kelas.php", '<i class="ri-bookmark-3-line"></i>'],
         ['Mapel', "../$role/mapel.php", '<i class="ri-book-2-line"></i>'],
@@ -74,6 +75,7 @@ $menu_admin_akademik = [
     ],
     'KBM' => [
         ['Jadwal', "../$role/jadwal.php", '<i class="ri-stack-line"></i>'],
+        ['Pertemuan', "../$role/pertemuan.php", '<i class="ri-calendar-event-line"></i>'],
         ['Jenjang', "../$role/jenjang.php", '<i class="ri-stack-line"></i>'],
         ['Kelas', "../$role/kelas.php", '<i class="ri-bookmark-3-line"></i>'],
         ['Mapel', "../$role/mapel.php", '<i class="ri-book-2-line"></i>'],
@@ -110,6 +112,7 @@ $menu_admin_akademik_keuangan = [
     ],
     'KBM' => [
         ['Jenjang', "../$role/jenjang.php", '<i class="ri-stack-line"></i>'],
+        ['Pertemuan', "../$role/pertemuan.php", '<i class="ri-calendar-event-line"></i>'],
         ['Kelas', "../$role/kelas.php", '<i class="ri-bookmark-3-line"></i>'],
         ['Mapel', "../$role/mapel.php", '<i class="ri-book-2-line"></i>'],
         ['Penilaian', "../$role/penilaian.php", '<i class="ri-star-line"></i>'],

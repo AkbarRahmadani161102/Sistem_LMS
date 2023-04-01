@@ -91,7 +91,6 @@ if (isset($_POST['update_mapel'])) {
             $db->query($sql) or die($db->error);
         }
     }
-    redirect("../../client/admin/instruktur.php?edit=$id_instruktur");
 }
 if (isset($_POST['delete'])) {
     $id_instruktur = escape($_POST['delete']);
@@ -112,5 +111,5 @@ if (isset($_POST['delete'])) {
 
     $sql = "DELETE FROM penilaian WHERE id_instruktur = '$id_instruktur'";
     $db->query($sql) or die($db->error);
-    redirect("../../client/admin/instruktur.php");
 }
+redirect("../../client/admin/instruktur.php");
