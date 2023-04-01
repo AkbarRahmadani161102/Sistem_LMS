@@ -20,7 +20,12 @@ $data_kelas->fetch_assoc();
 
 if (isset($_GET['edit'])) {
     $id_siswa = $_GET['edit'];
-    $sql = "SELECT s.*, k.nama nama_kelas, j.nama nama_jenjang FROM siswa s, jenjang j, kelas k, detail_kelas dk WHERE s.id_siswa = dk.id_siswa AND dk.id_kelas = k.id_kelas AND k.id_jenjang = j.id_jenjang AND s.id_siswa = '$id_siswa'";
+    $sql = "SELECT s.*, k.nama nama_kelas, j.nama nama_jenjang FROM siswa s
+    LEFT JOIN detail_kelas dk ON s.id_siswa = dk.id_siswa
+    LEFT JOIN kelas k ON k.id_kelas = dk.id_kelas
+    LEFT JOIN jenjang j ON j.id_jenjang = k.id_jenjang
+    WHERE s.id_siswa = '$id_siswa'
+    ";
     $result = $db->query($sql) or die($db);
     $result = $result->fetch_assoc();
 
@@ -31,7 +36,6 @@ if (isset($_GET['edit'])) {
     foreach ($data_kelas_siswa as $key => $value) {
         $data_kelas_siswa_arr[] = $value['nama'];
     }
-    print_r($data_kelas_siswa_arr);
 } else {
     $sql = "SELECT * FROM siswa";
     $data_siswa = $db->query($sql) or die($db);
@@ -59,11 +63,11 @@ if (isset($_GET['edit'])) {
                         <div class="flex-1 flex flex-col">
                             <div class="mb-5">
                                 <label for="nama" class="form-label text-secondary text-gray-400 dark:text-white">Nama</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="nama" name="nama" value="<?= $result['nama'] ?>" maxlength="50" required>
+                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="nama" name="nama" value="<?= $result['nama'] ?>" maxlength="50">
                             </div>
                             <div class="mb-5">
                                 <label for="no_telp" class="form-label text-secondary text-gray-400 dark:text-white">No Telp</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="no_telp" name="no_telp" value="<?= $result['no_telp'] ?>" maxlength="14" required>
+                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="no_telp" name="no_telp" value="<?= $result['no_telp'] ?>" maxlength="14">
                             </div>
                             <div class="mb-5">
                                 <label for="alamat" class="form-label text-secondary text-gray-400 dark:text-white">Alamat</label>
@@ -73,11 +77,11 @@ if (isset($_GET['edit'])) {
                         <div class="flex-1 flex flex-col">
                             <div class="mb-5">
                                 <label for="email" class="form-label text-secondary text-gray-400 dark:text-white">Email</label>
-                                <input type="email" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="email" name="email" value="<?= $result['email'] ?>" maxlength="30" required>
+                                <input type="email" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="email" name="email" value="<?= $result['email'] ?>" maxlength="30">
                             </div>
                             <div class="mb-5">
                                 <label for="password" class="form-label text-secondary text-gray-400 dark:text-white">Password</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="password" name="password" value="<?= $result['password'] ?>" maxlength="50" required>
+                                <input type="password" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="password" name="password" value="<?= $result['password'] ?>" maxlength="50">
                             </div>
                         </div>
                         <div class="flex flex-1 flex-col gap-5">
