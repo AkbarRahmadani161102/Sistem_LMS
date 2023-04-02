@@ -8,10 +8,7 @@ function user_access($role)
 
     if ($param_type === 'array') {
         $detail_role = $_SESSION['detail_role'];
-        // print_r($detail_role);
-        // echo "<br>";
-        // print_r($role);
-
+ 
         $has_access = false;
         foreach ($detail_role as $current_role) {
             if (in_array($current_role['title'], $role)) {
@@ -22,15 +19,7 @@ function user_access($role)
 
         if (!$has_access)
             redirect('../../client/admin/login.php');
-
-        // $detail_role_titles = [];
-        // foreach ($detail_role as $key => $value)
-        //     $detail_role_titles[] = $value['title'];
-
-
-        // if (!in_array($role, $detail_role_titles) && $value['title'] !== 'Super Admin')
-        //     redirect('../../client/admin/index.php');
-        //     return;
+       
     } else {
         $current_session = $_SESSION['role'];
         if (!$current_session)
