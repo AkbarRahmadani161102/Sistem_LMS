@@ -87,11 +87,11 @@ $result->fetch_assoc();
                             </div>
                             <div class="mb-5">
                                 <label for="Ket" class="form-label text-secondary text-gray-400 dark:text-white">Keterangan Penilaian</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="Ket" name="Ket" maxlength="50" required>
+                                <textarea type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="Ket" name="Ket" maxlength="50" required> </textarea>
                             </div>
                             <div class="mb-5">
                                 <label for="Instruktur" class="form-label text-secondary text-gray-400 dark:text-white">Instruktur</label>
-                                <textarea class="resize-none border rounded w-full py-1.5 border-gray-400 mt-1" name="Instruktur" id=""  maxlength="50"></textarea>
+                                <input class="resize-none border rounded w-full py-1.5 border-gray-400 mt-1" name="Instruktur" id="Instruktur"  maxlength="50"></input>
                             </div>
                         </div>
                         <div class="flex-1 flex flex-col" method="post">
