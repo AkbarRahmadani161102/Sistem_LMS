@@ -1,8 +1,13 @@
 <?php
 include_once '../../api/util/db.php';
 include_once '../components/dashboard_breadcrumb.php';
-$sql = "SELECT * FROM instruktur";
-$data_instruktur = $db->query($sql);
+
+$role = $_SESSION['role'];
+if ($role !== 'admin') {
+    $user_id = $_SESSION['user_id'];
+    $sql = "SELECT * FROM notifikasi_$role WHERE id_$role = '$user_id' AND status = 'Pending'";
+    $data_notifikasi = $db->query($sql) or die($db->error);
+}
 ?>
 
 <div class="max-w-full flex text-gray-800 dark:text-white">
@@ -20,7 +25,48 @@ $data_instruktur = $db->query($sql);
         </label>
         <p id="live-clock" class="m-0 me-3 font-semibold"></p>
 
-        <a href="./notifikasi.php" class="rounded-full px-3 py-1.5 border hover:bg-amber-500 hover:border-amber-500 hover:text-white transition active:translate-y-1"><i class="ri-notification-line"></i></a>
+        <button data-dropdown-toggle="notifikasi_dropdown" class="relative rounded-full px-3 py-1.5 border hover:bg-amber-500 hover:border-amber-500 hover:text-white transition active:translate-y-1">
+            <?php if ($role !== 'admin' && $data_notifikasi->num_rows > 0) : ?>
+                <i class="ri-checkbox-blank-circle-fill text-red-500 absolute -top-[3px] -right-[3px]"></i>
+            <?php endif ?>
+            <i class="ri-notification-line"></i>
+        </button>
+
+        <div id="notifikasi_dropdown" class="z-20 hidden w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700" aria-labelledby="dropdownNotificationButton">
+            <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800 dark:text-white">
+                Notifikasi
+            </div>
+            <div class="divide-y divide-gray-100 dark:divide-gray-700">
+                <?php if ($role !== 'admin' && $data_notifikasi->num_rows <= 0) : ?>
+                    <div class="flex w-full p-2 py-4 justify-center">
+                        <p>Tidak ada notifikasi</p>
+                    </div>
+                <?php endif ?>
+                <?php while ($role !== 'admin' && $notifikasi = $data_notifikasi->fetch_assoc()) : ?>
+                    <div class="flex px-4 py-3 group relative">
+                        <div class="w-full pl-3">
+                            <div class="text-gray-500 text-sm mb-1.5 dark:text-gray-400"><?= $notifikasi['deskripsi'] ?></div>
+                            <div class="text-xs text-blue-600 dark:text-blue-500">
+                                <?php if (date('Y-m-d') === $notifikasi['tgl_dibuat']) : ?>
+                                    Hari ini
+                                <?php else : echo $notifikasi['tgl_dibuat']; ?>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        <form class="absolute invisible right-1 bottom-2 group-hover:visible transition" action="../../api/user/notifikasi.php" method="post">
+                            <input type="hidden" name="id_notifikasi" value="<?= $notifikasi["id_notifikasi_$role"] ?>">
+                            <button class="text-xs text-blue-600 dark:text-blue-500" name="change_status" value="Selesai" type="submit">Tandai sebagai selesai <i class="ri-check-double-line "></i></button>
+                        </form>
+                    </div>
+                <?php endwhile ?>
+            </div>
+            <a href="../user/notifikasi.php" class="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white">
+                <div class="inline-flex items-center">
+                    <i class="ri-eye-line mr-1"></i>
+                    Lihat Histori
+                </div>
+            </a>
+        </div>
 
         <hr class="vr hidden md:block">
 
@@ -38,8 +84,8 @@ $data_instruktur = $db->query($sql);
             </p>
         </div>
 
-        <button data-dropdown-toggle="dropdown" class="ml-5" type="button"><i class="ri-arrow-down-s-line text-2xl hover:text-amber-500"></i></button>
-        <div id="dropdown" class="z-10 hidden bg-white rounded-lg shadow-lg">
+        <button data-dropdown-toggle="settings_dropdown" class="ml-5" type="button"><i class="ri-arrow-down-s-line text-2xl hover:text-amber-500"></i></button>
+        <div id="settings_dropdown" class="z-10 hidden bg-white rounded-lg shadow-lg">
             <ul class="text-sm text-gray-700">
                 <a href="../user/user_settings.php" class="block px-4 py-2 hover:bg-amber-500 rounded hover:text-white gap-2 flex align-center"><i class="ri-settings-4-line"></i> Pengaturan</a>
                 <button id="theme-toggle" type="button" class="block px-4 py-2 hover:bg-amber-500 rounded hover:text-white gap-2 flex align-center w-full">
@@ -48,46 +94,9 @@ $data_instruktur = $db->query($sql);
                     <i id="theme-toggle-light-icon" class="hidden ri-sun-line"></i>
                     <span id="theme-toggle-light-icon-text" class="hidden font-medium">Dark Mode</span>
                 </button>
-                <button data-modal-target="add_umpan_balik_sistem_modal" data-modal-toggle="add_umpan_balik_sistem_modal" class="block px-4 py-2 hover:bg-amber-500 rounded hover:text-white gap-2 flex align-center w-full">
-                    <i class="ri-chat-settings-line"></i> <span class="font-medium">Feedback Sistem</span>
-                </button>
                 <hr>
                 <a href="../../api/auth/logout.php" class="block px-4 py-2 hover:bg-amber-500 rounded hover:text-white gap-2 flex align-center"><i class="ri-door-open-line"></i>Keluar</a>
             </ul>
-        </div>
-    </div>
-</div>
-
-<div id="add_umpan_balik_sistem_modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-    <div class="relative w-full h-full max-w-2xl md:h-auto">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <!-- Modal header -->
-            <form action="../../api/user/umpan_balik_sistem.php" class="flex flex-col gap-3" method="post">
-                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                    <div class="flex flex-col text-gray-900 dark:text-white gap-3">
-                        <h3 class="text-xl font-semibold">
-                            Feedback Sistem
-                        </h3>
-                        <p class="text-sm">Silahkan isi kolom deskripsi untuk membantu kami dalam pengembangan sistem selanjutnya</p>
-                    </div>
-                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="add_umpan_balik_sistem_modal">
-                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="p-4 space-y-6">
-                    <label for="deskripsi" class="text-gray-900 dark:text-white">Deskripsi</label>
-                    <textarea name="deskripsi" id="deskripsi" cols="30" rows="10" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
-                </div>
-                <!-- Modal footer -->
-                <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button type="submit" name="create" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>

@@ -86,10 +86,10 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
                         <h4>Ketersediaan Kelas</h4>
                     </div>
                     <?php foreach ($data_kelas as $key => $value) : ?>
-                        <div class="flex flex-col flex-1 rounded-lg p-5 bg-white dark:bg-gray-500">
+                        <div class="flex flex-col flex-1 rounded-lg p-3 bg-white dark:bg-gray-500">
                             <div class="flex justify-between">
-                                <h6><?= $value['nama'] ?></h6>
-                                <h6 class="<?= $value['status'] === 'Reguler' ? 'text-green-500' : 'text-amber-500' ?>"><?= $value['status'] ?></h6>
+                                <p><?= $value['nama'] ?></p>
+                                <p class="<?= $value['status'] === 'Reguler' ? 'text-green-500' : 'text-amber-500' ?>"><?= $value['status'] ?></p>
                             </div>
                         </div>
                     <?php endforeach ?>

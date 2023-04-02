@@ -20,8 +20,24 @@ if (isset($_POST['create'])) {
 if (isset($_POST['assign_instruktur'])) {
     $id_jadwal = $_POST['assign_instruktur'];
     $id_instruktur = $_POST['instruktur'];
-    $sql = "UPDATE jadwal SET id_instruktur = '$id_instruktur' WHERE id_jadwal = '$id_jadwal'";
-    $db->query($sql) or die($db->error);
+    $sql = "SELECT * FROM jadwal WHERE id_jadwal = '$id_jadwal'";
+    $data_jadwal = $db->query($sql) or die($db->error);
+    $data_jadwal = $data_jadwal->fetch_assoc();
+
+    $sql = "SELECT * FROM jadwal WHERE id_instruktur = '$id_instruktur'";
+    $data_instruktur = $db->query($sql) or die($db->error);
+    $data_instruktur = $data_instruktur->fetch_assoc();
+
+    // Mengecek apabila instruktur memiliki jadwal di hari dan jam yang sama
+    $jadwal_hari = $data_jadwal['hari'];
+    $jadwal_jam_mulai = $data_jadwal['jam_mulai'];
+    $instruktur_hari = isset($data_instruktur['hari']) ? $data_instruktur['hari'] : '';
+    $instruktur_jam_mulai = isset($data_instruktur['jam_mulai']) ? $data_instruktur['jam_mulai'] : '';
+
+    if ($jadwal_hari !== $instruktur_hari || $jadwal_jam_mulai !== $instruktur_jam_mulai) {
+        $sql = "UPDATE jadwal SET id_instruktur = '$id_instruktur' WHERE id_jadwal = '$id_jadwal'";
+        $db->query($sql) or die($db->error);
+    }
 }
 
 if (isset($_POST['update'])) {
