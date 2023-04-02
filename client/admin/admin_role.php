@@ -1,7 +1,7 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access('Super Admin');
+user_access(['Super Admin']);
 
 $sql = "SELECT * FROM role";
 $result = $db->query($sql) or die($sql);

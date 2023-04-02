@@ -1,7 +1,7 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access('Admin Akademik');
+user_access(['Super Admin', 'Admin Akademik']);
 
 $sql = "SELECT k.*, s.nama nama_siswa, i.nama nama_instruktur FROM kuesioner_instruktur k, siswa s, instruktur i WHERE k.id_siswa = s.id_siswa AND k.id_instruktur = i.id_instruktur";
 $result = $db->query($sql) or die($sql);

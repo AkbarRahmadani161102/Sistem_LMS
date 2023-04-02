@@ -1,6 +1,6 @@
 <?php
 include_once('../template/header.php');
-user_access('admin');
+user_access(['Super Admin', 'Admin Akademik', 'Admin Keuangan']);
 
 $sql = "SELECT p.*, s.nama nama_siswa FROM pengajuan p, siswa s WHERE p.id_siswa = s.id_siswa LIMIT 6";
 $data_pengajuan_siswa = $db->query($sql) or die($sql);

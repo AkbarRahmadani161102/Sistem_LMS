@@ -1,8 +1,7 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access('Admin Akademik');
-
+user_access(['Super Admin', 'Admin Akademik']);
 $sql = "SELECT * FROM jenjang";
 $data_jenjang = $db->query($sql) or die($db->error);
 $data_jenjang->fetch_assoc();

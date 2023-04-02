@@ -1,7 +1,7 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access('Super Admin');
+user_access(['Super Admin', 'Admin Akademik']);
 
 $hari = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
 $jam_kbm = ["14:30:00", "15:30:00", "16:30:00", "17:30:00"];

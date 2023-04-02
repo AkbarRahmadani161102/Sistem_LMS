@@ -1,7 +1,7 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access('Admin Akademik');
+user_access(['Super Admin', 'Admin Akademik']);
 
 $sql = "SELECT m.*, j.id_jenjang id_jenjang, j.nama nama_jenjang FROM mapel m, jenjang j WHERE m.id_jenjang = j.id_jenjang";
 $result = $db->query($sql) or die($sql);

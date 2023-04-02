@@ -1,10 +1,7 @@
 <?php
-
-use function PHPSTORM_META\map;
-
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access('Super Admin');
+user_access(['Super Admin', 'Admin Akademik']);
 $sql = "SELECT * FROM jenjang";
 $data_jenjang = $db->query($sql) or die($db);
 $data_jenjang->fetch_assoc();
@@ -176,11 +173,11 @@ if (isset($_GET['edit'])) {
                                         ?>
                                     </td>
                                     <td class="px-6 py-4 flex gap-2">
-                                        <a class="btn btn--outline-blue group"  href="?edit=<?= $value['id_instruktur'] ?>">
+                                        <a class="btn btn--outline-blue group" href="?edit=<?= $value['id_instruktur'] ?>">
                                             <i class="ri-edit-box-line text-blue-500 group-hover:text-white"></i>
                                         </a>
                                         <form action="../../api/admin/instruktur.php" method="post">
-                                            <button class="btn btn--outline-blue group"  type="submit" name="delete" value="<?= $value['id_instruktur'] ?>"><i class="ri-delete-bin-6-line text-red-500 group-hover:text-white"></i></button>
+                                            <button class="btn btn--outline-blue group" type="submit" name="delete" value="<?= $value['id_instruktur'] ?>"><i class="ri-delete-bin-6-line text-red-500 group-hover:text-white"></i></button>
                                         </form>
                                     </td>
                                 </tr>

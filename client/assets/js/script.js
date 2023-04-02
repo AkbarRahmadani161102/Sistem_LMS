@@ -16,7 +16,7 @@ $(document).ready(() => {
 
     $('nav#dashboard-sidebar a').each(function () {
         const href = $(this).attr('href')
-        typeof href !== "undefined"
+        href
             && href.match(/(.*)\/(.*.php)(.*)/)[2] === urlFilename
             && $(this).addClass('active')
     })
