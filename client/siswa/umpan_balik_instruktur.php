@@ -17,7 +17,7 @@ $data_umpan_balik = $db->query($sql);
 
             <div class="flex gap-2 items-center">
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Umpan Balik Instruktur</h4>
-                <button class="px-4 py-2 bg-green-300 rounded flex items-center" data-modal-target="add-feedback-modal" data-modal-toggle="add-feedback-modal"><i class="ri-feedback-line"></i> Isi Feedback</button>
+                <button class="btn" data-modal-target="add-feedback-modal" data-modal-toggle="add-feedback-modal">Isi Feedback</button>
             </div>
 
             <div class="relative overflow-x-auto">
@@ -55,12 +55,12 @@ $data_umpan_balik = $db->query($sql);
     </div>
 </div>
 
-<div id="add-feedback-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-    <div class="relative w-full h-full max-w-2xl md:h-auto">
-        <div class="relative bg-white rounded-lg shadow">
+<div id="add-feedback-modal" tabindex="-1" aria-hidden="true" class="modal">
+    <div class="modal__backdrop">
+        <div class="modal__content">
             <!-- Modal header -->
-            <div class="flex items-start justify-between p-4 border-b rounded-t">
-                <h3 class="text-xl font-semibold text-gray-900">
+            <div class="modal__header">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                     Tambah Feedback
                 </h3>
                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="add-feedback-modal">
@@ -70,29 +70,29 @@ $data_umpan_balik = $db->query($sql);
                     <span class="sr-only">Close modal</span>
                 </button>
             </div>
-            <form action="../../api/siswa/umpan_balik.php" method="post">
+            <form class="form" action="../../api/siswa/umpan_balik.php" method="post">
                 <!-- Modal body -->
-                <div class="p-6 space-y-6">
+                <div class="modal__body">
                     <label class="block" for="id_instruktur">Instruktur</label>
-                    <select class="px-4 py-3 rounded-full w-full" id="id_instruktur" name="id_instruktur" required>
+                    <select class="input" id="id_instruktur" name="id_instruktur" required>
                         <?php while (($data = mysqli_fetch_assoc($data_instruktur))) { ?>
                             <option value="<?= $data['id_instruktur'] ?>"><?= $data['nama'] ?></option>
                         <?php } ?>
                     </select>
 
                     <label for="deskripsi" class="block">Deskripsi</label>
-                    <textarea name="deskripsi" id="deskripsi" rows="4" class="block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300" placeholder="Write your thoughts here..."></textarea>
+                    <textarea name="deskripsi" id="deskripsi" rows="4" class="input" placeholder="Write your thoughts here..."></textarea>
 
                     <label for="rating" class="block mb-2 text-sm font-medium text-gray-900 ">Rating</label>
-                    <div class="flex items-center gap-2">
+                    <div class="flex items-center gap-2 text-gray-900 dark:text-white">
                         <span>1</span>
-                        <input id="rating" type="range" name="rating" min="1" max="5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                        <input id="rating" type="range" name="rating" min="1" max="5" class="input">
                         <span>5</span>
                     </div>
 
                 </div>
                 <!-- Modal footer -->
-                <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
+                <div class="modal__footer">
                     <button data-modal-hide="add-feedback-modal" name="create_instruktur" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
                     <button data-modal-hide="add-feedback-modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
                 </div>

@@ -1,22 +1,31 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access('Admin Akademik');
+user_access(['Super Admin', 'Admin Akademik']);
 
 $sql = "SELECT * FROM jenjang";
 $data_jenjang = $db->query($sql) or die($db->error);
 $data_jenjang->fetch_assoc();
 
-$sql = "SELECT k.*, j.nama nama_jenjang, COUNT(*) jumlah_siswa FROM kelas k
-LEFT JOIN jenjang j ON k.id_jenjang = j.id_jenjang
-LEFT JOIN detail_kelas dk ON dk.id_kelas = k.id_kelas
-GROUP BY k.id_kelas ORDER BY nama_jenjang";
+// $sql = "SELECT k.*, j.nama nama_jenjang, COUNT(*) jumlah_siswa FROM kelas k
+// LEFT JOIN jenjang j ON k.id_jenjang = j.id_jenjang
+// LEFT JOIN detail_kelas dk ON dk.id_kelas = k.id_kelas
+// GROUP BY k.id_kelas ORDER BY nama_jenjang";
+// $data_kelas = $db->query($sql) or die($db->error);
+// $data_kelas->fetch_assoc();
+
+$sql = "SELECT * FROM kelas";
 $data_kelas = $db->query($sql) or die($db->error);
 $data_kelas->fetch_assoc();
 
 if (isset($_GET['edit'])) {
     $id_siswa = $_GET['edit'];
-    $sql = "SELECT s.*, k.nama nama_kelas, j.nama nama_jenjang FROM siswa s, jenjang j, kelas k, detail_kelas dk WHERE s.id_siswa = dk.id_siswa AND dk.id_kelas = k.id_kelas AND k.id_jenjang = j.id_jenjang AND s.id_siswa = '$id_siswa'";
+    $sql = "SELECT s.*, k.nama nama_kelas, j.nama nama_jenjang FROM siswa s
+    LEFT JOIN detail_kelas dk ON s.id_siswa = dk.id_siswa
+    LEFT JOIN kelas k ON k.id_kelas = dk.id_kelas
+    LEFT JOIN jenjang j ON j.id_jenjang = k.id_jenjang
+    WHERE s.id_siswa = '$id_siswa'
+    ";
     $result = $db->query($sql) or die($db);
     $result = $result->fetch_assoc();
 
@@ -27,14 +36,10 @@ if (isset($_GET['edit'])) {
     foreach ($data_kelas_siswa as $key => $value) {
         $data_kelas_siswa_arr[] = $value['nama'];
     }
-    print_r($data_kelas_siswa_arr);
 } else {
-    $sql = "SELECT s.*, k.nama nama_kelas, j.nama nama_jenjang FROM siswa s
-    LEFT JOIN detail_kelas dk ON dk.id_siswa = s.id_siswa
-    LEFT JOIN kelas k ON k.id_kelas = dk.id_kelas
-    LEFT JOIN jenjang j ON j.id_jenjang = k.id_jenjang";
-    $result = $db->query($sql) or die($db);
-    $result->fetch_assoc();
+    $sql = "SELECT * FROM siswa";
+    $data_siswa = $db->query($sql) or die($db);
+    $data_siswa->fetch_assoc();
 }
 ?>
 
@@ -46,7 +51,7 @@ if (isset($_GET['edit'])) {
             <div class="flex items-center gap-5">
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Siswa</h4>
                 <?php if (!isset($_GET['edit'])) : ?>
-                    <button data-modal-target="add_siswa_modal" data-modal-toggle="add_siswa_modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                    <button data-modal-target="add_siswa_modal" data-modal-toggle="add_siswa_modal" class="btn" type="button">
                         Tambah Siswa
                     </button>
                 <?php endif ?>
@@ -58,11 +63,11 @@ if (isset($_GET['edit'])) {
                         <div class="flex-1 flex flex-col">
                             <div class="mb-5">
                                 <label for="nama" class="form-label text-secondary text-gray-400 dark:text-white">Nama</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="nama" name="nama" value="<?= $result['nama'] ?>" maxlength="50" required>
+                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="nama" name="nama" value="<?= $result['nama'] ?>" maxlength="50">
                             </div>
                             <div class="mb-5">
                                 <label for="no_telp" class="form-label text-secondary text-gray-400 dark:text-white">No Telp</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="no_telp" name="no_telp" value="<?= $result['no_telp'] ?>" maxlength="14" required>
+                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="no_telp" name="no_telp" value="<?= $result['no_telp'] ?>" maxlength="14">
                             </div>
                             <div class="mb-5">
                                 <label for="alamat" class="form-label text-secondary text-gray-400 dark:text-white">Alamat</label>
@@ -72,11 +77,11 @@ if (isset($_GET['edit'])) {
                         <div class="flex-1 flex flex-col">
                             <div class="mb-5">
                                 <label for="email" class="form-label text-secondary text-gray-400 dark:text-white">Email</label>
-                                <input type="email" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="email" name="email" value="<?= $result['email'] ?>" maxlength="30" required>
+                                <input type="email" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="email" name="email" value="<?= $result['email'] ?>" maxlength="30">
                             </div>
                             <div class="mb-5">
                                 <label for="password" class="form-label text-secondary text-gray-400 dark:text-white">Password</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="password" name="password" value="<?= $result['password'] ?>" maxlength="50" required>
+                                <input type="password" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="password" name="password" value="<?= $result['password'] ?>" maxlength="50">
                             </div>
                         </div>
                         <div class="flex flex-1 flex-col gap-5">
@@ -138,30 +143,40 @@ if (isset($_GET['edit'])) {
                                 <th scope="col" class="px-6 py-3">Status</th>
                                 <th scope="col" class="px-6 py-3">Email</th>
                                 <th scope="col" class="px-6 py-3">Kelas</th>
-                                <th scope="col" class="px-6 py-3">Jenjang</th>
                                 <th scope="col" class="px-6 py-3">Belajar Sejak</th>
                                 <th scope="col" class="px-6 py-3"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($result as $key => $value) : ?>
+                            <?php foreach ($data_siswa as $key => $siswa) : ?>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th class="px-6 py-4 text-amber-500"></th>
-                                    <td class="px-6 py-4"><?= $value['nama'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['no_telp'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['alamat'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['status'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['email'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['nama_kelas'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['nama_jenjang'] ?></td>
-                                    <td class="px-6 py-4"> <?= $value['tgl_dibuat'] ?> </td>
-
+                                    <td class="px-6 py-4"><?= $siswa['nama'] ?></td>
+                                    <td class="px-6 py-4"><?= $siswa['no_telp'] ?></td>
+                                    <td class="px-6 py-4"><?= $siswa['alamat'] ?></td>
+                                    <td class="px-6 py-4"><?= $siswa['status'] ?></td>
+                                    <td class="px-6 py-4"><?= $siswa['email'] ?></td>
                                     <td class="px-6 py-4">
-                                        <a href="?edit=<?= $value['id_siswa'] ?>">
-                                            <i class="ri-edit-box-line text-blue-500"></i>
+                                        <ul>
+                                            <?php
+                                            $id_siswa = $siswa['id_siswa'];
+                                            $sql = "SELECT k.* FROM detail_kelas dk, kelas k WHERE dk.id_kelas = k.id_kelas AND dk.id_siswa = '$id_siswa'";
+                                            $data_kelas_siswa = $db->query($sql) or die($db->error);
+                                            $data_kelas_siswa->fetch_assoc();
+                                            foreach ($data_kelas_siswa as $key => $kelas) :
+                                            ?>
+                                                <li class="flex gap-2"><span class="text-amber-500"><?= $key + 1 ?></span>&mdash; <?= $kelas['nama'] ?></li>
+                                            <?php endforeach ?>
+                                        </ul>
+                                    </td>
+                                    <td class="px-6 py-4"> <?= $siswa['tgl_dibuat'] ?> </td>
+
+                                    <td class="px-6 py-4 flex gap-2">
+                                        <a class="btn btn--outline-blue group" href="?edit=<?= $siswa['id_siswa'] ?>">
+                                            <i class="ri-edit-box-line text-blue-500 group-hover:text-white"></i>
                                         </a>
                                         <form action="../../api/admin/siswa.php" method="post">
-                                            <button type="submit" name="delete" value="<?= $value['id_siswa'] ?>"><i class="ri-delete-bin-6-line text-red-500"></i></button>
+                                            <button class="btn btn--outline-blue group" type="submit" name="delete" value="<?= $siswa['id_siswa'] ?>"><i class="ri-delete-bin-6-line text-red-500 group-hover:text-white"></i></button>
                                         </form>
                                     </td>
                                 </tr>
@@ -221,10 +236,19 @@ if (isset($_GET['edit'])) {
                             <div id="form_hak_akses_siswa" class="flex flex-col" method="post">
                                 <p class="text-normal text-gray-400 dark:text-white">Kelas</p>
                                 <select name="kelas" id="kelas" class="border rounded w-full py-1.5 border-gray-400 mt-1" required>
-                                    <?php foreach ($data_kelas as $key => $value) : ?>
-                                        <option class="<?= $value['jumlah_siswa'] < 6 ? 'text-green-500' : '' ?>" value="<?= $value['id_kelas'] ?>">
-                                            <p><?= $value['nama_jenjang'] ?> &mdash; <?= $value['nama'] ?> &mdash; <?= $value['jumlah_siswa'] ?> Siswa</p>
+                                    <?php foreach ($data_kelas as $key => $kelas) : ?>
+                                        <option value="<?= $kelas['id_kelas'] ?>">
+                                            <?php
+                                            $id_kelas = $kelas['id_kelas'];
+                                            $sql = "SELECT COUNT(*) jumlah_siswa FROM detail_kelas d LEFT JOIN siswa s ON d.id_siswa = s.id_siswa WHERE d.id_kelas = $id_kelas";
+                                            $jumlah_siswa = $db->query($sql) or die($db->error);
+                                            $jumlah_siswa = $jumlah_siswa->fetch_assoc();
+                                            ?>
+                                            <?= $kelas['nama'] ?> &mdash; <?= $jumlah_siswa['jumlah_siswa'] ?> Siswa
                                         </option>
+                                        <!-- <option class="<?= $value['jumlah_siswa'] < 6 ? 'text-green-500' : '' ?>" value="<?= $value['id_kelas'] ?>">
+                                            <p><?= $value['nama_jenjang'] ?> &mdash; <?= $value['nama'] ?> &mdash; <?= $value['jumlah_siswa'] ?> Siswa</p>
+                                        </option> -->
                                     <?php endforeach ?>
                                 </select>
                             </div>

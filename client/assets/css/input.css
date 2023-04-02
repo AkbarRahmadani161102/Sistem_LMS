@@ -45,21 +45,113 @@
     a {
         @apply text-base;
     }
+
+    table tbody tr:hover {
+        @apply bg-gray-100
+    }
+
+    .dark table tbody tr:hover {
+        @apply bg-gray-700
+    }
 }
 
 @layer components {
+    .form label {
+        @apply text-gray-800;
+    }
+
+    .dark .form label {
+        @apply text-white;
+    }
+
+    .modal {
+        @apply fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto
+    }
+
+    .modal__backdrop {
+        @apply relative w-full h-full max-w-2xl
+    }
+
+    .modal__content {
+        @apply relative bg-white rounded-lg shadow
+    }
+
+    .modal__header {
+        @apply flex items-start justify-between p-4 border-b rounded-t
+    }
+
+    .dark .modal__header {
+        @apply border-gray-600
+    }
+
+    .modal__body {
+        @apply p-6 space-y-2
+    }
+
+    .modal__footer {
+        @apply flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b
+    }
+
+    .dark .modal__footer {
+        @apply border-gray-600
+    }
+
+    .dark .modal__content {
+        @apply bg-gray-700
+    }
+
+    .btn {
+        @apply bg-gray-800 text-white font-medium rounded text-base px-4 py-1.5
+    }
+
+    .dark .btn {
+        @apply bg-white text-gray-800
+    }
+
+    .btn--outline-red,
+    .dark .btn--outline-red {
+        @apply bg-transparent border border-red-500
+    }
+
+    .btn--outline-red:hover,
+    .dark .btn--outline-red:hover {
+        @apply bg-red-500 transition border-transparent
+    }
+
+    .btn--outline-blue,
+    .dark .btn--outline-blue {
+        @apply bg-transparent border border-blue-500
+    }
+
+    .btn--outline-blue:hover,
+    .dark .btn--outline-blue:hover {
+        @apply bg-blue-500 transition border-transparent
+    }
+
+    .btn--outline-green,
+    .dark .btn--outline-green {
+        @apply bg-transparent border border-green-500
+    }
+
+    .btn--outline-green:hover,
+    .dark .btn--outline-green:hover {
+        @apply bg-green-500 transition border-transparent
+    }
+
+    .input {
+        @apply rounded border bg-gray-50 border-gray-300 text-gray-900 text-sm block w-full p-2.5
+    }
+
+    .input:focus {
+        @apply ring-blue-500 border-blue-500;
+    }
+
     hr.vr {
-        @apply w-0.5;
-        @apply h-12;
-        @apply bg-gray-400;
-        @apply mx-3;
+        @apply w-0.5 h-12 bg-gray-400 mx-3;
     }
 
     .dashboard-sidebar-menu {
-        @apply my-5;
-        @apply flex;
-        @apply flex-col;
-        @apply gap-3;
+        @apply my-5 flex flex-col gap-3;
     }
 
     .dashboard-sidebar-header {
@@ -67,26 +159,57 @@
     }
 
     .dashboard-sidebar-item {
-        @apply py-3;
-        @apply px-8;
-        @apply rounded;
-        @apply flex;
-        @apply gap-2;
-        @apply text-gray-800;
-        @apply transition;
-        @apply font-medium;
-        @apply dark:text-white;
-        @apply hover:text-amber-500;
+        @apply py-3 px-8 rounded flex gap-2 text-gray-800 transition font-medium;
+    }
+
+    .dark .dashboard-sidebar-item {
+        @apply text-white;
+    }
+
+    .dashboard-sidebar-item:hover {
+        @apply text-amber-500;
     }
 
     .dashboard-sidebar-item.active {
-        @apply text-white;
-        @apply bg-zinc-800;
-        @apply dark:bg-gray-200;
-        @apply dark:text-gray-800;
+        @apply text-white bg-zinc-800;
+    }
+
+    .dark .dashboard-sidebar-item.active {
+        @apply bg-gray-200 text-gray-800;
     }
 
     .dashboard-sidebar-item.active i {
         @apply text-amber-500;
+    }
+
+    @screen md {
+        .modal {
+            @apply inset-0 h-[calc(100%-1rem)] h-full
+        }
+
+        .modal__backdrop {
+            @apply h-auto
+        }
+    }
+}
+
+@layer utilities {
+    ::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #6b7280;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #fff;
+        border-radius: 100vh;
+        border: 1px solid #fff;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #374151;
     }
 }

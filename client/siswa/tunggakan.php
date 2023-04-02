@@ -27,14 +27,14 @@ user_access('siswa');
                     </thead>
                     <tbody>
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th class="px-6 py-4 text-amber-500"></th>
+                            <th class="px-6 py-4 text-amber-500">1</th>
                             <td class="px-6 py-4">18 September 2022</td>
                             <td class="px-6 py-4">-</td>
                             <td class="px-6 py-4">500.000</td>
                             <td class="px-6 py-4 text-red-500">Belum Lunas</td>
                         </tr>
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th class="px-6 py-4 text-amber-500"></th>
+                            <th class="px-6 py-4 text-amber-500">2</th>
                             <td class="px-6 py-4">18 Agustus 2022</td>
                             <td class="px-6 py-4">-</td>
                             <td class="px-6 py-4">500.000</td>
