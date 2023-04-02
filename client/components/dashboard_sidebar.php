@@ -73,6 +73,7 @@ $menu_admin_keuangan = [
 
 $menu_superadmin = [
     'MENU' => [
+        ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
         ['Role Admin', "../$role/admin_role.php", '<i class="ri-key-2-line"></i>'],
         ['Admin', "../$role/admin.php", '<i class="ri-admin-line"></i>'],
         ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-settings-line"></i>'],
