@@ -41,7 +41,7 @@ include_once('../../api/util/db.php');
                 popup: 'colored-toast'
             },
             showConfirmButton: false,
-            timer: 3500,
+            timer: 3000,
             timerProgressBar: true
         })
     </script>

@@ -1,6 +1,9 @@
 <?php
 include_once('../template/header.php');
-!isset($_SESSION['role']) && redirect('../siswa/login.php'); ?>
+!isset($_SESSION['role']) && redirect('../siswa/login.php');
+$_SESSION['role'] === 'admin' && redirect('../admin/index.php');
+ ?>
+
 
 <div id="pengaturan" class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
