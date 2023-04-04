@@ -173,7 +173,7 @@ if (isset($_GET['edit'])) {
                     <!-- Modal body -->
                     <div class="glex flex-col space-y-5 p-5">
                         <div class="flex flex-col gap-2">
-                            <label class="text-gray-800 dark:text-white" for="jenjang">Jenjang Kelas</label>
+                            <label class="text-gray-800 dark:text-white" for="jenjang">Jenjang</label>
                             <select id="jenjang" name="jenjang" class="w-full p-2 rounded" required>
                                 <?php foreach ($data_jenjang as $key => $value) : ?>
                                     <option value="<?= $value['id_jenjang'] ?>"><?= $value['nama'] ?></option>

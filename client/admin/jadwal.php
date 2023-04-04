@@ -112,7 +112,7 @@ if (isset($_GET['assign_instruktur'])) {
                     <form class="form flex-1 rounded bg-gray-200 dark:bg-gray-600 p-5 space-y-5" action="../../api/admin/jadwal.php" method="post">
                         <label class="text-xl" for="instruktur">Instruktur yang mengampu</label>
                         <label class="block" for="instruktur">Instruktur dibawah ini telah disaring berdasarkan mata pelajaran yang diampu</label>
-                        <select class="input" name="instruktur" id="instruktur">
+                        <select class="input selectize" name="instruktur" id="instruktur">
                             <?php
                             $sql = "SELECT i.* FROM detail_mapel d, instruktur i WHERE d.id_instruktur = i.id_instruktur AND d.id_mapel = '$id_mapel'";
                             $data_instruktur = $db->query($sql) or die($db->error);

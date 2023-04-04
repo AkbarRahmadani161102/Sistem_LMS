@@ -63,25 +63,25 @@ if (isset($_GET['edit'])) {
                         <div class="flex-1 flex flex-col">
                             <div class="mb-5">
                                 <label for="nama" class="form-label text-secondary text-gray-400 dark:text-white">Nama</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="nama" name="nama" value="<?= $result['nama'] ?>" maxlength="50">
+                                <input type="text" class="input" id="nama" name="nama" value="<?= $result['nama'] ?>" maxlength="50">
                             </div>
                             <div class="mb-5">
                                 <label for="no_telp" class="form-label text-secondary text-gray-400 dark:text-white">No Telp</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="no_telp" name="no_telp" value="<?= $result['no_telp'] ?>" maxlength="14">
+                                <input type="text" class="input" id="no_telp" name="no_telp" value="<?= $result['no_telp'] ?>" maxlength="14">
                             </div>
                             <div class="mb-5">
                                 <label for="alamat" class="form-label text-secondary text-gray-400 dark:text-white">Alamat</label>
-                                <textarea class="resize-none border rounded w-full py-1.5 border-gray-400 mt-1" name="alamat" id="" cols="30" rows="3" maxlength="50"><?= $result['alamat'] ?></textarea>
+                                <textarea class="resize-none input" name="alamat" id="" cols="30" rows="3" maxlength="50"><?= $result['alamat'] ?></textarea>
                             </div>
                         </div>
                         <div class="flex-1 flex flex-col">
                             <div class="mb-5">
                                 <label for="email" class="form-label text-secondary text-gray-400 dark:text-white">Email</label>
-                                <input type="email" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="email" name="email" value="<?= $result['email'] ?>" maxlength="30">
+                                <input type="email" class="input" id="email" name="email" value="<?= $result['email'] ?>" maxlength="30">
                             </div>
                             <div class="mb-5">
                                 <label for="password" class="form-label text-secondary text-gray-400 dark:text-white">Password</label>
-                                <input type="password" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="password" name="password" value="<?= $result['password'] ?>" maxlength="50">
+                                <input type="password" class="input" id="password" name="password" value="<?= $result['password'] ?>" maxlength="50">
                             </div>
                         </div>
                         <div class="flex flex-1 flex-col gap-5">
@@ -211,31 +211,31 @@ if (isset($_GET['edit'])) {
                         <div class="flex-1 flex flex-col" method="post">
                             <div class="mb-5">
                                 <label for="nama" class="form-label text-secondary text-gray-400 dark:text-white">Nama</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="nama" name="nama" maxlength="50" required>
+                                <input type="text" class="input" id="nama" name="nama" maxlength="50" required>
                             </div>
                             <div class="mb-5">
                                 <label for="no_telp" class="form-label text-secondary text-gray-400 dark:text-white">No Telp</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="no_telp" name="no_telp" maxlength="14" required>
+                                <input type="text" class="input" id="no_telp" name="no_telp" maxlength="14" required>
                             </div>
                             <div class="mb-5">
                                 <label for="alamat" class="form-label text-secondary text-gray-400 dark:text-white">Alamat</label>
-                                <textarea class="resize-none border rounded w-full py-1.5 border-gray-400 mt-1" name="alamat" id="" cols="30" rows="3" maxlength="50"></textarea>
+                                <textarea class="resize-none input" name="alamat" id="" cols="30" rows="3" maxlength="50"></textarea>
                             </div>
                         </div>
                         <div class="flex-1 flex flex-col" method="post">
                             <div class="mb-5">
                                 <label for="email" class="form-label text-secondary text-gray-400 dark:text-white">Email</label>
-                                <input type="email" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="email" name="email" maxlength="30" required>
+                                <input type="email" class="input" id="email" name="email" maxlength="30" required>
                             </div>
                             <div class="mb-5">
                                 <label for="password" class="form-label text-secondary text-gray-400 dark:text-white">Password</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="password" name="password" maxlength="50" required>
+                                <input type="text" class="input" id="password" name="password" maxlength="50" required>
                             </div>
                         </div>
                         <div class="flex flex-1 flex-col gap-5">
                             <div id="form_hak_akses_siswa" class="flex flex-col" method="post">
                                 <p class="text-normal text-gray-400 dark:text-white">Kelas</p>
-                                <select name="kelas" id="kelas" class="border rounded w-full py-1.5 border-gray-400 mt-1" required>
+                                <select name="kelas" id="kelas" class="input selectize input" required>
                                     <?php foreach ($data_kelas as $key => $kelas) : ?>
                                         <option value="<?= $kelas['id_kelas'] ?>">
                                             <?php

@@ -20,6 +20,8 @@ $(document).ready(() => {
             && href.match(/(.*)\/(.*.php)(.*)/)[2] === urlFilename
             && $(this).addClass('active')
     })
+
+    $('select.selectize').selectize()
 })
 
 let themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');

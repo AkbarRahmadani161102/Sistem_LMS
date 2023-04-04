@@ -1033,10 +1033,6 @@ hr.vr {
   visibility: collapse;
 }
 
-.static {
-  position: static;
-}
-
 .fixed {
   position: fixed;
 }
@@ -2040,6 +2036,16 @@ hr.vr {
   font-family: "Poppins-Regular";
 
   src: url("../fonts/Poppins-Regular.ttf");
+}
+
+/* Override Selectize */
+
+.selectize-input {
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+  box-shadow: none !important;
+  background: none !important;
 }
 
 .hover\:border-amber-500:hover {
