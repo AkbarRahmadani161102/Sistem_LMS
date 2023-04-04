@@ -27,6 +27,8 @@ $(document).ready(() => {
         }
     })
 
+    $('.datatable').DataTable();
+
 })
 
 let themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');

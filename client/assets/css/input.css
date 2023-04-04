@@ -181,7 +181,7 @@
     .dashboard-sidebar-item.active i {
         @apply text-amber-500;
     }
-    
+
     @screen md {
         .modal {
             @apply inset-0 h-[calc(100%-1rem)] h-full
@@ -222,4 +222,55 @@
     font-size: inherit;
     box-shadow: none !important;
     background: none !important;
+}
+
+/* Override DataTable */
+.dataTables_wrapper {
+    @apply mb-5
+}
+
+.dark .dataTables_wrapper {
+    @apply text-white
+}
+
+.dataTables_wrapper>* {
+    @apply my-6
+}
+
+.dataTable.no-footer {
+    @apply border-0 !important
+}
+
+.dataTables_paginate .paginate_button {
+    @apply border-0 !important
+}
+
+.dataTables_paginate .paginate_button:not(.previous):not(.next) {
+    @apply bg-gray-200 text-gray-700 border-0 !important
+}
+
+.dataTables_paginate .paginate_button:not(.previous):not(.next):hover {
+    @apply bg-none bg-gray-500 text-white !important
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    @apply text-gray-400 !important
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+    @apply text-gray-400 !important
+}
+
+
+.dataTables_paginate .previous:not(.disabled):hover,
+.dataTables_paginate .next:not(.disabled):hover {
+    @apply bg-none border-0 bg-gray-500 !important
+}
+
+.dataTables_wrapper select {
+    @apply pl-2 pr-7 !important
+}
+
+.dark .dataTables_wrapper select option {
+    @apply text-gray-800
 }
