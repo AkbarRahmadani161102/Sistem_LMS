@@ -21,7 +21,12 @@ $(document).ready(() => {
             && $(this).addClass('active')
     })
 
-    $('select.selectize').selectize()
+    $('select.selectize').selectize({
+        onFocus: function () {
+            $(this)[0].clear()
+        }
+    })
+
 })
 
 let themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
