@@ -14,7 +14,12 @@ LEFT JOIN instruktur i ON d.id_instruktur=  i.id_instruktur
 JOIN jadwal j ON d.id_jadwal = j.id_jadwal
 JOIN kelas k ON j.id_kelas = k.id_kelas 
 JOIN mapel m ON j.id_mapel = m.id_mapel
-WHERE MONTH(d.tgl_pertemuan) = $month AND YEAR(d.tgl_pertemuan) = $year";
+WHERE MONTH(d.tgl_pertemuan) = $month AND YEAR(d.tgl_pertemuan) = $year ";
+
+if(isset($_GET['jenjang'])) {
+    $id_jenjang = $_GET['jenjang'];
+    $sql .= "AND k.id_jenjang = '$id_jenjang'";
+}
 $data_pertemuan = $db->query($sql) or die($db->error);
 $data_pertemuan->fetch_assoc();
 ?>
@@ -25,8 +30,14 @@ $data_pertemuan->fetch_assoc();
         <div class="p-4 sm:ml-64">
             <?php include_once '../components/dashboard_navbar.php'; ?>
             <div class="flex items-center gap-5">
-                <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Pertemuan</h4>
+                <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Pertemuan</h4>
+
+                <form action="../../api/admin/pertemuan.php" method="post">
+                    <button type="submit" class="btn" name="sync"> Update Data Pertemuan </button>
+                </form>
+
             </div>
+
             <?php generate_breadcrumb([['title' => 'Pertemuan', 'filename' => 'pertemuan.php']]); ?>
 
             <?php if ($data_pertemuan->num_rows > 0) : ?>
@@ -68,7 +79,6 @@ $data_pertemuan->fetch_assoc();
             <?php else : ?>
                 <div class="pt-16 flex flex-col items-center h-full gap-5 text-gray-800 dark:text-white">
                     <h5>Data pertemuan dalam bulan ini tidak ditemukan</h5>
-                    <a href="../../api/admin/pertemuan.php" class="btn">Buat Sekarang</a>
                 </div>
             <?php endif ?>
         </div>
