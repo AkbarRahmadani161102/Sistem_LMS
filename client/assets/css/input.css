@@ -181,9 +181,7 @@
     .dashboard-sidebar-item.active i {
         @apply text-amber-500;
     }
-
-
-
+    
     @screen md {
         .modal {
             @apply inset-0 h-[calc(100%-1rem)] h-full
