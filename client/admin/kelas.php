@@ -43,37 +43,42 @@ if (isset($_GET['edit'])) {
             </div>
             <?php if (isset($_GET['edit'])) : ?>
                 <?php generate_breadcrumb([['title' => 'Kelas', 'filename' => 'kelas.php'], ['title' => "Edit Kelas $nama_kelas", 'filename' => 'kelas.php']]); ?>
-                <form action="../../api/admin/kelas.php" method="post" class="bg-gray-700 rounded p-8 mt-8 flex flex-col gap-5 items-start">
+                <form action="../../api/admin/kelas.php" method="post" class="bg-gray-700 rounded p-8 mt-8 flex flex-col gap-5">
                     <div class="flex gap-5 flex-wrap">
-                        <div class="flex flex-col gap-3">
-                            <label class="text-gray-800 dark:text-white" for="nama_kelas">Nama Kelas</label>
-                            <input id="nama_kelas" name="nama_kelas" type="text" class="rounded" value="<?= $nama_kelas ?>">
+                        <div class="flex-1 flex-col space-y-2">
+                            <div class="flex flex-col gap-1">
+                                <label class="text-gray-800 dark:text-white" for="nama_kelas">Nama Kelas</label>
+                                <input id="nama_kelas" name="nama_kelas" type="text" class="rounded" value="<?= $nama_kelas ?>">
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label class="text-gray-800 dark:text-white" for="ketua_kelas">Ketua Kelas</label>
+                                <select name="ketua_kelas" id="ketua_kelas" class="rounded">
+                                    <?php foreach ($data_siswa as $key => $siswa) : ?>
+                                        <option value="<?= $siswa['id_siswa'] ?>"><?= $siswa['nama'] ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="flex flex-1 gap-3">
+                                <div class="flex flex-1 flex-col gap-1">
+                                    <label class="text-gray-800 dark:text-white" for="status_kelas">Status Kelas</label>
+                                    <select name="status_kelas" id="status_kelas" class="rounded">
+                                        <option value="Reguler" <?= $data_kelas['status'] === 'Reguler' ? 'selected' : '' ?>>Reguler</option>
+                                        <option value="Privat" <?= $data_kelas['status'] === 'Privat' ? 'selected' : '' ?>>Privat</option>
+                                    </select>
+                                </div>
+                                <div class="flex flex-1 flex-col gap-1">
+                                    <label class="text-gray-800 dark:text-white" for="jenjang">Jenjang</label>
+                                    <select name="jenjang" id="jenjang" class="rounded">
+                                        <?php foreach ($data_jenjang as $key => $jenjang) : ?>
+                                            <option value="<?= $jenjang['id_jenjang'] ?>" <?= $data_kelas['nama_jenjang'] === $jenjang['nama'] ? 'selected' : '' ?>><?= $jenjang['nama'] ?></option>
+                                        <?php endforeach ?>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex flex-col gap-3">
-                            <label class="text-gray-800 dark:text-white" for="status_kelas">Status Kelas</label>
-                            <select name="status_kelas" id="status_kelas" class="rounded">
-                                <option value="Reguler" <?= $data_kelas['status'] === 'Reguler' ? 'selected' : '' ?>>Reguler</option>
-                                <option value="Privat" <?= $data_kelas['status'] === 'Privat' ? 'selected' : '' ?>>Privat</option>
-                            </select>
-                        </div>
-                        <div class="flex flex-col gap-3">
-                            <label class="text-gray-800 dark:text-white" for="jenjang">Jenjang</label>
-                            <select name="jenjang" id="jenjang" class="rounded">
-                                <?php foreach ($data_jenjang as $key => $jenjang) : ?>
-                                    <option value="<?= $jenjang['id_jenjang'] ?>" <?= $data_kelas['nama_jenjang'] === $jenjang['nama'] ? 'selected' : '' ?>><?= $jenjang['nama'] ?></option>
-                                <?php endforeach ?>
-                            </select>
-                        </div>
-                        <div class="flex flex-col gap-3">
-                            <label class="text-gray-800 dark:text-white" for="ketua_kelas">Ketua Kelas</label>
-                            <select name="ketua_kelas" id="ketua_kelas" class="rounded">
-                                <?php foreach ($data_siswa as $key => $siswa) : ?>
-                                    <option value="<?= $siswa['id_siswa'] ?>"><?= $siswa['nama'] ?></option>
-                                <?php endforeach ?>
-                            </select>
-                        </div>
+
                     </div>
-                    <button type="submit" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" name="update" value="<?= $id_kelas ?>">Update</button>
+                    <button type="submit" class="w-fit text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" name="update" value="<?= $id_kelas ?>">Update</button>
                 </form>
             <?php else : ?>
                 <?php generate_breadcrumb([['title' => 'Kelas', 'filename' => 'kelas.php']]); ?>
