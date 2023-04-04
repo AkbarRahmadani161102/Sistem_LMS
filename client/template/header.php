@@ -13,11 +13,15 @@ include_once('../../api/util/db.php');
     <link rel="icon" href="../assets/image/icon.png">
     <link rel="stylesheet" href="../assets/css/flowbite.min.css" />
     <link rel="stylesheet" href="../assets/css/sweetalert2.min.css" />
+    <link rel="stylesheet" href="../assets/css/selectize.default.min.css" />
+    <link rel="stylesheet" href="../assets/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="../assets/css/output.css" />
     <link rel="stylesheet" href="../assets/icons/remixicon/remixicon.css" />
     <script src="../assets/js/chart.umd.min.js"></script>
     <script src="../assets/js/sweetalert2.all.min.js"></script>
     <script src="../assets/js/jquery-3.6.4.min.js"></script>
+    <script src="../assets/js/selectize.min.js"></script>
+    <script src="../assets/js/jquery.dataTables.min.js"></script>
     <script src="../assets/js/flowbite.min.js" defer></script>
     <script src="../assets/js/script.js" defer></script>
 

@@ -1033,10 +1033,6 @@ hr.vr {
   visibility: collapse;
 }
 
-.static {
-  position: static;
-}
-
 .fixed {
   position: fixed;
 }
@@ -2040,6 +2036,84 @@ hr.vr {
   font-family: "Poppins-Regular";
 
   src: url("../fonts/Poppins-Regular.ttf");
+}
+
+/* Override Selectize */
+
+.selectize-input {
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+  box-shadow: none !important;
+  background: none !important;
+}
+
+/* Override DataTable */
+
+.dataTables_wrapper {
+  margin-bottom: 1.25rem;
+}
+
+.dark .dataTables_wrapper {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.dataTables_wrapper>* {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.dataTable.no-footer {
+  border-width: 0px !important;
+}
+
+.dataTables_paginate .paginate_button {
+  border-width: 0px !important;
+}
+
+.dataTables_paginate .paginate_button:not(.previous):not(.next) {
+  border-width: 0px !important;
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity)) !important;
+  --tw-text-opacity: 1 !important;
+  color: rgb(55 65 81 / var(--tw-text-opacity)) !important;
+}
+
+.dataTables_paginate .paginate_button:not(.previous):not(.next):hover {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity)) !important;
+  background-image: none !important;
+  --tw-text-opacity: 1 !important;
+  color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+  --tw-text-opacity: 1 !important;
+  color: rgb(156 163 175 / var(--tw-text-opacity)) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+  --tw-text-opacity: 1 !important;
+  color: rgb(156 163 175 / var(--tw-text-opacity)) !important;
+}
+
+.dataTables_paginate .previous:not(.disabled):hover,
+.dataTables_paginate .next:not(.disabled):hover {
+  border-width: 0px !important;
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity)) !important;
+  background-image: none !important;
+}
+
+.dataTables_wrapper select {
+  padding-left: 0.5rem !important;
+  padding-right: 1.75rem !important;
+}
+
+.dark .dataTables_wrapper select option {
+  --tw-text-opacity: 1;
+  color: rgb(31 41 55 / var(--tw-text-opacity));
 }
 
 .hover\:border-amber-500:hover {

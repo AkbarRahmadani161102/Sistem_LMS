@@ -82,7 +82,7 @@ if (isset($_GET['edit'])) {
             <?php else : ?>
                 <?php generate_breadcrumb([['title' => 'Kelas', 'filename' => 'kelas.php']]); ?>
                 <div class="relative overflow-x-auto overflow-y-hidden mt-5">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3"></th>
@@ -173,7 +173,7 @@ if (isset($_GET['edit'])) {
                     <!-- Modal body -->
                     <div class="glex flex-col space-y-5 p-5">
                         <div class="flex flex-col gap-2">
-                            <label class="text-gray-800 dark:text-white" for="jenjang">Jenjang Kelas</label>
+                            <label class="text-gray-800 dark:text-white" for="jenjang">Jenjang</label>
                             <select id="jenjang" name="jenjang" class="w-full p-2 rounded" required>
                                 <?php foreach ($data_jenjang as $key => $value) : ?>
                                     <option value="<?= $value['id_jenjang'] ?>"><?= $value['nama'] ?></option>
