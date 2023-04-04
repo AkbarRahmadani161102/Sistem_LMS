@@ -6,11 +6,15 @@ $sql = "SELECT * FROM jenjang";
 $data_jenjang = $db->query($sql) or die($db->error);
 $data_jenjang->fetch_assoc();
 
+$month = date('n');
+$year = date('Y');
+
 $sql = "SELECT d.*, j.*, k.nama nama_kelas, m.nama nama_mapel, i.nama nama_instruktur FROM detail_jadwal d
 LEFT JOIN instruktur i ON d.id_instruktur=  i.id_instruktur
 JOIN jadwal j ON d.id_jadwal = j.id_jadwal
 JOIN kelas k ON j.id_kelas = k.id_kelas 
-JOIN mapel m ON j.id_mapel = m.id_mapel";
+JOIN mapel m ON j.id_mapel = m.id_mapel
+WHERE MONTH(d.tgl_pertemuan) = $month AND YEAR(d.tgl_pertemuan) = $year";
 $data_pertemuan = $db->query($sql) or die($db->error);
 $data_pertemuan->fetch_assoc();
 ?>
@@ -71,6 +75,4 @@ $data_pertemuan->fetch_assoc();
     </div>
 </div>
 
-<?php
-$data_jadwal->free_result();
-include_once('../template/footer.php') ?>
+<?php include_once('../template/footer.php') ?>

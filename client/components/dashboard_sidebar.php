@@ -7,9 +7,10 @@ $menu_user = [
         ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
     ],
     'PENGATURAN' => [
+        ['Notifikasi', '../user/notifikasi.php', '<i class="ri-notification-4-line"></i>'],
         ['Preferensi', '../user/user_settings.php', '<i class="ri-settings-4-line"></i>'],
         ['Logout', '../../api/auth/logout.php', '<i class="ri-door-open-line"></i>'],
-    ],
+    ]
 ];
 
 $menu_siswa = [
@@ -36,10 +37,11 @@ $menu_instruktur = [
         ['Jadwal', "../$role/jadwal.php", '<i class="ri-calendar-2-line"></i>'],
         ['Pertemuan', "../$role/pertemuan.php", '<i class="ri-calendar-event-line"></i>'],
         ['Pertemuan hari ini', "../$role/pertemuan_hari_ini.php", '<i class="ri-calendar-check-fill"></i>'],
+        ['Penilaian', "../$role/penilaian.php", '<i class="ri-star-line"></i>'],
     ],
     'ADMINISTRASI' => [
         ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>'],
-    ],
+    ]
 ];
 
 $menu_admin_akademik = [
@@ -49,7 +51,7 @@ $menu_admin_akademik = [
         ['Siswa', "../$role/siswa.php", '<i class="ri-user-2-line"></i>'],
     ],
     'KBM' => [
-        ['Jadwal', "../$role/jadwal.php", '<i class="ri-stack-line"></i>'],
+        ['Jadwal', "../$role/jadwal.php", '<i class="ri-list-check-2"></i>'],
         ['Pertemuan', "../$role/pertemuan.php", '<i class="ri-calendar-event-line"></i>'],
         ['Jenjang', "../$role/jenjang.php", '<i class="ri-stack-line"></i>'],
         ['Kelas', "../$role/kelas.php", '<i class="ri-bookmark-3-line"></i>'],
@@ -71,6 +73,7 @@ $menu_admin_keuangan = [
 
 $menu_superadmin = [
     'MENU' => [
+        ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
         ['Role Admin', "../$role/admin_role.php", '<i class="ri-key-2-line"></i>'],
         ['Admin', "../$role/admin.php", '<i class="ri-admin-line"></i>'],
         ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-settings-line"></i>'],

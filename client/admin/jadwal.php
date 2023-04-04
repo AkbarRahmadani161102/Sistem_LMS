@@ -53,6 +53,10 @@ if (isset($_GET['edit'])) {
     $sql = "SELECT * FROM jadwal WHERE id_jadwal = '$id_jadwal'";
     $data_jadwal = $db->query($sql) or die($db->error);
     $data_jadwal = $data_jadwal->fetch_assoc();
+
+
+    if (isset($data_jadwal['id_instruktur']))
+        redirect('jadwal.php');
 }
 
 if (isset($_GET['assign_instruktur'])) {
@@ -80,10 +84,7 @@ if (isset($_GET['assign_instruktur'])) {
                 <?php endif ?>
             </div>
             <?php if (isset($_GET['assign_instruktur'])) { ?>
-                <?php
-                $sql = "SELECT i.* FROM detail_mapel d, instruktur i WHERE d.id_instruktur = i.id_instruktur AND d.id_mapel = '$id_mapel'";
-                $data_instruktur = $db->query($sql) or die($db->error);
-                $data_instruktur->fetch_assoc(); ?>
+
                 <div class="flex gap-2 mt-5 flex-col lg:flex-row">
                     <div class="flex w-full lg:w-1/4 flex-col rounded bg-gray-200 dark:bg-gray-600 p-5 space-y-3 text-gray-800 dark:text-white">
                         <h5>Detail Jadwal</h5>
@@ -112,7 +113,10 @@ if (isset($_GET['assign_instruktur'])) {
                         <label class="text-xl" for="instruktur">Instruktur yang mengampu</label>
                         <label class="block" for="instruktur">Instruktur dibawah ini telah disaring berdasarkan mata pelajaran yang diampu</label>
                         <select class="input" name="instruktur" id="instruktur">
-                            <?php while ($instruktur = $data_instruktur->fetch_assoc()) : ?>
+                            <?php
+                            $sql = "SELECT i.* FROM detail_mapel d, instruktur i WHERE d.id_instruktur = i.id_instruktur AND d.id_mapel = '$id_mapel'";
+                            $data_instruktur = $db->query($sql) or die($db->error);
+                            while ($instruktur = $data_instruktur->fetch_assoc()) : ?>
                                 <option value="<?= $instruktur['id_instruktur'] ?>"><?= $instruktur['nama'] ?></option>
                             <?php endwhile ?>
                         </select>
@@ -210,9 +214,11 @@ if (isset($_GET['assign_instruktur'])) {
                                             <i class="ri-arrow-left-right-line"></i>
                                             <p>Ganti Instruktur</p>
                                         </a>
-                                        <a class="btn btn--outline-blue group flex" href="?edit=<?= $jadwal['id_jadwal'] ?>">
-                                            <i class="ri-edit-box-line text-blue-500 mx-auto group-hover:text-white"></i>
-                                        </a>
+                                        <?php if (!$jadwal['nama_instruktur']) : ?>
+                                            <a class="btn btn--outline-blue group flex" href="?edit=<?= $jadwal['id_jadwal'] ?>">
+                                                <i class="ri-edit-box-line text-blue-500 mx-auto group-hover:text-white"></i>
+                                            </a>
+                                        <?php endif ?>
                                         <form action="../../api/admin/jadwal.php" method="post">
                                             <button class="btn btn--outline-red group flex w-full" type="submit" name="delete" value="<?= $jadwal['id_jadwal'] ?>">
                                                 <i class="ri-delete-bin-6-line text-red-500 mx-auto group-hover:text-white"></i>

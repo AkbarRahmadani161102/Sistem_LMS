@@ -5,6 +5,10 @@ user_access('siswa');
 $id_siswa = $_SESSION['user_id'];
 $sql = "SELECT k.*, i.* FROM kuesioner_instruktur k, instruktur i, siswa s WHERE k.id_siswa = s.id_siswa AND k.id_instruktur = i.id_instruktur AND s.id_siswa = '$id_siswa'";
 $data_umpan_balik = $db->query($sql);
+
+$sql = "SELECT * FROM instruktur";
+$data_instruktur = $db->query($sql) or die($db->error);
+$data_instruktur->fetch_assoc();
 ?>
 
 <div id="umpan_balik_instruktur" class="w-full min-h-screen flex">

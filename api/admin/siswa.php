@@ -13,7 +13,7 @@ if (isset($_POST['create'])) {
     $password = md5(escape($_POST['password']));
     $id_kelas = escape($_POST['kelas']);
 
-    $contain_letter = preg_match("/[a-z][A-Z]/", $no_telp) === 1;
+    $is_number = preg_match("/^[0-9]*$/", $no_telp) === 1;
 
     function is_email_available()
     {
@@ -24,18 +24,20 @@ if (isset($_POST['create'])) {
         return $used_email['used_email'] === '0';
     }
 
-    if (!$contain_letter) {
+    if ($is_number) {
         if (is_email_available()) {
             $sql = "INSERT INTO siswa (id_siswa, nama, no_telp, alamat, email, password) VALUES ('$id_siswa', '$nama', '$no_telp', '$alamat', '$email' , '$password')";
             $db->query($sql) or die($db->error);
 
             $sql = "INSERT INTO detail_kelas (id_kelas, id_siswa) VALUES ('$id_kelas', '$id_siswa')";
             $db->query($sql) or die($db->error);
+            $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data siswa berhasil ditambahkan', 'icon_color' => 'greenlight'];
+        } else {
+            $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambah', 'icon_color' => 'red', 'text' => 'Email sudah ada'];
         }
-        // Email Sudah Ada
+    } else {
+        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambah', 'icon_color' => 'red', 'text' => 'Password mengandung karakter'];
     }
-    // Password Mengandung Karakter
-
 }
 if (isset($_POST['update'])) {
     $id_siswa = $_POST['update'];
@@ -45,7 +47,7 @@ if (isset($_POST['update'])) {
     $email = escape($_POST['email']);
     $password = escape($_POST['password']);
     $kelas = isset($_POST['kelas']) ? $_POST['kelas'] : [];
-    $contain_letter = preg_match("/[a-z][A-Z]/", $no_telp) === 1;
+    $is_number = preg_match("/^[0-9]*$/", $no_telp) === 1;
 
     function is_email_changed()
     {
@@ -65,7 +67,7 @@ if (isset($_POST['update'])) {
         return $used_password['used_password'] === '0';
     }
 
-    if (!$contain_letter) {
+    if ($is_number) {
         $ext_sql = '';
 
         if (is_email_changed()) {
@@ -81,26 +83,34 @@ if (isset($_POST['update'])) {
 
         $sql = "DELETE FROM detail_kelas WHERE id_siswa = '$id_siswa'";
         $db->query($sql) or die($db->error);
-        
+
         if (count($kelas) > 0) {
             foreach ($kelas as $key => $id_kelas) {
                 $sql = "INSERT INTO detail_kelas (id_kelas, id_siswa) VALUES('$id_kelas', '$id_siswa')";
                 $db->query($sql) or die($db->error);
             }
         }
+
+        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data siswa berhasil diubah', 'icon_color' => 'greenlight'];
+    } else {
+        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Field nomor telp mengandung karakter'];
     }
 }
 if (isset($_POST['delete'])) {
-    $id_siswa = escape($_POST['delete']);
-    if ($_SESSION['user_id'] !== $id_siswa) {
+    try {
+        $id_siswa = escape($_POST['delete']);
         $sql = "DELETE FROM detail_penilaian WHERE id_siswa = '$id_siswa'";
         $db->query($sql) or die($db->error);
-        
+
         $sql = "DELETE FROM detail_kelas WHERE id_siswa = '$id_siswa'";
         $db->query($sql) or die($db->error);
 
         $sql = "DELETE FROM siswa WHERE id_siswa = '$id_siswa'";
         $db->query($sql) or die($db->error);
+
+        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data siswa berhasil dihapus', 'icon_color' => 'greenlight'];
+    } catch (\Throwable $th) {
+        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
     }
 }
 

@@ -13,7 +13,7 @@ if (isset($_POST['create'])) {
     $email = escape($_POST['email']);
     $password = md5(escape($_POST['password']));
 
-    $contain_letter = preg_match("/[a-z][A-Z]/", $no_telp) === 1;
+    $is_number = preg_match("/^[0-9]*$/", $no_telp) === 1;
 
     function is_email_available()
     {
@@ -24,7 +24,7 @@ if (isset($_POST['create'])) {
         return $used_email['used_email'] === '0';
     }
 
-    if (!$contain_letter) {
+    if ($is_number) {
         if (is_email_available()) {
             $sql = "INSERT INTO instruktur (id_instruktur, nama, no_telp, alamat, email, password, status) VALUES ('$id_instruktur', '$nama', '$no_telp', '$alamat', '$email' , '$password', 'Aktif')";
             $db->query($sql) or die($db->error);
@@ -35,12 +35,13 @@ if (isset($_POST['create'])) {
                     $db->query($sql) or die($db->error);
                 }
             }
+            $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data instruktur berhasil ditambahkan', 'icon_color' => 'greenlight'];
+        } else {
+            $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambah', 'icon_color' => 'red', 'text' => 'Email sudah ada'];
         }
-        // Email Sudah Ada
+    } else {
+        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambah', 'icon_color' => 'red', 'text' => 'Password mengandung karakter'];
     }
-    // Password Mengandung Karakter
-
-    redirect("../../client/admin/instruktur.php");
 }
 if (isset($_POST['update_profil'])) {
     $id_instruktur = escape($_POST['update_profil']);
@@ -48,11 +49,14 @@ if (isset($_POST['update_profil'])) {
     $nomor_telepon = escape($_POST['no_telp']);
     $alamat = escape($_POST['alamat']);
 
-    $contain_letter = preg_match("/[a-z][A-Z]/", $nomor_telepon) === 1;
-    if (!$contain_letter) {
+    $is_number = preg_match("/^[0-9]*$/", $nomor_telepon) === 1;
+    if ($is_number) {
         $_SESSION['nama'] = $nama;
         $sql = "UPDATE instruktur SET nama = '$nama', no_telp = '$nomor_telepon', alamat = '$alamat'  WHERE id_instruktur = '$id_instruktur'";
         $db->query($sql) or die($db->error);
+        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data profil berhasil diubah', 'icon_color' => 'greenlight'];
+    } else {
+        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Field nomor telp mengandung karakter'];
     }
     redirect("../../client/admin/instruktur.php?edit=$id_instruktur");
 }
@@ -63,18 +67,24 @@ if (isset($_POST['update_kredensial'])) {
     $confirm_password = escape($_POST['confirm_password']);
 
     if ($password === $confirm_password) {
-        $sql = "SELECT password FROM instruktur WHERE id_instruktur = '$id_instruktur'";
-        echo $sql;
-        $db_password = $db->query($sql)->fetch_column() or die($db);
-        print_r($password . '<br>' . $db_password);
-        if ($password === $db_password) {
-            $sql = "UPDATE instruktur SET email = '$email' WHERE id_instruktur = '$id_instruktur'";
-        } else {
-            $encrypted_password = md5($password);
-            $sql = "UPDATE instruktur SET email = '$email', password = '$encrypted_password' WHERE id_instruktur = '$id_instruktur'";
+        try {
+            $sql = "SELECT password FROM instruktur WHERE id_instruktur = '$id_instruktur'";
+            echo $sql;
+            $db_password = $db->query($sql)->fetch_column() or die($db);
+            print_r($password . '<br>' . $db_password);
+            if ($password === $db_password) {
+                $sql = "UPDATE instruktur SET email = '$email' WHERE id_instruktur = '$id_instruktur'";
+            } else {
+                $encrypted_password = md5($password);
+                $sql = "UPDATE instruktur SET email = '$email', password = '$encrypted_password' WHERE id_instruktur = '$id_instruktur'";
+            }
+            $db->query($sql) or die($db->error);
+            $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data kredensial berhasil diubah', 'icon_color' => 'greenlight'];
+        } catch (\Throwable $th) {
+            $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Email sudah ada'];
         }
-
-        $db->query($sql) or die($db->error);
+    } else {
+        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Pastikan konfirmasi password sama'];
     }
     redirect("../../client/admin/instruktur.php?edit=$id_instruktur");
 }
@@ -90,26 +100,33 @@ if (isset($_POST['update_mapel'])) {
             $sql = "INSERT INTO detail_mapel (id_mapel, id_instruktur) VALUES('$value', '$id_instruktur')";
             $db->query($sql) or die($db->error);
         }
+        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data mapel berhasil diubah', 'icon_color' => 'greenlight'];
     }
 }
 if (isset($_POST['delete'])) {
-    $id_instruktur = escape($_POST['delete']);
-    $sql = "DELETE FROM gaji WHERE id_instruktur = '$id_instruktur'";
-    $db->query($sql) or die($db->error);
+    try {
+        $id_instruktur = escape($_POST['delete']);
+        $sql = "DELETE FROM gaji WHERE id_instruktur = '$id_instruktur'";
+        $db->query($sql) or die($db->error);
 
-    $sql = "DELETE FROM detail_mapel WHERE id_instruktur = '$id_instruktur'";
-    $db->query($sql) or die($db->error);
+        $sql = "DELETE FROM detail_mapel WHERE id_instruktur = '$id_instruktur'";
+        $db->query($sql) or die($db->error);
 
-    $sql = "DELETE FROM instruktur WHERE id_instruktur = '$id_instruktur'";
-    $db->query($sql) or die($db->error);
+        $sql = "DELETE FROM instruktur WHERE id_instruktur = '$id_instruktur'";
+        $db->query($sql) or die($db->error);
 
-    $sql = "DELETE FROM kuesioner_instruktur WHERE id_instruktur = '$id_instruktur'";
-    $db->query($sql) or die($db->error);
+        $sql = "DELETE FROM kuesioner_instruktur WHERE id_instruktur = '$id_instruktur'";
+        $db->query($sql) or die($db->error);
 
-    $sql = "DELETE FROM notifikasi_instruktur WHERE id_instruktur = '$id_instruktur'";
-    $db->query($sql) or die($db->error);
+        $sql = "DELETE FROM notifikasi_instruktur WHERE id_instruktur = '$id_instruktur'";
+        $db->query($sql) or die($db->error);
 
-    $sql = "DELETE FROM penilaian WHERE id_instruktur = '$id_instruktur'";
-    $db->query($sql) or die($db->error);
+        $sql = "DELETE FROM penilaian WHERE id_instruktur = '$id_instruktur'";
+        $db->query($sql) or die($db->error);
+
+        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data instruktur berhasil dihapus', 'icon_color' => 'greenlight'];
+    } catch (\Throwable $th) {
+        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
+    }
 }
 redirect("../../client/admin/instruktur.php");

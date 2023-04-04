@@ -14,10 +14,10 @@ $data_umpan_balik->fetch_assoc();
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">
             <?php include_once '../components/dashboard_navbar.php';
-            generate_breadcrumb([['title' => 'Dashboard', 'filename' => 'index.php']]);
+            generate_breadcrumb([['title' => 'Umpan Balik', 'filename' => 'umpan_balik_instruktur.php']]);
             ?>
 
-            <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Pertemuan Minggu Ini</h4>
+            <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Umpan Balik Siswa</h4>
 
             <div class="relative overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -31,9 +31,9 @@ $data_umpan_balik->fetch_assoc();
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($data_umpan_balik as $key => $row) : ?>
+                        <?php foreach ($data_umpan_balik as $key => $row) : ?>
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th class="px-6 py-4 text-amber-500"><?= $key + 1?></th>
+                                <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
                                 <td class="px-6 py-4"><?= $row['nama_siswa'] ?></td>
                                 <td class="px-6 py-4"><?= $row['deskripsi'] ?></td>
                                 <td class="px-6 py-4">

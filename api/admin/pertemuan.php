@@ -43,8 +43,19 @@ if ($result->fetch_array()[0] <= 0) {
             while ($row = $result->fetch_assoc()) {
                 $id_jadwal = $row['id_jadwal'];
                 $id_instruktur = $row['id_instruktur'];
+
                 foreach ($array_tgl[$index_hari] as $tgl_pertemuan) {
                     $sql = "INSERT INTO detail_jadwal (id_jadwal, id_instruktur, tgl_pertemuan) VALUES ('$id_jadwal', '$id_instruktur', '$tgl_pertemuan')";
+                    $db->query($sql) or die($db->error);
+                }
+
+                $msg = "Pertemuan bulan $month tahun $tahun telah ditambahkan, silahkan konfirmasi kehadiran anda";
+
+                $sql = "SELECT COUNT(*) jumlah_notifikasi FROM notifikasi_instruktur WHERE deskripsi = '$msg' AND MONTH(tgl_dibuat) = $month AND id_instruktur = '$id_instruktur'";
+                $data_notifikasi = $db->query($sql) or die($db->error);
+                $data_notifikasi = $data_notifikasi->fetch_assoc();
+                if($data_notifikasi['jumlah_notifikasi'] <= 0) {
+                    $sql = "INSERT INTO notifikasi_instruktur (id_instruktur, deskripsi) VALUES('$id_instruktur', '$msg')";
                     $db->query($sql) or die($db->error);
                 }
             }
@@ -55,18 +66,3 @@ if ($result->fetch_array()[0] <= 0) {
 }
 
 redirect('../../client/admin/pertemuan.php');
-
-
-
-// print_r($tgl_senin);
-// echo "<br>";
-// print_r($tgl_selasa);
-// echo "<br>";
-// print_r($tgl_rabu);
-// echo "<br>";
-// print_r($tgl_kamis);
-// echo "<br>";
-// print_r($tgl_jumat);
-// echo "<br>";
-// print_r($tgl_sabtu);
-// echo "<br>";
