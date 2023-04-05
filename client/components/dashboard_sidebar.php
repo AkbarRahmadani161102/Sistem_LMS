@@ -68,7 +68,9 @@ $menu_admin_keuangan = [
     'MENU' => [
         ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
     ],
-    'ADMINISTRASI' => []
+    'ADMINISTRASI' => [
+        ['Tunggakan', "../$role/tunggakan.php", '<i class="ri-money-dollar-circle-line"></i>'],
+    ]
 ];
 
 $menu_superadmin = [
@@ -78,6 +80,9 @@ $menu_superadmin = [
         ['Admin', "../$role/admin.php", '<i class="ri-admin-line"></i>'],
         ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-settings-line"></i>'],
         ['Siswa', "../$role/siswa.php", '<i class="ri-user-2-line"></i>'],
+    ],
+    'ADMINISTRASI' => [
+        ['Tunggakan', "../$role/tunggakan.php", '<i class="ri-money-dollar-circle-line"></i>'],
     ]
 ];
 
