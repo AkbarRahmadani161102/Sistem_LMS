@@ -58,34 +58,34 @@ if (isset($_GET['edit'])) {
             </div>
             <?php if (isset($_GET['edit'])) : ?>
                 <?php generate_breadcrumb([['title' => 'Siswa', 'filename' => 'siswa.php'], ['title' => 'Edit Siswa', 'filename' => '#']]); ?>
-                <form action="../../api/admin/siswa.php" method="post">
+                <form class="form" action="../../api/admin/siswa.php" method="post">
                     <div class="pt-6 flex gap-5 flex-col md:flex-row">
                         <div class="flex-1 flex flex-col">
                             <div class="mb-5">
-                                <label for="nama" class="form-label text-secondary text-gray-400 dark:text-white">Nama</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="nama" name="nama" value="<?= $result['nama'] ?>" maxlength="50">
+                                <label for="nama">Nama</label>
+                                <input type="text" class="input" id="nama" name="nama" value="<?= $result['nama'] ?>" maxlength="50">
                             </div>
                             <div class="mb-5">
-                                <label for="no_telp" class="form-label text-secondary text-gray-400 dark:text-white">No Telp</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="no_telp" name="no_telp" value="<?= $result['no_telp'] ?>" maxlength="14">
+                                <label for="no_telp">No Telp</label>
+                                <input type="text" class="input" id="no_telp" name="no_telp" value="<?= $result['no_telp'] ?>" maxlength="14">
                             </div>
                             <div class="mb-5">
-                                <label for="alamat" class="form-label text-secondary text-gray-400 dark:text-white">Alamat</label>
-                                <textarea class="resize-none border rounded w-full py-1.5 border-gray-400 mt-1" name="alamat" id="" cols="30" rows="3" maxlength="50"><?= $result['alamat'] ?></textarea>
+                                <label for="alamat">Alamat</label>
+                                <textarea class="resize-none input" name="alamat" id="" cols="30" rows="3" maxlength="50"><?= $result['alamat'] ?></textarea>
                             </div>
                         </div>
                         <div class="flex-1 flex flex-col">
                             <div class="mb-5">
-                                <label for="email" class="form-label text-secondary text-gray-400 dark:text-white">Email</label>
-                                <input type="email" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="email" name="email" value="<?= $result['email'] ?>" maxlength="30">
+                                <label for="email">Email</label>
+                                <input type="email" class="input" id="email" name="email" value="<?= $result['email'] ?>" maxlength="30">
                             </div>
                             <div class="mb-5">
-                                <label for="password" class="form-label text-secondary text-gray-400 dark:text-white">Password</label>
-                                <input type="password" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="password" name="password" value="<?= $result['password'] ?>" maxlength="50">
+                                <label for="password">Password</label>
+                                <input type="password" class="input" id="password" name="password" value="<?= $result['password'] ?>" maxlength="50">
                             </div>
                         </div>
                         <div class="flex flex-1 flex-col gap-5">
-                            <div id="form_hak_akses_siswa" class="flex flex-col">
+                            <div class="flex flex-col">
                                 <p class="text-normal text-gray-400 dark:text-white">Kelas</p>
 
                                 <div id="accordion-collapse" data-accordion="collapse">
@@ -133,7 +133,7 @@ if (isset($_GET['edit'])) {
             <?php else : ?>
                 <?php generate_breadcrumb([['title' => 'Data Siswa', 'filename' => 'siswa.php']]); ?>
                 <div class="relative overflow-x-auto mt-5">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3"></th>
@@ -194,7 +194,7 @@ if (isset($_GET['edit'])) {
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <div class="px-6 py-6 lg:px-8">
-                <form action="../../api/admin/siswa.php" method="post">
+                <form class="form" action="../../api/admin/siswa.php" method="post">
                     <!-- Modal header -->
                     <div class="flex items-start justify-between border-b rounded-t dark:border-gray-600">
                         <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
@@ -210,32 +210,30 @@ if (isset($_GET['edit'])) {
                     <div class="pt-6 flex gap-5 flex-col md:flex-row">
                         <div class="flex-1 flex flex-col" method="post">
                             <div class="mb-5">
-                                <label for="nama" class="form-label text-secondary text-gray-400 dark:text-white">Nama</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="nama" name="nama" maxlength="50" required>
+                                <label for="nama">Nama</label>
+                                <input type="text" class="input" id="nama" name="nama" maxlength="50" required>
                             </div>
                             <div class="mb-5">
-                                <label for="no_telp" class="form-label text-secondary text-gray-400 dark:text-white">No Telp</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="no_telp" name="no_telp" maxlength="14" required>
+                                <label for="no_telp">No Telp</label>
+                                <input type="text" class="input" id="no_telp" name="no_telp" maxlength="14" required>
                             </div>
                             <div class="mb-5">
-                                <label for="alamat" class="form-label text-secondary text-gray-400 dark:text-white">Alamat</label>
-                                <textarea class="resize-none border rounded w-full py-1.5 border-gray-400 mt-1" name="alamat" id="" cols="30" rows="3" maxlength="50"></textarea>
+                                <label for="alamat">Alamat</label>
+                                <textarea class="resize-none input" name="alamat" id="" cols="30" rows="2" maxlength="50"></textarea>
                             </div>
                         </div>
                         <div class="flex-1 flex flex-col" method="post">
                             <div class="mb-5">
-                                <label for="email" class="form-label text-secondary text-gray-400 dark:text-white">Email</label>
-                                <input type="email" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="email" name="email" maxlength="30" required>
+                                <label for="email">Email</label>
+                                <input type="email" class="input" id="email" name="email" maxlength="30" required>
                             </div>
                             <div class="mb-5">
-                                <label for="password" class="form-label text-secondary text-gray-400 dark:text-white">Password</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="password" name="password" maxlength="50" required>
+                                <label for="password">Password</label>
+                                <input type="text" class="input" id="password" name="password" maxlength="50" required>
                             </div>
-                        </div>
-                        <div class="flex flex-1 flex-col gap-5">
-                            <div id="form_hak_akses_siswa" class="flex flex-col" method="post">
-                                <p class="text-normal text-gray-400 dark:text-white">Kelas</p>
-                                <select name="kelas" id="kelas" class="border rounded w-full py-1.5 border-gray-400 mt-1" required>
+                            <div class="mb-5">
+                                <label for="kelas" class="text-normal text-gray-400 dark:text-white">Kelas</label>
+                                <select name="kelas" id="kelas" class="input selectize input" required>
                                     <?php foreach ($data_kelas as $key => $kelas) : ?>
                                         <option value="<?= $kelas['id_kelas'] ?>">
                                             <?php
