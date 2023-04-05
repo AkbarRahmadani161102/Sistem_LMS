@@ -78,7 +78,7 @@ $data_instruktur->fetch_assoc();
                 <!-- Modal body -->
                 <div class="modal__body">
                     <label class="block" for="id_instruktur">Instruktur</label>
-                    <select class="input" id="id_instruktur" name="id_instruktur" required>
+                    <select class="selectize input" id="id_instruktur" name="id_instruktur" required>
                         <?php while (($data = mysqli_fetch_assoc($data_instruktur))) { ?>
                             <option value="<?= $data['id_instruktur'] ?>"><?= $data['nama'] ?></option>
                         <?php } ?>

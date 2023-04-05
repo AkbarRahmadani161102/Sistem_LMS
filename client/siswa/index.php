@@ -19,7 +19,7 @@ $data_pertemuan = $db->query($sql) or die($db->error);
             <?php include_once '../components/dashboard_navbar.php';
             generate_breadcrumb([['title' => 'Dashboard', 'filename' => 'index.php']]);
             ?>
-           <div class="flex justify-between items-center">
+            <div class="flex justify-between items-center">
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Jadwal Minggu Ini</h4>
             </div>
 
@@ -33,7 +33,7 @@ $data_pertemuan = $db->query($sql) or die($db->error);
                         </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($data_pertemuan as $jadwal) :
+                        <?php foreach ($data_pertemuan as $jadwal) :
                             $hari = $jadwal['hari'];
                             $sql = "SELECT j.*, k.nama nama_kelas, m.nama nama_mapel, i.nama nama_instruktur FROM jadwal j
                                     JOIN kelas k on j.id_kelas = k.id_kelas
@@ -53,7 +53,7 @@ $data_pertemuan = $db->query($sql) or die($db->error);
                                     $data = $db->query($sql) or die($db->error);
                                     $data = $data->fetch_assoc();
                                     ?>
-                                    <h6><?= isset($data['nama_instruktur']) ? $data['nama_instruktur'] : "" ?>
+                                    <p><?= isset($data['nama_instruktur']) ? $data['nama_instruktur'] : "" ?></p>
                                     <p><?= isset($data['nama_mapel']) ? $data['nama_mapel'] : "" ?></p>
                                 </td>
 
