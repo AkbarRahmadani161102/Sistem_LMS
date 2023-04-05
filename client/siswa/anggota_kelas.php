@@ -2,6 +2,15 @@
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
 user_access('siswa');
+
+$id_siswa = $_SESSION['user_id'];
+
+$sql = "SELECT s.nama, s.no_telp, s.alamat, s.status FROM siswa s
+JOIN detail_kelas dk on dk.id_siswa = s.id_siswa
+JOIN kelas k on k.id_kelas = dk.id_kelas
+WHERE dk.id_kelas = k.id_kelas AND dk.id_siswa = s.id_siswa AND dk.id_siswa = '$id_siswa'";
+$data_kelas = $db->query($sql) or die($db->error);
+$data_kelas->fetch_assoc();
 ?>
 
 <div id="anggota_kelas" class="w-full min-h-screen flex">
@@ -13,7 +22,7 @@ user_access('siswa');
             generate_breadcrumb([['title' => 'Anggota Kelas', 'filename' => 'anggota_kelas.php']]);
             ?>
 
-            <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Anggota kelas 2B</h4>
+            <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Anggota kelas</h4>
 
             <div class="relative overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -27,13 +36,15 @@ user_access('siswa');
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th class="px-6 py-4 text-amber-500">1</th>
-                            <td class="px-6 py-4">Mamat</td>
-                            <td class="px-6 py-4">123</td>
-                            <td class="px-6 py-4">Malang</td>
-                            <td class="px-6 py-4 text-green-500">Aktif</td>
-                        </tr>
+                        <?php foreach ($data_kelas as $key => $kelas) : ?>
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
+                                <td class="px-6 py-4"><?= $kelas['nama'] ?></th>
+                                <td class="px-6 py-4"><?= $kelas['no_telp'] ?></td>
+                                <td class="px-6 py-4"><?= $kelas['alamat'] ?></td>
+                                <td class="px-6 py-4"><?= $kelas['status'] ?></td>
+                            </tr>
+                        <?php endforeach ?>
                     </tbody>
                 </table>
             </div>
