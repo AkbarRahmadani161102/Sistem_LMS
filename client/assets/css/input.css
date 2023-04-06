@@ -56,6 +56,46 @@
 }
 
 @layer components {
+    .table__container {
+        @apply relative overflow-x-auto mt-5
+    }
+
+    .table {
+        @apply w-full text-sm text-left text-gray-500
+    }
+
+    .dark .table {
+        @apply text-gray-400
+    }
+
+    .table thead {
+        @apply text-xs text-gray-700 uppercase bg-gray-50
+    }
+
+    .table thead tr th {
+        @apply px-6 py-3 !important
+    }
+
+    .table tbody tr th {
+        @apply text-amber-500
+    }
+
+    .table tbody tr>* {
+        @apply px-6 py-4 !important
+    }
+
+    .table tbody tr {
+        @apply bg-white border-b
+    }
+
+    .dark .table tbody tr {
+        @apply bg-gray-800 border-gray-700
+    }
+
+    .dark .table thead {
+        @apply bg-gray-700 text-gray-400
+    }
+
     .form label {
         @apply text-gray-800;
     }
@@ -100,6 +140,8 @@
         @apply bg-gray-700
     }
 
+    /* Button Component */
+
     .btn {
         @apply bg-gray-800 text-white font-medium rounded text-base px-4 py-1.5
     }
@@ -108,11 +150,11 @@
         @apply bg-white text-gray-800
     }
 
-    .btn.btn-blue {
+    .btn.btn--blue {
         @apply bg-blue-500 text-white
     }
 
-    .btn.btn-blue:hover {
+    .btn.btn--blue:hover {
         @apply bg-blue-600
     }
 
@@ -123,7 +165,17 @@
 
     .btn--outline-red:hover,
     .dark .btn--outline-red:hover {
-        @apply bg-red-500 transition border-transparent
+        @apply bg-red-500 transition border-transparent text-white
+    }
+
+    .btn--outline-amber,
+    .dark .btn--outline-amber {
+        @apply bg-transparent border border-amber-500 text-amber-500
+    }
+
+    .btn--outline-amber:hover,
+    .dark .btn--outline-amber:hover {
+        @apply bg-amber-500 transition border-transparent text-white
     }
 
     .btn--outline-blue,
@@ -133,7 +185,7 @@
 
     .btn--outline-blue:hover,
     .dark .btn--outline-blue:hover {
-        @apply bg-blue-500 transition border-transparent
+        @apply bg-blue-500 transition border-transparent text-white
     }
 
     .btn--outline-green,
@@ -143,8 +195,10 @@
 
     .btn--outline-green:hover,
     .dark .btn--outline-green:hover {
-        @apply bg-green-500 transition border-transparent
+        @apply bg-green-500 transition border-transparent text-white
     }
+
+    /* Input Component */
 
     .input {
         @apply rounded border bg-gray-50 border-gray-300 text-gray-900 text-sm block w-full p-2.5
@@ -158,35 +212,35 @@
         @apply w-0.5 h-12 bg-gray-400 mx-3;
     }
 
-    .dashboard-sidebar-menu {
+    .dashboard__sidebar-menu {
         @apply my-5 flex flex-col gap-3;
     }
 
-    .dashboard-sidebar-header {
+    .dashboard__sidebar-header {
         @apply text-gray-400;
     }
 
-    .dashboard-sidebar-item {
+    .dashboard__sidebar-item {
         @apply py-3 px-8 rounded flex gap-2 text-gray-800 transition font-medium;
     }
 
-    .dark .dashboard-sidebar-item {
+    .dark .dashboard__sidebar-item {
         @apply text-white;
     }
 
-    .dashboard-sidebar-item:hover {
+    .dashboard__sidebar-item:hover {
         @apply text-amber-500;
     }
 
-    .dashboard-sidebar-item.active {
+    .dashboard__sidebar-item.active {
         @apply text-white bg-zinc-800;
     }
 
-    .dark .dashboard-sidebar-item.active {
+    .dark .dashboard__sidebar-item.active {
         @apply bg-gray-200 text-gray-800;
     }
 
-    .dashboard-sidebar-item.active i {
+    .dashboard__sidebar-item.active i {
         @apply text-amber-500;
     }
 

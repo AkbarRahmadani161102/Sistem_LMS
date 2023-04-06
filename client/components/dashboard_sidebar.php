@@ -49,6 +49,7 @@ $menu_admin_akademik = [
         ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
         ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-settings-line"></i>'],
         ['Siswa', "../$role/siswa.php", '<i class="ri-user-2-line"></i>'],
+        ['Pengajuan', "../$role/pengajuan.php", '<i class="ri-discuss-line"></i>'],
     ],
     'KBM' => [
         ['Jadwal', "../$role/jadwal.php", '<i class="ri-list-check-2"></i>'],
@@ -80,6 +81,7 @@ $menu_superadmin = [
         ['Admin', "../$role/admin.php", '<i class="ri-admin-line"></i>'],
         ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-settings-line"></i>'],
         ['Siswa', "../$role/siswa.php", '<i class="ri-user-2-line"></i>'],
+        ['Pengajuan', "../$role/pengajuan.php", '<i class="ri-discuss-line"></i>'],
     ],
 ];
 
@@ -98,10 +100,10 @@ $menu_admin_akademik_keuangan = array_replace_recursive($menu_admin_akademik, $m
 function generate_sidebar(array $source_menu)
 {
     foreach ($source_menu as $title => $menu) : ?>
-        <div class="dashboard-sidebar-menu">
-            <a href="" class="dashboard-sidebar-header"><?= $title ?></a>
+        <div class="dashboard__sidebar-menu">
+            <a href="" class="dashboard__sidebar-header"><?= $title ?></a>
             <?php foreach ($menu as $submenu) : ?>
-                <a href="<?= $submenu[1] ?>" class="dashboard-sidebar-item">
+                <a href="<?= $submenu[1] ?>" class="dashboard__sidebar-item">
                     <?= $submenu[2] ?>
                     <?= $submenu[0] ?>
                 </a>

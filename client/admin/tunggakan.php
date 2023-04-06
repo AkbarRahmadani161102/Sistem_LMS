@@ -97,7 +97,7 @@ $data_siswa->fetch_assoc();
                                                         </div>
                                                         <!-- Modal footer -->
                                                         <div class="modal__footer">
-                                                            <button type="submit" name="update" value="<?= $tunggakan['id_tunggakan'] ?>" class="btn btn-blue">Tandai sebagai lunas</button>
+                                                            <button type="submit" name="update" value="<?= $tunggakan['id_tunggakan'] ?>" class="btn btn--blue">Tandai sebagai lunas</button>
                                                         </div>
                                                     </form>
                                                 </div>

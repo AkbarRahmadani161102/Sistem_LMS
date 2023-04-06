@@ -82,7 +82,7 @@ $result->fetch_assoc();
                                             </div>
                                             <!-- Modal footer -->
                                             <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                                <button type="submit" value="<?= $value['id_jenjang'] ?>" name="update" class="btn btn-blue">Ubah</button>
+                                                <button type="submit" value="<?= $value['id_jenjang'] ?>" name="update" class="btn btn--blue">Ubah</button>
                                             </div>
                                         </form>
                                     </div>
@@ -126,7 +126,7 @@ $result->fetch_assoc();
                 </div>
                 <!-- Modal footer -->
                 <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button type="submit" name="create" class="btn btn-blue">Tambah</button>
+                    <button type="submit" name="create" class="btn btn--blue">Tambah</button>
                 </div>
             </form>
         </div>
