@@ -90,7 +90,7 @@ if (isset($_GET['assign_instruktur'])) {
                     <div class="flex w-full lg:w-1/4 flex-col rounded bg-gray-200 dark:bg-gray-600 p-5 space-y-3 text-gray-800 dark:text-white">
                         <h5>Detail Jadwal</h5>
                         <div class="flex justify-between hover:bg-gray-500 hover:text-white py-3 px-2 rounded-lg">
-                            <p>Nama     :</p>
+                            <p>Nama Mapel:</p>
                             <p><?= $data_jadwal['nama_mapel'] ?></p>
                         </div>
                         <div class="flex justify-between hover:bg-gray-500 hover:text-white py-3 px-2 rounded-lg">

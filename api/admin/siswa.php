@@ -69,6 +69,7 @@ if (isset($_POST['update'])) {
 
     if ($is_number) {
         $ext_sql = '';
+        $id_kelas = $_POST['kelas'];
 
         if (is_email_changed()) {
             $ext_sql .= ", email = '$email'";
@@ -84,12 +85,8 @@ if (isset($_POST['update'])) {
         $sql = "DELETE FROM detail_kelas WHERE id_siswa = '$id_siswa'";
         $db->query($sql) or die($db->error);
 
-        if (count($kelas) > 0) {
-            foreach ($kelas as $key => $id_kelas) {
-                $sql = "INSERT INTO detail_kelas (id_kelas, id_siswa) VALUES('$id_kelas', '$id_siswa')";
-                $db->query($sql) or die($db->error);
-            }
-        }
+        $sql = "INSERT INTO detail_kelas (id_kelas, id_siswa) VALUES('$id_kelas', '$id_siswa')";
+        $db->query($sql) or die($db->error);
 
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data siswa berhasil diubah', 'icon_color' => 'greenlight'];
     } else {

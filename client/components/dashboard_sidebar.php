@@ -81,9 +81,6 @@ $menu_superadmin = [
         ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-settings-line"></i>'],
         ['Siswa', "../$role/siswa.php", '<i class="ri-user-2-line"></i>'],
     ],
-    'ADMINISTRASI' => [
-        ['Tunggakan', "../$role/tunggakan.php", '<i class="ri-money-dollar-circle-line"></i>'],
-    ]
 ];
 
 $menu_siswa = array_replace_recursive($menu_siswa, $menu_user);

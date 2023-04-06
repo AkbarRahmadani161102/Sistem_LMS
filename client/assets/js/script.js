@@ -27,6 +27,10 @@ $(document).ready(() => {
         }
     })
 
+    $('select.selectize.group').selectize({
+        sortField: 'text'
+    })
+
     $('.datatable').DataTable();
 
 })
