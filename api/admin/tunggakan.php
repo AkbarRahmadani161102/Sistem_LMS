@@ -17,12 +17,21 @@ if(isset($_POST['sync'])) {
     echo $tanggal_trigger = "$tahun-$bulan-$hari";
     echo "<br>";
     echo $tenggat = date('Y-m-t', strtotime($tanggal_trigger));
-    // $tenggat_bulan = $bulan + 3;
 
-    // foreach ($data_siswa as $key => $siswa) {
-    //     echo $siswa['nama_siswa'];
-    //     echo $siswa['nama_kelas'];
-    //     echo $siswa['nama_jenjang'];
-    // }
+    $sql = "SELECT s.id_siswa, j.nama nama_jenjang, j.biaya_pendidikan FROM siswa s
+    JOIN detail_kelas dk ON s.id_siswa = dk.id_siswa
+    JOIN kelas k ON dk.id_kelas = k.id_kelas
+    JOIN jenjang j ON k.id_jenjang = j.id_jenjang";
+
+    $data_siswa = $db->query($sql) or die($db->error);
+    $data_siswa->fetch_assoc();
+    foreach($data_siswa as $siswa) {
+        $biaya_pendidikan =  $siswa['biaya_pendidikan'];
+        $id_siswa = $siswa['id_siswa'];
+        $sql = "INSERT INTO tunggakan (id_siswa, tenggat_pembayaran, nominal, tgl_dibuat)
+        VALUES('$id_siswa', '$tenggat', '$biaya_pendidikan', '$tenggat')";
+
+        $db->query($sql) or die($db->error);
+    }
 }
 ?>

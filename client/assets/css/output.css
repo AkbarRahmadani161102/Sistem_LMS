@@ -846,6 +846,18 @@ table tbody tr:hover {
   color: rgb(31 41 55 / var(--tw-text-opacity));
 }
 
+.btn.btn-blue {
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.btn.btn-blue:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+}
+
 .btn--outline-red,
     .dark .btn--outline-red {
   border-width: 1px;
@@ -1889,18 +1901,6 @@ hr.vr {
 
 .font-semibold {
   font-weight: 600;
-}
-
-.font-thin {
-  font-weight: 100;
-}
-
-.font-normal {
-  font-weight: 400;
-}
-
-.font-light {
-  font-weight: 300;
 }
 
 .uppercase {

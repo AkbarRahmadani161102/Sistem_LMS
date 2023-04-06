@@ -3,14 +3,16 @@ include_once '../util/db.php';
 
 if (isset($_POST['create'])) {
     $nama = $_POST['nama'];
-    $sql = "INSERT INTO jenjang (nama) VALUES ('$nama')";
+    $biaya_pendidikan = $_POST['biaya_pendidikan'];
+    $sql = "INSERT INTO jenjang (nama, biaya_pendidikan) VALUES ('$nama', '$biaya_pendidikan')";
     $db->query($sql) or die($db->error);
     $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Jenjang baru berhasil ditambahkan', 'icon_color' => 'greenlight'];
 }
 if (isset($_POST['update'])) {
     $id_jenjang = $_POST['update'];
     $nama = $_POST['nama'];
-    $sql = "UPDATE jenjang SET nama = '$nama' WHERE id_jenjang = '$id_jenjang'";
+    $biaya_pendidikan = $_POST['biaya_pendidikan'];
+    $sql = "UPDATE jenjang SET nama = '$nama', biaya_pendidikan = '$biaya_pendidikan' WHERE id_jenjang = '$id_jenjang'";
     $db->query($sql) or die($db->error);
     $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data jenjang berhasil diubah', 'icon_color' => 'greenlight'];
 }
