@@ -118,7 +118,7 @@
 
     .btn--outline-red,
     .dark .btn--outline-red {
-        @apply bg-transparent border border-red-500
+        @apply bg-transparent border border-red-500 text-red-500
     }
 
     .btn--outline-red:hover,
@@ -128,7 +128,7 @@
 
     .btn--outline-blue,
     .dark .btn--outline-blue {
-        @apply bg-transparent border border-blue-500
+        @apply bg-transparent border border-blue-500 text-blue-500
     }
 
     .btn--outline-blue:hover,
@@ -138,7 +138,7 @@
 
     .btn--outline-green,
     .dark .btn--outline-green {
-        @apply bg-transparent border border-green-500
+        @apply bg-transparent border border-green-500 text-green-500
     }
 
     .btn--outline-green:hover,

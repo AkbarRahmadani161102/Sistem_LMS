@@ -88,7 +88,9 @@ if (isset($_GET['edit'])) {
                                             $data_kelas->fetch_assoc(); ?>
 
                                             <?php foreach ($data_kelas as $kelas) : ?>
-                                                <option value="<?= $kelas['id_kelas'] ?>" <?= $data_kelas_siswa['id_kelas'] === $kelas['id_kelas'] ? 'selected' : '' ?>><?= $kelas['nama'] ?></option>
+                                                <option value="<?= isset($kelas['id_kelas']) ? $kelas['id_kelas'] : null ?>" <?= isset($data_kelas_siswa['id_kelas']) && $data_kelas_siswa['id_kelas'] === $kelas['id_kelas'] ? 'selected' : '' ?>>
+                                                    <?= $kelas['nama'] ?>
+                                                </option>
                                             <?php endforeach ?>
                                         </optgroup>
                                     <?php endforeach ?>

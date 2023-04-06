@@ -864,6 +864,8 @@ table tbody tr:hover {
   --tw-border-opacity: 1;
   border-color: rgb(239 68 68 / var(--tw-border-opacity));
   background-color: transparent;
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 
 .btn--outline-red:hover,
@@ -884,6 +886,8 @@ table tbody tr:hover {
   --tw-border-opacity: 1;
   border-color: rgb(59 130 246 / var(--tw-border-opacity));
   background-color: transparent;
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity));
 }
 
 .btn--outline-blue:hover,
@@ -904,6 +908,8 @@ table tbody tr:hover {
   --tw-border-opacity: 1;
   border-color: rgb(34 197 94 / var(--tw-border-opacity));
   background-color: transparent;
+  --tw-text-opacity: 1;
+  color: rgb(34 197 94 / var(--tw-text-opacity));
 }
 
 .btn--outline-green:hover,
@@ -1905,6 +1911,10 @@ hr.vr {
 
 .uppercase {
   text-transform: uppercase;
+}
+
+.leading-relaxed {
+  line-height: 1.625;
 }
 
 .text-amber-500 {
