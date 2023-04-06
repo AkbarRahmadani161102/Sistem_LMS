@@ -180,6 +180,7 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
                 y: {
                     ticks: {
                         color,
+                        stepSize: 1
                     },
                     grid: {
                         drawOnChartArea: false,

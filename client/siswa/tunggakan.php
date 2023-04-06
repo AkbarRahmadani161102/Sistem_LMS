@@ -5,7 +5,7 @@ user_access('siswa');
 
 $id_siswa = $_SESSION['user_id'];
 
-$sql = "SELECT t.*, t.status status_pembayaran FROM tunggakan t
+$sql = "SELECT t.* FROM tunggakan t
 JOIN siswa s on s.id_siswa = t.id_siswa 
 WHERE s.id_siswa = '$id_siswa'";
 $data_tunggakan = $db->query($sql) or die($db->error);
@@ -40,7 +40,7 @@ $data_tunggakan->fetch_assoc();
                             <td class="px-6 py-4"><?= $tunggakan['tgl_pembayaran'] ?></td>
                             <td class="px-6 py-4"><?= $tunggakan['tenggat_pembayaran'] ?></td>
                             <td class="px-6 py-4"><?= $tunggakan['nominal'] ?></td>
-                            <td class="px-6 py-4 "><?= $tunggakan['status_pembayaran'] ?></td>
+                            <td class="px-6 py-4 <?= $tunggakan['status'] === 'Lunas' ? 'text-green-500' : 'text-red-500'?> "><?= $tunggakan['status'] === 'Lunas' ? $tunggakan['status'] : 'Belum Terbayar' ?></td>
                         </tr>
                         <?php endforeach ?>
                     </tbody>
