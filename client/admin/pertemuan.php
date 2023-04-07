@@ -59,6 +59,7 @@ $data_pertemuan->fetch_assoc();
                                 <th scope="col" class="px-6 py-3">Hari, Tanggal</th>
                                 <th scope="col" class="px-6 py-3">Jam Mulai</th>
                                 <th scope="col" class="px-6 py-3">Jam Selesai</th>
+                                <th scope="col" class="px-6 py-3">Status Kehadiran Instruktur</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -71,6 +72,7 @@ $data_pertemuan->fetch_assoc();
                                     <td class="px-6 py-4"><?= $pertemuan['hari'] ?>, <?= $pertemuan['tgl_pertemuan'] ?></td>
                                     <td class="px-6 py-4"><?= $pertemuan['jam_mulai'] ?></td>
                                     <td class="px-6 py-4"><?= $pertemuan['jam_selesai'] ?></td>
+                                    <td class="px-6 py-4"><?= $pertemuan['status_kehadiran_instruktur'] ?></td>
                                 </tr>
                             <?php endforeach ?>
                         </tbody>

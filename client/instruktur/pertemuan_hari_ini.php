@@ -66,10 +66,12 @@ if (isset($_GET['presence'])) {
                                     $data = $db->query($sql . "'14:30:00'") or die($db->error);
                                     $data = $data->fetch_assoc();
                                     if ($data) : ?>
-                                        <td class="px-6 py-4 text-center border group hover:border-transparent relative">
+                                        <td class="px-6 py-4 text-center border group hover:border-transparent relative <?= $data['status_kehadiran_instruktur'] === 'Hadir' ? 'bg-red-500' : '' ?>">
                                             <h6><?= isset($data['nama_kelas']) ? $data['nama_kelas'] : "" ?></h6>
                                             <p><?= isset($data['nama_mapel']) ? $data['nama_mapel'] : "" ?></p>
-                                            <a href="?presence=<?= $data['id_detail_jadwal'] ?>" class="w-full h-0 bg-green-500 group-hover:z-[100] absolute bottom-0 left-0 justify-center items-center hidden group-hover:flex group-hover:h-full active:bg-gradient-to-r active:from-cyan-500 active:to-blue-500 transition-all text-xl text-white">Pilih</a>
+                                            <?php if ($data['status_kehadiran_instruktur'] !== 'Hadir') : ?>
+                                                <a href="?presence=<?= $data['id_detail_jadwal'] ?>" class="w-full h-0 bg-green-500 group-hover:z-[100] absolute bottom-0 left-0 justify-center items-center hidden group-hover:flex group-hover:h-full active:bg-gradient-to-r active:from-cyan-500 active:to-blue-500 transition-all text-xl text-white">Pilih</a>
+                                            <?php endif ?>
                                         </td>
                                     <?php else : ?>
                                         <td></td>
@@ -79,10 +81,12 @@ if (isset($_GET['presence'])) {
                                     $data = $db->query($sql . "'15:30:00'") or die($db->error);
                                     $data = $data->fetch_assoc();
                                     if ($data) : ?>
-                                        <td class="px-6 py-4 text-center border group hover:border-transparent relative">
+                                        <td class="px-6 py-4 text-center border group hover:border-transparent relative <?= $data['status_kehadiran_instruktur'] === 'Hadir' ? 'bg-red-500' : '' ?>">
                                             <h6><?= isset($data['nama_kelas']) ? $data['nama_kelas'] : "" ?></h6>
                                             <p><?= isset($data['nama_mapel']) ? $data['nama_mapel'] : "" ?></p>
-                                            <a href="?presence=<?= $data['id_detail_jadwal'] ?>" class="w-full h-0 bg-green-500 group-hover:z-[100] absolute bottom-0 left-0 justify-center items-center hidden group-hover:flex group-hover:h-full active:bg-gradient-to-r active:from-cyan-500 active:to-blue-500 transition-all text-xl text-white">Pilih</a>
+                                            <?php if ($data['status_kehadiran_instruktur'] !== 'Hadir') : ?>
+                                                <a href="?presence=<?= $data['id_detail_jadwal'] ?>" class="w-full h-0 bg-green-500 group-hover:z-[100] absolute bottom-0 left-0 justify-center items-center hidden group-hover:flex group-hover:h-full active:bg-gradient-to-r active:from-cyan-500 active:to-blue-500 transition-all text-xl text-white">Pilih</a>
+                                            <?php endif ?>
                                         </td>
                                     <?php else : ?>
                                         <td></td>
@@ -92,10 +96,12 @@ if (isset($_GET['presence'])) {
                                     $data = $db->query($sql . "'16:30:00'") or die($db->error);
                                     $data = $data->fetch_assoc();
                                     if ($data) : ?>
-                                        <td class="px-6 py-4 text-center border group hover:border-transparent relative">
+                                        <td class="px-6 py-4 text-center border group hover:border-transparent relative <?= $data['status_kehadiran_instruktur'] === 'Hadir' ? 'bg-red-500' : '' ?>">
                                             <h6><?= isset($data['nama_kelas']) ? $data['nama_kelas'] : "" ?></h6>
                                             <p><?= isset($data['nama_mapel']) ? $data['nama_mapel'] : "" ?></p>
-                                            <a href="?presence=<?= $data['id_detail_jadwal'] ?>" class="w-full h-0 bg-green-500 group-hover:z-[100] absolute bottom-0 left-0 justify-center items-center hidden group-hover:flex group-hover:h-full active:bg-gradient-to-r active:from-cyan-500 active:to-blue-500 transition-all text-xl text-white">Pilih</a>
+                                            <?php if ($data['status_kehadiran_instruktur'] !== 'Hadir') : ?>
+                                                <a href="?presence=<?= $data['id_detail_jadwal'] ?>" class="w-full h-0 bg-green-500 group-hover:z-[100] absolute bottom-0 left-0 justify-center items-center hidden group-hover:flex group-hover:h-full active:bg-gradient-to-r active:from-cyan-500 active:to-blue-500 transition-all text-xl text-white">Pilih</a>
+                                            <?php endif ?>
                                         </td>
                                     <?php else : ?>
                                         <td></td>
@@ -144,19 +150,19 @@ if (isset($_GET['presence'])) {
                                                     <th class="px-6 py-4 text-amber-500 text-center"><?= $key + 1 ?></th>
                                                     <td class="px-6 py-4 text-center"><?= $siswa['nama'] ?></td>
                                                     <td class="px-6 py-4 text-center">
-                                                        <input id="kehadiran<?= $key ?>" type="radio" value="H" name="kehadiran['<?= $siswa['id_siswa']?>']" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked>
+                                                        <input id="kehadiran<?= $key ?>" type="radio" value="H" name="kehadiran['<?= $siswa['id_siswa'] ?>']" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked>
                                                     </td>
                                                     <td class="px-6 py-4 text-center">
-                                                        <input id="kehadiran<?= $key ?>" type="radio" value="I" name="kehadiran['<?= $siswa['id_siswa']?>']" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                        <input id="kehadiran<?= $key ?>" type="radio" value="I" name="kehadiran['<?= $siswa['id_siswa'] ?>']" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                                     </td>
                                                     <td class="px-6 py-4 text-center">
-                                                        <input id="kehadiran<?= $key ?>" type="radio" value="T" name="kehadiran['<?= $siswa['id_siswa']?>']" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                        <input id="kehadiran<?= $key ?>" type="radio" value="T" name="kehadiran['<?= $siswa['id_siswa'] ?>']" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                                     </td>
                                                 </tr>
                                             <?php endforeach ?>
                                         </tbody>
                                     </table>
-                                    <button type="submit" name="presence" value="<?= $_GET['presence']?>" class="block ml-auto mt-5 px-4 py-2 bg-green-300 rounded">Selesai Absensi</button>
+                                    <button type="submit" name="presence" value="<?= $_GET['presence'] ?>" class="block ml-auto mt-5 px-4 py-2 bg-green-300 rounded">Selesai Absensi</button>
                                 </div>
                             </div>
                         </form>
