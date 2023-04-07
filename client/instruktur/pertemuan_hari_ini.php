@@ -144,13 +144,13 @@ if (isset($_GET['presence'])) {
                                                     <th class="px-6 py-4 text-amber-500 text-center"><?= $key + 1 ?></th>
                                                     <td class="px-6 py-4 text-center"><?= $siswa['nama'] ?></td>
                                                     <td class="px-6 py-4 text-center">
-                                                        <input id="kehadiran" type="radio" value="H" name="kehadiran" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked>
+                                                        <input id="kehadiran<?= $key ?>" type="radio" value="H" name="kehadiran['<?= $siswa['id_siswa']?>']" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked>
                                                     </td>
                                                     <td class="px-6 py-4 text-center">
-                                                        <input id="kehadiran" type="radio" value="I" name="kehadiran" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                        <input id="kehadiran<?= $key ?>" type="radio" value="I" name="kehadiran['<?= $siswa['id_siswa']?>']" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                                     </td>
                                                     <td class="px-6 py-4 text-center">
-                                                        <input id="kehadiran" type="radio" value="T" name="kehadiran" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                        <input id="kehadiran<?= $key ?>" type="radio" value="T" name="kehadiran['<?= $siswa['id_siswa']?>']" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                                     </td>
                                                 </tr>
                                                 <input type="hidden" name="id_siswa[]" value="<?= $siswa['id_siswa'] ?>">
