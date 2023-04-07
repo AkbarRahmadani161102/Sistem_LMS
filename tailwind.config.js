@@ -2,6 +2,7 @@
 
 module.exports = {
   content: [
+    './index.php',
     './client/**/*.php',
     './client/*.php'
   ],

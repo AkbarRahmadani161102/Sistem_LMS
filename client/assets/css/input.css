@@ -56,6 +56,11 @@
 }
 
 @layer components {
+    .landing-page {
+        background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)), url('../image/landing_page.jpg');
+        background-size: cover;
+    }
+
     .table__container {
         @apply relative overflow-x-auto mt-5
     }
