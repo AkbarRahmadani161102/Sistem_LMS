@@ -71,6 +71,7 @@ $menu_admin_keuangan = [
     ],
     'ADMINISTRASI' => [
         ['Tunggakan', "../$role/tunggakan.php", '<i class="ri-money-dollar-circle-line"></i>'],
+        ['Gaji Instruktur', "../$role/gaji_instruktur.php", '<i class="ri-money-dollar-box-line"></i>'],
     ]
 ];
 

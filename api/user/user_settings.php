@@ -4,6 +4,7 @@ include_once '../util/db.php';
 
 $id_user = $_SESSION['user_id'];
 $role = $_SESSION['role'];
+$current_date = date('Y-m-d');
 
 if (isset($_POST['update_profil'])) {
     $nama = escape($_POST['nama']);
@@ -13,7 +14,7 @@ if (isset($_POST['update_profil'])) {
     $is_number = preg_match("/^[0-9]*$/", $nomor_telepon) === 1;
     if ($is_number) {
         $_SESSION['nama'] = $nama;
-        $sql = "UPDATE $role SET nama = '$nama', no_telp = '$nomor_telepon', alamat = '$alamat'  WHERE id_$role = '$id_user'";
+        $sql = "UPDATE $role SET nama = '$nama', no_telp = '$nomor_telepon', alamat = '$alamat', tgl_diubah = '$current_date' WHERE id_$role = '$id_user'";
         $db->query($sql);
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data profil berhasil diubah', 'icon_color' => 'greenlight'];
     } else {
@@ -29,7 +30,7 @@ if (isset($_POST['update_kredensial'])) {
     if ($password === $confirm_password) {
         if ($result->num_rows < 1) {
             $password = md5($password);
-            $sql = "UPDATE $role SET email = '$email', password = '$password' WHERE id_$role = '$id_user'";
+            $sql = "UPDATE $role SET email = '$email', password = '$password', tgl_diubah = '$current_date' WHERE id_$role = '$id_user'";
             $db->query($sql);
             $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data kredensial berhasil diubah', 'icon_color' => 'greenlight'];
         }

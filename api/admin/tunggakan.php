@@ -8,7 +8,6 @@ if (isset($_POST['sync'])) {
     $tahun = date('Y');
 
     $tanggal_trigger = "$tahun-$bulan-$hari";
-    "<br>";
     $tenggat = date('Y-m-t', strtotime($tanggal_trigger));
 
     $sql = "SELECT s.id_siswa, j.nama nama_jenjang, j.biaya_pendidikan FROM siswa s

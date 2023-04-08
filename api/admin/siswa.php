@@ -3,6 +3,7 @@ require '../../vendor/autoload.php';
 include_once '../util/db.php';
 
 use Ramsey\Uuid\Uuid;
+$current_date = date('Y-m-d');
 
 if (isset($_POST['create'])) {
     $id_siswa = Uuid::uuid4()->toString();
@@ -79,7 +80,7 @@ if (isset($_POST['update'])) {
             $ext_sql .= ", password = '$password'";
         }
 
-        $sql = "UPDATE siswa SET nama = '$nama', no_telp = '$no_telp', alamat = '$alamat' $ext_sql WHERE id_siswa = '$id_siswa'";
+        $sql = "UPDATE siswa SET nama = '$nama', no_telp = '$no_telp', alamat = '$alamat', tgl_diubah = '$current_date' $ext_sql WHERE id_siswa = '$id_siswa'";
         $db->query($sql) or die($db->error);
 
         $sql = "DELETE FROM detail_kelas WHERE id_siswa = '$id_siswa'";

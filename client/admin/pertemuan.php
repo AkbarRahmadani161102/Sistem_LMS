@@ -72,7 +72,7 @@ $data_pertemuan->fetch_assoc();
                                     <td class="px-6 py-4"><?= $pertemuan['hari'] ?>, <?= $pertemuan['tgl_pertemuan'] ?></td>
                                     <td class="px-6 py-4"><?= $pertemuan['jam_mulai'] ?></td>
                                     <td class="px-6 py-4"><?= $pertemuan['jam_selesai'] ?></td>
-                                    <td class="px-6 py-4"><?= $pertemuan['status_kehadiran_instruktur'] ?></td>
+                                    <td class="px-6 py-4 <?= $pertemuan['status_kehadiran_instruktur'] === 'Hadir' ? 'text-green-500' : 'text-red-500' ?>"><?= $pertemuan['status_kehadiran_instruktur'] ?></td>
                                 </tr>
                             <?php endforeach ?>
                         </tbody>

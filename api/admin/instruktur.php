@@ -3,6 +3,7 @@ require '../../vendor/autoload.php';
 include_once '../util/db.php';
 
 use Ramsey\Uuid\Uuid;
+$current_date = date('Y-m-d');
 
 if (isset($_POST['create'])) {
 
@@ -52,7 +53,7 @@ if (isset($_POST['update_profil'])) {
     $is_number = preg_match("/^[0-9]*$/", $nomor_telepon) === 1;
     if ($is_number) {
         $_SESSION['nama'] = $nama;
-        $sql = "UPDATE instruktur SET nama = '$nama', no_telp = '$nomor_telepon', alamat = '$alamat'  WHERE id_instruktur = '$id_instruktur'";
+        $sql = "UPDATE instruktur SET nama = '$nama', no_telp = '$nomor_telepon', alamat = '$alamat', tgl_diubah = '$current_date' WHERE id_instruktur = '$id_instruktur'";
         $db->query($sql) or die($db->error);
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data profil berhasil diubah', 'icon_color' => 'greenlight'];
     } else {
@@ -73,10 +74,10 @@ if (isset($_POST['update_kredensial'])) {
             $db_password = $db->query($sql)->fetch_column() or die($db);
             print_r($password . '<br>' . $db_password);
             if ($password === $db_password) {
-                $sql = "UPDATE instruktur SET email = '$email' WHERE id_instruktur = '$id_instruktur'";
+                $sql = "UPDATE instruktur SET email = '$email', tgl_diubah = '$current_date' WHERE id_instruktur = '$id_instruktur'";
             } else {
                 $encrypted_password = md5($password);
-                $sql = "UPDATE instruktur SET email = '$email', password = '$encrypted_password' WHERE id_instruktur = '$id_instruktur'";
+                $sql = "UPDATE instruktur SET email = '$email', password = '$encrypted_password', tgl_diubah = '$current_date' WHERE id_instruktur = '$id_instruktur'";
             }
             $db->query($sql) or die($db->error);
             $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data kredensial berhasil diubah', 'icon_color' => 'greenlight'];
