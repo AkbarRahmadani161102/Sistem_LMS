@@ -59,4 +59,27 @@ if (isset($_POST['sync'])) {
 
     $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data berhasil disinkronkan', 'icon_color' => 'greenlight'];
 }
+if (isset($_POST['reassign_instruktur'])) {
+    $id_detail_jadwal = $_POST['reassign_instruktur'];
+    $id_instruktur = $_POST['instruktur'];
+    $tgl_pertemuan = $_POST['tgl_pertemuan'];
+    $jam_mulai = $_POST['jam_mulai'];
+
+    $sql = "SELECT * FROM jadwal j 
+    JOIN detail_jadwal dj ON j.id_jadwal = dj.id_jadwal
+    WHERE jam_mulai = '$jam_mulai'
+    AND tgl_pertemuan = '$tgl_pertemuan'
+    AND dj.id_instruktur = '$id_instruktur'";
+    $data_instruktur = $db->query($sql) or die($db->error);
+    $data_instruktur->fetch_assoc();
+    $is_instructor_exist = $data_instruktur->num_rows > 0;
+
+    if (!$is_instructor_exist) {
+        $sql = "UPDATE detail_jadwal SET id_instruktur = '$id_instruktur' WHERE id_detail_jadwal = '$id_detail_jadwal'";
+        $db->query($sql) or die($db->error);
+        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Instruktur berhasil ditetapkan', 'icon_color' => 'greenlight'];
+    } else {
+        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menetapkan instruktur', 'icon_color' => 'red', 'text' => 'Instruktur yang bersangkutan sudah ada di jadwal lain di hari dan jam yang sama'];
+    }
+}
 redirect('../../client/admin/pertemuan.php');

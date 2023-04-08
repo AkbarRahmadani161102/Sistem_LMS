@@ -16,12 +16,25 @@ JOIN kelas k ON j.id_kelas = k.id_kelas
 JOIN mapel m ON j.id_mapel = m.id_mapel
 WHERE MONTH(d.tgl_pertemuan) = $month AND YEAR(d.tgl_pertemuan) = $year ";
 
-if(isset($_GET['jenjang'])) {
+if (isset($_GET['jenjang'])) {
     $id_jenjang = $_GET['jenjang'];
     $sql .= "AND k.id_jenjang = '$id_jenjang'";
 }
 $data_pertemuan = $db->query($sql) or die($db->error);
 $data_pertemuan->fetch_assoc();
+
+if (isset($_GET['reassign_instruktur'])) {
+    $id_detail_jadwal = $_GET['reassign_instruktur'];
+    $sql = "SELECT *, m.id_mapel, m.nama nama_mapel, k.nama nama_kelas, i.nama nama_instruktur FROM detail_jadwal dj
+    JOIN jadwal j ON dj.id_jadwal = j.id_jadwal
+    JOIN mapel m ON j.id_mapel = m.id_mapel
+    JOIN kelas k ON j.id_kelas = k.id_kelas
+    JOIN instruktur i ON dj.id_instruktur = i.id_instruktur
+    WHERE id_detail_jadwal = '$id_detail_jadwal'";
+    $data_detail_jadwal = $db->query($sql) or die($db->error);
+    $data_detail_jadwal = $data_detail_jadwal->fetch_assoc();
+    $id_mapel = $data_detail_jadwal['id_mapel'];
+}
 ?>
 
 <div id="jadwal" class="w-full min-h-screen flex">
@@ -40,49 +53,107 @@ $data_pertemuan->fetch_assoc();
 
             <?php generate_breadcrumb([['title' => 'Pertemuan', 'filename' => 'pertemuan.php']]); ?>
 
-            <?php if ($data_pertemuan->num_rows > 0) : ?>
-                <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
-                    <?php foreach ($data_jenjang as $key => $jenjang) : ?>
-                        <li class="mr-2">
-                            <a href="?jenjang=<?= $jenjang['id_jenjang'] ?>" class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 <?= isset($_GET['jenjang']) && $_GET['jenjang'] === $jenjang['id_jenjang'] ? 'text-blue-500' : '' ?>"><?= $jenjang['nama'] ?></a>
-                        </li>
-                    <?php endforeach ?>
-                </ul>
-                <div class="relative overflow-x-auto mt-5">
-                    <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">#</th>
-                                <th scope="col" class="px-6 py-3">Nama Kelas</th>
-                                <th scope="col" class="px-6 py-3">Nama Mapel</th>
-                                <th scope="col" class="px-6 py-3">Nama Instruktur</th>
-                                <th scope="col" class="px-6 py-3">Hari, Tanggal</th>
-                                <th scope="col" class="px-6 py-3">Jam Mulai</th>
-                                <th scope="col" class="px-6 py-3">Jam Selesai</th>
-                                <th scope="col" class="px-6 py-3">Status Kehadiran Instruktur</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($data_pertemuan as $key => $pertemuan) : ?>
-                                <tr class="border-b dark:bg-gray-800 dark:border-gray-700 bg-transparent">
-                                    <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                    <td class="px-6 py-4"><?= $pertemuan['nama_kelas'] ?></td>
-                                    <td class="px-6 py-4"><?= $pertemuan['nama_mapel'] ?></td>
-                                    <td class="px-6 py-4"><?= $pertemuan['nama_instruktur'] ?></td>
-                                    <td class="px-6 py-4"><?= $pertemuan['hari'] ?>, <?= $pertemuan['tgl_pertemuan'] ?></td>
-                                    <td class="px-6 py-4"><?= $pertemuan['jam_mulai'] ?></td>
-                                    <td class="px-6 py-4"><?= $pertemuan['jam_selesai'] ?></td>
-                                    <td class="px-6 py-4 <?= $pertemuan['status_kehadiran_instruktur'] === 'Hadir' ? 'text-green-500' : 'text-red-500' ?>"><?= $pertemuan['status_kehadiran_instruktur'] ?></td>
-                                </tr>
-                            <?php endforeach ?>
-                        </tbody>
-                    </table>
+            <?php if (isset($_GET['reassign_instruktur'])) : ?>
+                <div class="flex gap-2 mt-5 flex-col lg:flex-row">
+                    <div class="flex w-full lg:w-1/4 flex-col rounded bg-gray-200 dark:bg-gray-600 p-5 space-y-3 text-gray-800 dark:text-white">
+                        <h5>Detail Jadwal</h5>
+                        <div class="flex justify-between hover:bg-gray-500 hover:text-white py-3 px-2 rounded-lg">
+                            <p>Nama Mapel:</p>
+                            <p><?= $data_detail_jadwal['nama_mapel'] ?></p>
+                        </div>
+                        <div class="flex justify-between hover:bg-gray-500 hover:text-white py-3 px-2 rounded-lg">
+                            <p>Kelas:</p>
+                            <p><?= $data_detail_jadwal['nama_kelas'] ?></p>
+                        </div>
+                        <div class="flex justify-between hover:bg-gray-500 hover:text-white py-3 px-2 rounded-lg">
+                            <p>Tanggal Pertemuan:</p>
+                            <p><?= $data_detail_jadwal['tgl_pertemuan'] ?></p>
+                        </div>
+                        <div class="flex justify-between hover:bg-gray-500 hover:text-white py-3 px-2 rounded-lg">
+                            <p>Jam Mulai:</p>
+                            <p><?= $data_detail_jadwal['jam_mulai'] ?></p>
+                        </div>
+                        <div class="flex justify-between hover:bg-gray-500 hover:text-white py-3 px-2 rounded-lg">
+                            <p>Jam Selesai:</p>
+                            <p><?= $data_detail_jadwal['jam_selesai'] ?></p>
+                        </div>
+                        <div class="hover:bg-gray-500 hover:text-white py-3 px-2 rounded-lg space-y-9">
+                            <p>Instruktur yang akan diubah:</p>
+                            <p><?= $data_detail_jadwal['nama_instruktur'] ?></p>
+                        </div>
+                    </div>
+                    <form action="../../api/admin/pertemuan.php" method="post" class="form flex-1 rounded bg-gray-200 dark:bg-gray-600 p-5 space-y-5">
+                        <label class="text-xl" for="instruktur">Instruktur yang mengampu</label>
+                        <label class="block" for="instruktur">Instruktur dibawah ini telah disaring berdasarkan mata pelajaran yang diampu</label>
+                        <select class="input selectize" name="instruktur" id="instruktur" required>
+                            <?php
+                            $sql = "SELECT i.* FROM detail_mapel dm
+                            JOIN mapel m ON dm.id_mapel = m.id_mapel
+                            JOIN instruktur i ON dm.id_instruktur = i.id_instruktur
+                            WHERE m.id_mapel = '$id_mapel'";
+                            $data_instruktur = $db->query($sql) or die($db->error);
+                            while ($instruktur = $data_instruktur->fetch_assoc()) : ?>
+                                <option value="<?= $instruktur['id_instruktur'] ?>" <?= $data_detail_jadwal['nama_instruktur'] === $instruktur['nama'] ? 'selected' : '' ?>><?= $instruktur['nama'] ?></option>
+                            <?php endwhile ?>
+                        </select>
+                        <input type="hidden" name="tgl_pertemuan" value="<?= $data_detail_jadwal['tgl_pertemuan'] ?>">
+                        <input type="hidden" name="jam_mulai" value="<?= $data_detail_jadwal['jam_mulai'] ?>">
+                        <button type="submit" class="btn dark:bg-green-500 dark:text-white" name="reassign_instruktur" value="<?= $id_detail_jadwal ?>">Tetapkan</button>
+                    </form>
                 </div>
             <?php else : ?>
-                <div class="pt-16 flex flex-col items-center h-full gap-5 text-gray-800 dark:text-white">
-                    <h5>Data pertemuan dalam bulan ini tidak ditemukan</h5>
-                </div>
+
+                <?php if ($data_pertemuan->num_rows > 0) : ?>
+                    <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+                        <?php foreach ($data_jenjang as $key => $jenjang) : ?>
+                            <li class="mr-2">
+                                <a href="?jenjang=<?= $jenjang['id_jenjang'] ?>" class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 <?= isset($_GET['jenjang']) && $_GET['jenjang'] === $jenjang['id_jenjang'] ? 'text-blue-500' : '' ?>"><?= $jenjang['nama'] ?></a>
+                            </li>
+                        <?php endforeach ?>
+                    </ul>
+                    <div class="relative overflow-x-auto mt-5">
+                        <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">#</th>
+                                    <th scope="col" class="px-6 py-3">Nama Kelas</th>
+                                    <th scope="col" class="px-6 py-3">Nama Mapel</th>
+                                    <th scope="col" class="px-6 py-3">Nama Instruktur</th>
+                                    <th scope="col" class="px-6 py-3">Hari, Tanggal</th>
+                                    <th scope="col" class="px-6 py-3">Jam Mulai</th>
+                                    <th scope="col" class="px-6 py-3">Jam Selesai</th>
+                                    <th scope="col" class="px-6 py-3">Status Kehadiran Instruktur</th>
+                                    <th scope="col" class="px-6 py-3"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($data_pertemuan as $key => $pertemuan) : ?>
+                                    <tr class="border-b dark:bg-gray-800 dark:border-gray-700 bg-transparent">
+                                        <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
+                                        <td class="px-6 py-4"><?= $pertemuan['nama_kelas'] ?></td>
+                                        <td class="px-6 py-4"><?= $pertemuan['nama_mapel'] ?></td>
+                                        <td class="px-6 py-4"><?= $pertemuan['nama_instruktur'] ?></td>
+                                        <td class="px-6 py-4"><?= $pertemuan['hari'] ?>, <?= $pertemuan['tgl_pertemuan'] ?></td>
+                                        <td class="px-6 py-4"><?= $pertemuan['jam_mulai'] ?></td>
+                                        <td class="px-6 py-4"><?= $pertemuan['jam_selesai'] ?></td>
+                                        <td class="px-6 py-4 <?= $pertemuan['status_kehadiran_instruktur'] === 'Hadir' ? 'text-green-500' : 'text-red-500' ?>"><?= $pertemuan['status_kehadiran_instruktur'] ?></td>
+                                        <td class="px-6 py-4">
+                                            <?php if ($pertemuan['status_kehadiran_instruktur'] !== 'Hadir') : ?>
+                                                <a href="?reassign_instruktur=<?= $pertemuan['id_detail_jadwal'] ?>" class="btn btn--outline-green flex items-center justify-around"><i class="ri-arrow-left-right-line"></i> Ganti Instruktur</a>
+                                            <?php endif ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php else : ?>
+                    <div class="pt-16 flex flex-col items-center h-full gap-5 text-gray-800 dark:text-white">
+                        <h5>Data pertemuan dalam bulan ini tidak ditemukan</h5>
+                    </div>
+                <?php endif ?>
             <?php endif ?>
+
         </div>
     </div>
 </div>
