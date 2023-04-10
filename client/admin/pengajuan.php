@@ -3,7 +3,7 @@ include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
 user_access(['Super Admin', 'Admin Akademik']);
 
-$sql = "SELECT *, p.status, s.nama nama_siswa FROM pengajuan p, siswa s WHERE p.id_siswa = s.id_siswa";
+$sql = "SELECT *, p.status, s.nama nama_siswa, IF(p.id_siswa IN (SELECT id_ketua_kelas FROM kelas ), 'Ketua Kelas', 'Siswa') role_siswa FROM pengajuan p, siswa s WHERE p.id_siswa = s.id_siswa;";
 $data_pengajuan = $db->query($sql) or die($db->error);
 $data_pengajuan->fetch_assoc();
 ?>
@@ -23,6 +23,9 @@ $data_pengajuan->fetch_assoc();
                         <tr>
                             <th></th>
                             <th>Nama Siswa</th>
+                            <th>Role Siswa</th>
+                            <th>Email</th>
+                            <th>Kontak</th>
                             <th>Judul</th>
                             <th>Keterangan</th>
                             <th>Status</th>
@@ -35,6 +38,9 @@ $data_pengajuan->fetch_assoc();
                             <tr>
                                 <th><?= $key + 1 ?></th>
                                 <td><?= $pengajuan['nama_siswa'] ?></td>
+                                <td><?= $pengajuan['role_siswa'] ?></td>
+                                <td><?= $pengajuan['email'] ?></td>
+                                <td><?= $pengajuan['no_telp'] ? $pengajuan['no_telp'] : $pengajuan['email']  ?></td>
                                 <td><?= $pengajuan['judul'] ?></td>
                                 <td><?= $pengajuan['keterangan'] ?></td>
                                 <td class="<?= $pengajuan['status'] === 'Pending' ? 'text-amber-500' : 'text-green-500' ?>"><?= $pengajuan['status'] ?></td>
