@@ -96,8 +96,6 @@ if (isset($_GET['reassign_instruktur'])) {
                                 <option value="<?= $instruktur['id_instruktur'] ?>" <?= $data_detail_jadwal['nama_instruktur'] === $instruktur['nama'] ? 'selected' : '' ?>><?= $instruktur['nama'] ?></option>
                             <?php endwhile ?>
                         </select>
-                        <input type="hidden" name="tgl_pertemuan" value="<?= $data_detail_jadwal['tgl_pertemuan'] ?>">
-                        <input type="hidden" name="jam_mulai" value="<?= $data_detail_jadwal['jam_mulai'] ?>">
                         <button type="submit" class="btn dark:bg-green-500 dark:text-white" name="reassign_instruktur" value="<?= $id_detail_jadwal ?>">Tetapkan</button>
                     </form>
                 </div>
