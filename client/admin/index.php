@@ -269,6 +269,7 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
             data: {
                 labels: ['Hadir', 'Izin', 'Tidak ada keterangan'],
                 datasets: [{
+                    label: 'Siswa',
                     data: [
                         kehadiranSiswa.hadir,
                         kehadiranSiswa.izin,
