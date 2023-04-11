@@ -2,7 +2,7 @@
 include_once('../template/header.php');
 user_access(['Super Admin', 'Admin Akademik', 'Admin Keuangan']);
 
-$sql = "SELECT p.*, s.nama nama_siswa FROM pengajuan p, siswa s WHERE p.id_siswa = s.id_siswa LIMIT 6";
+$sql = "SELECT p.*, s.nama nama_siswa FROM pengajuan p, siswa s WHERE p.id_siswa = s.id_siswa AND p.status = 'Pending' LIMIT 6";
 $data_pengajuan_siswa = $db->query($sql) or die($sql);
 $data_pengajuan_siswa->fetch_assoc();
 
@@ -28,7 +28,7 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
             ?>
 
             <div class="mt-8 flex flex-col lg:flex-row gap-12">
-                <div class="flex flex-1 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5">
+                <div class="flex flex-1 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-4 p-5">
                     <div class="flex justify-between items-center">
                         <h4>Pertumbuhan Siswa</h4>
                         <select name="" id="tahun_pertumbuhan_siswa" class="rounded-lg text-gray-800">
@@ -37,14 +37,14 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
                             <?php endforeach ?>
                         </select>
                     </div>
-                    <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative px-5 py-12">
+                    <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative">
                         <canvas id="chart_pertumbuhan_siswa"></canvas>
                     </div>
                     <div class="text-center">
                         <p>Total: <span id="total_pertumbuhan_siswa"></span> Siswa</p>
                     </div>
                 </div>
-                <div class="flex flex-1 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5">
+                <div class="flex flex-1 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-4 p-5">
                     <div class="flex justify-between items-center">
                         <h4>Pertumbuhan Instruktur</h4>
                         <select name="" id="tahun_pertumbuhan_instruktur" class="rounded-lg text-gray-800">
@@ -53,7 +53,7 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
                             <?php endforeach ?>
                         </select>
                     </div>
-                    <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative px-5 py-12">
+                    <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative">
                         <canvas id="chart_pertumbuhan_instruktur"></canvas>
                     </div>
                     <div class="text-center">
@@ -81,21 +81,7 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
                     <?php endforeach ?>
                 </div>
 
-                <div class="flex w-full flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5">
-                    <div class="flex justify-between items-center">
-                        <h4>Ketersediaan Kelas</h4>
-                    </div>
-                    <?php foreach ($data_kelas as $key => $value) : ?>
-                        <div class="flex flex-col flex-1 rounded-lg p-3 bg-white dark:bg-gray-500">
-                            <div class="flex justify-between">
-                                <p><?= $value['nama'] ?></p>
-                                <p class="<?= $value['status'] === 'Reguler' ? 'text-green-500' : 'text-amber-500' ?>"><?= $value['status'] ?></p>
-                            </div>
-                        </div>
-                    <?php endforeach ?>
-                </div>
-
-                <div class="flex flex-col w-full lg:w-fit gap-12">
+                <div class="flex flex-col lg:flex-row w-full lg:w-fit gap-12">
                     <div class="flex w-full lg:w-80 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5">
                         <div class="flex justify-between items-center">
                             <h4>Kehadiran Siswa</h4>
@@ -139,20 +125,41 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
             obj.update()
         }
 
-        const chartPertumbuhanSiswa = document.getElementById('chart_pertumbuhan_siswa');
-        const chartPertumbuhanInstruktur = document.getElementById('chart_pertumbuhan_instruktur');
-        const chartKehadiranSiswa = document.getElementById('chart_kehadiran_siswa_hari_ini');
-        const chartKehadiranInstruktur = document.getElementById('chart_kehadiran_instruktur_hari_ini');
+        const chartPertumbuhanSiswa = $('#chart_pertumbuhan_siswa');
+        const chartPertumbuhanInstruktur = $('#chart_pertumbuhan_instruktur');
+        const chartKehadiranSiswa = $('#chart_kehadiran_siswa_hari_ini');
+        const chartKehadiranInstruktur = $('#chart_kehadiran_instruktur_hari_ini');
 
         let tahunSiswa = $('select#tahun_pertumbuhan_siswa option:selected').text()
         let tahunInstruktur = $('select#tahun_pertumbuhan_instruktur option:selected').text()
 
         const url = window.location.href.replace('client', 'api')
 
-
-
         let dataPertumbuhanSiswa = await getSourceData('pertumbuhan_siswa', tahunSiswa)
         let dataPertumbuhanInstruktur = await getSourceData('pertumbuhan_instruktur', tahunInstruktur)
+        let dataKehadiranSiswaPerHari = Object.assign({}, ...await getSourceData('presensi_siswa_per_hari'))
+        let dataKehadiranInstrukturPerHari = Object.assign({}, ...await getSourceData('presensi_instruktur_per_hari'))
+        let kehadiranSiswa = {
+            hadir: 0,
+            izin: 0,
+            tidakAdaKeterangan: 0
+        }
+        let kehadiranInstruktur = {
+            hadir: 0,
+            berhalangan: 0
+        }
+        for (const c of Object.keys(dataKehadiranSiswaPerHari)) {
+            let value = parseInt(dataKehadiranSiswaPerHari[c])
+            if (c === 'H') kehadiranSiswa.hadir = value
+            else if (c === 'I') kehadiranSiswa.izin = value
+            else if (c === 'T') kehadiranSiswa.tidakAdaKeterangan = value
+        }
+        for (const c of Object.keys(dataKehadiranInstrukturPerHari)) {
+            let value = parseInt(dataKehadiranInstrukturPerHari[c])
+            if (c === 'Hadir') kehadiranInstruktur.hadir = value
+            if (c === 'Berhalangan') kehadiranInstruktur.berhalangan = value
+        }
+
         $('#total_pertumbuhan_siswa').text(dataPertumbuhanSiswa.map(data => parseInt(data.jumlah_siswa)).reduce((a, c) => a + c))
         $('#total_pertumbuhan_instruktur').text(dataPertumbuhanInstruktur.map(data => parseInt(data.jumlah_instruktur)).reduce((a, c) => a + c))
 
@@ -257,19 +264,22 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
         })
 
         // Pie Chart
-        new Chart(chartKehadiranSiswa, {
+        const p = new Chart(chartKehadiranSiswa, {
             type: 'pie',
             data: {
+                labels: ['Hadir', 'Izin', 'Tidak ada keterangan'],
                 datasets: [{
-                    label: 'Siswa',
-                    data: [70, 8, 5],
+                    data: [
+                        kehadiranSiswa.hadir,
+                        kehadiranSiswa.izin,
+                        kehadiranSiswa.tidakAdaKeterangan,
+                    ],
                     backgroundColor: [
                         "#22c55e",
                         "#f59e0b",
                         "#ef4444"
                     ]
                 }],
-                labels: ['Hadir', 'Izin', 'Tidak Ada Keterangan']
             },
             options: pieOptions
         });
@@ -279,14 +289,13 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
             data: {
                 datasets: [{
                     label: 'Instruktur',
-                    data: [11, 0, 5],
+                    data: [kehadiranInstruktur.hadir, kehadiranInstruktur.berhalangan],
                     backgroundColor: [
                         "#22c55e",
                         "#f59e0b",
-                        "#ef4444"
                     ]
                 }],
-                labels: ['Hadir', 'Izin', 'Tidak Ada Keterangan']
+                labels: ['Hadir', 'Berhalangan/Belum presensi']
             },
             options: pieOptions
         });
