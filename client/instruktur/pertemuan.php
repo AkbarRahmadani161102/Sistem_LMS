@@ -37,7 +37,7 @@ $data_pertemuan = $db->query($sql) or die($db->error);
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-center"></th>
+                            <th scope="col" class="px-6 py-3 text-center">Hari</th>
                             <th scope="col" class="px-6 py-3 text-center">14.30</th>
                             <th scope="col" class="px-6 py-3 text-center">15.30</th>
                             <th scope="col" class="px-6 py-3 text-center">16.30</th>

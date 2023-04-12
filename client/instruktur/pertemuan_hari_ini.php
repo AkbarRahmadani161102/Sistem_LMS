@@ -2,15 +2,13 @@
 include_once('../template/header.php');
 user_access('instruktur');
 
-
-
 $id_instruktur = $_SESSION['user_id'];
-$sql = "SELECT * FROM jadwal j, detail_jadwal dk WHERE j.id_jadwal = dk.id_jadwal AND j.id_instruktur = '$id_instruktur' GROUP BY tgl_pertemuan";
+$sql = "SELECT * FROM jadwal j, detail_jadwal dk WHERE j.id_jadwal = dk.id_jadwal AND WEEK(tgl_pertemuan) = WEEK(NOW()) AND j.id_instruktur = '$id_instruktur' GROUP BY tgl_pertemuan";
 $data_pertemuan = $db->query($sql) or die($db->error);
 
 if (isset($_GET['presence'])) {
     $id_detail_jadwal = $_GET['presence'];
-    $sql = "SELECT s.* FROM detail_jadwal dj
+    $sql = "SELECT s.*, dj.tgl_pertemuan, dj.id_instruktur FROM detail_jadwal dj
     JOIN jadwal j ON dj.id_jadwal = j.id_jadwal
     JOIN kelas k ON j.id_kelas = k.id_kelas
     JOIN detail_kelas dk ON dk.id_kelas = k.id_kelas
@@ -18,6 +16,18 @@ if (isset($_GET['presence'])) {
     WHERE id_detail_jadwal = '$id_detail_jadwal'";
     $data_siswa = $db->query($sql) or die($db->error);
     $data_siswa->fetch_assoc();
+    $tgl_pertemuan = $data_siswa->fetch_assoc()['tgl_pertemuan'];
+    $id_instruktur_pertemuan = $data_siswa->fetch_assoc()['id_instruktur'];
+    if ($tgl_pertemuan < date('Y-m-d')) {
+        // Jika instruktur mengakses peretemuan yang telah usai
+        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Pertemuan telah usai', 'icon_color' => 'red'];
+        redirect('./pertemuan_hari_ini.php');
+    }
+    if ($id_instruktur !== $id_instruktur_pertemuan) {
+        // Jika instruktur mengakses pertemuan dari instruktur lain
+        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Akses ditolak', 'icon_color' => 'red', 'text' => 'Anda tidak memiliki hak untuk mengakses sumber daya ini'];
+        redirect('./pertemuan_hari_ini.php');
+    }
 }
 ?>
 <div id="pertemuan" class="w-full min-h-screen flex">
@@ -37,7 +47,7 @@ if (isset($_GET['presence'])) {
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-center"></th>
+                                <th scope="col" class="px-6 py-3 text-center">Hari/Tanggal</th>
                                 <th scope="col" class="px-6 py-3 text-center">14.30</th>
                                 <th scope="col" class="px-6 py-3 text-center">15.30</th>
                                 <th scope="col" class="px-6 py-3 text-center">16.30</th>
@@ -49,66 +59,41 @@ if (isset($_GET['presence'])) {
 
                                 $hari = $pertemuan['hari'];
                                 $sql = "SELECT dk.*, j.*, k.nama nama_kelas, m.nama nama_mapel FROM jadwal j
-                                    JOIN detail_jadwal dk ON j.id_jadwal = dk.id_jadwal
-                                    JOIN kelas k ON j.id_kelas = k.id_kelas
-                                    JOIN mapel m ON j.id_mapel = m.id_mapel
-                                    WHERE j.id_instruktur = '$id_instruktur'
-                                    AND j.hari = '$hari'
-                                    AND tgl_pertemuan = '$tgl_pertemuan'
-                                    AND jam_mulai = "; ?>
+                                        JOIN detail_jadwal dk ON j.id_jadwal = dk.id_jadwal
+                                        JOIN kelas k ON j.id_kelas = k.id_kelas
+                                        JOIN mapel m ON j.id_mapel = m.id_mapel
+                                        WHERE j.id_instruktur = '$id_instruktur'
+                                        AND j.hari = '$hari'
+                                        AND tgl_pertemuan = '$tgl_pertemuan'
+                                        AND jam_mulai = ";
 
+                                $waktu = ['14:30:00', '15:30:00', '16:30:00']; ?>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th class="px-6 py-4 text-amber-500 text-center">
                                         <p><?= $pertemuan['hari'] ?></p>
                                         <p><?= $pertemuan['tgl_pertemuan'] ?></p>
                                     </th>
-                                    <?php
-                                    $data = $db->query($sql . "'14:30:00'") or die($db->error);
-                                    $data = $data->fetch_assoc();
-                                    if ($data) : ?>
-                                        <td class="px-6 py-4 text-center border group hover:border-transparent relative <?= $data['status_kehadiran_instruktur'] === 'Hadir' ? 'bg-red-500' : '' ?>">
-                                            <h6><?= isset($data['nama_kelas']) ? $data['nama_kelas'] : "" ?></h6>
-                                            <p><?= isset($data['nama_mapel']) ? $data['nama_mapel'] : "" ?></p>
-                                            <?php if ($data['status_kehadiran_instruktur'] !== 'Hadir') : ?>
-                                                <a href="?presence=<?= $data['id_detail_jadwal'] ?>" class="w-full h-0 bg-green-500 group-hover:z-[100] absolute bottom-0 left-0 justify-center items-center hidden group-hover:flex group-hover:h-full active:bg-gradient-to-r active:from-cyan-500 active:to-blue-500 transition-all text-xl text-white">Pilih</a>
-                                            <?php endif ?>
-                                        </td>
-                                    <?php else : ?>
-                                        <td></td>
-                                    <?php endif ?>
-
-                                    <?php
-                                    $data = $db->query($sql . "'15:30:00'") or die($db->error);
-                                    $data = $data->fetch_assoc();
-                                    if ($data) : ?>
-                                        <td class="px-6 py-4 text-center border group hover:border-transparent relative <?= $data['status_kehadiran_instruktur'] === 'Hadir' ? 'bg-red-500' : '' ?>">
-                                            <h6><?= isset($data['nama_kelas']) ? $data['nama_kelas'] : "" ?></h6>
-                                            <p><?= isset($data['nama_mapel']) ? $data['nama_mapel'] : "" ?></p>
-                                            <?php if ($data['status_kehadiran_instruktur'] !== 'Hadir') : ?>
-                                                <a href="?presence=<?= $data['id_detail_jadwal'] ?>" class="w-full h-0 bg-green-500 group-hover:z-[100] absolute bottom-0 left-0 justify-center items-center hidden group-hover:flex group-hover:h-full active:bg-gradient-to-r active:from-cyan-500 active:to-blue-500 transition-all text-xl text-white">Pilih</a>
-                                            <?php endif ?>
-                                        </td>
-                                    <?php else : ?>
-                                        <td></td>
-                                    <?php endif ?>
-
-                                    <?php
-                                    $data = $db->query($sql . "'16:30:00'") or die($db->error);
-                                    $data = $data->fetch_assoc();
-                                    if ($data) : ?>
-                                        <td class="px-6 py-4 text-center border group hover:border-transparent relative <?= $data['status_kehadiran_instruktur'] === 'Hadir' ? 'bg-red-500' : '' ?>">
-                                            <h6><?= isset($data['nama_kelas']) ? $data['nama_kelas'] : "" ?></h6>
-                                            <p><?= isset($data['nama_mapel']) ? $data['nama_mapel'] : "" ?></p>
-                                            <?php if ($data['status_kehadiran_instruktur'] !== 'Hadir') : ?>
-                                                <a href="?presence=<?= $data['id_detail_jadwal'] ?>" class="w-full h-0 bg-green-500 group-hover:z-[100] absolute bottom-0 left-0 justify-center items-center hidden group-hover:flex group-hover:h-full active:bg-gradient-to-r active:from-cyan-500 active:to-blue-500 transition-all text-xl text-white">Pilih</a>
-                                            <?php endif ?>
-                                        </td>
-                                    <?php else : ?>
-                                        <td></td>
-                                    <?php endif ?>
+                                    <?php foreach ($waktu as $w) : ?>
+                                        <?php
+                                        $pertemuan = $db->query("$sql'$w'") or die($db->error);
+                                        $pertemuan = $pertemuan->fetch_assoc();
+                                        if ($pertemuan) : ?>
+                                            <td class="px-6 py-4 text-center group relative text-gray-800 dark:text-white <?= $pertemuan['status_kehadiran_instruktur'] === 'Hadir' ? 'bg-rose-500' : '' ?>">
+                                                <h6><?= isset($pertemuan['nama_kelas']) ? $pertemuan['nama_kelas'] : "" ?></h6>
+                                                <p><?= isset($pertemuan['nama_mapel']) ? $pertemuan['nama_mapel'] : "" ?></p>
+                                                <?php if (date('d', strtotime($pertemuan['tgl_pertemuan'])) < date('d')) : ?>
+                                                    <span class="bg-red-100 text-red-800 text-xs font-medium mx-auto px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Ditutup</span>
+                                                <?php endif ?>
+                                                <?php if ($pertemuan['status_kehadiran_instruktur'] !== 'Hadir' && date('d', strtotime($pertemuan['tgl_pertemuan'])) >= date('d')) : ?>
+                                                    <a href="?presence=<?= $pertemuan['id_detail_jadwal'] ?>" class="w-full h-0 bg-green-500 group-hover:z-[100] absolute bottom-0 left-0 justify-center items-center hidden group-hover:flex group-hover:h-full active:bg-gradient-to-r active:from-cyan-500 active:to-blue-500 transition-all text-xl text-white">Pilih</a>
+                                                <?php endif ?>
+                                            </td>
+                                        <?php else : ?>
+                                            <td></td>
+                                        <?php endif ?>
+                                    <?php endforeach ?>
                                 </tr>
                             <?php endforeach ?>
-
                         </tbody>
                     </table>
                 </div>
@@ -199,9 +184,7 @@ if (isset($_GET['presence'])) {
                         </form>
                     </div>
                 </div>
-
             <?php endif ?>
-
         </div>
     </div>
 </div>
