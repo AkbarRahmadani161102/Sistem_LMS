@@ -2,7 +2,7 @@
 include_once('../template/header.php');
 !isset($_SESSION['role']) && redirect('../siswa/login.php');
 $_SESSION['role'] === 'admin' && redirect('../admin/index.php');
- ?>
+?>
 
 
 <div id="pengaturan" class="w-full min-h-screen flex">
@@ -21,6 +21,7 @@ $_SESSION['role'] === 'admin' && redirect('../admin/index.php');
                             <th scope="col" class="px-6 py-3">#</th>
                             <th scope="col" class="px-6 py-3">Deskripsi</th>
                             <th scope="col" class="px-6 py-3">Tanggal Dibuat</th>
+                            <th scope="col" class="px-6 py-3"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,6 +37,13 @@ $_SESSION['role'] === 'admin' && redirect('../admin/index.php');
                                 <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
                                 <td class="px-6 py-4"><?= $notifikasi['deskripsi'] ?></td>
                                 <td class="px-6 py-4"><?= $notifikasi['tgl_dibuat'] ?></td>
+                                <td class="px-6 py-4">
+                                    <form action="../../api/user/notifikasi.php" method="post">
+                                        <button class="btn btn--outline-red group flex w-full" type="submit" name="delete" value="<?= $notifikasi["id_notifikasi_$role"] ?>">
+                                            <i class="ri-delete-bin-6-line text-red-500 mx-auto group-hover:text-white"></i>
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         <?php endforeach ?>
                     </tbody>
