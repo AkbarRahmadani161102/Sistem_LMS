@@ -108,7 +108,7 @@
             <h1 class="text-2xl">Biaya Pendidikan</h1>
             <div class="bg-gray-800 w-full mb-8 h-1 absolute -top-1 left-0">&nbsp;</div>
         </div>
-        <div class="flex justify-between items-center flex-1 flex-wrap gap-48">
+        <div class="flex justify-between items-center flex-1 flex-wrap gap-12">
             <div class="flex flex-1 justify-between">
                 <div class="rounded-xl flex-1 h-96 flex flex-col shadow-lg justify-around pl-9 bg-gradient-to-r from-red-500 text-white">
                     <h3 class="text-4xl font-semibold">Sekolah Dasar</h3>

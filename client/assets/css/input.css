@@ -173,6 +173,16 @@
         @apply bg-red-500 transition border-transparent text-white
     }
 
+    .btn--outline-cyan,
+    .dark .btn--outline-cyan {
+        @apply bg-transparent border border-cyan-500 text-cyan-500
+    }
+
+    .btn--outline-cyan:hover,
+    .dark .btn--outline-cyan:hover {
+        @apply bg-cyan-500 transition border-transparent text-white
+    }
+
     .btn--outline-amber,
     .dark .btn--outline-amber {
         @apply bg-transparent border border-amber-500 text-amber-500

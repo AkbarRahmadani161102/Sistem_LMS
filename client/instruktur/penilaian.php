@@ -3,9 +3,54 @@ include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
 user_access('instruktur');
 
-$sql = "SELECT * FROM penilaian";
-$result = $db->query($sql) or die($sql);
-$result->fetch_assoc();
+$id_instruktur = $_SESSION['user_id'];
+
+$sql = "SELECT *, dj.id_detail_jadwal, k.nama nama_kelas, m.nama nama_mapel FROM detail_jadwal dj
+JOIN jadwal j ON dj.id_jadwal = j.id_jadwal
+JOIN kelas k ON j.id_kelas = k.id_kelas
+JOIN mapel m ON j.id_mapel = m.id_mapel
+LEFT JOIN penilaian p ON dj.id_detail_jadwal = p.id_detail_jadwal
+WHERE status_kehadiran_instruktur = 'Hadir'
+AND dj.id_instruktur = '$id_instruktur'";
+$data_detail_jadwal = $db->query($sql) or die($db->error);
+$data_detail_jadwal->fetch_assoc();
+
+if (isset($_GET['create'])) {
+    $id_detail_jadwal = $_GET['create'];
+    $sql = "SELECT s.* FROM detail_jadwal dj
+    JOIN jadwal j ON dj.id_jadwal = j.id_jadwal
+    JOIN kelas k ON j.id_kelas = k.id_kelas
+    JOIN detail_kelas dk ON k.id_kelas = dk.id_kelas
+    JOIN siswa s ON dk.id_siswa = s.id_siswa
+    JOIN mapel m ON j.id_mapel = m.id_mapel
+    LEFT JOIN penilaian p ON dj.id_detail_jadwal = p.id_detail_jadwal
+    WHERE status_kehadiran_instruktur = 'Hadir'
+    AND dj.id_instruktur = '$id_instruktur'
+    AND dj.id_detail_jadwal = '$id_detail_jadwal'";
+
+    $data_siswa = $db->query($sql) or die($db->error);
+    $data_siswa->fetch_assoc();
+}
+
+if (isset($_GET['detail'])) {
+    $id_detail_jadwal = $_GET['detail'];
+    $sql = "SELECT p.judul_penilaian, p.keterangan_penilaian, p.tgl_penilaian, dp.nilai, s.nama nama_siswa, k.nama nama_kelas, m.nama nama_mapel, dj.tgl_pertemuan, j.hari, j.jam_mulai, j.jam_selesai FROM penilaian p
+    JOIN detail_penilaian dp ON p.id_penilaian = dp.id_penilaian
+    JOIN siswa s ON dp.id_siswa = s.id_siswa
+    JOIN detail_jadwal dj ON p.id_detail_jadwal = dj.id_detail_jadwal
+    JOIN jadwal j ON dj.id_jadwal = j.id_jadwal
+    JOIN kelas k ON j.id_kelas = k.id_kelas
+    JOIN mapel m ON j.id_mapel = m.id_mapel
+    WHERE dj.id_detail_jadwal = '$id_detail_jadwal'";
+
+    $data_penilaian = $db->query($sql) or die($db->error);
+    // print_r($data_penilaian->fetch_assoc());
+    $judul_penilaian = $data_penilaian->fetch_assoc()['judul_penilaian'];
+    $keterangan_penilaian = $data_penilaian->fetch_assoc()['keterangan_penilaian'];
+    $nama_kelas = $data_penilaian->fetch_assoc()['nama_kelas'];
+    $nama_mapel = $data_penilaian->fetch_assoc()['nama_mapel'];
+    $data_penilaian->fetch_assoc();
+}
 ?>
 
 <div id="jenjang" class="w-full min-h-screen flex">
@@ -14,111 +59,163 @@ $result->fetch_assoc();
         <div class="p-4 sm:ml-64">
             <?php include_once '../components/dashboard_navbar.php'; ?>
 
-            <div class="flex items-center gap-5">
-                <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Penilaian</h4>
-
-                <button data-modal-target="add_nilai_modal" data-modal-toggle="add_nilai_modal" class="btn" type="button">
-                    Input Data Nilai
-                </button>
-            </div>
-
-            <?php generate_breadcrumb([['title' => 'Penilaian', 'filename' => 'penilaian.php']]); ?>
-            <div class="relative overflow-x-auto mt-5">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-
-                    <a>
-                        <tr>
-                            <th scope="col" class="px-6 py-3"></th>
-                            <th scope="col" class="px-6 py-3">Judul Penilaian</th>
-                            <th scope="col" class="px-6 py-3">Keterangan Penilaian</th>
-                            <th scope="col" class="px-6 py-3">Instruktur</th>
-                            <th scope="col" class="px-6 py-3">Kelas</th>
-                            <th scope="col" class="px-6 py-3">Mapel</th>
-                            <th scope="col" class="px-6 py-3">Tanggal</th>
-                        </tr>
-                    </a>
-                       
-                    </thead>
-                    <tbody>
-                        <?php foreach ($result as $key => $value) : ?>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                <td class="px-6 py-4"><?= $value['judul_penilaian'] ?></td>
-                                <td class="px-6 py-4"><?= $value['keterangan_penilaian'] ?></td>
-                                <td class="px-6 py-4"></td>
-                                <td class="px-6 py-4"></td>
-                                <td class="px-6 py-4"></td>
-                                <td class="px-6 py-4"><?= $value['tgl_penilaian'] ?></td>
-                            </tr>
-                        <?php endforeach ?>
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-<div id="add_nilai_modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-    <div class="relative w-full h-full max-w-7xl md:h-auto">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <div class="px-6 py-6 lg:px-8">
-                <form action="../../api/admin/penilaian.php" method="post">
-                    <!-- Modal header -->
-                    <div class="flex items-start justify-between border-b rounded-t dark:border-gray-600">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                            Input Data Nilai
-                        </h3>
-                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="add_nilai_modal">
-                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span class="sr-only">Close modal</span>
-                        </button>
-                    </div>
-                    <div class="pt-6 flex gap-5 flex-col md:flex-row">
-                        <div class="flex-1 flex flex-col" method="post">
-                            <div class="mb-5">
-                                <label for="judul" class="form-label text-secondary text-gray-400 dark:text-white">Judul Penilaian</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="judul" name="judul" maxlength="50" required>
-                            </div>
-                            <div class="mb-5">
-                                <label for="Ket" class="form-label text-secondary text-gray-400 dark:text-white">Keterangan Penilaian</label>
-                                <textarea type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="Ket" name="Ket" maxlength="50" required> </textarea>
-                            </div>
-                            <div class="mb-5">
-                                <label for="Instruktur" class="form-label text-secondary text-gray-400 dark:text-white">Instruktur</label>
-                                <input class="resize-none border rounded w-full py-1.5 border-gray-400 mt-1" name="Instruktur" id="Instruktur"  maxlength="50"></input>
+            <?php if (isset($_GET['create'])) { ?>
+                <?php generate_breadcrumb([['title' => 'Penilaian', 'filename' => 'penilaian.php'], ['title' => 'Tambah Penilaian', 'filename' => '#']]); ?>
+                <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Tambah Penilaian</h4>
+                <form action="../../api/instruktur/penilaian.php" class="form space-y-12" method="post">
+                    <div class="space-y-2 w-full md:w-1/2 lg:w-1/4">
+                        <div class="flex flex-col gap-3 flex-wrap">
+                            <label for="judul_penilaian">Judul Penilaian</label>
+                            <div class="flex flex-1 flex-col md:flex-row gap-5 justify-between">
+                                <input type="text" name="judul_penilaian" id="judul_penilaian" class="input flex flex-1" required>
+                                <button type="submit" class="btn" name="create" value="<?= $_GET['create'] ?>">Tambah</button>
                             </div>
                         </div>
-                        <div class="flex-1 flex flex-col" method="post">
-                            <div class="mb-5">
-                                <label for="Kelas" class="form-label text-secondary text-gray-400 dark:text-white">Kelas</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="Kelas" name="Kelas" maxlength="30" required>
-                            </div>
-                            <div class="mb-5">
-                                <label for="Mapel" class="form-label text-secondary text-gray-400 dark:text-white">Mapel</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="Mapel" name="Mapel" maxlength="50" required>
-                            </div>
-                            <div class="mb-5">
-                                <label for="Tanggal" class="form-label text-secondary text-gray-400 dark:text-white">Tanggal</label>
-                                <input type="date" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="Tanggal" name="Tanggal" maxlength="50" required>
-                            </div>
+                        <div class="flex gap-3 flex-col">
+                            <label for="keterangan_penilaian">Keterangan Penilaian (Opsional)</label>
+                            <textarea name="keterangan_penilaian" id="keterangan_penilaian" cols="30" rows="2" class="input"></textarea>
                         </div>
-                        
                     </div>
-                    <div class="flex justify-end items-center pt-6 border-t border-gray-200 rounded-b dark:border-gray-600">
-                        <button name="create" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Tambah</button>
+
+                    <div class="table__container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="px-6 py-3"></th>
+                                    <th scope="col" class="px-6 py-3">Nama Siswa</th>
+                                    <th scope="col" class="px-6 py-3">Input Nilai</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($data_siswa as $key => $siswa) : ?>
+                                    <tr>
+                                        <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
+                                        <td class="px-6 py-4"><label for="siswa-<?= $siswa['id_siswa'] ?>"><?= $siswa['nama'] ?></label></td>
+                                        <td class="px-6 py-4"><input id="siswa-<?= $siswa['id_siswa'] ?>" value="0" min="0" max="100" type="number" name="nilai_siswa[<?= $siswa['id_siswa'] ?>]" required></td>
+                                    </tr>
+                                <?php endforeach ?>
+                            </tbody>
+                        </table>
                     </div>
                 </form>
-            </div>
+            <?php } else if (isset($_GET['detail'])) { ?>
+                <?php generate_breadcrumb([['title' => 'Penilaian', 'filename' => 'penilaian.php'], ['title' => 'Detail Penilaian', 'filename' => '#']]); ?>
+                <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Detail Penilaian Siswa <?= $nama_kelas ?></h4>
+
+                <div class="flex w-full md:w-1/2 flex-col text-gray-800 dark:text-white space-y-4">
+                    <div class="flex justify-between">
+                        <h6>Judul Penilaian :</h6>
+                        <p><?= $judul_penilaian ?></p>
+                    </div>
+
+                    <?php if ($keterangan_penilaian) : ?>
+                        <div class="flex flex-col gap-3">
+                            <h6>Keterangan Penilaian :</h6>
+                            <p><?= $keterangan_penilaian ?></p>
+                        </div>
+                    <?php endif ?>
+
+                    <div class="flex justify-between">
+                        <h6>Kelas :</h6>
+                        <p><?= $nama_kelas ?></p>
+                    </div>
+                    <div class="flex justify-between">
+                        <h6>Mapel :</h6>
+                        <p><?= $nama_mapel ?></p>
+                    </div>
+                    <div class="flex justify-between">
+                        <h6>Tanggal Penilaian :</h6>
+                        <?php foreach ($data_penilaian as $value) : ?>
+                            <p><?= $value['tgl_penilaian'];
+                                break ?></p>
+                        <?php endforeach ?>
+                    </div>
+                    <div class="flex justify-between">
+                        <h6>Jam Mulai :</h6>
+                        <?php foreach ($data_penilaian as $value) : ?>
+                            <p><?= $value['jam_mulai'];
+                                break ?></p>
+                        <?php endforeach ?>
+                    </div>
+                    <div class="flex justify-between">
+                        <h6>Jam Selesai :</h6>
+                        <?php foreach ($data_penilaian as $value) : ?>
+                            <p><?= $value['jam_selesai'];
+                                break ?></p>
+                        <?php endforeach ?>
+                    </div>
+                </div>
+
+                <hr class="mt-6">
+
+                <div class="table__container">
+                    <h4 class="text-gray-800 dark:text-white mb-5">Data Penilaian</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="px-6 py-3"></th>
+                                <th scope="col" class="px-6 py-3">Nama</th>
+                                <th scope="col" class="px-6 py-3">Nilai</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($data_penilaian as $key => $penilaian) : ?>
+                                <tr class="relative group">
+                                    <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
+                                    <td class="px-6 py-4"><?= $penilaian['nama_siswa'] ?></td>
+                                    <td class="px-6 py-4"><?= $penilaian['nilai'] ?></td>
+                                </tr>
+                            <?php endforeach ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php } else { ?>
+                <?php generate_breadcrumb([['title' => 'Penilaian', 'filename' => 'penilaian.php']]); ?>
+                <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Penilaian</h4>
+
+                <div class="table__container">
+                    <table class="datatable table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="px-6 py-3"></th>
+                                <th scope="col" class="px-6 py-3">Kelas</th>
+                                <th scope="col" class="px-6 py-3">Mapel</th>
+                                <th scope="col" class="px-6 py-3">Tanggal Pertemuan</th>
+                                <th scope="col" class="px-6 py-3">Jam mulai</th>
+                                <th scope="col" class="px-6 py-3">Status</th>
+                                <th scope="col" class="px-6 py-3"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($data_detail_jadwal as $key => $value) : ?>
+                                <tr class="relative group">
+                                    <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
+                                    <td class="px-6 py-4"><?= $value['nama_kelas'] ?></td>
+                                    <td class="px-6 py-4"><?= $value['nama_mapel'] ?></td>
+                                    <td class="px-6 py-4"><?= $value['tgl_pertemuan'] ?></td>
+                                    <td class="px-6 py-4"><?= $value['jam_mulai'] ?></td>
+                                    <td class="px-6 py-4 text-green-500"><?= $value['id_penilaian'] ? 'Ternilai' : '' ?></td>
+                                    <td class="px-6 py-4">
+                                        <?php if ($value['id_penilaian']) : ?>
+                                            <div class="flex gap-5">
+                                                <form action="../../api/instruktur/penilaian.php" method="post">
+                                                    <button type="submit" name="reset" value="<?= $value['id_penilaian'] ?>" class="btn btn--outline-amber flex items-center gap-1"><i class="ri-refresh-line"></i> Reset</button>
+                                                </form>
+                                                <a href="?detail=<?= $value['id_detail_jadwal'] ?>" class="btn btn--outline-cyan flex items-center gap-1"><i class="ri-search-line"></i> Detail</a>
+                                            </div>
+                                        <?php else : ?>
+                                            <button class="btn invisible">&nbsp;</button>
+                                            <a class="invisible group-hover:visible absolute w-full h-full flex top-0 left-0 bg-green-500 text-white items-center justify-center" href="?create=<?= $value['id_detail_jadwal'] ?>">Tambah Penilaian</a>
+                                        <?php endif ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php } ?>
         </div>
     </div>
 </div>
 
-<?php
-$result->free_result();
-include_once('../template/footer.php') ?>
+<?php include_once('../template/footer.php') ?>
