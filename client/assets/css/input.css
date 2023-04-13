@@ -163,6 +163,14 @@
         @apply bg-blue-600
     }
 
+    .btn.btn--amber {
+        @apply bg-amber-500 text-white
+    }
+
+    .btn.btn--amber:hover {
+        @apply bg-amber-600
+    }
+
     .btn--outline-red,
     .dark .btn--outline-red {
         @apply bg-transparent border border-red-500 text-red-500

@@ -79,7 +79,7 @@ $data_user = $db->query($sql)->fetch_assoc();
                                             </div>
                                             <div class="flex flex-col gap-2">
                                                 <label class="text-lg text-gray-500 dark:text-white">Status Keaktifan</label>
-                                                <p class="font-semibold text-green-500">Aktif</p>
+                                                <p class="font-semibold  <?= $data_user['status'] ? 'text-green-500' : 'text-red-500'?>"><?= $data_user['status'] ? $data_user['status'] : 'Nonaktif' ?></p>
                                             </div>
                                         </div>
                                     </div>
