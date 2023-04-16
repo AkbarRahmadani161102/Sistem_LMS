@@ -40,7 +40,7 @@ $data_tunggakan = $db->query($sql);
                                 <td class="px-6 py-4"><?= $row['keterangan'] ?></td>
                                 <td class="px-6 py-4"><?= $row['status'] ?></td>
                                 <form action="../../api/siswa/pengajuan.php" method="post">
-                                    <td class="px-6 py-4"><button type="submit" name="delete" value="<?= $row['id_pengajuan'] ?>" class="text-red-500"><i class="ri-delete-bin-line"></i></button></td>
+                                    <td class="px-6 py-4"><button type="submit" name="delete" value="<?= $row['id_pengajuan'] ?>" class="btn btn--outline-red"><i class="ri-delete-bin-line"></i></button></td>
                                 </form>
                             </tr>
                         <?php endwhile ?>

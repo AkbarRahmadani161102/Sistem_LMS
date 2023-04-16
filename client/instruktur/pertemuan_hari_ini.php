@@ -58,11 +58,11 @@ if (isset($_GET['presence'])) {
                                 $tgl_pertemuan = $pertemuan['tgl_pertemuan'];
 
                                 $hari = $pertemuan['hari'];
-                                $sql = "SELECT dk.*, j.*, k.nama nama_kelas, m.nama nama_mapel FROM jadwal j
-                                        JOIN detail_jadwal dk ON j.id_jadwal = dk.id_jadwal
+                                $sql = "SELECT dj.*, j.*, k.nama nama_kelas, m.nama nama_mapel FROM jadwal j
+                                        JOIN detail_jadwal dj ON j.id_jadwal = dj.id_jadwal
                                         JOIN kelas k ON j.id_kelas = k.id_kelas
                                         JOIN mapel m ON j.id_mapel = m.id_mapel
-                                        WHERE j.id_instruktur = '$id_instruktur'
+                                        WHERE dj.id_instruktur = '$id_instruktur'
                                         AND j.hari = '$hari'
                                         AND tgl_pertemuan = '$tgl_pertemuan'
                                         AND jam_mulai = ";

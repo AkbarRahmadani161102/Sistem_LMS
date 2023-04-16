@@ -49,11 +49,12 @@ if (isset($_POST['update_profil'])) {
     $nama = escape($_POST['nama']);
     $nomor_telepon = escape($_POST['no_telp']);
     $alamat = escape($_POST['alamat']);
+    $status = escape($_POST['status']);
 
     $is_number = preg_match("/^[0-9]*$/", $nomor_telepon) === 1;
     if ($is_number) {
         $_SESSION['nama'] = $nama;
-        $sql = "UPDATE instruktur SET nama = '$nama', no_telp = '$nomor_telepon', alamat = '$alamat', tgl_diubah = '$current_date' WHERE id_instruktur = '$id_instruktur'";
+        $sql = "UPDATE instruktur SET nama = '$nama', no_telp = '$nomor_telepon', alamat = '$alamat', status = '$status', tgl_diubah = '$current_date' WHERE id_instruktur = '$id_instruktur'";
         $db->query($sql) or die($db->error);
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data profil berhasil diubah', 'icon_color' => 'greenlight'];
     } else {

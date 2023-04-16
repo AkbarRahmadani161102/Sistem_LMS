@@ -47,6 +47,7 @@ if (isset($_POST['update'])) {
     $alamat = escape($_POST['alamat']);
     $email = escape($_POST['email']);
     $password = escape($_POST['password']);
+    $status = escape($_POST['status']);
     $kelas = isset($_POST['kelas']) ? $_POST['kelas'] : [];
     $is_number = preg_match("/^[0-9]*$/", $no_telp) === 1;
 
@@ -80,7 +81,7 @@ if (isset($_POST['update'])) {
             $ext_sql .= ", password = '$password'";
         }
 
-        $sql = "UPDATE siswa SET nama = '$nama', no_telp = '$no_telp', alamat = '$alamat', tgl_diubah = '$current_date' $ext_sql WHERE id_siswa = '$id_siswa'";
+        $sql = "UPDATE siswa SET nama = '$nama', no_telp = '$no_telp', alamat = '$alamat', status = '$status', tgl_diubah = '$current_date' $ext_sql WHERE id_siswa = '$id_siswa'";
         $db->query($sql) or die($db->error);
 
         $sql = "DELETE FROM detail_kelas WHERE id_siswa = '$id_siswa'";

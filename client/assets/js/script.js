@@ -21,6 +21,19 @@ $(document).ready(() => {
             && $(this).addClass('active')
     })
 
+    $('#check_all').on('click', function (e) {
+        let condition = this.checked
+        if (condition) {
+            $("input[name='delete_pertemuan[]']").each(function () {
+                this.checked = true
+            })
+        } else {
+            $("input[name='delete_pertemuan[]']").each(function () {
+                this.checked = false
+            })
+        }
+    })
+
     $('select.selectize').selectize({
         onFocus: function () {
             $(this)[0].clear()

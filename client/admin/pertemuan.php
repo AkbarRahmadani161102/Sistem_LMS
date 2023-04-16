@@ -42,8 +42,8 @@ if (isset($_GET['reassign_instruktur'])) {
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">
             <?php include_once '../components/dashboard_navbar.php'; ?>
-            <div class="flex items-center gap-5">
-                <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Pertemuan</h4>
+            <div class="flex flex-wrap items-center gap-5">
+                <h4 class="mt-4 md:my-7 font-semibold text-gray-800 dark:text-white">Data Pertemuan</h4>
 
                 <form action="../../api/admin/pertemuan.php" method="post">
                     <button type="submit" class="btn" name="sync"> Update Data Pertemuan </button>
@@ -93,9 +93,18 @@ if (isset($_GET['reassign_instruktur'])) {
                             WHERE m.id_mapel = '$id_mapel'";
                             $data_instruktur = $db->query($sql) or die($db->error);
                             while ($instruktur = $data_instruktur->fetch_assoc()) : ?>
-                                <option value="<?= $instruktur['id_instruktur'] ?>" <?= $data_detail_jadwal['nama_instruktur'] === $instruktur['nama'] ? 'selected' : '' ?>><?= $instruktur['nama'] ?></option>
+                                <?php if (isset($_GET['pengajuan'])) : ?>
+                                    <option value="<?= $instruktur['id_instruktur'] ?>" <?= $_GET['instruktur'] === $instruktur['id_instruktur'] ? 'selected' : '' ?>><?= $instruktur['nama'] ?></option>
+                                <?php else : ?>
+                                    <option value="<?= $instruktur['id_instruktur'] ?>" <?= $data_detail_jadwal['nama_instruktur'] === $instruktur['nama'] ? 'selected' : '' ?>><?= $instruktur['nama'] ?></option>
+                                <?php endif ?>
                             <?php endwhile ?>
                         </select>
+
+                        <?php if (isset($_GET['pengajuan'])) : ?>
+                            <input type="hidden" name="pengajuan" value="<?= $_GET['pengajuan'] ?>">
+                        <?php endif ?>
+
                         <button type="submit" class="btn dark:bg-green-500 dark:text-white" name="reassign_instruktur" value="<?= $id_detail_jadwal ?>">Tetapkan</button>
                     </form>
                 </div>
@@ -110,40 +119,55 @@ if (isset($_GET['reassign_instruktur'])) {
                         <?php endforeach ?>
                     </ul>
                     <div class="relative overflow-x-auto mt-5">
-                        <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">#</th>
-                                    <th scope="col" class="px-6 py-3">Nama Kelas</th>
-                                    <th scope="col" class="px-6 py-3">Nama Mapel</th>
-                                    <th scope="col" class="px-6 py-3">Nama Instruktur</th>
-                                    <th scope="col" class="px-6 py-3">Hari, Tanggal</th>
-                                    <th scope="col" class="px-6 py-3">Jam Mulai</th>
-                                    <th scope="col" class="px-6 py-3">Jam Selesai</th>
-                                    <th scope="col" class="px-6 py-3">Status Kehadiran Instruktur</th>
-                                    <th scope="col" class="px-6 py-3"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($data_pertemuan as $key => $pertemuan) : ?>
-                                    <tr class="border-b dark:bg-gray-800 dark:border-gray-700 bg-transparent">
-                                        <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                        <td class="px-6 py-4"><?= $pertemuan['nama_kelas'] ?></td>
-                                        <td class="px-6 py-4"><?= $pertemuan['nama_mapel'] ?></td>
-                                        <td class="px-6 py-4"><?= $pertemuan['nama_instruktur'] ?></td>
-                                        <td class="px-6 py-4"><?= $pertemuan['hari'] ?>, <?= $pertemuan['tgl_pertemuan'] ?></td>
-                                        <td class="px-6 py-4"><?= $pertemuan['jam_mulai'] ?></td>
-                                        <td class="px-6 py-4"><?= $pertemuan['jam_selesai'] ?></td>
-                                        <td class="px-6 py-4 <?= $pertemuan['status_kehadiran_instruktur'] === 'Hadir' ? 'text-green-500' : 'text-red-500' ?>"><?= $pertemuan['status_kehadiran_instruktur'] ?></td>
-                                        <td class="px-6 py-4">
-                                            <?php if ($pertemuan['status_kehadiran_instruktur'] !== 'Hadir') : ?>
-                                                <a href="?reassign_instruktur=<?= $pertemuan['id_detail_jadwal'] ?>" class="btn btn--outline-green flex items-center justify-around"><i class="ri-arrow-left-right-line"></i> Ganti Instruktur</a>
-                                            <?php endif ?>
-                                        </td>
+                        <form action="../../api/admin/pertemuan.php" method="post">
+                            <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            <div class="flex flex-col items-center gap-4 z-10">
+                                                <button name="bulk_delete" type="submit" class="btn w-full btn--outline-red">Hapus</button>
+                                                <label class="flex">Check All <input class="ml-3" type="checkbox" id="check_all"></label>
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">Nama Kelas</th>
+                                        <th scope="col" class="px-6 py-3">Nama Mapel</th>
+                                        <th scope="col" class="px-6 py-3">Nama Instruktur</th>
+                                        <th scope="col" class="px-6 py-3">Hari, Tanggal</th>
+                                        <th scope="col" class="px-6 py-3">Jam Mulai</th>
+                                        <th scope="col" class="px-6 py-3">Jam Selesai</th>
+                                        <th scope="col" class="px-6 py-3">Status Kehadiran Instruktur</th>
+                                        <th scope="col" class="px-6 py-3"></th>
                                     </tr>
-                                <?php endforeach ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($data_pertemuan as $key => $pertemuan) : ?>
+                                        <tr class="border-b dark:bg-gray-800 dark:border-gray-700 bg-transparent relative">
+                                            <th class="mt-5">
+                                                <label for="check<?= $key ?>" class="absolute top-0 left-0 h-full w-full"></label>
+                                                <input id="check<?= $key ?>" class="ml-8" type="checkbox" name="delete_pertemuan[]" value="<?= $pertemuan['id_detail_jadwal'] ?>">
+                                            </th>
+                                            <td class="px-6 py-4"><?= $pertemuan['nama_kelas'] ?></td>
+                                            <td class="px-6 py-4"><?= $pertemuan['nama_mapel'] ?></td>
+                                            <td class="px-6 py-4"><?= $pertemuan['nama_instruktur'] ?></td>
+                                            <td class="px-6 py-4"><?= $pertemuan['hari'] ?>, <?= $pertemuan['tgl_pertemuan'] ?></td>
+                                            <td class="px-6 py-4"><?= $pertemuan['jam_mulai'] ?></td>
+                                            <td class="px-6 py-4"><?= $pertemuan['jam_selesai'] ?></td>
+                                            <td class="px-6 py-4 <?= $pertemuan['status_kehadiran_instruktur'] === 'Hadir' ? 'text-green-500' : 'text-red-500' ?>"><?= $pertemuan['status_kehadiran_instruktur'] ?></td>
+                                            <td class="px-6 py-4">
+                                                <?php if ($pertemuan['status_kehadiran_instruktur'] !== 'Hadir') : ?>
+                                                    <div class="flex gap-3">
+                                                        <a href="?reassign_instruktur=<?= $pertemuan['id_detail_jadwal'] ?>" class="btn btn--outline-green flex items-center justify-around z-20 gap-2"><i class="ri-arrow-left-right-line"></i><span>Ganti Instruktur</span></a>
+                                                        <form action="../../api/admin/pertemuan.php" method="post">
+                                                            <button type="submit" name="delete" value="<?= $pertemuan['id_detail_jadwal'] ?>" class="btn btn--outline-red z-20"><i class="ri-delete-bin-line"></i></button>
+                                                        </form>
+                                                    </div>
+                                                <?php endif ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach ?>
+                                </tbody>
+                            </table>
+                        </form>
                     </div>
                 <?php else : ?>
                     <div class="pt-16 flex flex-col items-center h-full gap-5 text-gray-800 dark:text-white">

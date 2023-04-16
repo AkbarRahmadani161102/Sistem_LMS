@@ -37,7 +37,7 @@ if (isset($_GET['edit'])) {
         <div class="p-4 sm:ml-64">
             <?php include_once '../components/dashboard_navbar.php'; ?>
             <div class="flex items-center gap-5">
-                <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Siswa</h4>
+                <h4 class="mt-7 font-semibold text-gray-800 dark:text-white">Data Siswa</h4>
                 <?php if (!isset($_GET['edit'])) : ?>
                     <button data-modal-target="add_siswa_modal" data-modal-toggle="add_siswa_modal" class="btn" type="button">
                         Tambah Siswa
@@ -46,61 +46,72 @@ if (isset($_GET['edit'])) {
             </div>
             <?php if (isset($_GET['edit'])) : ?>
                 <?php generate_breadcrumb([['title' => 'Siswa', 'filename' => 'siswa.php'], ['title' => 'Edit Siswa', 'filename' => '#']]); ?>
-                <form class="form" action="../../api/admin/siswa.php" method="post">
-                    <div class="pt-6 flex gap-5 flex-col md:flex-row">
-                        <div class="flex-1 flex flex-col">
-                            <div class="mb-5">
+                <form class="form rounded bg-gray-200 dark:bg-gray-700 p-5 mt-8" action="../../api/admin/siswa.php" method="post">
+                    <div class="flex gap-5 flex-col md:flex-row">
+                        <div class="flex-1 flex flex-col space-y-5">
+                            <div class="space-y-2">
                                 <label for="nama">Nama</label>
                                 <input type="text" class="input" id="nama" name="nama" value="<?= $result['nama'] ?>" maxlength="50">
                             </div>
-                            <div class="mb-5">
+                            <div class="flex gap-5">
+                                <div class="flex flex-1 flex-col space-y-2">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="input" id="email" name="email" value="<?= $result['email'] ?>" maxlength="30">
+                                </div>
+                                <div class="flex flex-1 flex-col space-y-2">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="input" id="password" name="password" value="<?= $result['password'] ?>" maxlength="50">
+                                </div>
+                            </div>
+                            <div class="space-y-2">
                                 <label for="no_telp">No Telp</label>
                                 <input type="text" class="input" id="no_telp" name="no_telp" value="<?= $result['no_telp'] ?>" maxlength="14">
                             </div>
-                            <div class="mb-5">
+                            <div class="space-y-2">
                                 <label for="alamat">Alamat</label>
                                 <textarea class="resize-none input" name="alamat" id="" cols="30" rows="3" maxlength="50"><?= $result['alamat'] ?></textarea>
                             </div>
+                            <div class="flex gap-5">
+                                <div class="flex flex-1 flex-col space-y-2">
+                                    <label for="kelas">Kelas</label>
+                                    <select name="kelas" id="kelas" class="input" required>
+                                        <?php
+                                        $sql = "SELECT * FROM jenjang";
+                                        $data_jenjang = $db->query($sql) or die($db->error);
+                                        $data_jenjang->fetch_assoc(); ?>
+
+                                        <?php foreach ($data_jenjang as $jenjang) : ?>
+                                            <optgroup label="<?= $jenjang['nama'] ?>">
+                                                <?php
+                                                $id_jenjang = $jenjang['id_jenjang'];
+                                                $sql = "SELECT * FROM kelas WHERE id_jenjang = '$id_jenjang'";
+                                                $data_kelas = $db->query($sql) or die($db->error);
+                                                $data_kelas->fetch_assoc(); ?>
+
+                                                <?php foreach ($data_kelas as $kelas) : ?>
+                                                    <option value="<?= isset($kelas['id_kelas']) ? $kelas['id_kelas'] : null ?>" <?= isset($data_kelas_siswa['id_kelas']) && $data_kelas_siswa['id_kelas'] === $kelas['id_kelas'] ? 'selected' : '' ?>>
+                                                        <?= $kelas['nama'] ?>
+                                                    </option>
+                                                <?php endforeach ?>
+                                            </optgroup>
+                                        <?php endforeach ?>
+                                    </select>
+                                </div>
+                                <div class="flex flex-1 flex-col space-y-2">
+                                    <label for="status">Status</label>
+                                    <select class="input" name="status" id="status">
+                                        <option value="Aktif" selected>Aktif</option>
+                                        <option value="Alumni">Alumni</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit" name="update" value="<?= $id_siswa ?>" class="self-end block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                Update
+                            </button>
                         </div>
-                        <div class="flex-1 flex flex-col">
-                            <div class="mb-5">
-                                <label for="email">Email</label>
-                                <input type="email" class="input" id="email" name="email" value="<?= $result['email'] ?>" maxlength="30">
-                            </div>
-                            <div class="mb-5">
-                                <label for="password">Password</label>
-                                <input type="password" class="input" id="password" name="password" value="<?= $result['password'] ?>" maxlength="50">
-                            </div>
-                            <div class="mb-5">
-                                <label for="kelas">Kelas</label>
-                                <select name="kelas" id="kelas" class="input" required>
-                                    <?php
-                                    $sql = "SELECT * FROM jenjang";
-                                    $data_jenjang = $db->query($sql) or die($db->error);
-                                    $data_jenjang->fetch_assoc(); ?>
 
-                                    <?php foreach ($data_jenjang as $jenjang) : ?>
-                                        <optgroup label="<?= $jenjang['nama'] ?>">
-                                            <?php
-                                            $id_jenjang = $jenjang['id_jenjang'];
-                                            $sql = "SELECT * FROM kelas WHERE id_jenjang = '$id_jenjang'";
-                                            $data_kelas = $db->query($sql) or die($db->error);
-                                            $data_kelas->fetch_assoc(); ?>
 
-                                            <?php foreach ($data_kelas as $kelas) : ?>
-                                                <option value="<?= isset($kelas['id_kelas']) ? $kelas['id_kelas'] : null ?>" <?= isset($data_kelas_siswa['id_kelas']) && $data_kelas_siswa['id_kelas'] === $kelas['id_kelas'] ? 'selected' : '' ?>>
-                                                    <?= $kelas['nama'] ?>
-                                                </option>
-                                            <?php endforeach ?>
-                                        </optgroup>
-                                    <?php endforeach ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button type="submit" name="update" value="<?= $id_siswa ?>" class="self-end block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            Update
-                        </button>
                     </div>
                 </form>
             <?php else : ?>

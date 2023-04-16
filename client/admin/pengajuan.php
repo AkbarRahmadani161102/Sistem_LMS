@@ -43,19 +43,46 @@ $data_pengajuan->fetch_assoc();
                                 <td><?= $pengajuan['no_telp'] ? $pengajuan['no_telp'] : $pengajuan['email']  ?></td>
                                 <td><?= $pengajuan['judul'] ?></td>
                                 <td><?= $pengajuan['keterangan'] ?></td>
-                                <td class="<?= $pengajuan['status'] === 'Pending' ? 'text-amber-500' : 'text-green-500' ?>"><?= $pengajuan['status'] ?></td>
+
+                                <?php
+                                $text_color = "text-amber-500";
+                                $status = $pengajuan['status'];
+                                if ($status === 'Selesai')
+                                    $text_color = 'text-green-500';
+                                else if ($status === 'Ditolak')
+                                    $text_color = 'text-red-500';
+                                ?>
+                                <td class="<?= $text_color ?>">
+                                    <?= $status ?>
+                                </td>
                                 <td><?= $pengajuan['tgl_dibuat'] ?></td>
-                                <td>
-                                    <?php if ($pengajuan['status'] === 'Pending') : ?>
-                                        <form action="../../api/admin/pengajuan.php" method="post">
-                                            <input type="hidden" name="status" value="Selesai">
-                                            <button type="submit" name="update" value="<?= $pengajuan['id_pengajuan'] ?>" class="btn btn--outline-green flex items-center gap-2"><i class="ri-check-double-line"></i> Tandai Sebagai Selesai</button>
-                                        </form>
+                                <td class="flex">
+                                    <?php if ($pengajuan['id_detail_jadwal']) : ?>
+                                        <div class="flex gap-5">
+                                            <a href="../admin/pertemuan.php?reassign_instruktur=<?= $pengajuan['id_detail_jadwal'] ?>&pengajuan=<?= $pengajuan['id_pengajuan'] ?>&instruktur=<?= $pengajuan['id_instruktur'] ?>" class="btn btn--outline-green">Ubah Instruktur</a>
+                                            <form class="form flex-1" action="../../api/admin/pengajuan.php" method="post">
+                                                <input type="hidden" name="status" value="Ditolak">
+                                                <button type="submit" name="update" value="<?= $pengajuan['id_pengajuan'] ?>" class="btn btn--outline-red">Tolak Pengajuan</button>
+                                            </form>
+                                        </div>
                                     <?php else : ?>
-                                        <form action="../../api/admin/pengajuan.php" method="post">
+                                        <?php if ($pengajuan['status'] === 'Pending') : ?>
+                                            <div class="flex flex-1 gap-5 justify-between">
+                                                <form class="form flex-1" action="../../api/admin/pengajuan.php" method="post">
+                                                    <input type="hidden" name="status" value="Selesai">
+                                                    <button type="submit" name="update" value="<?= $pengajuan['id_pengajuan'] ?>" class="btn btn--outline-green">Tandai Sebagai Selesai</button>
+                                                </form>
+                                                <form class="form flex-1" action="../../api/admin/pengajuan.php" method="post">
+                                                    <input type="hidden" name="status" value="Ditolak">
+                                                    <button type="submit" name="update" value="<?= $pengajuan['id_pengajuan'] ?>" class="btn btn--outline-red">Tolak Pengajuan</button>
+                                                </form>
+                                            </div>
+                                        <?php else : ?>
+                                            <!-- <form action="../../api/admin/pengajuan.php" method="post">
                                             <input type="hidden" name="status" value="Pending">
-                                            <button type="submit" name="update" value="<?= $pengajuan['id_pengajuan'] ?>" class="btn btn--outline-amber flex items-center gap-2"><i class="ri-history-line"></i> Tandai Sebagai Pending</button>
-                                        </form>
+                                            <button type="submit" name="update" value="<?= $pengajuan['id_pengajuan'] ?>" class="btn btn--outline-amber">Tandai Sebagai Pending</button>
+                                        </form> -->
+                                        <?php endif ?>
                                     <?php endif ?>
                                 </td>
                             </tr>

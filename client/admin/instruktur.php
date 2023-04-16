@@ -52,36 +52,47 @@ if (isset($_GET['edit'])) {
                 <div class="flex gap-5 mt-5 flex-col lg:flex-row lg:items-start">
                     <div class="flex flex-1 flex-col gap-5 bg-gray-200 dark:bg-gray-700 shadow-lg rounded p-5">
                         <h4 class="text-gray-800 dark:text-white">Data Personal</h4>
-                        <form class="flex-1 flex flex-col justify-between" action="../../api/admin/instruktur.php" method="post">
-                            <div class="mb-5">
-                                <label for="nama" class="form-label text-secondary text-gray-400 dark:text-white">Nama</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="nama" name="nama" value="<?= $result['nama'] ?>" maxlength="50" required>
+                        <form class="form flex-1 flex flex-col justify-between gap-3" action="../../api/admin/instruktur.php" method="post">
+                            <div class="space-y-2">
+                                <label for="nama">Nama</label>
+                                <input type="text" class="input" id="nama" name="nama" value="<?= $result['nama'] ?>" maxlength="50" required>
                             </div>
-                            <div class="mb-5">
-                                <label for="no_telp" class="form-label text-secondary text-gray-400 dark:text-white">No Telp</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="no_telp" name="no_telp" value="<?= $result['no_telp'] ?>" maxlength="14" required>
+                            <div class="space-y-2">
+                                <label for="no_telp">No Telp</label>
+                                <input type="text" class="input" id="no_telp" name="no_telp" value="<?= $result['no_telp'] ?>" maxlength="14" required>
                             </div>
-                            <div class="mb-5">
-                                <label for="alamat" class="form-label text-secondary text-gray-400 dark:text-white">Alamat</label>
-                                <textarea class="resize-none border rounded w-full py-1.5 border-gray-400 mt-1" name="alamat" id="" cols="30" rows="3" maxlength="50"><?= $result['alamat'] ?>"</textarea>
+                            <div class="space-y-2">
+                                <label for="alamat">Alamat</label>
+                                <textarea class="resize-none input" name="alamat" id="" cols="30" rows="3" maxlength="50"><?= $result['alamat'] ?>"</textarea>
+                            </div>
+                            <div class="space-y-2">
+                                <label for="alamat">Alamat</label>
+                                <textarea class="resize-none input" name="alamat" id="" cols="30" rows="3" maxlength="50"><?= $result['alamat'] ?>"</textarea>
+                            </div>
+                            <div class="space-y-2">
+                                <label for="status">Status</label>
+                                <select name="status" id="status" class="input">
+                                    <option value="Aktif">Aktif</option>
+                                    <option value="Pensiun">Pensiun</option>
+                                </select>
                             </div>
                             <button type="submit" class="w-full bg-orange-500 rounded py-1.5 text-white" name="update_profil" value="<?= $result['id_instruktur'] ?>">Ubah Data Profil</button>
                         </form>
                     </div>
                     <div class="flex flex-1 flex-col gap-5 bg-gray-200 dark:bg-gray-700 shadow-lg rounded p-5">
                         <h4 class="text-gray-800 dark:text-white">Data Kredensial</h4>
-                        <form class="flex-1 flex flex-col justify-between" action="../../api/admin/instruktur.php" method="post">
-                            <div class="mb-5">
-                                <label for="email" class="form-label text-secondary text-gray-400 dark:text-white">Email</label>
-                                <input type="email" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="email" name="email" value="<?= $result['email'] ?>" maxlength="30" required>
+                        <form class="form flex-1 flex flex-col justify-between gap-3" action="../../api/admin/instruktur.php" method="post">
+                            <div class="space-y-2">
+                                <label for="email">Email</label>
+                                <input type="email" class="input" id="email" name="email" value="<?= $result['email'] ?>" maxlength="30" required>
                             </div>
-                            <div class="mb-5">
-                                <label for="password" class="form-label text-secondary text-gray-400 dark:text-white">Password</label>
-                                <input type="password" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="password" name="password" value="<?= $result['password'] ?>" maxlength="50" required>
+                            <div class="space-y-2">
+                                <label for="password">Password</label>
+                                <input type="password" class="input" id="password" name="password" value="<?= $result['password'] ?>" maxlength="50" required>
                             </div>
-                            <div class="mb-5">
-                                <label for="confirm_password" class="form-label text-secondary text-gray-400 dark:text-white">Konfirmasi Password</label>
-                                <input type="password" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="confirm_password" name="confirm_password" value="<?= $result['password'] ?>" maxlength="50" required>
+                            <div class="space-y-2">
+                                <label for="confirm_password">Konfirmasi Password</label>
+                                <input type="password" class="input" id="confirm_password" name="confirm_password" value="<?= $result['password'] ?>" maxlength="50" required>
                             </div>
                             <button type="submit" class="w-full bg-red-500 rounded py-1.5 text-white" name="update_kredensial" value="<?= $result['id_instruktur'] ?>">Ubah Data Kredensial</button>
                         </form>
@@ -210,27 +221,27 @@ if (isset($_GET['edit'])) {
                     </div>
                     <div class="pt-6 flex gap-5">
                         <div class="flex-1 flex flex-col" method="post">
-                            <div class="mb-5">
-                                <label for="nama" class="form-label text-secondary text-gray-400 dark:text-white">Nama</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="nama" name="nama" maxlength="50" required>
+                            <div class="space-y-2">
+                                <label for="nama">Nama</label>
+                                <input type="text" class="input" id="nama" name="nama" maxlength="50" required>
                             </div>
-                            <div class="mb-5">
-                                <label for="no_telp" class="form-label text-secondary text-gray-400 dark:text-white">No Telp</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="no_telp" name="no_telp" maxlength="14" required>
+                            <div class="space-y-2">
+                                <label for="no_telp">No Telp</label>
+                                <input type="text" class="input" id="no_telp" name="no_telp" maxlength="14" required>
                             </div>
-                            <div class="mb-5">
-                                <label for="alamat" class="form-label text-secondary text-gray-400 dark:text-white">Alamat</label>
-                                <textarea class="resize-none border rounded w-full py-1.5 border-gray-400 mt-1" name="alamat" id="" cols="30" rows="3" maxlength="50"></textarea>
+                            <div class="space-y-2">
+                                <label for="alamat">Alamat</label>
+                                <textarea class="resize-none input" name="alamat" id="" cols="30" rows="3" maxlength="50"></textarea>
                             </div>
                         </div>
                         <div class="flex-1 flex flex-col" method="post">
-                            <div class="mb-5">
-                                <label for="email" class="form-label text-secondary text-gray-400 dark:text-white">Email</label>
-                                <input type="email" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="email" name="email" maxlength="30" required>
+                            <div class="space-y-2">
+                                <label for="email">Email</label>
+                                <input type="email" class="input" id="email" name="email" maxlength="30" required>
                             </div>
-                            <div class="mb-5">
-                                <label for="password" class="form-label text-secondary text-gray-400 dark:text-white">Password</label>
-                                <input type="text" class="border rounded w-full py-1.5 border-gray-400 mt-1" id="password" name="password" maxlength="50" required>
+                            <div class="space-y-2">
+                                <label for="password">Password</label>
+                                <input type="text" class="input" id="password" name="password" maxlength="50" required>
                             </div>
                         </div>
                         <div id="form_mapel_instruktur" class="flex-1 flex flex-col" method="post">

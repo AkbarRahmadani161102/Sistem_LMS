@@ -110,9 +110,36 @@ if (isset($_POST['reassign_instruktur'])) {
         $sql = "INSERT INTO notifikasi_instruktur (id_instruktur, deskripsi) VALUES('$id_instruktur_baru', 'Anda menggantikan $nama_instruktur_lama di kelas $nama_kelas_lama pada tanggal $tgl_pertemuan')";
         $db->query($sql) or die($db->error);
 
+        if (isset($_POST['pengajuan'])) {
+            $id_pengajuan = $_POST['pengajuan'];
+            $sql = "UPDATE pengajuan SET id_detail_jadwal = NULL, status = 'Selesai' WHERE id_pengajuan = '$id_pengajuan'";
+            $db->query($sql) or die($db->error);
+
+            $sql = "UPDATE detail_jadwal SET status_kehadiran_instruktur = NULL WHERE id_detail_jadwal = '$id_detail_jadwal'";
+            $db->query($sql) or die($db->error);
+        }
+
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Instruktur berhasil ditetapkan', 'icon_color' => 'greenlight'];
     } else {
         $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menetapkan instruktur', 'icon_color' => 'red', 'text' => 'Instruktur yang bersangkutan sudah ada di jadwal lain di hari dan jam yang sama'];
+    }
+}
+if (isset($_POST['delete'])) {
+    $id_detail_jadwal = $_POST['delete'];
+    $sql = "DELETE FROM detail_jadwal WHERE id_detail_jadwal = '$id_detail_jadwal'";
+    $db->query($sql) or die($db->error);
+    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Pertemuan Dihapus', 'icon_color' => 'greenlight'];
+}
+if (isset($_POST['bulk_delete'])) {
+    $data_pertemuan = $_POST['delete_pertemuan'];
+    try {
+        foreach ($data_pertemuan as $id_detail_jadwal) {
+            $sql = "DELETE FROM detail_jadwal WHERE id_detail_jadwal = '$id_detail_jadwal'";
+            $db->query($sql) or die($db->error);
+        }
+        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Pertemuan Dihapus', 'icon_color' => 'greenlight'];
+    } catch (\Throwable $th) {
+        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Pertemuan Gagal Dihapus', 'icon_color' => 'red', 'text' => 'Constraint Integrity'];
     }
 }
 redirect('../../client/admin/pertemuan.php');

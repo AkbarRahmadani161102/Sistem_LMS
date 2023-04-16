@@ -78,8 +78,8 @@ if (isset($_GET['assign_instruktur'])) {
                     <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Jadwal</h4>
                 <?php endif ?>
                 <?php if (isset($_GET['jenjang'])) : ?>
-                    
-                    <button data-modal-target="add_jadwal_modal" data-modal-toggle="add_jadwal_modal"  class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+
+                    <button data-modal-target="add_jadwal_modal" data-modal-toggle="add_jadwal_modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                         Tambah Jadwal
                     </button>
                 <?php endif ?>
@@ -210,21 +210,23 @@ if (isset($_GET['assign_instruktur'])) {
                                     <td class="px-6 py-4"><?= $jadwal['hari'] ?></td>
                                     <td class="px-6 py-4"><?= $jadwal['jam_mulai'] ?></td>
                                     <td class="px-6 py-4"><?= $jadwal['jam_selesai'] ?></td>
-                                    <td class="px-6 py-4 flex-1 flex-col space-y-5">
-                                        <a class="btn btn--outline-green flex justify-around" href="?assign_instruktur=<?= $jadwal['id_jadwal'] ?>">
-                                            <i class="ri-arrow-left-right-line"></i>
-                                            <p>Ganti Instruktur</p>
-                                        </a>
-                                        <?php if (!$jadwal['nama_instruktur']) : ?>
-                                            <a class="btn btn--outline-blue group flex" href="?edit=<?= $jadwal['id_jadwal'] ?>">
-                                                <i class="ri-edit-box-line text-blue-500 mx-auto group-hover:text-white"></i>
+                                    <td class="px-6 py-4">
+                                        <div class="flex gap-3">
+                                            <a class="btn btn--outline-green flex justify-around" href="?assign_instruktur=<?= $jadwal['id_jadwal'] ?>">
+                                                <i class="ri-arrow-left-right-line"></i>
+                                                <p>Ganti Instruktur</p>
                                             </a>
-                                        <?php endif ?>
-                                        <form action="../../api/admin/jadwal.php" method="post">
-                                            <button class="btn btn--outline-red group flex w-full" type="submit" name="delete" value="<?= $jadwal['id_jadwal'] ?>">
-                                                <i class="ri-delete-bin-6-line text-red-500 mx-auto group-hover:text-white"></i>
-                                            </button>
-                                        </form>
+                                            <?php if (!$jadwal['nama_instruktur']) : ?>
+                                                <a class="btn btn--outline-blue group flex" href="?edit=<?= $jadwal['id_jadwal'] ?>">
+                                                    <i class="ri-edit-box-line text-blue-500 mx-auto group-hover:text-white"></i>
+                                                </a>
+                                            <?php endif ?>
+                                            <form action="../../api/admin/jadwal.php" method="post">
+                                                <button class="btn btn--outline-red group flex w-full" type="submit" name="delete" value="<?= $jadwal['id_jadwal'] ?>">
+                                                    <i class="ri-delete-bin-6-line text-red-500 mx-auto group-hover:text-white"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endforeach ?>
