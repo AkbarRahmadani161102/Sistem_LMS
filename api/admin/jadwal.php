@@ -8,14 +8,19 @@ if (isset($_POST['create'])) {
     $jam_mulai = $_POST['jam_mulai'];
     $jam_selesai = $_POST['jam_selesai'];
 
-    if ($jam_mulai < $jam_selesai) {
-        $sql = "INSERT INTO jadwal (id_mapel, id_kelas, hari, jam_mulai, jam_selesai) VALUES ('$id_mapel', '$id_kelas', '$hari', '$jam_mulai', '$jam_selesai')";
-        $db->query($sql) or die($db->error);
-        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data jadwal berhasil ditambah', 'icon_color' => 'greenlight'];
-        $id_jadwal = $db->insert_id;
-        redirect("../../client/admin/jadwal.php?assign_instruktur=$id_jadwal");
-    }
-    $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambah', 'icon_color' => 'red', 'text' => 'Pastikan waktu jam mulai kurang dari jam selesai'];
+    $sql = "SELECT * FROM jadwal WHERE id_kelas = '$id_kelas' AND hari = '$hari' AND jam_mulai = '$jam_mulai'";
+    $data_jadwal = $db->query($sql) or die($db->error);
+    if ($data_jadwal->num_rows === 0) {
+        if ($jam_mulai < $jam_selesai) {
+            $sql = "INSERT INTO jadwal (id_mapel, id_kelas, hari, jam_mulai, jam_selesai) VALUES ('$id_mapel', '$id_kelas', '$hari', '$jam_mulai', '$jam_selesai')";
+            $db->query($sql) or die($db->error);
+            $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data jadwal berhasil ditambah', 'icon_color' => 'greenlight'];
+            $id_jadwal = $db->insert_id;
+            redirect("../../client/admin/jadwal.php?assign_instruktur=$id_jadwal");
+        } else
+            $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambah', 'icon_color' => 'red', 'text' => 'Pastikan waktu jam mulai kurang dari jam selesai'];
+    } else
+        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambah', 'icon_color' => 'red', 'text' => 'Jadwal pada hari dan waktu yang sama telah ada'];
 }
 
 if (isset($_POST['assign_instruktur'])) {

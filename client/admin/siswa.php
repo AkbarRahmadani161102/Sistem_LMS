@@ -37,7 +37,7 @@ if (isset($_GET['edit'])) {
         <div class="p-4 sm:ml-64">
             <?php include_once '../components/dashboard_navbar.php'; ?>
             <div class="flex items-center gap-5">
-                <h4 class="mt-7 font-semibold text-gray-800 dark:text-white">Data Siswa</h4>
+                <h4 class="mt-7 font-semibold text-gray-800 dark:text-white my-7">Data Siswa</h4>
                 <?php if (!isset($_GET['edit'])) : ?>
                     <button data-modal-target="add_siswa_modal" data-modal-toggle="add_siswa_modal" class="btn" type="button">
                         Tambah Siswa
