@@ -38,7 +38,7 @@ if (isset($_GET['presence'])) {
 
             <?php if (!isset($_GET['presence'])) : ?>
                 <?php include_once '../components/dashboard_navbar.php';
-                generate_breadcrumb([['title' => 'Pertemuan', 'filename' => 'pertemuan.php']]);
+                generate_breadcrumb([['title' => 'Pertemuan Hari Ini', 'filename' => 'pertemuan_hari_ini.php']]);
                 ?>
                 <div class="flex justify-between items-center">
                     <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Pertemuan Hari Ini</h4>
@@ -98,7 +98,7 @@ if (isset($_GET['presence'])) {
             <?php endif ?>
 
             <?php if (isset($_GET['presence'])) : ?>
-                <?php generate_breadcrumb([['title' => 'Pertemuan Hari Ini', 'filename' => 'pertemuan_hari_ini.php'], ['title' => 'Pertemuan Kelas 2A', 'filename' => 'pertemuan_hari_ini.php']]); ?>
+                <?php generate_breadcrumb([['title' => 'Pertemuan Hari Ini', 'filename' => 'pertemuan_hari_ini.php'], ['title' => 'Pertemuan Kelas 2A', 'filename' => '#']]); ?>
                 <div class="flex justify-between items-center">
                     <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Pertemuan Kelas 2A</h4>
                 </div>

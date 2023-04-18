@@ -11,12 +11,11 @@ function generate_breadcrumb(array $list_breadcrumbs)
         $filename = $file['filename'];
         $title = $file['title'];
 
-        $is_last_index = fn() => count($list_breadcrumbs) - 1 === $key;
+        $is_last_index = fn () => count($list_breadcrumbs) - 1 === $key;
         echo "<i class='ri-arrow-right-s-line text-gray-400 text-xl'></i>";
-        if ($is_last_index())
-            echo "<a class='text-xl text-slate-800 dark:text-white hover:text-amber-500 transition' href='$filename'>$title</a>";
-        else
-            echo "<a class='text-xl text-gray-400 hover:text-amber-500 transition' href='$filename'>$title</a>";
+        echo $is_last_index()
+            ? "<a class='text-xl text-slate-800 dark:text-white hover:text-amber-500 transition' href='$filename'>$title</a>"
+            : "<a class='text-xl text-gray-400 hover:text-amber-500 transition' href='$filename'>$title</a>";
     }
     echo '</div>';
 }
