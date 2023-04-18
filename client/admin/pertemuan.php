@@ -157,7 +157,7 @@ if (isset($_GET['reassign_instruktur'])) {
                                                 <?php if ($pertemuan['status_kehadiran_instruktur'] !== 'Hadir') : ?>
                                                     <div class="flex gap-3">
                                                         <a href="?reassign_instruktur=<?= $pertemuan['id_detail_jadwal'] ?>" class="btn btn--outline-green flex items-center justify-around z-20 gap-2"><i class="ri-arrow-left-right-line"></i><span>Ganti Instruktur</span></a>
-                                                        <form action="../../api/admin/pertemuan.php" method="post">
+                                                        <form action="../../api/admin/pertemuan.php" class="z-20" method="post">
                                                             <button type="submit" name="delete" value="<?= $pertemuan['id_detail_jadwal'] ?>" class="btn btn--outline-red z-20"><i class="ri-delete-bin-line"></i></button>
                                                         </form>
                                                     </div>
