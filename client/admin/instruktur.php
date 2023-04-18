@@ -184,11 +184,13 @@ if (isset($_GET['edit'])) {
                                         ?>
                                     </td>
                                     <td class="px-6 py-4 flex gap-2">
-                                        <a class="btn btn--outline-blue group" href="?edit=<?= $value['id_instruktur'] ?>">
-                                            <i class="ri-edit-box-line text-blue-500 group-hover:text-white"></i>
+                                        <a class="btn btn--outline-blue" href="?edit=<?= $value['id_instruktur'] ?>">
+                                            <i class="ri-edit-box-line"></i>
                                         </a>
                                         <form action="../../api/admin/instruktur.php" method="post">
-                                            <button class="btn btn--outline-blue group" type="submit" name="delete" value="<?= $value['id_instruktur'] ?>"><i class="ri-delete-bin-6-line text-red-500 group-hover:text-white"></i></button>
+                                            <button class="btn btn--outline-red" type="submit" name="delete" value="<?= $value['id_instruktur'] ?>">
+                                            <i class="ri-delete-bin-6-line"></i>
+                                        </button>
                                         </form>
                                     </td>
                                 </tr>

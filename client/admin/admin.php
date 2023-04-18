@@ -150,13 +150,15 @@ if (isset($_GET['edit'])) {
                                             : $range->format('%R%a days/%R%y years');
                                         ?>
                                     </td>
-                                    
+
                                     <td class="px-6 py-4 flex gap-2">
-                                        <a class="btn btn--outline-blue group" href="?edit=<?= $value['id_admin'] ?>">
-                                            <i class="ri-edit-box-line text-blue-500 group-hover:text-white"></i>
+                                        <a class="btn btn--outline-blue" href="?edit=<?= $value['id_admin'] ?>">
+                                            <i class="ri-edit-box-line"></i>
                                         </a>
                                         <form action="../../api/admin/admin.php" method="post">
-                                            <button class="btn btn--outline-blue group" type="submit" name="delete" value="<?= $value['id_admin'] ?>"><i class="ri-delete-bin-6-line text-red-500 group-hover:text-white"></i></button>
+                                            <button class="btn btn--outline-red" type="submit" name="delete" value="<?= $value['id_admin'] ?>">
+                                                <i class="ri-delete-bin-6-line"></i>
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>

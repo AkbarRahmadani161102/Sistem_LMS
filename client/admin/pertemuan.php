@@ -161,6 +161,8 @@ if (isset($_GET['reassign_instruktur'])) {
                                                             <button type="submit" name="delete" value="<?= $pertemuan['id_detail_jadwal'] ?>" class="btn btn--outline-red z-20"><i class="ri-delete-bin-line"></i></button>
                                                         </form>
                                                     </div>
+                                                <?php else : ?>
+                                                    <button class="btn btn--transparent">&nbsp;</button>
                                                 <?php endif ?>
                                             </td>
                                         </tr>

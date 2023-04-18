@@ -30,6 +30,7 @@ $result->fetch_assoc();
                             <th scope="col" class="px-6 py-3"></th>
                             <th scope="col" class="px-6 py-3">Jenjang</th>
                             <th scope="col" class="px-6 py-3">Biaya Pendidikan</th>
+                            <th scope="col" class="px-6 py-3">Biaya Per Pertemuan</th>
                             <th scope="col" class="px-6 py-3"></th>
                         </tr>
                     </thead>
@@ -39,13 +40,14 @@ $result->fetch_assoc();
                                 <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
                                 <td class="px-6 py-4"><?= $value['nama'] ?></td>
                                 <td class="px-6 py-4"><?= $value['biaya_pendidikan'] ?></td>
+                                <td class="px-6 py-4"><?= $value['biaya_per_pertemuan'] ?></td>
                                 <td class="px-6 py-4 flex gap-4">
-                                    <button type="button" class="btn btn--outline-blue group" data-modal-target="edit<?= $value['id_jenjang'] ?>" data-modal-toggle="edit<?= $value['id_jenjang'] ?>">
-                                        <i class="ri-edit-box-line text-blue-500 group-hover:text-white"></i>
+                                    <button type="button" class="btn btn--outline-blue" data-modal-target="edit<?= $value['id_jenjang'] ?>" data-modal-toggle="edit<?= $value['id_jenjang'] ?>">
+                                        <i class="ri-edit-box-line"></i>
                                     </button>
                                     <form action="../../api/admin/jenjang.php" method="post">
-                                        <button type="submit" class="btn btn--outline-blue group" name="delete" value="<?= $value['id_jenjang'] ?>">
-                                            <i class="ri-delete-bin-6-line text-red-500 group-hover:text-white"></i>
+                                        <button type="submit" class="btn btn--outline-red" name="delete" value="<?= $value['id_jenjang'] ?>">
+                                            <i class="ri-delete-bin-6-line"></i>
                                         </button>
                                     </form>
                                 </td>
@@ -70,14 +72,18 @@ $result->fetch_assoc();
                                         </div>
                                         <form action="../../api/admin/jenjang.php" method="post">
                                             <!-- Modal body -->
-                                            <div class="modal__body">
+                                            <div class="modal__body dark:text-white">
                                                 <div class="flex flex-col gap-2">
-                                                    <label for="">Nama Jenjang</label>
-                                                    <input type="text" name="nama" class="input" value="<?= $value['nama'] ?>">
+                                                    <label for="nama">Nama Jenjang</label>
+                                                    <input type="text" id="nama" name="nama" class="input" value="<?= $value['nama'] ?>">
                                                 </div>
                                                 <div class="flex flex-col gap-2">
-                                                    <label for="">Biaya Pendidikan</label>
-                                                    <input type="number" name="biaya_pendidikan" class="input" value="<?= $value['biaya_pendidikan'] ?>">
+                                                    <label for="biaya_pendidikan">Biaya Pendidikan</label>
+                                                    <input type="number" id="biaya_pendidikan" name="biaya_pendidikan" class="input" value="<?= $value['biaya_pendidikan'] ?>">
+                                                </div>
+                                                <div class="flex flex-col gap-2">
+                                                    <label for="biaya_per_pertemuan">Biaya Per Pertemuan</label>
+                                                    <input type="number" id="biaya_per_pertemuan" name="biaya_per_pertemuan" class="input" value="<?= $value['biaya_per_pertemuan'] ?>">
                                                 </div>
                                             </div>
                                             <!-- Modal footer -->
@@ -103,7 +109,7 @@ $result->fetch_assoc();
             <!-- Modal header -->
             <div class="modal__header">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Tambah Jenjang
+                    Ubah Jenjang
                 </h3>
                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="add_jenjang_modal">
                     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -112,16 +118,20 @@ $result->fetch_assoc();
                     <span class="sr-only">Close modal</span>
                 </button>
             </div>
-            <form action="../../api/admin/jenjang.php" method="post">
+            <form class="form" action="../../api/admin/jenjang.php" method="post">
                 <!-- Modal body -->
                 <div class="modal__body">
                     <div class="flex flex-col gap-2">
-                        <label for="">Nama Jenjang</label>
-                        <input type="text" name="nama" class="input">
+                        <label for="nama">Nama Jenjang</label>
+                        <input type="text" id="nama" name="nama" class="input">
                     </div>
                     <div class="flex flex-col gap-2">
-                        <label for="">Biaya Pendidikan</label>
-                        <input type="number" name="biaya_pendidikan" class="input">
+                        <label for="biaya_pendidikan">Biaya Pendidikan</label>
+                        <input type="number" id="biaya_pendidikan" name="biaya_pendidikan" class="input">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="biaya_per_pertemuan">Biaya Per Pertemuan</label>
+                        <input type="number" id="biaya_per_pertemuan" name="biaya_per_pertemuan" class="input" value="<?= $value['biaya_per_pertemuan'] ?>">
                     </div>
                 </div>
                 <!-- Modal footer -->

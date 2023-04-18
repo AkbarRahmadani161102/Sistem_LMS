@@ -103,6 +103,8 @@ $data_siswa->fetch_assoc();
                                                 </div>
                                             </div>
                                         </div>
+                                    <?php else : ?>
+                                        <button class="btn btn--transparent">&nbsp;</button>
                                     <?php endif ?>
                                 </td>
                             <?php endforeach ?>

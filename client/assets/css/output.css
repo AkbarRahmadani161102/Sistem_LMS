@@ -922,6 +922,11 @@ table tbody tr:hover {
   color: rgb(31 41 55 / var(--tw-text-opacity));
 }
 
+.btn.btn--transparent {
+  pointer-events: none;
+  background-color: transparent;
+}
+
 .btn.btn--blue {
   --tw-bg-opacity: 1;
   background-color: rgb(59 130 246 / var(--tw-bg-opacity));
@@ -1395,10 +1400,6 @@ hr.vr {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.mt-10 {
-  margin-top: 2.5rem;
 }
 
 .block {

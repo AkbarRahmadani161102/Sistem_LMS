@@ -38,12 +38,12 @@ $result->fetch_assoc();
                                 <th class="px-6 py-4 text-amber-500"></th>
                                 <td class="px-6 py-4"><?= $value['title'] ?></td>
                                 <td class="px-6 py-4 flex gap-4">
-                                    <button type="button" class="btn btn--outline-blue group" data-modal-target="edit<?= $value['id_role'] ?>" data-modal-toggle="edit<?= $value['id_role'] ?>">
-                                        <i class="ri-edit-box-line text-blue-500 group-hover:text-white"></i>
+                                    <button type="button" class="btn btn--outline-blue" data-modal-target="edit<?= $value['id_role'] ?>" data-modal-toggle="edit<?= $value['id_role'] ?>">
+                                        <i class="ri-edit-box-line"></i>
                                     </button>
                                     <form action="../../api/admin/admin_role.php" method="post">
-                                        <button type="submit" class="btn btn--outline-blue group" name="delete" value="<?= $value['id_role'] ?>">
-                                            <i class="ri-delete-bin-6-line text-red-500 group-hover:text-white"></i>
+                                        <button type="submit" class="btn btn--outline-red" name="delete" value="<?= $value['id_role'] ?>">
+                                            <i class="ri-delete-bin-6-line"></i>
                                         </button>
                                     </form>
                                 </td>

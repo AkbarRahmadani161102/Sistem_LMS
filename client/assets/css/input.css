@@ -155,6 +155,10 @@
         @apply bg-white text-gray-800
     }
 
+    .btn.btn--transparent {
+        @apply bg-transparent pointer-events-none
+    }
+
     .btn.btn--blue {
         @apply bg-blue-500 text-white
     }

@@ -48,12 +48,12 @@ $data_jenjang->fetch_assoc();
                                 <td class="px-6 py-4"><?= $value['nama'] ?></td>
                                 <td class="px-6 py-4"><?= $value['nama_jenjang'] ?></td>
                                 <td class="px-6 py-4 flex gap-4">
-                                    <button type="button" class="btn btn--outline-blue group" data-modal-target="edit<?= $value['id_mapel'] ?>" data-modal-toggle="edit<?= $value['id_mapel'] ?>">
-                                        <i class="ri-edit-box-line text-blue-500 group-hover:text-white"></i>
+                                    <button type="button" class="btn btn--outline-blue" data-modal-target="edit<?= $value['id_mapel'] ?>" data-modal-toggle="edit<?= $value['id_mapel'] ?>">
+                                        <i class="ri-edit-box-line"></i>
                                     </button>
                                     <form action="../../api/admin/mapel.php" method="post">
-                                        <button type="submit" class="btn btn--outline-blue group" name="delete" value="<?= $value['id_mapel'] ?>">
-                                            <i class="ri-delete-bin-6-line text-red-500 group-hover:text-white"></i>
+                                        <button type="submit" class="btn btn--outline-red" name="delete" value="<?= $value['id_mapel'] ?>">
+                                            <i class="ri-delete-bin-6-line"></i>
                                         </button>
                                     </form>
                                 </td>
