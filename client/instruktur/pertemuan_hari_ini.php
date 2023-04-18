@@ -65,15 +65,13 @@ if (isset($_GET['presence'])) {
                                         WHERE dj.id_instruktur = '$id_instruktur'
                                         AND j.hari = '$hari'
                                         AND tgl_pertemuan = '$tgl_pertemuan'
-                                        AND jam_mulai = ";
-
-                                $waktu = ['14:30:00', '15:30:00', '16:30:00']; ?>
+                                        AND jam_mulai = "; ?>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th class="px-6 py-4 text-amber-500 text-center">
                                         <p><?= $pertemuan['hari'] ?></p>
                                         <p><?= $pertemuan['tgl_pertemuan'] ?></p>
                                     </th>
-                                    <?php foreach ($waktu as $w) : ?>
+                                    <?php foreach (Waktu as $w) : ?>
                                         <?php
                                         $pertemuan = $db->query("$sql'$w'") or die($db->error);
                                         $pertemuan = $pertemuan->fetch_assoc();
