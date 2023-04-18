@@ -211,7 +211,7 @@ if (isset($_GET['assign_instruktur'])) {
                                     <td class="px-6 py-4"><?= $jadwal['jam_selesai'] ?></td>
                                     <td class="px-6 py-4">
                                         <div class="flex gap-3">
-                                            <a class="btn btn--outline-green flex justify-around" href="?assign_instruktur=<?= $jadwal['id_jadwal'] ?>">
+                                            <a class="btn btn--outline-green flex justify-around gap-3" href="?assign_instruktur=<?= $jadwal['id_jadwal'] ?>">
                                                 <i class="ri-arrow-left-right-line"></i>
                                                 <p>Ganti Instruktur</p>
                                             </a>
