@@ -30,11 +30,13 @@ if (isset($_GET['detail'])) {
 
     $data_penilaian = $db->query($sql) or die($db->error);
     // print_r($data_penilaian->fetch_assoc());
-    $judul_penilaian = $data_penilaian->fetch_assoc()['judul_penilaian'];
-    $keterangan_penilaian = $data_penilaian->fetch_assoc()['keterangan_penilaian'];
-    $nama_instruktur = $data_penilaian->fetch_assoc()['nama_instruktur'];
-    $nama_kelas = $data_penilaian->fetch_assoc()['nama_kelas'];
-    $nama_mapel = $data_penilaian->fetch_assoc()['nama_mapel'];
+
+    $data_penilaian_single = $data_penilaian->fetch_assoc();
+    $judul_penilaian =  $data_penilaian_single['judul_penilaian'];
+    $keterangan_penilaian =  $data_penilaian_single['keterangan_penilaian'];
+    $nama_instruktur =  $data_penilaian_single['nama_instruktur'];
+    $nama_kelas =  $data_penilaian_single['nama_kelas'];
+    $nama_mapel =  $data_penilaian_single['nama_mapel'];
     $data_penilaian->fetch_assoc();
 }
 ?>
