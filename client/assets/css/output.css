@@ -1277,10 +1277,6 @@ hr.vr {
   margin: 0px;
 }
 
-.m-5 {
-  margin: 1.25rem;
-}
-
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -1874,10 +1870,6 @@ hr.vr {
 
 .border-b {
   border-bottom-width: 1px;
-}
-
-.border-b-0 {
-  border-bottom-width: 0px;
 }
 
 .border-r-2 {
@@ -2879,11 +2871,6 @@ hr.vr {
 .dark .dark\:focus\:ring-gray-600:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(75 85 99 / var(--tw-ring-opacity));
-}
-
-.dark .dark\:focus\:ring-gray-800:focus {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(31 41 55 / var(--tw-ring-opacity));
 }
 
 @media (min-width: 640px) {
