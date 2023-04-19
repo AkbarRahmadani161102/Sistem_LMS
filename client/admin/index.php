@@ -68,7 +68,7 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
                         <h4>Pengajuan Siswa</h4>
                     </div>
                     <?php foreach ($data_pengajuan_siswa as $key => $value) : ?>
-                        <a href="./pengajuan?id=<?= $value['id_pengajuan'] ?>" class="flex flex-col flex-1 rounded-lg p-5 bg-white dark:bg-gray-500 gap-2">
+                        <a href="./pengajuan.php" class="flex flex-col flex-1 rounded-lg p-5 bg-white dark:bg-gray-500 gap-2">
                             <div class="flex justify-between">
                                 <h6><?= $value['nama_siswa'] ?></h6>
                                 <h6 class="<?= $value['status'] === 'Pending' ? 'text-amber-500' : 'text-green-500' ?>"><?= $value['status'] ?></h6>
