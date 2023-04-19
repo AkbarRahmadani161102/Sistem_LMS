@@ -3,9 +3,15 @@ include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
 user_access(['Super Admin', 'Admin Akademik']);
 
-$sql = "SELECT * FROM absensi_admin ab, admin a WHERE ab.id_admin = a.id_admin";
-$result = $db->query($sql) or die($sql);
-$result->fetch_assoc();
+if (isset($_GET['role']) && $_GET['role'] === 'siswa') {
+    $sql = "SELECT *, k.nama nama_kelas, a.status FROM absensi_siswa a JOIN siswa s ON a.id_siswa = s.id_siswa JOIN detail_jadwal dj ON a.id_detail_jadwal = dj.id_detail_jadwal JOIN detail_kelas dk ON s.id_siswa = dk.id_siswa JOIN kelas k ON dk.id_kelas = k.id_kelas GROUP BY tgl_pertemuan, s.id_siswa";
+    $data_presensi_siswa = $db->query($sql) or die($sql);
+    $data_presensi_siswa->fetch_assoc();
+} else {
+    $sql = "SELECT * FROM detail_jadwal dj JOIN instruktur i ON dj.id_instruktur = i.id_instruktur WHERE status_kehadiran_instruktur IS NOT NULL";
+    $data_presensi_instruktur = $db->query($sql) or die($sql);
+    $data_presensi_instruktur->fetch_assoc();
+}
 ?>
 
 <div id="presensi" class="w-full min-h-screen flex">
@@ -15,44 +21,71 @@ $result->fetch_assoc();
             <?php include_once '../components/dashboard_navbar.php'; ?>
 
             <div class="flex items-center gap-5">
-                <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Presensi</h4>
+                <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Presensi <?= isset($_GET['role']) && $_GET['role'] ? $_GET['role'] : '' ?></h4>
             </div>
 
             <?php generate_breadcrumb([['title' => 'Presensi', 'filename' => 'presensi.php']]); ?>
+
+            <div class="flex flex-col">
+                <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+                    <li class="mr-2">
+                        <a href="?role=instruktur" class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 <?= isset($_GET['role']) && $_GET['role'] === 'instruktur' ? 'text-blue-500' : '' ?>">Instruktur</a>
+                        <a href="?role=siswa" class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 <?= isset($_GET['role']) && $_GET['role'] === 'siswa' ? 'text-blue-500' : '' ?>">Siswa</a>
+                    </li>
+                </ul>
+            </div>
             <div class="relative overflow-x-auto mt-5">
                 <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="px-6 py-3"></th>
-                            <th scope="col" class="px-6 py-3">Tanggal</th>
-                            <th scope="col" class="px-6 py-3">Nama</th>
-                            <th scope="col" class="px-6 py-3">Waktu Mulai</th>
-                            <th scope="col" class="px-6 py-3">Waktu Selesai</th>
-                            <th scope="col" class="px-6 py-3">Status Kehadiran</th>
-                            <th scope="col" class="px-6 py-3"></th>
-                        </tr>
+                        <?php if (isset($_GET['role']) && $_GET['role'] === 'siswa') : ?>
+                            <tr>
+                                <th scope="col" class="px-6 py-3"></th>
+                                <th scope="col" class="px-6 py-3">Tanggal</th>
+                                <th scope="col" class="px-6 py-3">Nama</th>
+                                <th scope="col" class="px-6 py-3">Kelas</th>
+                                <th scope="col" class="px-6 py-3">Status Kehadiran</th>
+                            </tr>
+                        <?php else : ?>
+                            <tr>
+                                <th scope="col" class="px-6 py-3"></th>
+                                <th scope="col" class="px-6 py-3">Tanggal</th>
+                                <th scope="col" class="px-6 py-3">Nama</th>
+                                <th scope="col" class="px-6 py-3">Status Kehadiran</th>
+                            </tr>
+                        <?php endif ?>
                     </thead>
                     <tbody>
-                        <?php foreach ($result as $key => $value) : ?>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th class="px-6 py-4 text-amber-500"><?= $key + 1?></th>
-                                <td class="px-6 py-4"><?= $value['tgl_dibuat'] ?></td>
-                                <td class="px-6 py-4"><?= $value['nama'] ?></td>
-                                <td class="px-6 py-4"><?= $value['waktu_mulai'] ?></td>
-                                <td class="px-6 py-4"><?= $value['waktu_selesai'] ?></td>
-                                <td class="px-6 py-4">
-                                    <?php if($value['status'] === 'H'): ?>
-                                        <p class="text-green-500"><?= $value['status']?></p>
-                                <?php endif?>
-                                <?php if($value['status'] === 'I'): ?>
-                                    <p class="text-amber-500"><?= $value['status']?></p>
-                                <?php endif?>
-                                <?php if($value['status'] === 'T'): ?>
-                                    <p class="text-red-500"><?= $value['status']?></p>
-                                <?php endif?>
-                                </td>
-                            </tr>
-                        <?php endforeach ?>
+                        <?php if (isset($_GET['role']) && $_GET['role'] === 'siswa') : ?>
+                            <?php foreach ($data_presensi_siswa as $key => $value) : ?>
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
+                                    <td class="px-6 py-4"><?= $value['tgl_pertemuan'] ?></td>
+                                    <td class="px-6 py-4"><?= $value['nama'] ?></td>
+                                    <td class="px-6 py-4"><?= $value['nama_kelas'] ?></td>
+                                    <td class="px-6 py-4">
+                                        <?php if ($value['status'] === 'H') : ?>
+                                            <p class="text-green-500">Hadir</p>
+                                        <?php endif ?>
+                                        <?php if ($value['status'] === 'I') : ?>
+                                            <p class="text-amber-500">Izin</p>
+                                        <?php endif ?>
+                                        <?php if ($value['status'] === 'T') : ?>
+                                            <p class="text-red-500">Tidak Ada Keterangan</p>
+                                        <?php endif ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach ?>
+
+                        <?php else : ?>
+                            <?php foreach ($data_presensi_instruktur as $key => $value) : ?>
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
+                                    <td class="px-6 py-4"><?= $value['tgl_pertemuan'] ?></td>
+                                    <td class="px-6 py-4"><?= $value['nama'] ?></td>
+                                    <td class="px-6 py-4"><?= $value['status_kehadiran_instruktur'] ?></td>
+                                </tr>
+                            <?php endforeach ?>
+                        <?php endif ?>
                     </tbody>
                 </table>
             </div>
@@ -91,6 +124,4 @@ $result->fetch_assoc();
     </div>
 </div>
 
-<?php
-$result->free_result();
-include_once('../template/footer.php') ?>
+<?php include_once('../template/footer.php') ?>
