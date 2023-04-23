@@ -31,7 +31,7 @@ if (isset($_POST['sync'])) {
         array_push($array_tgl[$date_number - 1], $date_string);
     }
 
-    foreach (Hari as $index_hari => $hari) {
+    foreach (HARI as $index_hari => $hari) {
         $sql = "SELECT * FROM jadwal WHERE id_jadwal NOT IN (SELECT id_jadwal FROM detail_jadwal) AND id_instruktur IS NOT NULL AND hari = '$hari' ORDER BY jam_mulai";
         $result = $db->query($sql) or die($db->error);
         if ($result->num_rows > 0) {

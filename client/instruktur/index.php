@@ -29,10 +29,10 @@ $id_instruktur = $_SESSION['user_id'];
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach (Waktu as $key => $waktu) : ?>
+                        <?php foreach (WAKTU as $key => $waktu) : ?>
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <th class="px-6 py-4 text-amber-500 text-center"><?= $waktu ?></th>
-                                <?php foreach (Hari as $hari) : ?>
+                                <?php foreach (HARI as $hari) : ?>
                                     <?php
                                     $sql = "SELECT j.*, k.nama nama_kelas, m.nama nama_mapel FROM jadwal j
                                     JOIN kelas k ON j.id_kelas = k.id_kelas

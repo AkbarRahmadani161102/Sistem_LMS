@@ -71,7 +71,7 @@ if (isset($_GET['presence'])) {
                                         <p><?= $pertemuan['hari'] ?></p>
                                         <p><?= $pertemuan['tgl_pertemuan'] ?></p>
                                     </th>
-                                    <?php foreach (Waktu as $w) : ?>
+                                    <?php foreach (WAKTU as $w) : ?>
                                         <?php
                                         $pertemuan = $db->query("$sql'$w'") or die($db->error);
                                         $pertemuan = $pertemuan->fetch_assoc();
