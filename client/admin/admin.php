@@ -3,6 +3,7 @@ include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
 user_access(['Super Admin']);
 
+$user_id = $_SESSION['user_id'];
 $sql = "SELECT * FROM role";
 $data_hak_akses = $db->query($sql) or die($db);
 $data_hak_akses->fetch_assoc();
@@ -120,7 +121,7 @@ if (isset($_GET['edit'])) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($result as $key => $value) : ?>
+                            <?php foreach ($result as $main_key => $value) : ?>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th class="px-6 py-4 text-amber-500"></th>
                                     <td class="px-6 py-4"><?= $value['nama'] ?></td>
@@ -155,11 +156,38 @@ if (isset($_GET['edit'])) {
                                         <a class="btn btn--outline-blue" href="?edit=<?= $value['id_admin'] ?>">
                                             <i class="ri-edit-box-line"></i>
                                         </a>
-                                        <form action="../../api/admin/admin.php" method="post">
-                                            <button class="btn btn--outline-red" type="submit" name="delete" value="<?= $value['id_admin'] ?>">
+
+                                        <?php if ($value['id_admin'] !== $user_id) : ?>
+                                            <script>
+                                                function handleDelete<?= $main_key ?>() {
+                                                    Swal.fire({
+                                                        title: 'Apakah anda yakin?',
+                                                        text: "Anda tidak akan dapat mengembalikan ini!",
+                                                        icon: 'warning',
+                                                        showCancelButton: true,
+                                                        confirmButtonColor: '#3085d6',
+                                                        cancelButtonColor: '#d33',
+                                                        confirmButtonText: 'Ya, saya yakin!'
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+                                                            $.post("../../api/admin/admin.php", {
+                                                                    delete: "<?= $value['id_admin'] ?>"
+                                                                })
+                                                                .then(() => Swal.fire(
+                                                                    'Deleted!',
+                                                                    'Your file has been deleted.',
+                                                                    'success',
+                                                                ))
+                                                                .then(() => location.reload())
+                                                        }
+                                                    })
+                                                }
+                                            </script>
+
+                                            <button onclick="handleDelete<?= $main_key ?>()" class="btn btn--outline-red">
                                                 <i class="ri-delete-bin-6-line"></i>
                                             </button>
-                                        </form>
+                                        <?php endif ?>
                                     </td>
                                 </tr>
                             <?php endforeach ?>
