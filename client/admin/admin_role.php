@@ -3,7 +3,7 @@ include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
 user_access(['Super Admin']);
 
-$sql = "SELECT * FROM role";
+$sql = "SELECT *, r.id_role, COUNT(id_admin) count_user FROM role r LEFT JOIN detail_role dr ON r.id_role = dr.id_role GROUP BY r.id_role";
 $result = $db->query($sql) or die($sql);
 $result->fetch_assoc();
 ?>
@@ -41,11 +41,13 @@ $result->fetch_assoc();
                                     <button type="button" class="btn btn--outline-blue" data-modal-target="edit<?= $value['id_role'] ?>" data-modal-toggle="edit<?= $value['id_role'] ?>">
                                         <i class="ri-edit-box-line"></i>
                                     </button>
-                                    <form action="../../api/admin/admin_role.php" method="post">
-                                        <button type="submit" class="btn btn--outline-red" name="delete" value="<?= $value['id_role'] ?>">
-                                            <i class="ri-delete-bin-6-line"></i>
-                                        </button>
-                                    </form>
+                                    <?php if ($value['count_user'] < 1) : ?>
+                                        <form action="../../api/admin/admin_role.php" method="post">
+                                            <button type="submit" class="btn btn--outline-red" name="delete" value="<?= $value['id_role'] ?>">
+                                                <i class="ri-delete-bin-6-line"></i>
+                                            </button>
+                                        </form>
+                                    <?php endif ?>
                                 </td>
                             </tr>
 
