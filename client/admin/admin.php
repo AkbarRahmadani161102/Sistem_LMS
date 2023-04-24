@@ -19,6 +19,11 @@ if (isset($_GET['edit'])) {
     foreach ($result as $key => $value) {
         $hak_akses_admin[] = $value['id_role'];
     }
+    if (count($hak_akses_admin) > 0) {
+    } else {
+        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Data hak akses tidak ditemukan', 'icon_color' => 'red', 'text' => 'Silahkan hapus data, lalu buat ulang'];
+        redirect('admin.php');
+    }
 } else {
     $sql = "SELECT * FROM admin";
     $result = $db->query($sql) or die($db);
@@ -43,7 +48,6 @@ if (isset($_GET['edit'])) {
 
             <?php if (isset($_GET['edit'])) : ?>
                 <?php generate_breadcrumb([['title' => 'Staff Administrasi', 'filename' => 'admin.php'], ['title' => 'Edit Staff Administrasi', 'filename' => '#']]); ?>
-
                 <?php foreach ($result as $key => $admin_data) :  ?>
                     <div class="flex gap-5 mt-5 flex-col md:flex-row">
                         <div class="flex flex-1 flex-col gap-5 bg-gray-200 dark:bg-gray-700 shadow-lg rounded p-5">
@@ -153,9 +157,15 @@ if (isset($_GET['edit'])) {
                                     </td>
 
                                     <td class="px-6 py-4 flex gap-2">
-                                        <a class="btn btn--outline-blue" href="?edit=<?= $value['id_admin'] ?>">
-                                            <i class="ri-edit-box-line"></i>
-                                        </a>
+                                        <?php if ($roles->num_rows > 0) : ?>
+                                            <a class="btn btn--outline-blue" href="?edit=<?= $value['id_admin'] ?>">
+                                                <i class="ri-edit-box-line"></i>
+                                            </a>
+                                        <?php else : ?>
+                                            <a class="btn btn--transparent">
+                                                <i class="ri-edit-box-line text-transparent"></i>
+                                            </a>
+                                        <?php endif ?>
 
                                         <?php if ($value['id_admin'] !== $user_id) : ?>
                                             <script>
@@ -174,8 +184,8 @@ if (isset($_GET['edit'])) {
                                                                     delete: "<?= $value['id_admin'] ?>"
                                                                 })
                                                                 .then(() => Swal.fire(
-                                                                    'Deleted!',
-                                                                    'Your file has been deleted.',
+                                                                    'Terhapus!',
+                                                                    'Data berhasil dihapus',
                                                                     'success',
                                                                 ))
                                                                 .then(() => location.reload())
@@ -194,9 +204,7 @@ if (isset($_GET['edit'])) {
                         </tbody>
                     </table>
                 </div>
-
             <?php endif ?>
-
         </div>
     </div>
 </div>
@@ -265,6 +273,4 @@ if (isset($_GET['edit'])) {
     </div>
 </div>
 
-<?php
-$result->free_result();
-include_once('../template/footer.php') ?>
+<?php include_once('../template/footer.php') ?>

@@ -3,6 +3,7 @@ require '../../vendor/autoload.php';
 include_once '../util/db.php';
 
 use Ramsey\Uuid\Uuid;
+
 $current_date = date('Y-m-d');
 
 if (isset($_POST['create'])) {
@@ -41,6 +42,12 @@ if (isset($_POST['create'])) {
                         $db->query($sql) or die($db->error);
                         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data admin berhasil ditambahkan', 'icon_color' => 'greenlight'];
                     }
+                } else {
+                    $sql = "SELECT id_role FROM role LIMIT 1";
+                    $id_role = $db->query($sql) or die($db->error);
+                    $id_role = $id_role->fetch_assoc()['id_role'];
+                    $sql = "INSERT INTO detail_role (id_role, id_admin) VALUES('$id_role', '$id_admin')";
+                    $db->query($sql) or die($db->error);
                 }
                 $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Admin berhasil ditambah', 'icon_color' => 'greenlight'];
             }
