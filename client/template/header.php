@@ -22,9 +22,36 @@ include_once('../../api/util/db.php');
     <script src="../assets/js/jquery-3.6.4.min.js"></script>
     <script src="../assets/js/selectize.min.js"></script>
     <script src="../assets/js/jquery.dataTables.min.js"></script>
+    <script>
+        function generateConfirmationDialog(url, body) {
+            return Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Anda tidak akan dapat mengembalikan ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, saya yakin!'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    try {
+                        await $.post(url, body)
+                        await Swal.fire(
+                            'Terhapus!',
+                            'Data berhasil dihapus',
+                            'success',
+                        )
+                    } finally {
+                        location.reload()
+                    }
+                }
+            })
+        }
+    </script>
+
     <script src="../assets/js/flowbite.min.js" defer></script>
     <script src="../assets/js/script.js" defer></script>
-
+    
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches))
@@ -32,6 +59,7 @@ include_once('../../api/util/db.php');
         else
             document.documentElement.classList.remove('dark')
     </script>
+
     <title>SMART App</title>
 </head>
 

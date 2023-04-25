@@ -168,33 +168,7 @@ if (isset($_GET['edit'])) {
                                         <?php endif ?>
 
                                         <?php if ($value['id_admin'] !== $user_id) : ?>
-                                            <script>
-                                                function handleDelete<?= $main_key ?>() {
-                                                    Swal.fire({
-                                                        title: 'Apakah anda yakin?',
-                                                        text: "Anda tidak akan dapat mengembalikan ini!",
-                                                        icon: 'warning',
-                                                        showCancelButton: true,
-                                                        confirmButtonColor: '#3085d6',
-                                                        cancelButtonColor: '#d33',
-                                                        confirmButtonText: 'Ya, saya yakin!'
-                                                    }).then((result) => {
-                                                        if (result.isConfirmed) {
-                                                            $.post("../../api/admin/admin.php", {
-                                                                    delete: "<?= $value['id_admin'] ?>"
-                                                                })
-                                                                .then(() => Swal.fire(
-                                                                    'Terhapus!',
-                                                                    'Data berhasil dihapus',
-                                                                    'success',
-                                                                ))
-                                                                .then(() => location.reload())
-                                                        }
-                                                    })
-                                                }
-                                            </script>
-
-                                            <button onclick="handleDelete<?= $main_key ?>()" class="btn btn--outline-red">
+                                            <button onclick="generateConfirmationDialog('../../api/admin/admin.php', {delete: '<?= $value['id_admin'] ?>'})" class="btn btn--outline-red">
                                                 <i class="ri-delete-bin-6-line"></i>
                                             </button>
                                         <?php endif ?>

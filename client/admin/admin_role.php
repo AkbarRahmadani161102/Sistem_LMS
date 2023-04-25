@@ -42,11 +42,9 @@ $result->fetch_assoc();
                                         <i class="ri-edit-box-line"></i>
                                     </button>
                                     <?php if ($value['count_user'] < 1) : ?>
-                                        <form action="../../api/admin/admin_role.php" method="post">
-                                            <button type="submit" class="btn btn--outline-red" name="delete" value="<?= $value['id_role'] ?>">
-                                                <i class="ri-delete-bin-6-line"></i>
-                                            </button>
-                                        </form>
+                                        <button onclick="generateConfirmationDialog('../../api/admin/admin_role.php', {delete: '<?= $value['id_role'] ?>'})" class="btn btn--outline-red">
+                                            <i class="ri-delete-bin-6-line"></i>
+                                        </button>
                                     <?php endif ?>
                                 </td>
                             </tr>

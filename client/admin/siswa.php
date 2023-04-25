@@ -160,37 +160,7 @@ if (isset($_GET['edit'])) {
                                             <i class="ri-edit-box-line"></i>
                                         </a>
 
-                                        <script>
-                                            function handleDelete<?= $main_key ?>() {
-                                                Swal.fire({
-                                                    title: 'Apakah anda yakin?',
-                                                    text: "Anda tidak akan dapat mengembalikan ini!",
-                                                    icon: 'warning',
-                                                    showCancelButton: true,
-                                                    confirmButtonColor: '#3085d6',
-                                                    cancelButtonColor: '#d33',
-                                                    confirmButtonText: 'Ya, saya yakin!'
-                                                }).then(async (result) => {
-                                                    if (result.isConfirmed) {
-                                                        try {
-                                                            await $.post("../../api/admin/siswa.php", {
-                                                                delete: "<?= $siswa['id_siswa'] ?>"
-                                                            })
-
-                                                            await Swal.fire(
-                                                                'Terhapus!',
-                                                                'Data berhasil dihapus',
-                                                                'success',
-                                                            )
-                                                        } finally {
-                                                            location.reload()
-                                                        }
-                                                    }
-                                                })
-                                            }
-                                        </script>
-
-                                        <button onclick="handleDelete<?= $main_key ?>()" class="btn btn--outline-red">
+                                        <button onclick="generateConfirmationDialog('../../api/admin/siswa.php', {delete: '<?= $siswa['id_siswa'] ?>'})" class="btn btn--outline-red">
                                             <i class="ri-delete-bin-6-line"></i>
                                         </button>
                                     </td>
