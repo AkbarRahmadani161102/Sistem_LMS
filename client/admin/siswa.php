@@ -132,7 +132,7 @@ if (isset($_GET['edit'])) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($data_siswa as $key => $siswa) : ?>
+                            <?php foreach ($data_siswa as $main_key => $siswa) : ?>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th class="px-6 py-4 text-amber-500"></th>
                                     <td class="px-6 py-4"><?= $siswa['nama'] ?></td>
@@ -159,11 +159,40 @@ if (isset($_GET['edit'])) {
                                         <a class="btn btn--outline-blue" href="?edit=<?= $siswa['id_siswa'] ?>">
                                             <i class="ri-edit-box-line"></i>
                                         </a>
-                                        <form action="../../api/admin/siswa.php" method="post">
-                                            <button class="btn btn--outline-red" type="submit" name="delete" value="<?= $siswa['id_siswa'] ?>">
+
+                                        <script>
+                                            function handleDelete<?= $main_key ?>() {
+                                                Swal.fire({
+                                                    title: 'Apakah anda yakin?',
+                                                    text: "Anda tidak akan dapat mengembalikan ini!",
+                                                    icon: 'warning',
+                                                    showCancelButton: true,
+                                                    confirmButtonColor: '#3085d6',
+                                                    cancelButtonColor: '#d33',
+                                                    confirmButtonText: 'Ya, saya yakin!'
+                                                }).then(async (result) => {
+                                                    if (result.isConfirmed) {
+                                                        try {
+                                                            await $.post("../../api/admin/siswa.php", {
+                                                                delete: "<?= $siswa['id_siswa'] ?>"
+                                                            })
+
+                                                            await Swal.fire(
+                                                                'Terhapus!',
+                                                                'Data berhasil dihapus',
+                                                                'success',
+                                                            )
+                                                        } finally {
+                                                            location.reload()
+                                                        }
+                                                    }
+                                                })
+                                            }
+                                        </script>
+
+                                        <button onclick="handleDelete<?= $main_key ?>()" class="btn btn--outline-red">
                                             <i class="ri-delete-bin-6-line"></i>
                                         </button>
-                                        </form>
                                     </td>
                                 </tr>
                             <?php endforeach ?>

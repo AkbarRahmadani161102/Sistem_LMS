@@ -21,7 +21,7 @@ if (isset($_POST['create'])) {
     {
         global $db, $email;
         $sql = "SELECT COUNT(*) used_email FROM admin WHERE email = '$email'";
-        $used_email = $db->query($sql) or die($db->error);
+        $used_email = $db->query($sql);
         $used_email = $used_email->fetch_assoc();
         return $used_email['used_email'] === '0';
     }
@@ -30,24 +30,24 @@ if (isset($_POST['create'])) {
         try {
             if (is_email_available()) {
                 $sql = "INSERT INTO admin (id_admin, nama, no_telp, alamat, email, password) VALUES ('$id_admin', '$nama', '$no_telp', '$alamat', '$email' , '$password')";
-                $db->query($sql) or die($db->error);
+                $db->query($sql);
                 if (isset($_POST['hak_akses'])) {
                     $hak_akses = $_POST['hak_akses'];
                     foreach ($hak_akses as $key => $value) {
                         $sql = "INSERT INTO detail_role (id_role, id_admin) VALUES('$value', '$id_admin')";
                         if ($value === '1') {
-                            $db->query($sql) or die($db->error);
+                            $db->query($sql);
                             break;
                         }
-                        $db->query($sql) or die($db->error);
+                        $db->query($sql);
                         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data admin berhasil ditambahkan', 'icon_color' => 'greenlight'];
                     }
                 } else {
                     $sql = "SELECT id_role FROM role LIMIT 1";
-                    $id_role = $db->query($sql) or die($db->error);
+                    $id_role = $db->query($sql);
                     $id_role = $id_role->fetch_assoc()['id_role'];
                     $sql = "INSERT INTO detail_role (id_role, id_admin) VALUES('$id_role', '$id_admin')";
-                    $db->query($sql) or die($db->error);
+                    $db->query($sql);
                 }
                 $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Admin berhasil ditambah', 'icon_color' => 'greenlight'];
             }
@@ -68,7 +68,7 @@ if (isset($_POST['update_profil'])) {
     if ($is_number) {
         $_SESSION['nama'] = $nama;
         $sql = "UPDATE admin SET nama = '$nama', no_telp = '$nomor_telepon', alamat = '$alamat', tgl_diubah = '$current_date' WHERE id_admin = '$id_admin'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data profil berhasil diubah', 'icon_color' => 'greenlight'];
     } else {
         $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Field nomor telp mengandung karakter'];
@@ -93,7 +93,7 @@ if (isset($_POST['update_kredensial'])) {
                 $encrypted_password = md5($password);
                 $sql = "UPDATE admin SET email = '$email', password = '$encrypted_password', tgl_diubah = '$current_date' WHERE id_admin = '$id_admin'";
             }
-            $db->query($sql) or die($db->error);
+            $db->query($sql);
             $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data kredensial berhasil diubah', 'icon_color' => 'greenlight'];
         } catch (\Throwable $th) {
             $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Email sudah ada'];
@@ -108,15 +108,15 @@ if (isset($_POST['update_hak_akses'])) {
     $hak_akses = $_POST['hak_akses'];
 
     $sql = "DELETE FROM detail_role WHERE id_admin = '$id_admin'";
-    $db->query($sql) or die($db->error);
+    $db->query($sql);
 
     foreach ($hak_akses as $key => $value) {
         $sql = "INSERT INTO detail_role (id_role, id_admin) VALUES('$value', '$id_admin')";
         if ($value === '1') {
-            $db->query($sql) or die($db->error);
+            $db->query($sql);
             break;
         }
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
     }
     $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data hak akses berhasil diubah', 'icon_color' => 'greenlight'];
     redirect("../../client/admin/admin.php?edit=$id_admin");
@@ -125,15 +125,19 @@ if (isset($_POST['delete'])) {
     $id_admin = escape($_POST['delete']);
     if ($_SESSION['user_id'] !== $id_admin) {
         $sql = "DELETE FROM absensi_admin WHERE id_admin = '$id_admin'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
 
         $sql = "DELETE FROM detail_role WHERE id_admin = '$id_admin'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
 
         $sql = "DELETE FROM admin WHERE id_admin = '$id_admin'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data admin berhasil dihapus', 'icon_color' => 'greenlight'];
         redirect("../../client/admin/admin.php");
+
+        if ($db->error) {
+            $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
+        }
     }
     $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
 }

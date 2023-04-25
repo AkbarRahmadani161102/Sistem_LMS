@@ -24,7 +24,10 @@ if (isset($_GET['edit'])) {
         $data_mapel_instruktur[] = $mapel['id_mapel'];
     }
 } else {
-    $sql = "SELECT * FROM instruktur";
+    $sql = "SELECT *, i.id_instruktur, COUNT(j.id_jadwal) count_jadwal, COUNT(dj.id_detail_jadwal) count_detail_jadwal FROM instruktur i
+    LEFT JOIN jadwal j ON i.id_instruktur = j.id_instruktur
+    LEFT JOIN detail_jadwal dj ON i.id_instruktur = dj.id_instruktur
+    GROUP BY i.id_instruktur";
     $result = $db->query($sql) or die($db);
     $result->fetch_assoc();
 }
@@ -152,7 +155,7 @@ if (isset($_GET['edit'])) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($result as $key => $value) : ?>
+                            <?php foreach ($result as $main_key => $value) : ?>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th class="px-6 py-4 text-amber-500"></th>
                                     <td class="px-6 py-4"><?= $value['nama'] ?></td>
@@ -187,11 +190,38 @@ if (isset($_GET['edit'])) {
                                         <a class="btn btn--outline-blue" href="?edit=<?= $value['id_instruktur'] ?>">
                                             <i class="ri-edit-box-line"></i>
                                         </a>
-                                        <form action="../../api/admin/instruktur.php" method="post">
-                                            <button class="btn btn--outline-red" type="submit" name="delete" value="<?= $value['id_instruktur'] ?>">
-                                            <i class="ri-delete-bin-6-line"></i>
-                                        </button>
-                                        </form>
+
+                                        <?php if ($value['count_jadwal'] === "0" && $value['count_detail_jadwal'] === "0") : ?>
+                                            <script>
+                                                function handleDelete<?= $main_key ?>() {
+                                                    Swal.fire({
+                                                        title: 'Apakah anda yakin?',
+                                                        text: "Anda tidak akan dapat mengembalikan ini!",
+                                                        icon: 'warning',
+                                                        showCancelButton: true,
+                                                        confirmButtonColor: '#3085d6',
+                                                        cancelButtonColor: '#d33',
+                                                        confirmButtonText: 'Ya, saya yakin!'
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+                                                            $.post("../../api/admin/instruktur.php", {
+                                                                    delete: "<?= $value['id_instruktur'] ?>"
+                                                                })
+                                                                .then(() => Swal.fire(
+                                                                    'Terhapus!',
+                                                                    'Data berhasil dihapus',
+                                                                    'success',
+                                                                ))
+                                                                .then(() => location.reload())
+                                                        }
+                                                    })
+                                                }
+                                            </script>
+
+                                            <button onclick="handleDelete<?= $main_key ?>()" class="btn btn--outline-red">
+                                                <i class="ri-delete-bin-6-line"></i>
+                                            </button>
+                                        <?php endif ?>
                                     </td>
                                 </tr>
                             <?php endforeach ?>
@@ -208,7 +238,7 @@ if (isset($_GET['edit'])) {
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <div class="px-6 py-6 lg:px-8">
-                <form action="../../api/admin/instruktur.php" method="post">
+                <form class="form" action="../../api/admin/instruktur.php" method="post">
                     <!-- Modal header -->
                     <div class="flex items-start justify-between border-b rounded-t dark:border-gray-600">
                         <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
@@ -222,7 +252,7 @@ if (isset($_GET['edit'])) {
                         </button>
                     </div>
                     <div class="pt-6 flex gap-5">
-                        <div class="flex-1 flex flex-col" method="post">
+                        <div class="flex-1 flex flex-col space-y-2">
                             <div class="space-y-2">
                                 <label for="nama">Nama</label>
                                 <input type="text" class="input" id="nama" name="nama" maxlength="50" required>
@@ -236,7 +266,7 @@ if (isset($_GET['edit'])) {
                                 <textarea class="resize-none input" name="alamat" id="" cols="30" rows="3" maxlength="50"></textarea>
                             </div>
                         </div>
-                        <div class="flex-1 flex flex-col" method="post">
+                        <div class="flex-1 flex flex-col space-y-2">
                             <div class="space-y-2">
                                 <label for="email">Email</label>
                                 <input type="email" class="input" id="email" name="email" maxlength="30" required>
@@ -246,7 +276,7 @@ if (isset($_GET['edit'])) {
                                 <input type="text" class="input" id="password" name="password" maxlength="50" required>
                             </div>
                         </div>
-                        <div id="form_mapel_instruktur" class="flex-1 flex flex-col" method="post">
+                        <div id="form_mapel_instruktur" class="flex-1 flex flex-col">
                             <p class="text-normal text-gray-400 dark:text-white">Mapel</p>
                             <div class="flex flex-col gap-5">
                                 <div id="accordion-collapse" data-accordion="collapse">

@@ -20,7 +20,7 @@ if (isset($_POST['create'])) {
     {
         global $db, $email;
         $sql = "SELECT COUNT(*) used_email FROM instruktur WHERE email = '$email'";
-        $used_email = $db->query($sql) or die($db->error);
+        $used_email = $db->query($sql);
         $used_email = $used_email->fetch_assoc();
         return $used_email['used_email'] === '0';
     }
@@ -28,12 +28,12 @@ if (isset($_POST['create'])) {
     if ($is_number) {
         if (is_email_available()) {
             $sql = "INSERT INTO instruktur (id_instruktur, nama, no_telp, alamat, email, password, status) VALUES ('$id_instruktur', '$nama', '$no_telp', '$alamat', '$email' , '$password', 'Aktif')";
-            $db->query($sql) or die($db->error);
+            $db->query($sql);
             if (isset($_POST['mapel'])) {
                 $mapel = $_POST['mapel'];
                 foreach ($mapel as $key => $value) {
                     $sql = "INSERT INTO detail_mapel (id_mapel, id_instruktur) VALUES('$value', '$id_instruktur')";
-                    $db->query($sql) or die($db->error);
+                    $db->query($sql);
                 }
             }
             $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data instruktur berhasil ditambahkan', 'icon_color' => 'greenlight'];
@@ -55,7 +55,7 @@ if (isset($_POST['update_profil'])) {
     if ($is_number) {
         $_SESSION['nama'] = $nama;
         $sql = "UPDATE instruktur SET nama = '$nama', no_telp = '$nomor_telepon', alamat = '$alamat', status = '$status', tgl_diubah = '$current_date' WHERE id_instruktur = '$id_instruktur'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data profil berhasil diubah', 'icon_color' => 'greenlight'];
     } else {
         $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Field nomor telp mengandung karakter'];
@@ -80,7 +80,7 @@ if (isset($_POST['update_kredensial'])) {
                 $encrypted_password = md5($password);
                 $sql = "UPDATE instruktur SET email = '$email', password = '$encrypted_password', tgl_diubah = '$current_date' WHERE id_instruktur = '$id_instruktur'";
             }
-            $db->query($sql) or die($db->error);
+            $db->query($sql);
             $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data kredensial berhasil diubah', 'icon_color' => 'greenlight'];
         } catch (\Throwable $th) {
             $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Email sudah ada'];
@@ -94,13 +94,13 @@ if (isset($_POST['update_mapel'])) {
     $id_instruktur = escape($_POST['update_mapel']);
 
     $sql = "DELETE FROM detail_mapel WHERE id_instruktur = '$id_instruktur'";
-    $db->query($sql) or die($db->error);
+    $db->query($sql);
 
     if (isset($_POST['mapel'])) {
         $mapel = $_POST['mapel'];
         foreach ($mapel as $key => $value) {
             $sql = "INSERT INTO detail_mapel (id_mapel, id_instruktur) VALUES('$value', '$id_instruktur')";
-            $db->query($sql) or die($db->error);
+            $db->query($sql);
         }
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data mapel berhasil diubah', 'icon_color' => 'greenlight'];
     }
@@ -109,22 +109,22 @@ if (isset($_POST['delete'])) {
     try {
         $id_instruktur = escape($_POST['delete']);
         $sql = "DELETE FROM gaji WHERE id_instruktur = '$id_instruktur'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
 
         $sql = "DELETE FROM detail_mapel WHERE id_instruktur = '$id_instruktur'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
 
         $sql = "DELETE FROM instruktur WHERE id_instruktur = '$id_instruktur'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
 
         $sql = "DELETE FROM kuesioner_instruktur WHERE id_instruktur = '$id_instruktur'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
 
         $sql = "DELETE FROM notifikasi_instruktur WHERE id_instruktur = '$id_instruktur'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
 
         $sql = "DELETE FROM penilaian WHERE id_instruktur = '$id_instruktur'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
 
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data instruktur berhasil dihapus', 'icon_color' => 'greenlight'];
     } catch (\Throwable $th) {

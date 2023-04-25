@@ -20,7 +20,7 @@ if (isset($_POST['create'])) {
     {
         global $db, $email;
         $sql = "SELECT COUNT(*) used_email FROM siswa WHERE email = '$email'";
-        $used_email = $db->query($sql) or die($db->error);
+        $used_email = $db->query($sql);
         $used_email = $used_email->fetch_assoc();
         return $used_email['used_email'] === '0';
     }
@@ -28,10 +28,10 @@ if (isset($_POST['create'])) {
     if ($is_number) {
         if (is_email_available()) {
             $sql = "INSERT INTO siswa (id_siswa, nama, no_telp, alamat, email, password) VALUES ('$id_siswa', '$nama', '$no_telp', '$alamat', '$email' , '$password')";
-            $db->query($sql) or die($db->error);
+            $db->query($sql);
 
             $sql = "INSERT INTO detail_kelas (id_kelas, id_siswa) VALUES ('$id_kelas', '$id_siswa')";
-            $db->query($sql) or die($db->error);
+            $db->query($sql);
             $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data siswa berhasil ditambahkan', 'icon_color' => 'greenlight'];
         } else {
             $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambah', 'icon_color' => 'red', 'text' => 'Email sudah ada'];
@@ -55,7 +55,7 @@ if (isset($_POST['update'])) {
     {
         global $db, $email;
         $sql = "SELECT COUNT(*) used_email FROM siswa WHERE email = '$email'";
-        $used_email = $db->query($sql) or die($db->error);
+        $used_email = $db->query($sql);
         $used_email = $used_email->fetch_assoc();
         return $used_email['used_email'] === '0';
     }
@@ -64,7 +64,7 @@ if (isset($_POST['update'])) {
     {
         global $db, $password;
         $sql = "SELECT COUNT(*) used_password FROM siswa WHERE password = '$password'";
-        $used_password = $db->query($sql) or die($db->error);
+        $used_password = $db->query($sql);
         $used_password = $used_password->fetch_assoc();
         return $used_password['used_password'] === '0';
     }
@@ -82,13 +82,13 @@ if (isset($_POST['update'])) {
         }
 
         $sql = "UPDATE siswa SET nama = '$nama', no_telp = '$no_telp', alamat = '$alamat', status = '$status', tgl_diubah = '$current_date' $ext_sql WHERE id_siswa = '$id_siswa'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
 
         $sql = "DELETE FROM detail_kelas WHERE id_siswa = '$id_siswa'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
 
         $sql = "INSERT INTO detail_kelas (id_kelas, id_siswa) VALUES('$id_kelas', '$id_siswa')";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
 
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data siswa berhasil diubah', 'icon_color' => 'greenlight'];
     } else {
@@ -98,16 +98,42 @@ if (isset($_POST['update'])) {
 if (isset($_POST['delete'])) {
     try {
         $id_siswa = escape($_POST['delete']);
+
+        $sql = "DELETE FROM tunggakan WHERE id_siswa = '$id_siswa'";
+        $db->query($sql);
+
         $sql = "DELETE FROM detail_penilaian WHERE id_siswa = '$id_siswa'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
+
+        $sql = "DELETE FROM pengajuan WHERE id_siswa = '$id_siswa'";
+        $db->query($sql);
+
+        $sql = "DELETE FROM kuesioner_instruktur WHERE id_siswa = '$id_siswa'";
+        $db->query($sql);
+
+        $sql = "DELETE FROM notifikasi_siswa WHERE id_siswa = '$id_siswa'";
+        $db->query($sql);
+
+        $sql = "DELETE FROM detail_penilaian WHERE id_siswa = '$id_siswa'";
+        $db->query($sql);
+
+        $sql = "DELETE FROM absensi_siswa WHERE id_siswa = '$id_siswa'";
+        $db->query($sql);
+
+        $sql = "UPDATE kelas SET id_ketua_kelas = NULL WHERE id_ketua_kelas = '$id_siswa'";
+        $db->query($sql);
 
         $sql = "DELETE FROM detail_kelas WHERE id_siswa = '$id_siswa'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
 
         $sql = "DELETE FROM siswa WHERE id_siswa = '$id_siswa'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
 
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data siswa berhasil dihapus', 'icon_color' => 'greenlight'];
+
+        if($db->error) {
+            $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
+        }
     } catch (\Throwable $th) {
         $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
     }
