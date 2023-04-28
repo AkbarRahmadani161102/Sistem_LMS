@@ -3,7 +3,10 @@ include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
 user_access(['Super Admin', 'Admin Akademik']);
 
-$sql = "SELECT * FROM jenjang";
+$sql = "SELECT j.*, COUNT(m.id_mapel) count_mapel, COUNT(k.id_kelas) count_kelas FROM jenjang j
+LEFT JOIN mapel m ON j.id_jenjang = m.id_jenjang
+LEFT JOIN kelas k ON j.id_jenjang = k.id_jenjang
+GROUP BY j.id_jenjang";
 $result = $db->query($sql) or die($sql);
 $result->fetch_assoc();
 ?>
@@ -36,6 +39,7 @@ $result->fetch_assoc();
                     </thead>
                     <tbody>
                         <?php foreach ($result as $key => $value) : ?>
+                            <?php $delete_able = $value['count_mapel'] === '0' && $value['count_kelas'] === '0' ?>
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
                                 <td class="px-6 py-4"><?= $value['nama'] ?></td>
@@ -45,11 +49,12 @@ $result->fetch_assoc();
                                     <button type="button" class="btn btn--outline-blue" data-modal-target="edit<?= $value['id_jenjang'] ?>" data-modal-toggle="edit<?= $value['id_jenjang'] ?>">
                                         <i class="ri-edit-box-line"></i>
                                     </button>
-                                    <form action="../../api/admin/jenjang.php" method="post">
-                                        <button type="submit" class="btn btn--outline-red" name="delete" value="<?= $value['id_jenjang'] ?>">
+
+                                    <?php if ($delete_able) : ?>
+                                        <button onclick="generateConfirmationDialog('../../api/admin/jenjang.php', {delete: '<?= $value['id_jenjang'] ?>'})" class="btn btn--outline-red">
                                             <i class="ri-delete-bin-6-line"></i>
                                         </button>
-                                    </form>
+                                    <?php endif ?>
                                 </td>
                             </tr>
 

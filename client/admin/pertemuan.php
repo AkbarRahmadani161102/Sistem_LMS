@@ -9,17 +9,23 @@ $data_jenjang->fetch_assoc();
 $month = date('n');
 $year = date('Y');
 
-$sql = "SELECT d.*, j.*, k.nama nama_kelas, m.nama nama_mapel, i.nama nama_instruktur FROM detail_jadwal d
+$sql = "SELECT d.*, j.*, k.nama nama_kelas, m.nama nama_mapel, i.nama nama_instruktur, COUNT(abs.id_absensi_siswa) count_absensi_siswa, COUNT(p.id_penilaian) count_penilaian, COUNT(pe.id_pengajuan) count_pengajuan FROM detail_jadwal d
 LEFT JOIN instruktur i ON d.id_instruktur=  i.id_instruktur
 JOIN jadwal j ON d.id_jadwal = j.id_jadwal
 JOIN kelas k ON j.id_kelas = k.id_kelas 
 JOIN mapel m ON j.id_mapel = m.id_mapel
-WHERE MONTH(d.tgl_pertemuan) = $month AND YEAR(d.tgl_pertemuan) = $year ";
+LEFT JOIN absensi_siswa abs ON d.id_detail_jadwal = abs.id_detail_jadwal
+LEFT JOIN penilaian p ON d.id_detail_jadwal = p.id_detail_jadwal
+LEFT JOIN pengajuan pe ON d.id_detail_jadwal = pe.id_detail_jadwal
+WHERE MONTH(d.tgl_pertemuan) = $month AND YEAR(d.tgl_pertemuan) = $year";
 
 if (isset($_GET['jenjang'])) {
     $id_jenjang = $_GET['jenjang'];
-    $sql .= "AND k.id_jenjang = '$id_jenjang'";
+    $sql .= " AND k.id_jenjang = '$id_jenjang'";
 }
+
+$sql .= " GROUP BY d.id_detail_jadwal";
+
 $data_pertemuan = $db->query($sql) or die($db->error);
 $data_pertemuan->fetch_assoc();
 
@@ -141,10 +147,14 @@ if (isset($_GET['reassign_instruktur'])) {
                                 </thead>
                                 <tbody>
                                     <?php foreach ($data_pertemuan as $key => $pertemuan) : ?>
+                                        <?php $delete_able = $pertemuan['count_absensi_siswa'] === '0' && $pertemuan['count_penilaian'] === '0' && $pertemuan['count_pengajuan'] === '0' ?>
+
                                         <tr class="border-b dark:bg-gray-800 dark:border-gray-700 bg-transparent relative">
                                             <th class="mt-5">
-                                                <label for="check<?= $key ?>" class="absolute top-0 left-0 h-full w-full"></label>
-                                                <input id="check<?= $key ?>" class="ml-8" type="checkbox" name="delete_pertemuan[]" value="<?= $pertemuan['id_detail_jadwal'] ?>">
+                                                <?php if ($delete_able) : ?>
+                                                    <label for="check<?= $key ?>" class="absolute top-0 left-0 h-full w-full"></label>
+                                                    <input id="check<?= $key ?>" class="ml-8" type="checkbox" name="delete_pertemuan[]" value="<?= $pertemuan['id_detail_jadwal'] ?>">
+                                                <?php endif ?>
                                             </th>
                                             <td class="px-6 py-4"><?= $pertemuan['nama_kelas'] ?></td>
                                             <td class="px-6 py-4"><?= $pertemuan['nama_mapel'] ?></td>
@@ -154,12 +164,12 @@ if (isset($_GET['reassign_instruktur'])) {
                                             <td class="px-6 py-4"><?= $pertemuan['jam_selesai'] ?></td>
                                             <td class="px-6 py-4 <?= $pertemuan['status_kehadiran_instruktur'] === 'Hadir' ? 'text-green-500' : 'text-red-500' ?>"><?= $pertemuan['status_kehadiran_instruktur'] ?></td>
                                             <td class="px-6 py-4">
-                                                <?php if ($pertemuan['status_kehadiran_instruktur'] !== 'Hadir') : ?>
+                                                <?php if ($delete_able) : ?>
                                                     <div class="flex gap-3">
                                                         <a href="?reassign_instruktur=<?= $pertemuan['id_detail_jadwal'] ?>" class="btn btn--outline-green flex items-center justify-around z-20 gap-2"><i class="ri-arrow-left-right-line"></i><span>Ganti Instruktur</span></a>
-                                                        <form action="../../api/admin/pertemuan.php" class="z-20" method="post">
-                                                            <button type="submit" name="delete" value="<?= $pertemuan['id_detail_jadwal'] ?>" class="btn btn--outline-red z-20"><i class="ri-delete-bin-line"></i></button>
-                                                        </form>
+                                                        <button onclick="generateConfirmationDialog('../../api/admin/pertemuan.php', {delete: '<?= $pertemuan['id_detail_jadwal'] ?>'})" class="btn btn--outline-red z-10">
+                                                            <i class="ri-delete-bin-6-line"></i>
+                                                        </button>
                                                     </div>
                                                 <?php else : ?>
                                                     <button class="btn btn--transparent">&nbsp;</button>
