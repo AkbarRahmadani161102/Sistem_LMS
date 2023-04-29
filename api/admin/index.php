@@ -43,7 +43,7 @@ if (isset($_GET['presensi_siswa_per_hari'])) {
             GROUP BY id_siswa) grouped_absensi 
             GROUP BY status";
 
-    $result = $db->query($sql) or die($db->error);
+    $result = $db->query($sql);
     $result->fetch_assoc();
 
     $arr = [];
@@ -60,7 +60,7 @@ if (isset($_GET['presensi_instruktur_per_hari'])) {
     FROM (SELECT IF(status_kehadiran_instruktur IS NULL, 'Berhalangan', status_kehadiran_instruktur) status_kehadiran_instruktur FROM detail_jadwal WHERE tgl_pertemuan = CURRENT_DATE() GROUP BY id_instruktur) grouped_instruktur
     GROUP BY status_kehadiran_instruktur";
 
-    $result = $db->query($sql) or die($db->error);
+    $result = $db->query($sql);
     $result->fetch_assoc();
 
     $arr = [];

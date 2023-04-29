@@ -167,9 +167,9 @@ if (isset($_GET['reassign_instruktur'])) {
                                                 <?php if ($delete_able) : ?>
                                                     <div class="flex gap-3">
                                                         <a href="?reassign_instruktur=<?= $pertemuan['id_detail_jadwal'] ?>" class="btn btn--outline-green flex items-center justify-around z-20 gap-2"><i class="ri-arrow-left-right-line"></i><span>Ganti Instruktur</span></a>
-                                                        <button onclick="generateConfirmationDialog('../../api/admin/pertemuan.php', {delete: '<?= $pertemuan['id_detail_jadwal'] ?>'})" class="btn btn--outline-red z-10">
+                                                        <!-- <button onclick="generateConfirmationDialog('../../api/admin/pertemuan.php', {delete: '<?= $pertemuan['id_detail_jadwal'] ?>'})" class="btn btn--outline-red z-10">
                                                             <i class="ri-delete-bin-6-line"></i>
-                                                        </button>
+                                                        </button> -->
                                                     </div>
                                                 <?php else : ?>
                                                     <button class="btn btn--transparent">&nbsp;</button>
