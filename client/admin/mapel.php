@@ -3,7 +3,12 @@ include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
 user_access(['Super Admin', 'Admin Akademik']);
 
-$sql = "SELECT m.*, j.id_jenjang id_jenjang, j.nama nama_jenjang FROM mapel m, jenjang j WHERE m.id_jenjang = j.id_jenjang";
+$sql = "SELECT m.*, j.id_jenjang id_jenjang, j.nama nama_jenjang, COUNT(dm.id_detail_mapel) count_detail_mapel, COUNT(ja.id_jadwal) count_jadwal FROM mapel m
+JOIN jenjang j ON m.id_jenjang = j.id_jenjang
+LEFT JOIN detail_mapel dm ON m.id_mapel = dm.id_mapel
+LEFT JOIN jadwal ja ON m.id_mapel = ja.id_mapel
+GROUP BY m.id_mapel
+ORDER BY j.id_jenjang";
 $result = $db->query($sql) or die($sql);
 $result->fetch_assoc();
 
@@ -43,6 +48,7 @@ $data_jenjang->fetch_assoc();
                     </thead>
                     <tbody>
                         <?php foreach ($result as $key => $value) : ?>
+                            <?php $delete_able = $value['count_detail_mapel'] === '0' && $value['count_jadwal'] === '0' ?>
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
                                 <td class="px-6 py-4"><?= $value['nama'] ?></td>
@@ -51,11 +57,12 @@ $data_jenjang->fetch_assoc();
                                     <button type="button" class="btn btn--outline-blue" data-modal-target="edit<?= $value['id_mapel'] ?>" data-modal-toggle="edit<?= $value['id_mapel'] ?>">
                                         <i class="ri-edit-box-line"></i>
                                     </button>
-                                    <form action="../../api/admin/mapel.php" method="post">
-                                        <button type="submit" class="btn btn--outline-red" name="delete" value="<?= $value['id_mapel'] ?>">
+
+                                    <?php if ($delete_able) : ?>
+                                        <button onclick="generateConfirmationDialog('../../api/admin/mapel.php', {delete: '<?= $value['id_mapel'] ?>'})" class="btn btn--outline-red">
                                             <i class="ri-delete-bin-6-line"></i>
                                         </button>
-                                    </form>
+                                    <?php endif ?>
                                 </td>
                             </tr>
 
@@ -93,7 +100,7 @@ $data_jenjang->fetch_assoc();
                                             </div>
                                             <!-- Modal footer -->
                                             <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                                <button type="submit" name="update" value="<?= $value['id_mapel'] ?>" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Tambah</button>
+                                                <button type="submit" name="update" value="<?= $value['id_mapel'] ?>" class="btn btn--blue">Ubah</button>
                                             </div>
                                         </form>
                                     </div>
@@ -141,7 +148,7 @@ $data_jenjang->fetch_assoc();
                 </div>
                 <!-- Modal footer -->
                 <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button data-modal-hide="add_mapel_modal" type="submit" name="create" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Tambah</button>
+                    <button data-modal-hide="add_mapel_modal" type="submit" name="create" class="btn btn--blue">Tambah</button>
                 </div>
             </form>
         </div>

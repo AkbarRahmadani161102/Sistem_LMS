@@ -17,12 +17,11 @@ if (isset($_GET['edit'])) {
     $data_siswa = $db->query($sql) or die($db->error);
     $data_siswa->fetch_assoc();
 } else {
-    $sql = "
-    SELECT k.*, j.nama jenjang, s.nama ketua_kelas, COUNT(*) jumlah_siswa FROM kelas k
-    LEFT JOIN detail_kelas dk ON k.id_kelas = dk.id_kelas 
-    LEFT JOIN jenjang j ON k.id_jenjang = j.id_jenjang
-    LEFT JOIN siswa s ON k.id_ketua_kelas = s.id_siswa 
-    GROUP BY k.id_kelas ORDER BY ketua_kelas";
+    $sql = "SELECT k.*, s.nama nama_ketua_kelas, j.nama nama_jenjang, COUNT(dk.id_detail_kelas) count_detail_kelas, (SELECT COUNT(*) FROM jadwal ja WHERE k.id_kelas = ja.id_kelas) count_jadwal FROM kelas k
+    JOIN jenjang j ON k.id_jenjang = j.id_jenjang
+    LEFT JOIN detail_kelas dk ON k.id_kelas = dk.id_kelas
+    LEFT JOIN siswa s ON k.id_ketua_kelas = s.id_siswa
+    GROUP BY k.id_kelas";
     $result = $db->query($sql) or die($sql);
     $result->fetch_assoc();
 }
@@ -63,7 +62,7 @@ if (isset($_GET['edit'])) {
                                     <label class="text-gray-800 dark:text-white" for="status_kelas">Status Kelas</label>
                                     <select name="status_kelas" id="status_kelas" class="rounded">
                                         <option value="Reguler" <?= $data_kelas['status'] === 'Reguler' ? 'selected' : '' ?>>Reguler</option>
-                                        <option value="Privat" <?= $data_kelas['status'] === 'Privat' ? 'selected' : '' ?>>Privat</option>
+                                        <!-- <option value="Privat" <?= $data_kelas['status'] === 'Privat' ? 'selected' : '' ?>>Privat</option> -->
                                     </select>
                                 </div>
                                 <div class="flex flex-1 flex-col gap-1">
@@ -77,7 +76,7 @@ if (isset($_GET['edit'])) {
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="w-fit text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" name="update" value="<?= $id_kelas ?>">Update</button>
+                    <button type="submit" class="btn btn--blue w-fit" name="update" value="<?= $id_kelas ?>">Update</button>
                 </form>
             <?php else : ?>
                 <?php generate_breadcrumb([['title' => 'Kelas', 'filename' => 'kelas.php']]); ?>
@@ -96,18 +95,19 @@ if (isset($_GET['edit'])) {
                         </thead>
                         <tbody>
                             <?php foreach ($result as $key => $value) : ?>
+                                <?php $delete_able = $value['count_detail_kelas'] === '0' && $value['count_jadwal'] === '0'  ?>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
                                     <td class="px-6 py-4"><?= $value['nama'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['jenjang'] ?></td>
+                                    <td class="px-6 py-4"><?= $value['nama_jenjang'] ?></td>
                                     <td class="px-6 py-4"><?= $value['status'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['ketua_kelas'] ?></td>
+                                    <td class="px-6 py-4"><?= $value['nama_ketua_kelas'] ?></td>
                                     <td class="px-6 py-4">
-                                        <?php if ($value['jumlah_siswa'] <= 1) : ?>
+                                        <?php if ((int) $value['count_detail_kelas'] < 1) : ?>
                                             <p class="text-green-500">New</p>
                                         <?php else : ?>
                                             <div class="flex gap-1">
-                                                <?= $value['jumlah_siswa'] ?>
+                                                <?= $value['count_detail_kelas'] ?>
                                                 <button data-popover-target="data_anggota_kelas<?= $key ?>" data-popover-placement="right" type="button" class="text-white"><i class="ri-question-line"></i></button>
                                                 <div data-popover id="data_anggota_kelas<?= $key ?>" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                                     <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
@@ -133,12 +133,10 @@ if (isset($_GET['edit'])) {
                                         <a class="btn btn--outline-blue group" href="?edit=<?= $value['id_kelas'] ?>" class="px-5 py-2 border border-blue-500 rounded group hover:bg-blue-500">
                                             <i class="ri-edit-box-line text-blue-500 group-hover:text-white"></i>
                                         </a>
-                                        <?php if ($value['jumlah_siswa'] <= 1) : ?>
-                                            <form action="../../api/admin/kelas.php" method="post">
-                                                <button type="submit" class="btn btn--outline-blue group" name="delete" value="<?= $value['id_kelas'] ?>">
-                                                    <i class="ri-delete-bin-6-line text-red-500 group-hover:text-white"></i>
-                                                </button>
-                                            </form>
+                                        <?php if ($delete_able) : ?>
+                                            <button onclick="generateConfirmationDialog('../../api/admin/kelas.php', {delete: '<?= $value['id_kelas'] ?>'})" class="btn btn--outline-red">
+                                                <i class="ri-delete-bin-6-line"></i>
+                                            </button>
                                         <?php endif ?>
                                     </td>
                                 </tr>
@@ -188,13 +186,13 @@ if (isset($_GET['edit'])) {
                             <label class="text-gray-800 dark:text-white" for="status">Status Kelas</label>
                             <select id="status" name="status" class="w-full p-2 rounded" required>
                                 <option value="Reguler">Reguler</option>
-                                <option value="Privat">Privat</option>
+                                <!-- <option value="Privat">Privat</option> -->
                             </select>
                         </div>
                     </div>
                     <!-- Modal footer -->
                     <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                        <button data-modal-hide="add_kelas_modal" type="submit" name="create" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Tambah</button>
+                        <button data-modal-hide="add_kelas_modal" type="submit" name="create" class="btn btn--blue">Tambah</button>
                     </div>
                 </form>
             </div>

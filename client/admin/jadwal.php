@@ -9,13 +9,16 @@ $sql = "SELECT * FROM jenjang";
 $data_jenjang = $db->query($sql) or die($db->error);
 $data_jenjang->fetch_assoc();
 
-$sql = "SELECT j.*, k.nama nama_kelas, i.nama nama_instruktur, k.status, je.nama nama_jenjang, s.nama ketua_kelas, m.nama nama_mapel FROM jadwal j
+$sql = "SELECT j.*, k.nama nama_kelas, i.nama nama_instruktur, k.status, je.nama nama_jenjang, s.nama ketua_kelas, m.nama nama_mapel, COUNT(dj.id_detail_jadwal) count_detail_jadwal FROM jadwal j
 JOIN kelas k ON j.id_kelas = k.id_kelas
 JOIN jenjang je ON k.id_jenjang = je.id_jenjang
 JOIN mapel m ON j.id_mapel = m.id_mapel
+LEFT JOIN detail_jadwal dj ON j.id_jadwal = dj.id_jadwal
 LEFT JOIN instruktur i ON j.id_instruktur = i.id_instruktur
 LEFT JOIN siswa s ON k.id_ketua_kelas = s.id_siswa
-ORDER BY nama_kelas, nama_jenjang, hari";
+GROUP BY j.id_jadwal
+ORDER BY nama_kelas, nama_jenjang, hari
+";
 $data_jadwal = $db->query($sql) or die($db->error);
 $data_jadwal->fetch_assoc();
 
@@ -30,13 +33,16 @@ if (isset($_GET['jenjang'])) {
     $data_kelas = $db->query($sql) or die($db->error);
     $data_kelas->fetch_assoc();
 
-    $sql = "SELECT j.*, k.nama nama_kelas, i.nama nama_instruktur, k.status, je.nama nama_jenjang, s.nama ketua_kelas, m.nama nama_mapel FROM jadwal j
+    $sql = "SELECT j.*, k.nama nama_kelas, i.nama nama_instruktur, k.status, je.nama nama_jenjang, s.nama ketua_kelas, m.nama nama_mapel, COUNT(dj.id_detail_jadwal) count_detail_jadwal FROM jadwal j
     JOIN kelas k ON j.id_kelas = k.id_kelas
     JOIN jenjang je ON k.id_jenjang = je.id_jenjang
     JOIN mapel m ON j.id_mapel = m.id_mapel
-    LEFT JOIN siswa s ON k.id_ketua_kelas = s.id_siswa
+    LEFT JOIN detail_jadwal dj ON j.id_jadwal = dj.id_jadwal
     LEFT JOIN instruktur i ON j.id_instruktur = i.id_instruktur
-    WHERE je.id_jenjang = $id_jenjang";
+    LEFT JOIN siswa s ON k.id_ketua_kelas = s.id_siswa
+    WHERE je.id_jenjang = $id_jenjang
+    GROUP BY j.id_jadwal
+    ORDER BY nama_kelas, nama_jenjang, hari";
     $data_jadwal = $db->query($sql) or die($db->error);
     $data_jadwal->fetch_assoc();
 }
@@ -220,11 +226,11 @@ if (isset($_GET['assign_instruktur'])) {
                                                     <i class="ri-edit-box-line text-blue-500 mx-auto group-hover:text-white"></i>
                                                 </a>
                                             <?php endif ?>
-                                            <form action="../../api/admin/jadwal.php" method="post">
-                                                <button class="btn btn--outline-red group flex w-full" type="submit" name="delete" value="<?= $jadwal['id_jadwal'] ?>">
-                                                    <i class="ri-delete-bin-6-line text-red-500 mx-auto group-hover:text-white"></i>
+                                            <?php if ($jadwal['count_detail_jadwal'] < 1) : ?>
+                                                <button onclick="generateConfirmationDialog('../../api/admin/jadwal.php', {delete: '<?= $jadwal['id_jadwal'] ?>'})" class="btn btn--outline-red">
+                                                    <i class="ri-delete-bin-6-line"></i>
                                                 </button>
-                                            </form>
+                                            <?php endif ?>
                                         </div>
                                     </td>
                                 </tr>
@@ -300,7 +306,7 @@ if (isset($_GET['assign_instruktur'])) {
                     </div>
                     <!-- Modal footer -->
                     <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                        <button type="submit" name="create" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Tambah</button>
+                        <button type="submit" name="create" class="btn btn--blue">Tambah</button>
                     </div>
                 </form>
             </div>

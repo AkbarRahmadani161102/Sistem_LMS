@@ -15,14 +15,14 @@ if (isset($_POST['sync'])) {
     JOIN kelas k ON dk.id_kelas = k.id_kelas
     JOIN jenjang j ON k.id_jenjang = j.id_jenjang AND s.id_siswa NOT IN (SELECT id_siswa FROM tunggakan WHERE MONTH(tenggat_pembayaran) = '$bulan_entity')";
 
-    $data_siswa = $db->query($sql) or die($db->error);
+    $data_siswa = $db->query($sql);
     $data_siswa->fetch_assoc();
     foreach ($data_siswa as $siswa) {
         $biaya_pendidikan =  $siswa['biaya_pendidikan'];
         $id_siswa = $siswa['id_siswa'];
         $sql = "INSERT INTO tunggakan (id_siswa, tenggat_pembayaran, nominal, tgl_dibuat)
         VALUES('$id_siswa', '$tenggat', '$biaya_pendidikan', '$tenggat')";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
     }
 }
 
@@ -35,7 +35,7 @@ if (isset($_POST['update'])) {
         $sql = "UPDATE tunggakan SET status = '$status', tgl_pembayaran = '$tgl_pembayaran' WHERE id_tunggakan = '$id_tunggakan'";
     }
 
-    $db->query($sql) or die($db->error);
+    $db->query($sql);
     $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data berhasil diubah', 'icon_color' => 'greenlight'];
 }
 $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data berhasil disinkronkan', 'icon_color' => 'greenlight'];

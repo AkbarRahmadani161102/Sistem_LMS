@@ -9,11 +9,11 @@ if (isset($_POST['create'])) {
     $jam_selesai = $_POST['jam_selesai'];
 
     $sql = "SELECT * FROM jadwal WHERE id_kelas = '$id_kelas' AND hari = '$hari' AND jam_mulai = '$jam_mulai'";
-    $data_jadwal = $db->query($sql) or die($db->error);
+    $data_jadwal = $db->query($sql);
     if ($data_jadwal->num_rows === 0) {
         if ($jam_mulai < $jam_selesai) {
             $sql = "INSERT INTO jadwal (id_mapel, id_kelas, hari, jam_mulai, jam_selesai) VALUES ('$id_mapel', '$id_kelas', '$hari', '$jam_mulai', '$jam_selesai')";
-            $db->query($sql) or die($db->error);
+            $db->query($sql);
             $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data jadwal berhasil ditambah', 'icon_color' => 'greenlight'];
             $id_jadwal = $db->insert_id;
             redirect("../../client/admin/jadwal.php?assign_instruktur=$id_jadwal");
@@ -27,11 +27,11 @@ if (isset($_POST['assign_instruktur'])) {
     $id_jadwal = $_POST['assign_instruktur'];
     $id_instruktur = $_POST['instruktur'];
     $sql = "SELECT * FROM jadwal WHERE id_jadwal = '$id_jadwal'";
-    $data_jadwal = $db->query($sql) or die($db->error);
+    $data_jadwal = $db->query($sql);
     $data_jadwal = $data_jadwal->fetch_assoc();
 
     $sql = "SELECT * FROM jadwal WHERE id_instruktur = '$id_instruktur'";
-    $data_instruktur = $db->query($sql) or die($db->error);
+    $data_instruktur = $db->query($sql);
     $data_instruktur = $data_instruktur->fetch_assoc();
 
     // Mengecek apabila instruktur memiliki jadwal di hari dan jam yang sama
@@ -42,7 +42,7 @@ if (isset($_POST['assign_instruktur'])) {
 
     if ($jadwal_hari !== $instruktur_hari || $jadwal_jam_mulai !== $instruktur_jam_mulai) {
         $sql = "UPDATE jadwal SET id_instruktur = '$id_instruktur' WHERE id_jadwal = '$id_jadwal'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Instruktur berhasil ditetapkan', 'icon_color' => 'greenlight'];
     } else {
         $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menetapkan instruktur', 'icon_color' => 'red', 'text' => 'Instruktur yang bersangkutan sudah ada di jadwal lain di hari dan jam yang sama'];
@@ -60,7 +60,7 @@ if (isset($_POST['update'])) {
 
     if ($jam_mulai < $jam_selesai) {
         $sql = "UPDATE jadwal SET id_mapel = '$id_mapel', id_kelas = '$id_kelas', hari =  '$hari', jam_mulai = '$jam_mulai', jam_selesai = '$jam_selesai' WHERE id_jadwal = '$id_jadwal'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data jadwal berhasil diubah', 'icon_color' => 'greenlight'];
     } else {
         $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Pastikan waktu jam mulai kurang dari jam selesai'];
@@ -71,8 +71,12 @@ if (isset($_POST['delete'])) {
     try {
         $id_jadwal = $_POST['delete'];
         $sql = "DELETE FROM jadwal WHERE id_jadwal = '$id_jadwal'";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data jadwal berhasil dihapus', 'icon_color' => 'greenlight'];
+
+        if ($db->error) {
+            $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
+        }
     } catch (\Throwable $th) {
         $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
     }

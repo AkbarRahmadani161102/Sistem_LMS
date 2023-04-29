@@ -12,13 +12,13 @@ if (isset($_POST['sync'])) {
     AND dj.id_instruktur NOT IN (SELECT id_instruktur FROM gaji WHERE MONTH(tgl_pertemuan) = $month)
     GROUP BY dj.id_instruktur";
 
-    $data_instruktur = $db->query($sql) or die($db->error);
+    $data_instruktur = $db->query($sql);
 
     foreach ($data_instruktur as $value) {
         $id_instruktur = $value['id_instruktur'];
         $nominal = $value['nominal'];
         $sql = "INSERT INTO gaji (id_instruktur, nominal) VALUES ('$id_instruktur', '$nominal')";
-        $db->query($sql) or die($db->error);
+        $db->query($sql);
     }
     $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data berhasil disinkronkan', 'icon_color' => 'greenlight'];
 }
@@ -27,7 +27,7 @@ if (isset($_POST['update'])) {
     $tgl_penerimaan = $_POST['tgl_penerimaan'];
 
     $sql = "UPDATE gaji SET tgl_penerimaan = '$tgl_penerimaan' WHERE id_gaji = '$id_gaji'";
-    $db->query($sql) or die($db->error);
+    $db->query($sql);
     $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data berhasil diubah', 'icon_color' => 'greenlight'];
 }
 
