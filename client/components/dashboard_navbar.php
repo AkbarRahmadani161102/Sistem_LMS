@@ -88,6 +88,7 @@ if ($role !== 'admin') {
         <div id="settings_dropdown" class="z-10 hidden bg-white rounded-lg shadow-lg">
             <ul class="text-sm text-gray-700">
                 <a href="../user/user_settings.php" class="block px-4 py-2 hover:bg-amber-500 rounded hover:text-white gap-2 flex align-center"><i class="ri-settings-4-line"></i> Pengaturan</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdJ9JeaGjFgjwzfu5rF4y3fbuPnpHgXwyLsEkGgbm2vLgRjtA/viewform?usp=sharing" class="block px-4 py-2 hover:bg-amber-500 rounded hover:text-white gap-2 flex align-center" target="_blank"><i class="ri-checkbox-line"></i> Penilaian App</a>
                 <button id="theme-toggle" type="button" class="block px-4 py-2 hover:bg-amber-500 rounded hover:text-white gap-2 flex align-center w-full">
                     <i id="theme-toggle-dark-icon" class="hidden ri-moon-line"></i>
                     <span id="theme-toggle-dark-icon-text" class="hidden font-medium">Light Mode</span>
