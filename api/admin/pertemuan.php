@@ -44,7 +44,7 @@ if (isset($_POST['sync'])) {
                     $db->query($sql);
                 }
 
-                $msg = "Pertemuan bulan $month tahun $tahun telah ditambahkan, silahkan konfirmasi kehadiran anda";
+                $msg = "Pertemuan bulan $month tahun $year telah ditambahkan, silahkan konfirmasi kehadiran anda";
 
                 $sql = "SELECT COUNT(*) jumlah_notifikasi FROM notifikasi_instruktur WHERE deskripsi = '$msg' AND MONTH(tgl_dibuat) = $month AND id_instruktur = '$id_instruktur'";
                 $data_notifikasi = $db->query($sql);
