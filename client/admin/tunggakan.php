@@ -104,14 +104,20 @@ $data_siswa->fetch_assoc();
                                             </div>
                                         </div>
                                     <?php else : ?>
-                                        <button class="btn btn--transparent">&nbsp;</button>
+                                        <form action="../../api/admin/tunggakan.php" method="post">
+                                            <input type="hidden" name="status" value="">
+                                            <input type="hidden" name="tgl_pembayaran" value="0000-00-00">
+                                            <button type="submit" name="update" value="<?= $tunggakan['id_tunggakan'] ?>" class="btn btn--outline-amber flex items-center gap-1">
+                                                <i class="ri-refresh-line"></i>
+                                                Reset
+                                            </button>
+                                        </form>
                                     <?php endif ?>
                                 </td>
                             <?php endforeach ?>
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
 </div>

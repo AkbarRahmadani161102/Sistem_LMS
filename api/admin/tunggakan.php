@@ -24,6 +24,8 @@ if (isset($_POST['sync'])) {
         VALUES('$id_siswa', '$tenggat', '$biaya_pendidikan', '$tenggat')";
         $db->query($sql);
     }
+
+    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data berhasil disinkronkan', 'icon_color' => 'greenlight'];
 }
 
 if (isset($_POST['update'])) {
@@ -31,13 +33,14 @@ if (isset($_POST['update'])) {
     $id_tunggakan = $_POST['update'];
     $tgl_pembayaran = $_POST['tgl_pembayaran'];
 
-    if ($status === 'Lunas') {
+    if ($status === 'Lunas')
         $sql = "UPDATE tunggakan SET status = '$status', tgl_pembayaran = '$tgl_pembayaran' WHERE id_tunggakan = '$id_tunggakan'";
-    }
+    else
+        $sql = "UPDATE tunggakan SET status = NULL, tgl_pembayaran = '$tgl_pembayaran' WHERE id_tunggakan = '$id_tunggakan'";
+
 
     $db->query($sql);
     $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data berhasil diubah', 'icon_color' => 'greenlight'];
 }
-$_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data berhasil disinkronkan', 'icon_color' => 'greenlight'];
 
 redirect('../../client/admin/tunggakan.php');
