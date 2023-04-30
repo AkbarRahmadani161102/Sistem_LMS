@@ -70,8 +70,9 @@ $menu_admin_keuangan = [
         ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
     ],
     'ADMINISTRASI' => [
-        ['Tunggakan', "../$role/tunggakan.php", '<i class="ri-money-dollar-circle-line"></i>'],
+        ['Tunggakan', "../$role/tunggakan.php", '<i class="ri-money-dollar-box-line"></i>'],
         ['Gaji Instruktur', "../$role/gaji_instruktur.php", '<i class="ri-money-dollar-box-line"></i>'],
+        ['L. Keuangan', "../$role/laporan_keuangan.php", '<i class="ri-money-dollar-box-line"></i>'],
     ]
 ];
 
