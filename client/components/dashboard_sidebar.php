@@ -42,6 +42,7 @@ $menu_instruktur = [
     ],
     'ADMINISTRASI' => [
         ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>'],
+        ['Pendapatan', "../$role/pendapatan.php", '<i class="ri-wallet-2-line"></i>'],
     ]
 ];
 
