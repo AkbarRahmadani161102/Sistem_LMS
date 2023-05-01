@@ -60,8 +60,13 @@ if (isset($_GET['kelas'])) {
                         <?php foreach ($data_siswa as $key => $siswa) : ?>
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                <td class="px-6 py-4"><?= $siswa['nama_kelas'] ?></th>
-                                <td class="px-6 py-4"><?= $siswa['nama'] ?></th>
+                                <td class="px-6 py-4"><?= $siswa['nama_kelas'] ?></td>
+                                <td class="px-6 py-4">
+                                    <?= $siswa['nama'] ?>
+                                    <?php if ($siswa['id_ketua_kelas'] === $siswa['id_siswa']) : ?>
+                                        <span class="text-amber-500">(Ketua kelas)</span>
+                                    <?php endif ?>
+                                </td>
                                 <td class="px-6 py-4"><?= $siswa['no_telp'] ?></td>
                                 <td class="px-6 py-4"><?= $siswa['alamat'] ?></td>
                                 <td class="px-6 py-4"><?= $siswa['status'] ?></td>
