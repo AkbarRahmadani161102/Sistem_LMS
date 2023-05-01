@@ -32,7 +32,10 @@ if (isset($_POST['sync'])) {
     }
 
     foreach (HARI as $index_hari => $hari) {
-        $sql = "SELECT * FROM jadwal WHERE id_jadwal NOT IN (SELECT id_jadwal FROM detail_jadwal) AND id_instruktur IS NOT NULL AND hari = '$hari' ORDER BY jam_mulai";
+        $sql = "SELECT * FROM jadwal 
+        WHERE id_jadwal 
+        NOT IN (SELECT id_jadwal FROM detail_jadwal WHERE YEAR(tgl_pertemuan) = $year AND MONTH(tgl_pertemuan) = $month) 
+        AND id_instruktur IS NOT NULL AND hari = '$hari' ORDER BY jam_mulai";
         $result = $db->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
