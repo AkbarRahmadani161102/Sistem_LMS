@@ -47,9 +47,11 @@ $data_instruktur->fetch_assoc();
                                         <i class="ri-star-fill text-amber-500"></i>
                                     <?php endfor ?>
                                 <td class="px-6 py-4"><?= $row['tgl_dibuat'] ?></td>
-                                <form action="../../api/siswa/umpan_balik.php" method="post">
-                                    <td class="px-6 py-4"><button type="submit" name="delete_instruktur" value="<?= $row['id_kuesioner'] ?>"><i class="ri-delete-bin-line text-red-500"></i></button></td>
-                                </form>
+                                <td class="px-6 py-4">
+                                    <form action="../../api/siswa/umpan_balik.php" method="post">
+                                        <button type="submit" name="delete_instruktur" value="<?= $row['id_kuesioner'] ?>" class="btn btn--outline-red"><i class="ri-delete-bin-line"></i></button>
+                                    </form>
+                                </td>
                             </tr>
                         <?php endwhile ?>
                     </tbody>
