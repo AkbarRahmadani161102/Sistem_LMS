@@ -28,7 +28,7 @@ $_SESSION['role'] === 'admin' && redirect('../admin/index.php');
                         <?php
                         $role = $_SESSION['role'];
                         $id_user = $_SESSION['user_id'];
-                        $sql = "SELECT * FROM notifikasi_$role WHERE id_$role = '$id_user' AND status = 'Selesai'";
+                        $sql = "SELECT * FROM notifikasi_$role WHERE id_$role = '$id_user'";
                         $data_notifikasi = $db->query($sql) or die($db->error);
                         $data_notifikasi->fetch_assoc();
 
