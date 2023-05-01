@@ -21,6 +21,7 @@ $menu_siswa = [
         ['Anggota Kelas', "../$role/anggota_kelas.php", '<i class="ri-team-line"></i>'],
         ['Jadwal', "../$role/jadwal.php", '<i class="ri-calendar-2-line"></i>'],
         ['Pertemuan', "../$role/pertemuan.php", '<i class="ri-calendar-event-line"></i>'],
+        ['Nilai Siswa', "../$role/nilai_siswa.php", '<i class="ri-star-line"></i>'],
     ],
     'ADMINISTRASI' => [
         ['Tunggakan', "../$role/tunggakan.php", '<i class="ri-money-dollar-circle-line"></i>'],
