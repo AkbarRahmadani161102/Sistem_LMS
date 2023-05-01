@@ -250,10 +250,23 @@ foreach ($data_pertemuan as $pertemuan) {
     $index = XLSX_DATA_STARTING_INDEX;
     $mask = 'Rp #,##0';
 
+    // Tunggakan
     iterator($data_tunggakan, 'SPP', 'tgl_pembayaran', 'DEBIT');
-    iterator($data_gaji_instruktur, 'GAJI', 'tgl_penerimaan', 'KREDIT');
 
+    // Gaji Admin
     $sbs_index = $index - 1;
+
+    $sheet->setCellValue("B$index", 'GAJI Admin');
+    $sheet->setCellValue("D$index", '10000');
+    $sheet->setCellValue("E$index", "=E$sbs_index+C$index-D$index");
+    $sheet->getStyle("D$index")->getNumberFormat()->setFormatCode($mask);
+    $sheet->getStyle("E$index")->getNumberFormat()->setFormatCode($mask);
+    $sheet->getStyle("A$index:E$index")->applyFromArray(XLSX_STYLE_TABLE_DATA);
+    $index++;
+
+    // Gaji Instruktur
+    iterator($data_gaji_instruktur, 'GAJI', 'tgl_penerimaan', 'KREDIT');
+    
     $sheet->setCellValue("E$index", "=E$sbs_index");
     $sheet->setCellValue("F$index", "SALDO");
     $sheet->getStyle("E$index")->getFont()->setBold(true);

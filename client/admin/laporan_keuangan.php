@@ -3,7 +3,7 @@ include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
 user_access(['Super Admin', 'Admin Keuangan']);
 
-$sql = "SELECT  YEAR(tgl_pertemuan) tahun, MONTH(tgl_pertemuan) bulan FROM detail_jadwal GROUP BY tahun, bulan";
+$sql = "SELECT  YEAR(tgl_pertemuan) tahun, MONTH(tgl_pertemuan) bulan FROM detail_jadwal GROUP BY tahun";
 $result = $db->query($sql) or die($sql);
 $result->fetch_assoc();
 ?>
