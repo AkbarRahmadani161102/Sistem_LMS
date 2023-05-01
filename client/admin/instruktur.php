@@ -24,10 +24,11 @@ if (isset($_GET['edit'])) {
         $data_mapel_instruktur[] = $mapel['id_mapel'];
     }
 } else {
-    $sql = "SELECT *, i.id_instruktur, COUNT(j.id_jadwal) count_jadwal, COUNT(dj.id_detail_jadwal) count_detail_jadwal FROM instruktur i
-    LEFT JOIN jadwal j ON i.id_instruktur = j.id_instruktur
-    LEFT JOIN detail_jadwal dj ON i.id_instruktur = dj.id_instruktur
-    GROUP BY i.id_instruktur";
+    $sql = "SELECT *,
+    (SELECT COUNT(*) FROM jadwal WHERE id_instruktur = i.id_instruktur) count_jadwal,
+    (SELECT COUNT(*) FROM detail_jadwal WHERE id_instruktur = i.id_instruktur) count_detail_jadwal,
+    (SELECT COUNT(*) FROM detail_mapel WHERE id_instruktur = i.id_instruktur) count_mapel
+    FROM instruktur i";
     $result = $db->query($sql) or die($db);
     $result->fetch_assoc();
 }
@@ -164,16 +165,26 @@ if (isset($_GET['edit'])) {
                                     <td class="px-6 py-4"><?= $value['email'] ?></td>
                                     <td class="px-6 py-4"><?= $value['status'] ?></td>
                                     <td class="px-6 py-4">
-                                        <ul>
-                                            <?php
-                                            $id_instruktur = $value['id_instruktur'];
-                                            $sql = "SELECT j.nama nama_jenjang, m.nama nama_mapel  FROM instruktur i, mapel m, detail_mapel dm, jenjang j WHERE dm.id_mapel = m.id_mapel AND dm.id_instruktur = i.id_instruktur AND m.id_jenjang = j.id_jenjang AND i.id_instruktur = '$id_instruktur'";
-                                            $mapel_diampu = $db->query($sql) or die(mysqli_error($db));
-                                            $mapel_diampu->fetch_assoc();
-                                            foreach ($mapel_diampu as $key => $mapel) : ?>
-                                                <li><?= $mapel['nama_jenjang'] ?> - <?= $mapel['nama_mapel'] ?> </li>
-                                            <?php endforeach ?>
-                                        </ul>
+                                        <div class="flex gap-1">
+                                            <?= $value['count_mapel'] ?>
+                                            <button data-popover-target="data_mapel_instruktur<?= $main_key ?>" data-popover-placement="right" type="button" class="text-white"><i class="ri-question-line"></i></button>
+                                            <div data-popover id="data_mapel_instruktur<?= $main_key ?>" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                                <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                                                    <h5 class="font-semibold text-gray-900 dark:text-white">Mapel yang diampu</h5>
+                                                </div>
+                                                <div class="px-3 py-2 space-y-2">
+                                                    <?php
+                                                    $id_instruktur = $value['id_instruktur'];
+                                                    $sql = "SELECT j.nama nama_jenjang, m.nama nama_mapel  FROM instruktur i, mapel m, detail_mapel dm, jenjang j WHERE dm.id_mapel = m.id_mapel AND dm.id_instruktur = i.id_instruktur AND m.id_jenjang = j.id_jenjang AND i.id_instruktur = '$id_instruktur'";
+                                                    $mapel_diampu = $db->query($sql) or die(mysqli_error($db));
+                                                    $mapel_diampu->fetch_assoc();
+                                                    foreach ($mapel_diampu as $key => $mapel) : ?>
+                                                        <p><?= $mapel['nama_jenjang'] ?> - <?= $mapel['nama_mapel'] ?></p>
+                                                    <?php endforeach ?>
+                                                </div>
+                                                <div data-popper-arrow></div>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4">
                                         <?php
