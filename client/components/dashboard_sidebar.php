@@ -97,7 +97,14 @@ $menu_admin_keuangan = array_replace_recursive($menu_admin_keuangan, $menu_user)
 
 $menu_superadmin = array_replace_recursive($menu_admin_akademik, $menu_admin_keuangan, $menu_superadmin, $menu_user);
 
-$menu_admin_akademik_keuangan = array_replace_recursive($menu_admin_akademik, $menu_admin_keuangan, $menu_user);
+$menu_admin_akademik_keuangan = array_replace_recursive($menu_admin_akademik, $menu_admin_keuangan, $menu_user, [
+    'ADMINISTRASI' => [
+        ['Tunggakan', "../$role/tunggakan.php", '<i class="ri-money-dollar-box-line"></i>'],
+        ['Gaji Instruktur', "../$role/gaji_instruktur.php", '<i class="ri-money-dollar-box-line"></i>'],
+        ['L. Keuangan', "../$role/laporan_keuangan.php", '<i class="ri-money-dollar-box-line"></i>'],
+        ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>']
+    ]
+]);
 
 function generate_sidebar(array $source_menu)
 {
