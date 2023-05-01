@@ -8,7 +8,7 @@ $id_siswa = $_SESSION['user_id'];
 
 if (isset($_GET['pergantian_instruktur'])) {
     $id_detail_jadwal = $_GET['pergantian_instruktur'];
-    $sql = "SELECT *, i.nama nama_instruktur, m.nama nama_mapel, k.nama nama_kelas FROM detail_jadwal dj
+    $sql = "SELECT *, i.nama nama_instruktur, m.nama nama_mapel, k.nama nama_kelas, k.id_ketua_kelas FROM detail_jadwal dj
     JOIN jadwal j ON dj.id_jadwal = j.id_jadwal
     JOIN mapel m ON j.id_mapel = m.id_mapel
     JOIN kelas k ON j.id_kelas = k.id_kelas
@@ -17,7 +17,9 @@ if (isset($_GET['pergantian_instruktur'])) {
 
     $data_detail_jadwal = $db->query($sql) or die($db->error);
     $data_detail_jadwal = $data_detail_jadwal->fetch_assoc();
-
+    
+    $ketua_kelas =  $data_detail_jadwal['id_ketua_kelas'] === $id_siswa;
+    
     $id_detail_jadwal = $data_detail_jadwal['id_detail_jadwal'];
     $id_mapel = $data_detail_jadwal['id_mapel'];
     $id_instruktur = $data_detail_jadwal['id_instruktur'];
@@ -29,8 +31,10 @@ if (isset($_GET['pergantian_instruktur'])) {
     JOIN instruktur i ON dm.id_instruktur = i.id_instruktur
     WHERE dm.id_mapel = '$id_mapel'
     AND dm.id_instruktur != '$id_instruktur'";
+
     $data_instruktur = $db->query($sql) or die($db->error);
     $data_instruktur->fetch_assoc();
+
 } else {
     $sql = "SELECT j.*, dj.*, dj.id_detail_jadwal, i.nama nama_instruktur, m.nama nama_mapel, dj.tgl_pertemuan tgl, k.id_ketua_kelas
     FROM jadwal j 
@@ -42,6 +46,7 @@ if (isset($_GET['pergantian_instruktur'])) {
     JOIN instruktur i on i.id_instruktur = dj.id_instruktur
     WHERE s.id_siswa = '$id_siswa' AND j.id_jadwal = dj.id_jadwal
     ORDER BY tgl";
+    
     $data_pertemuan = $db->query($sql) or die($db->error);
     $data_pertemuan->fetch_assoc();
 
@@ -132,8 +137,6 @@ if (isset($_GET['pergantian_instruktur'])) {
                     </table>
                 </div>
             <?php endif ?>
-
-
         </div>
     </div>
 </div>
