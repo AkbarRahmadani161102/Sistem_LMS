@@ -19,9 +19,10 @@ if ($role !== 'admin') {
             </svg>
         </button>
 
-        <label class="pl-4 bg-white dark:bg-slate-700 lg:mr-auto rounded-full w-3/6 flex items-center">
+        <label class="px-5 bg-white dark:bg-slate-700 lg:mr-auto rounded-full w-3/6 flex items-center">
             <i class="ri-search-line"></i>
-            <input type="text" class="bg-transparent border-0 w-full rounded-full" placeholder="Search">
+            <select class="selectize-search bg-transparent input rounded-full border-0">
+            </select>
         </label>
         <p id="live-clock" class="m-0 me-3 font-semibold"></p>
 

@@ -2182,10 +2182,6 @@ hr.vr {
   padding-left: 0.75rem;
 }
 
-.pl-4 {
-  padding-left: 1rem;
-}
-
 .pl-5 {
   padding-left: 1.25rem;
 }
@@ -2463,6 +2459,34 @@ hr.vr {
   font-family: "Poppins-Regular";
 
   src: url("../fonts/Poppins-Regular.ttf");
+}
+
+/* Override Selectize Search (Dashboard Navbar) */
+
+.selectize-search.selectize-control .selectize-input:after {
+  display: none;
+}
+
+.selectize-search .selectize-input input {
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
+}
+
+.dark .selectize-search .selectize-input input {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.selectize-search .selectize-dropdown {
+  border-radius: 0;
+}
+
+.selectize-search .single.selectize-dropdown {
+  padding: 0;
+}
+
+.selectize-search .selectize-dropdown .selectize-dropdown-content {
+  background-color: white;
 }
 
 /* Override Selectize */

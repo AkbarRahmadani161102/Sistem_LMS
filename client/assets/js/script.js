@@ -40,10 +40,43 @@ $(document).ready(() => {
         }
     })
 
+    let sidebarItem = $('.dashboard__sidebar-item').map(function () {
+        return {
+            name: $(this).prop('innerText'),
+            src: $(this).attr('href')
+        }
+    })
+
+    $('select.selectize-search').selectize({
+        valueField: "src",
+        labelField: "name",
+        delimiter: " - ",
+        searchField: ["name", "src"],
+        options: sidebarItem,
+        persist: false,
+        onDropdownOpen: function ($dropdown) {
+            // Manually prevent dropdown from opening when there is no search term
+            if (!this.lastQuery) {
+                this.close();
+            }
+        },
+        onItemAdd: function (v, $item) {
+            window.location = v
+        },
+        onType: function (str) {
+            if (str === "") {
+                this.close();
+            }
+        },
+        onFocus: function () {
+            $(this)[0].clear()
+        },
+
+    })
+
     $('select.selectize.group').selectize({
         sortField: 'text'
     })
-
     $('.datatable').DataTable();
 
 })

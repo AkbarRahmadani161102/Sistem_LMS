@@ -304,6 +304,31 @@
     }
 }
 
+/* Override Selectize Search (Dashboard Navbar) */
+.selectize-search.selectize-control .selectize-input:after {
+    display: none;
+}
+
+.selectize-search .selectize-input input {
+    @apply text-gray-500
+}
+
+.dark .selectize-search .selectize-input input {
+    @apply text-white
+}
+
+.selectize-search .selectize-dropdown {
+    border-radius: 0;
+}
+
+.selectize-search .single.selectize-dropdown {
+    padding: 0;
+}
+
+.selectize-search .selectize-dropdown .selectize-dropdown-content {
+    background-color: white;
+}
+
 /* Override Selectize */
 .selectize-input {
     border: 0;
