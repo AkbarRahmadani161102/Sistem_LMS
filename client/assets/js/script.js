@@ -77,8 +77,15 @@ $(document).ready(() => {
     $('select.selectize.group').selectize({
         sortField: 'text'
     })
+
     $('.datatable').DataTable();
 
+    $('.datatable-add-siswa').DataTable({
+        "searching": false,
+        "scrollY": "500px",
+        "scrollCollapse": true,
+        "paging": false,
+    });
 })
 
 let themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');

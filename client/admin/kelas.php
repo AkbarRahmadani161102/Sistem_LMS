@@ -16,7 +16,11 @@ if (isset($_GET['edit'])) {
     $sql = "SELECT s.* FROM siswa s, detail_kelas dk WHERE dk.id_siswa = s.id_siswa AND dk.id_kelas = '$id_kelas'";
     $data_siswa = $db->query($sql) or die($db->error);
     $data_siswa->fetch_assoc();
-} else {
+} else if (isset($_GET['create'])) {
+    $sql = "SELECT * FROM siswa s WHERE id_siswa NOT IN (SELECT id_siswa FROM detail_kelas WHERE id_siswa = s.id_siswa)";
+    $data_siswa = $db->query($sql) or die($db->error);
+    $data_siswa->fetch_assoc();
+} else if (!isset($_GET['edit']) && !isset($_GET['create'])) {
     $sql = "SELECT k.*, s.nama nama_ketua_kelas, j.nama nama_jenjang, COUNT(dk.id_detail_kelas) count_detail_kelas, (SELECT COUNT(*) FROM jadwal ja WHERE k.id_kelas = ja.id_kelas) count_jadwal FROM kelas k
     JOIN jenjang j ON k.id_jenjang = j.id_jenjang
     LEFT JOIN detail_kelas dk ON k.id_kelas = dk.id_kelas
@@ -35,14 +39,15 @@ if (isset($_GET['edit'])) {
             <div class="flex items-center gap-5">
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Kelas</h4>
                 <?php if (!isset($_GET['edit'])) : ?>
-                    <button data-modal-target="add_kelas_modal" data-modal-toggle="add_kelas_modal" class="btn" type="button">
+                    <a href="?create" class="btn">
                         Tambah kelas
-                    </button>
+                    </a>
                 <?php endif ?>
             </div>
+
             <?php if (isset($_GET['edit'])) : ?>
-                <?php generate_breadcrumb([['title' => 'Kelas', 'filename' => 'kelas.php'], ['title' => "Edit Kelas $nama_kelas", 'filename' => 'kelas.php']]); ?>
-                <form action="../../api/admin/kelas.php" method="post" class="bg-gray-700 rounded p-8 mt-8 flex flex-col gap-5">
+                <?php generate_breadcrumb([['title' => 'Kelas', 'filename' => 'kelas.php'], ['title' => "Edit Kelas $nama_kelas", 'filename' => '#']]); ?>
+                <form action="../../api/admin/kelas.php" method="post" class="bg-white dark:bg-gray-700 rounded p-8 mt-8 flex flex-col gap-5">
                     <div class="flex gap-5 flex-wrap">
                         <div class="flex-1 flex-col space-y-2">
                             <div class="flex flex-col gap-1">
@@ -78,11 +83,71 @@ if (isset($_GET['edit'])) {
                     </div>
                     <button type="submit" class="btn btn--blue w-fit" name="update" value="<?= $id_kelas ?>">Update</button>
                 </form>
-            <?php else : ?>
+            <?php endif ?>
+
+            <?php if (isset($_GET['create'])) : ?>
+                <?php generate_breadcrumb([['title' => 'Kelas', 'filename' => 'kelas.php'], ['title' => "Tambah Kelas", 'filename' => '#']]); ?>
+                <form action="../../api/admin/kelas.php" method="post" class="bg-white dark:bg-gray-700 rounded p-8 mt-8 flex flex-col">
+                    <div class="flex-1 flex-col space-y-2">
+                        <div class="flex flex-col gap-1">
+                            <label class="text-gray-800 dark:text-white" for="nama_kelas">Nama Kelas</label>
+                            <input id="nama_kelas" name="nama_kelas" type="text" class="rounded" required>
+                        </div>
+                        <div class="flex flex-1 gap-3">
+                            <div class="flex flex-1 flex-col gap-1">
+                                <label class="text-gray-800 dark:text-white" for="status_kelas">Status Kelas</label>
+                                <select name="status_kelas" id="status_kelas" class="rounded" required>
+                                    <option value="Reguler">Reguler</option>
+                                    <!-- <option value="Privat">Privat</option> -->
+                                </select>
+                            </div>
+                            <div class="flex flex-1 flex-col gap-1">
+                                <label class="text-gray-800 dark:text-white" for="jenjang">Jenjang</label>
+                                <select name="jenjang" id="jenjang" class="rounded" required>
+                                    <?php foreach ($data_jenjang as $key => $jenjang) : ?>
+                                        <option value="<?= $jenjang['id_jenjang'] ?>"><?= $jenjang['nama'] ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mt-12">
+                    <div class="relative overflow-x-auto">
+                        <table class="datatable-add-siswa table">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="px-6 py-3"></th>
+                                    <th scope="col" class="px-6 py-3">Nama Siswa</th>
+                                    <th scope="col" class="px-6 py-3">Nomor Telepon</th>
+                                    <th scope="col" class="px-6 py-3">Anggota Kelas</th>
+                                    <th scope="col" class="px-6 py-3">Ketua Kelas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($data_siswa as $key => $siswa) : ?>
+                                    <tr class="relative">
+                                        <td class="text-amber-500"><?= (int) $key + 1 ?></td>
+                                        <td><?= $siswa['nama'] ?></td>
+                                        <td><?= $siswa['no_telp'] ?></td>
+                                        <td>
+                                            <label class="absolute top-0 left-0 w-full h-full z-10" for="anggota_kelas<?= $key ?>">&nbsp;</label>
+                                            <input type="checkbox" id="anggota_kelas<?= $key ?>" name="anggota_kelas[]" value="<?= $siswa['id_siswa'] ?>">
+                                        </td>
+                                        <td><input type="radio" name="ketua_kelas" value="<?= $siswa['id_siswa'] ?>" class="relative z-20"></td>
+                                    </tr>
+                                <?php endforeach ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="submit" class="btn btn--blue w-fit" name="create" value="<?= $id_kelas ?>">Tambah</button>
+                </form>
+            <?php endif ?>
+
+            <?php if (!isset($_GET['create']) && !isset($_GET['edit'])) : ?>
                 <?php generate_breadcrumb([['title' => 'Kelas', 'filename' => 'kelas.php']]); ?>
                 <div class="relative overflow-x-auto overflow-y-hidden mt-5">
-                    <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <table class="datatable table">
+                        <thead>
                             <tr>
                                 <th scope="col" class="px-6 py-3"></th>
                                 <th scope="col" class="px-6 py-3">Kelas</th>
@@ -148,56 +213,4 @@ if (isset($_GET['edit'])) {
         </div>
     </div>
 </div>
-
-<?php if (!isset($_GET['edit'])) : ?>
-
-    <div id="add_kelas_modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-        <div class="relative w-full h-full max-w-2xl md:h-auto">
-            <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <!-- Modal header -->
-                <form action="../../api/admin/kelas.php" method="post">
-                    <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                            Tambah Kelas
-                        </h3>
-                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="add_kelas_modal">
-                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span class="sr-only">Close modal</span>
-                        </button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="glex flex-col space-y-5 p-5">
-                        <div class="flex flex-col gap-2">
-                            <label class="text-gray-800 dark:text-white" for="jenjang">Jenjang</label>
-                            <select id="jenjang" name="jenjang" class="w-full p-2 rounded" required>
-                                <?php foreach ($data_jenjang as $key => $value) : ?>
-                                    <option value="<?= $value['id_jenjang'] ?>"><?= $value['nama'] ?></option>
-                                <?php endforeach ?>
-                            </select>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <label class="text-gray-800 dark:text-white" for="nama_kelas">Nama Kelas</label>
-                            <input id="nama_kelas" type="text" name="nama_kelas" class="w-full p-2 rounded" required>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <label class="text-gray-800 dark:text-white" for="status">Status Kelas</label>
-                            <select id="status" name="status" class="w-full p-2 rounded" required>
-                                <option value="Reguler">Reguler</option>
-                                <!-- <option value="Privat">Privat</option> -->
-                            </select>
-                        </div>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                        <button data-modal-hide="add_kelas_modal" type="submit" name="create" class="btn btn--blue">Tambah</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-<?php endif ?>
-
 <?php include_once('../template/footer.php') ?>

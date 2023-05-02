@@ -12,7 +12,6 @@ if (isset($_POST['create'])) {
     $alamat = escape($_POST['alamat']);
     $email = escape($_POST['email']);
     $password = md5(escape($_POST['password']));
-    $id_kelas = escape($_POST['kelas']);
 
     $is_number = preg_match("/^[0-9]*$/", $no_telp) === 1;
 
@@ -28,9 +27,6 @@ if (isset($_POST['create'])) {
     if ($is_number) {
         if (is_email_available()) {
             $sql = "INSERT INTO siswa (id_siswa, nama, no_telp, alamat, email, password) VALUES ('$id_siswa', '$nama', '$no_telp', '$alamat', '$email' , '$password')";
-            $db->query($sql);
-
-            $sql = "INSERT INTO detail_kelas (id_kelas, id_siswa) VALUES ('$id_kelas', '$id_siswa')";
             $db->query($sql);
             $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data siswa berhasil ditambahkan', 'icon_color' => 'greenlight'];
         } else {
@@ -48,7 +44,6 @@ if (isset($_POST['update'])) {
     $email = escape($_POST['email']);
     $password = escape($_POST['password']);
     $status = escape($_POST['status']);
-    $kelas = isset($_POST['kelas']) ? $_POST['kelas'] : [];
     $is_number = preg_match("/^[0-9]*$/", $no_telp) === 1;
 
     function is_email_changed()
@@ -71,7 +66,6 @@ if (isset($_POST['update'])) {
 
     if ($is_number) {
         $ext_sql = '';
-        $id_kelas = $_POST['kelas'];
 
         if (is_email_changed()) {
             $ext_sql .= ", email = '$email'";
@@ -82,12 +76,6 @@ if (isset($_POST['update'])) {
         }
 
         $sql = "UPDATE siswa SET nama = '$nama', no_telp = '$no_telp', alamat = '$alamat', status = '$status', tgl_diubah = '$current_date' $ext_sql WHERE id_siswa = '$id_siswa'";
-        $db->query($sql);
-
-        $sql = "DELETE FROM detail_kelas WHERE id_siswa = '$id_siswa'";
-        $db->query($sql);
-
-        $sql = "INSERT INTO detail_kelas (id_kelas, id_siswa) VALUES('$id_kelas', '$id_siswa')";
         $db->query($sql);
 
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data siswa berhasil diubah', 'icon_color' => 'greenlight'];

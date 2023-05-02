@@ -73,31 +73,6 @@ if (isset($_GET['edit'])) {
                             </div>
                             <div class="flex gap-5">
                                 <div class="flex flex-1 flex-col space-y-2">
-                                    <label for="kelas">Kelas</label>
-                                    <select name="kelas" id="kelas" class="input" required>
-                                        <?php
-                                        $sql = "SELECT * FROM jenjang";
-                                        $data_jenjang = $db->query($sql) or die($db->error);
-                                        $data_jenjang->fetch_assoc(); ?>
-
-                                        <?php foreach ($data_jenjang as $jenjang) : ?>
-                                            <optgroup label="<?= $jenjang['nama'] ?>">
-                                                <?php
-                                                $id_jenjang = $jenjang['id_jenjang'];
-                                                $sql = "SELECT * FROM kelas WHERE id_jenjang = '$id_jenjang'";
-                                                $data_kelas = $db->query($sql) or die($db->error);
-                                                $data_kelas->fetch_assoc(); ?>
-
-                                                <?php foreach ($data_kelas as $kelas) : ?>
-                                                    <option value="<?= isset($kelas['id_kelas']) ? $kelas['id_kelas'] : null ?>" <?= isset($data_kelas_siswa['id_kelas']) && $data_kelas_siswa['id_kelas'] === $kelas['id_kelas'] ? 'selected' : '' ?>>
-                                                        <?= $kelas['nama'] ?>
-                                                    </option>
-                                                <?php endforeach ?>
-                                            </optgroup>
-                                        <?php endforeach ?>
-                                    </select>
-                                </div>
-                                <div class="flex flex-1 flex-col space-y-2">
                                     <label for="status">Status</label>
                                     <select class="input" name="status" id="status">
                                         <option value="Aktif" selected>Aktif</option>
@@ -105,13 +80,10 @@ if (isset($_GET['edit'])) {
                                     </select>
                                 </div>
                             </div>
-
                             <button type="submit" name="update" value="<?= $id_siswa ?>" class="self-end btn btn--blue">
                                 Update
                             </button>
                         </div>
-
-
                     </div>
                 </form>
             <?php else : ?>
@@ -176,7 +148,7 @@ if (isset($_GET['edit'])) {
 
 <?php if (!isset($_GET['edit'])) : ?>
     <div id="add_siswa_modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-        <div class="relative w-full h-full max-w-7xl md:h-auto">
+        <div class="relative w-full h-full max-w-2xl md:h-auto">
             <!-- Modal content -->
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <div class="px-6 py-6 lg:px-8">
@@ -193,53 +165,26 @@ if (isset($_GET['edit'])) {
                                 <span class="sr-only">Close modal</span>
                             </button>
                         </div>
-                        <div class="pt-6 flex gap-5 flex-col md:flex-row">
-                            <div class="flex-1 flex flex-col" method="post">
-                                <div class="mb-5">
-                                    <label for="nama">Nama</label>
-                                    <input type="text" class="input" id="nama" name="nama" maxlength="50" required>
-                                </div>
-                                <div class="mb-5">
-                                    <label for="no_telp">No Telp</label>
-                                    <input type="text" class="input" id="no_telp" name="no_telp" maxlength="14" required>
-                                </div>
-                                <div class="mb-5">
-                                    <label for="alamat">Alamat</label>
-                                    <textarea class="resize-none input" name="alamat" id="" cols="30" rows="2" maxlength="50"></textarea>
-                                </div>
+                        <div class="pt-6 flex flex-col">
+                            <div class="mb-5 space-y-2">
+                                <label for="nama">Nama</label>
+                                <input type="text" class="input" id="nama" name="nama" maxlength="50" required>
                             </div>
-                            <div class="flex-1 flex flex-col" method="post">
-                                <div class="mb-5">
-                                    <label for="email">Email</label>
-                                    <input type="email" class="input" id="email" name="email" maxlength="30" required>
-                                </div>
-                                <div class="mb-5">
-                                    <label for="password">Password</label>
-                                    <input type="text" class="input" id="password" name="password" maxlength="50" required>
-                                </div>
-                                <div class="mb-5">
-                                    <label for="kelas" class="text-normal text-gray-400 dark:text-white">Kelas</label>
-                                    <select name="kelas" id="kelas" class="input" required>
-                                        <?php
-                                        $sql = "SELECT * FROM jenjang";
-                                        $data_jenjang = $db->query($sql) or die($db->error);
-                                        $data_jenjang->fetch_assoc(); ?>
-
-                                        <?php foreach ($data_jenjang as $jenjang) : ?>
-                                            <optgroup label="<?= $jenjang['nama'] ?>">
-                                                <?php
-                                                $id_jenjang = $jenjang['id_jenjang'];
-                                                $sql = "SELECT * FROM kelas WHERE id_jenjang = '$id_jenjang'";
-                                                $data_kelas = $db->query($sql) or die($db->error);
-                                                $data_kelas->fetch_assoc(); ?>
-
-                                                <?php foreach ($data_kelas as $kelas) : ?>
-                                                    <option value="<?= $kelas['id_kelas'] ?>"><?= $kelas['nama'] ?></option>
-                                                <?php endforeach ?>
-                                            </optgroup>
-                                        <?php endforeach ?>
-                                    </select>
-                                </div>
+                            <div class="mb-5 space-y-2">
+                                <label for="no_telp">No Telp</label>
+                                <input type="text" class="input" id="no_telp" name="no_telp" maxlength="14" required>
+                            </div>
+                            <div class="mb-5 space-y-2">
+                                <label for="alamat">Alamat</label>
+                                <textarea class="resize-none input" name="alamat" id="" cols="30" rows="2" maxlength="50"></textarea>
+                            </div>
+                            <div class="mb-5 space-y-2">
+                                <label for="email">Email</label>
+                                <input type="email" class="input" id="email" name="email" maxlength="30" required>
+                            </div>
+                            <div class="mb-5 space-y-2">
+                                <label for="password">Password</label>
+                                <input type="text" class="input" id="password" name="password" maxlength="50" required>
                             </div>
                         </div>
                         <div class="flex justify-end items-center pt-6 border-t border-gray-200 rounded-b dark:border-gray-600">
