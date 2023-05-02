@@ -87,11 +87,11 @@ $data_jenjang->fetch_assoc();
                                             <div class="glex flex-col space-y-5 p-5">
                                                 <div class="flex flex-col gap-2">
                                                     <label class="text-gray-800 dark:text-white" for="nama_mapel">Nama Mapel</label>
-                                                    <input class="w-full p-2 rounded" id="nama_mapel" name="nama_mapel" value="<?= $value['nama'] ?>" required />
+                                                    <input class="input w-full p-2 rounded" id="nama_mapel" name="nama_mapel" value="<?= $value['nama'] ?>" required />
                                                 </div>
                                                 <div class="flex flex-col gap-2">
                                                     <label class="text-gray-800 dark:text-white" for="jenjang">Jenjang</label>
-                                                    <select id="jenjang" name="jenjang" class="w-full p-2 rounded" required>
+                                                    <select id="jenjang" name="jenjang" class="input w-full p-2 rounded" required>
                                                         <?php foreach ($data_jenjang as $key => $jenjang) : ?>
                                                             <option value="<?= $jenjang['id_jenjang'] ?>" <?= $jenjang['id_jenjang'] === $value['id_jenjang'] ? 'selected' : '' ?>><?= $jenjang['nama'] ?></option>
                                                         <?php endforeach ?>
@@ -135,11 +135,11 @@ $data_jenjang->fetch_assoc();
                 <div class="glex flex-col space-y-5 p-5">
                     <div class="flex flex-col gap-2">
                         <label class="text-gray-800 dark:text-white" for="nama_mapel">Nama Mapel</label>
-                        <input class="w-full p-2 rounded" id="nama_mapel" name="nama_mapel" required />
+                        <input class="input w-full p-2 rounded" id="nama_mapel" name="nama_mapel" required />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label class="text-gray-800 dark:text-white" for="jenjang">Jenjang</label>
-                        <select id="jenjang" name="jenjang" class="w-full p-2 rounded" required>
+                        <select id="jenjang" name="jenjang" class="input w-full p-2 rounded" required>
                             <?php foreach ($data_jenjang as $key => $jenjang) : ?>
                                 <option value="<?= $jenjang['id_jenjang'] ?>"><?= $jenjang['nama'] ?></option>
                             <?php endforeach ?>
