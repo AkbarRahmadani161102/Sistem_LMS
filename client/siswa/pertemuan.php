@@ -124,7 +124,7 @@ if (isset($_GET['pergantian_instruktur'])) {
                                         <?php else : ?>
                                             <?php if ($ketua_kelas) : ?>
                                                 <?php if ($pertemuan['status_kehadiran_instruktur'] !== "Proses Pergantian") : ?>
-                                                    <a href="?pergantian_instruktur=<?= $pertemuan['id_detail_jadwal'] ?>" class="btn btn--outline-amber">Ajukan Pergantian Instruktur</a>
+                                                    <a href="?pergantian_instruktur=<?= $pertemuan['id_detail_jadwal'] ?>" class="btn block btn--outline-amber">Ajukan Pergantian Instruktur</a>
                                                 <?php else : ?>
                                                     <p class="text-amber-500">Pergantian instruktur sedang dalam proses</p>
                                                 <?php endif ?>

@@ -3,7 +3,7 @@ include_once('../template/header.php');
 user_access('instruktur');
 
 $id_instruktur = $_SESSION['user_id'];
-$sql = "SELECT * FROM jadwal j, detail_jadwal dk WHERE j.id_jadwal = dk.id_jadwal AND WEEK(tgl_pertemuan) = WEEK(NOW()) AND j.id_instruktur = '$id_instruktur' GROUP BY tgl_pertemuan";
+$sql = "SELECT * FROM jadwal j, detail_jadwal dj WHERE j.id_jadwal = dj.id_jadwal AND WEEK(tgl_pertemuan) = WEEK(NOW()) AND dj.id_instruktur = '$id_instruktur' GROUP BY tgl_pertemuan";
 $data_pertemuan = $db->query($sql) or die($db->error);
 
 if (isset($_GET['presence'])) {
