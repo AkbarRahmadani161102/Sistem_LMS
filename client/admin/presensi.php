@@ -4,7 +4,7 @@ include_once('../../api/auth/access_control.php');
 user_access(['Super Admin', 'Admin Akademik']);
 
 if (isset($_GET['role']) && $_GET['role'] === 'siswa') {
-    $sql = "SELECT *, k.nama nama_kelas, a.status FROM absensi_siswa a JOIN siswa s ON a.id_siswa = s.id_siswa JOIN detail_jadwal dj ON a.id_detail_jadwal = dj.id_detail_jadwal JOIN detail_kelas dk ON s.id_siswa = dk.id_siswa JOIN kelas k ON dk.id_kelas = k.id_kelas GROUP BY tgl_pertemuan, s.id_siswa";
+    $sql = "SELECT dj.tgl_pertemuan, s.nama nama_siswa, k.nama nama_kelas, a.status FROM absensi_siswa a JOIN siswa s ON a.id_siswa = s.id_siswa JOIN detail_jadwal dj ON a.id_detail_jadwal = dj.id_detail_jadwal JOIN detail_kelas dk ON s.id_siswa = dk.id_siswa JOIN kelas k ON dk.id_kelas = k.id_kelas GROUP BY tgl_pertemuan, s.id_siswa";
     $data_presensi_siswa = $db->query($sql) or die($sql);
     $data_presensi_siswa->fetch_assoc();
 } else {
@@ -60,7 +60,7 @@ if (isset($_GET['role']) && $_GET['role'] === 'siswa') {
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
                                     <td class="px-6 py-4"><?= $value['tgl_pertemuan'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['nama'] ?></td>
+                                    <td class="px-6 py-4"><?= $value['nama_siswa'] ?></td>
                                     <td class="px-6 py-4"><?= $value['nama_kelas'] ?></td>
                                     <td class="px-6 py-4">
                                         <?php if ($value['status'] === 'H') : ?>
