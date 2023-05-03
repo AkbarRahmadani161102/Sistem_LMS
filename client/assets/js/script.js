@@ -5,12 +5,12 @@ const refreshTime = () => {
     $('#live-clock').text(timeString)
 }
 
-refreshTime()
-setInterval(() => {
-    refreshTime()
-}, 60000)
-
 $(document).ready(() => {
+    refreshTime()
+    setInterval(() => {
+        refreshTime()
+    }, 1000)
+
     const url = location.href
     const urlFilename = url.substring(url.lastIndexOf('/') + 1).match(/(.*.php)/)[0]
 
