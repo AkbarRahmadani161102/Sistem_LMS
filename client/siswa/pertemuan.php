@@ -17,9 +17,9 @@ if (isset($_GET['pergantian_instruktur'])) {
 
     $data_detail_jadwal = $db->query($sql) or die($db->error);
     $data_detail_jadwal = $data_detail_jadwal->fetch_assoc();
-    
+
     $ketua_kelas =  $data_detail_jadwal['id_ketua_kelas'] === $id_siswa;
-    
+
     $id_detail_jadwal = $data_detail_jadwal['id_detail_jadwal'];
     $id_mapel = $data_detail_jadwal['id_mapel'];
     $id_instruktur = $data_detail_jadwal['id_instruktur'];
@@ -34,19 +34,16 @@ if (isset($_GET['pergantian_instruktur'])) {
 
     $data_instruktur = $db->query($sql) or die($db->error);
     $data_instruktur->fetch_assoc();
-
 } else {
-    $sql = "SELECT j.*, dj.*, dj.id_detail_jadwal, i.nama nama_instruktur, m.nama nama_mapel, dj.tgl_pertemuan tgl, k.id_ketua_kelas
-    FROM jadwal j 
-    JOIN kelas k on j.id_kelas = k.id_kelas
-    JOIN detail_kelas dk on dk.id_kelas = k.id_kelas
-    JOIN mapel m on j.id_mapel = m.id_mapel 
-    JOIN siswa s on s.id_siswa = dk.id_siswa
-    JOIN detail_jadwal dj on dj.id_jadwal = j.id_jadwal 
-    JOIN instruktur i on i.id_instruktur = dj.id_instruktur
-    WHERE s.id_siswa = '$id_siswa' AND j.id_jadwal = dj.id_jadwal
-    ORDER BY tgl";
-    
+    $sql = "SELECT *, m.nama nama_mapel, i.nama nama_instruktur, abs.status status_kehadiran FROM detail_jadwal dj
+    JOIN jadwal j ON dj.id_jadwal = j.id_jadwal
+    JOIN mapel m ON j.id_mapel = m.id_mapel
+    JOIN instruktur i ON j.id_instruktur = i.id_instruktur
+    JOIN kelas k ON j.id_kelas = k.id_kelas
+    LEFT JOIN absensi_siswa abs ON dj.id_detail_jadwal = abs.id_detail_jadwal
+    WHERE j.id_kelas = (SELECT id_kelas FROM detail_kelas WHERE id_siswa = '$id_siswa')
+    GROUP BY dj.id_detail_jadwal
+    ORDER BY dj.tgl_pertemuan DESC";
     $data_pertemuan = $db->query($sql) or die($db->error);
     $data_pertemuan->fetch_assoc();
 
@@ -97,7 +94,7 @@ if (isset($_GET['pergantian_instruktur'])) {
                 <?php generate_breadcrumb([['title' => 'Pertemuan', 'filename' => 'pertemuan.php']]); ?>
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Pertemuan Kelas</h4>
                 <div class="relative overflow-x-auto">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3"></th>
@@ -106,6 +103,7 @@ if (isset($_GET['pergantian_instruktur'])) {
                                 <th scope="col" class="px-6 py-3">Tanggal</th>
                                 <th scope="col" class="px-6 py-3">Jam Mulai</th>
                                 <th scope="col" class="px-6 py-3">Jam Selesai</th>
+                                <th scope="col" class="px-6 py-3">Status Kehadiran</th>
                                 <th scope="col" class="px-6 py-3"></th>
                             </tr>
                         </thead>
@@ -115,11 +113,22 @@ if (isset($_GET['pergantian_instruktur'])) {
                                     <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
                                     <td class="px-6 py-4"><?= $pertemuan['nama_mapel'] ?></td>
                                     <td class="px-6 py-4"><?= $pertemuan['nama_instruktur'] ?></td>
-                                    <td class="px-6 py-4"><?= $pertemuan['tgl'] ?></td>
+                                    <td class="px-6 py-4"><?= $pertemuan['tgl_pertemuan'] ?></td>
                                     <td class="px-6 py-4"><?= $pertemuan['jam_mulai'] ?></td>
                                     <td class="px-6 py-4"><?= $pertemuan['jam_selesai'] ?></td>
                                     <td class="px-6 py-4">
-                                        <?php if ($pertemuan['tgl'] <= date('Y-m-d')) : ?>
+                                        <?php if ($pertemuan['status_kehadiran'] === 'H') : ?>
+                                            <span class="text-green-500">Hadir</span>
+                                        <?php endif ?>
+                                        <?php if ($pertemuan['status_kehadiran'] === 'I') : ?>
+                                            <span class="text-amber-500">Izin</span>
+                                        <?php endif ?>
+                                        <?php if ($pertemuan['status_kehadiran'] === 'A') : ?>
+                                            <span class="text-red-500">Tidak ada keterangan</span>
+                                        <?php endif ?>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <?php if ($pertemuan['tgl_pertemuan'] <= date('Y-m-d') || $pertemuan['status_kehadiran_instruktur'] === 'Hadir') : ?>
                                             <p class="text-red-500">Pertemuan telah usai</p>
                                         <?php else : ?>
                                             <?php if ($ketua_kelas) : ?>
