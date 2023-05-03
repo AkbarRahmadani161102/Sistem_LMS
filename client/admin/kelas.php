@@ -12,10 +12,28 @@ if (isset($_GET['edit'])) {
     $data_kelas = $db->query($sql) or die($db->error);
     $data_kelas = $data_kelas->fetch_assoc();
     $nama_kelas = $data_kelas['nama'];
+    $id_ketua_kelas = $data_kelas['id_ketua_kelas'];
+    $nama_jenjang = $data_kelas['nama_jenjang'];
+    $status = $data_kelas['status'];
 
-    $sql = "SELECT s.* FROM siswa s, detail_kelas dk WHERE dk.id_siswa = s.id_siswa AND dk.id_kelas = '$id_kelas'";
+    $sql = "SELECT * FROM siswa s WHERE id_siswa NOT IN (SELECT id_siswa FROM detail_kelas WHERE id_siswa = s.id_siswa)
+    UNION
+    SELECT * FROM siswa s WHERE id_siswa IN (SELECT id_siswa FROM detail_kelas WHERE id_kelas = '$id_kelas');";
     $data_siswa = $db->query($sql) or die($db->error);
     $data_siswa->fetch_assoc();
+
+    $sql = "SELECT COUNT(*) jumlah_jadwal FROM jadwal WHERE id_kelas = '$id_kelas'";
+    $data_jadwal = $db->query($sql) or die($db->error);
+    $akses_terbatas = $data_jadwal->fetch_assoc()['jumlah_jadwal'] > 0;
+
+    $sql = "SELECT id_siswa FROM detail_kelas WHERE id_kelas = '$id_kelas'";
+    $data_anggota_kelas = $db->query($sql) or die($db->error);
+    $data_anggota_kelas->fetch_assoc();
+
+    $arr_anggota_kelas = [];
+    foreach ($data_anggota_kelas as $anggota) {
+        $arr_anggota_kelas[] = $anggota['id_siswa'];
+    }
 } else if (isset($_GET['create'])) {
     $sql = "SELECT * FROM siswa s WHERE id_siswa NOT IN (SELECT id_siswa FROM detail_kelas WHERE id_siswa = s.id_siswa)";
     $data_siswa = $db->query($sql) or die($db->error);
@@ -38,7 +56,7 @@ if (isset($_GET['edit'])) {
             <?php include_once '../components/dashboard_navbar.php'; ?>
             <div class="flex items-center gap-5">
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Kelas</h4>
-                <?php if (!isset($_GET['edit'])) : ?>
+                <?php if (!isset($_GET['edit']) && !isset($_GET['create'])) : ?>
                     <a href="?create" class="btn">
                         Tambah kelas
                     </a>
@@ -46,42 +64,66 @@ if (isset($_GET['edit'])) {
             </div>
 
             <?php if (isset($_GET['edit'])) : ?>
-                <?php generate_breadcrumb([['title' => 'Kelas', 'filename' => 'kelas.php'], ['title' => "Edit Kelas $nama_kelas", 'filename' => '#']]); ?>
-                <form action="../../api/admin/kelas.php" method="post" class="bg-white dark:bg-gray-700 rounded p-8 mt-8 flex flex-col gap-5">
-                    <div class="flex gap-5 flex-wrap">
-                        <div class="flex-1 flex-col space-y-2">
-                            <div class="flex flex-col gap-1">
-                                <label class="text-gray-800 dark:text-white" for="nama_kelas">Nama Kelas</label>
-                                <input id="nama_kelas" name="nama_kelas" type="text" class="rounded" value="<?= $nama_kelas ?>">
+                <?php generate_breadcrumb([['title' => 'Kelas', 'filename' => 'kelas.php'], ['title' => "Ubah Kelas", 'filename' => '#']]); ?>
+                <form action="../../api/admin/kelas.php" method="post" class="bg-white dark:bg-gray-700 rounded p-8 mt-8 flex flex-col">
+                    <div class="flex-1 flex-col space-y-2">
+                        <div class="flex flex-col gap-1">
+                            <label class="text-gray-800 dark:text-white" for="nama_kelas">Nama Kelas</label>
+                            <input id="nama_kelas" name="nama_kelas" type="text" class="rounded" value="<?= $nama_kelas ?>" required>
+                        </div>
+                        <div class="flex flex-1 gap-3">
+                            <div class="flex flex-1 flex-col gap-1">
+                                <label class="text-gray-800 dark:text-white" for="status_kelas">Status Kelas</label>
+                                <select name="status_kelas" id="status_kelas" class="rounded" required <?= $akses_terbatas ? 'disabled' : '' ?>>
+                                    <option value="Reguler" <?= $status === 'Reguler' ? 'selected' : '' ?>>Reguler</option>
+                                    <!-- <option value="Privat">Privat</option> -->
+                                </select>
+                                <?php if ($akses_terbatas) : ?>
+                                    <input type="hidden" name="status_kelas" value="<?= $status ?>">
+                                <?php endif ?>
                             </div>
-                            <div class="flex flex-col gap-1">
-                                <label class="text-gray-800 dark:text-white" for="ketua_kelas">Ketua Kelas</label>
-                                <select name="ketua_kelas" id="ketua_kelas" class="rounded">
-                                    <?php foreach ($data_siswa as $key => $siswa) : ?>
-                                        <option value="<?= $siswa['id_siswa'] ?>"><?= $siswa['nama'] ?></option>
+                            <div class="flex flex-1 flex-col gap-1">
+                                <label class="text-gray-800 dark:text-white" for="jenjang">Jenjang</label>
+                                <select name="jenjang" id="jenjang" class="rounded" required <?= $akses_terbatas ? 'disabled' : '' ?>>
+                                    <?php foreach ($data_jenjang as $key => $jenjang) : ?>
+                                        <option value="<?= $jenjang['id_jenjang'] ?>" <?= $nama_jenjang === $jenjang['nama'] ? 'selected' : '' ?>><?= $jenjang['nama'] ?></option>
                                     <?php endforeach ?>
                                 </select>
-                            </div>
-                            <div class="flex flex-1 gap-3">
-                                <div class="flex flex-1 flex-col gap-1">
-                                    <label class="text-gray-800 dark:text-white" for="status_kelas">Status Kelas</label>
-                                    <select name="status_kelas" id="status_kelas" class="rounded">
-                                        <option value="Reguler" <?= $data_kelas['status'] === 'Reguler' ? 'selected' : '' ?>>Reguler</option>
-                                        <!-- <option value="Privat" <?= $data_kelas['status'] === 'Privat' ? 'selected' : '' ?>>Privat</option> -->
-                                    </select>
-                                </div>
-                                <div class="flex flex-1 flex-col gap-1">
-                                    <label class="text-gray-800 dark:text-white" for="jenjang">Jenjang</label>
-                                    <select name="jenjang" id="jenjang" class="rounded">
-                                        <?php foreach ($data_jenjang as $key => $jenjang) : ?>
-                                            <option value="<?= $jenjang['id_jenjang'] ?>" <?= $data_kelas['nama_jenjang'] === $jenjang['nama'] ? 'selected' : '' ?>><?= $jenjang['nama'] ?></option>
-                                        <?php endforeach ?>
-                                    </select>
-                                </div>
+                                <?php if ($akses_terbatas) : ?>
+                                    <input type="hidden" name="jenjang" value="<?= $jenjang['id_jenjang'] ?>">
+                                <?php endif ?>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn--blue w-fit" name="update" value="<?= $id_kelas ?>">Update</button>
+                    <hr class="mt-12">
+                    <div class="relative overflow-x-auto">
+                        <table class="datatable-add-siswa table">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">#</th>
+                                    <th scope="col" class="px-6 py-3">Nama Siswa</th>
+                                    <th scope="col" class="px-6 py-3">Nomor Telepon</th>
+                                    <th scope="col" class="px-6 py-3">Anggota Kelas</th>
+                                    <th scope="col" class="px-6 py-3">Ketua Kelas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($data_siswa as $key => $siswa) : ?>
+                                    <tr class="relative">
+                                        <td class="text-amber-500"><?= (int) $key + 1 ?></td>
+                                        <td><?= $siswa['nama'] ?></td>
+                                        <td><?= $siswa['no_telp'] ?></td>
+                                        <td>
+                                            <label class="absolute top-0 left-0 w-full h-full z-10" for="anggota_kelas<?= $key ?>">&nbsp;</label>
+                                            <input type="checkbox" id="anggota_kelas<?= $key ?>" name="anggota_kelas[]" value="<?= $siswa['id_siswa'] ?>" <?= in_array($siswa['id_siswa'], $arr_anggota_kelas) ? 'checked' : '' ?>>
+                                        </td>
+                                        <td><input type="radio" name="ketua_kelas" value="<?= $siswa['id_siswa'] ?>" class="relative z-20" <?= $id_ketua_kelas === $siswa['id_siswa'] ? 'checked' : '' ?>></td>
+                                    </tr>
+                                <?php endforeach ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="submit" class="btn btn--blue w-fit" name="update" value="<?= $id_kelas ?>">Ubah</button>
                 </form>
             <?php endif ?>
 
@@ -116,7 +158,7 @@ if (isset($_GET['edit'])) {
                         <table class="datatable-add-siswa table">
                             <thead>
                                 <tr>
-                                    <th scope="col" class="px-6 py-3"></th>
+                                    <th scope="col" class="px-6 py-3">#</th>
                                     <th scope="col" class="px-6 py-3">Nama Siswa</th>
                                     <th scope="col" class="px-6 py-3">Nomor Telepon</th>
                                     <th scope="col" class="px-6 py-3">Anggota Kelas</th>
@@ -160,7 +202,7 @@ if (isset($_GET['edit'])) {
                         </thead>
                         <tbody>
                             <?php foreach ($result as $key => $value) : ?>
-                                <?php $delete_able = $value['count_detail_kelas'] === '0' && $value['count_jadwal'] === '0'  ?>
+                                <?php $delete_able = $value['count_jadwal'] === '0'  ?>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
                                     <td class="px-6 py-4"><?= $value['nama'] ?></td>
@@ -181,12 +223,12 @@ if (isset($_GET['edit'])) {
                                                     <div class="px-3 py-2 space-y-2">
                                                         <?php
                                                         $id_kelas = $value['id_kelas'];
-                                                        $sql_anggota_kelas = "SELECT s.nama FROM detail_kelas dk, siswa s WHERE dk.id_siswa = s.id_siswa AND dk.id_kelas = '$id_kelas'";
+                                                        $sql_anggota_kelas = "SELECT s.id_siswa, s.nama FROM detail_kelas dk, siswa s WHERE dk.id_siswa = s.id_siswa AND dk.id_kelas = '$id_kelas'";
                                                         $data_anggota_kelas = $db->query($sql_anggota_kelas) or die($db->error);
                                                         $data_anggota_kelas->fetch_assoc();
                                                         ?>
                                                         <?php foreach ($data_anggota_kelas as $key => $siswa) : ?>
-                                                            <p><?= $siswa['nama'] ?></p>
+                                                            <p><?= $siswa['nama'] ?> <?= $siswa['id_siswa'] === $value['id_ketua_kelas'] ? '(Ketua kelas)' : '' ?></p>
                                                         <?php endforeach ?>
                                                     </div>
                                                     <div data-popper-arrow></div>
