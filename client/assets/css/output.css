@@ -1287,6 +1287,11 @@ hr.vr {
   margin-bottom: 0.75rem;
 }
 
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 .my-5 {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
@@ -1400,6 +1405,14 @@ hr.vr {
 
 .mt-8 {
   margin-top: 2rem;
+}
+
+.mr-0 {
+  margin-right: 0px;
+}
+
+.ml-0 {
+  margin-left: 0px;
 }
 
 .block {
@@ -1784,6 +1797,10 @@ hr.vr {
 
 .self-center {
   align-self: center;
+}
+
+.overflow-auto {
+  overflow: auto;
 }
 
 .overflow-x-auto {

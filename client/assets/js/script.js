@@ -80,6 +80,10 @@ $(document).ready(() => {
 
     $('.datatable').DataTable();
 
+    $('.datatable-disable-paging').DataTable({
+        "paging": false
+    })
+
     $('.datatable-add-siswa').DataTable({
         "searching": false,
         "scrollY": "500px",
