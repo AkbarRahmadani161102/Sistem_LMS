@@ -49,8 +49,8 @@ $menu_instruktur = [
 $menu_admin_akademik = [
     'MENU' => [
         ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
-        ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-settings-line"></i>'],
-        ['Siswa', "../$role/siswa.php", '<i class="ri-user-2-line"></i>'],
+        ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-2-line"></i>'],
+        ['Siswa', "../$role/siswa.php", '<i class="ri-user-line"></i>'],
         ['Pengajuan', "../$role/pengajuan.php", '<i class="ri-discuss-line"></i>'],
     ],
     'KBM' => [
@@ -83,8 +83,8 @@ $menu_superadmin = [
         ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
         ['Role Admin', "../$role/admin_role.php", '<i class="ri-key-2-line"></i>'],
         ['Admin', "../$role/admin.php", '<i class="ri-admin-line"></i>'],
-        ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-settings-line"></i>'],
-        ['Siswa', "../$role/siswa.php", '<i class="ri-user-2-line"></i>'],
+        ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-2-line"></i>'],
+        ['Siswa', "../$role/siswa.php", '<i class="ri-user-line"></i>'],
         ['Pengajuan', "../$role/pengajuan.php", '<i class="ri-discuss-line"></i>'],
     ],
 ];
