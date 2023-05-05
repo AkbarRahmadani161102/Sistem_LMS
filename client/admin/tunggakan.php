@@ -1,7 +1,7 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access(['Super Admin', 'Admin Akademik']);
+user_access('admin','tunggakan.php');
 
 $sql = "SELECT YEAR(dj.tgl_pertemuan) tahun FROM absensi_siswa abs
 JOIN detail_jadwal dj ON abs.id_detail_jadwal = dj.id_detail_jadwal
@@ -39,7 +39,7 @@ if (isset($_GET['tahun']) && isset($_GET['bulan'])) {
 }
 ?>
 
-<div id="tunggakan" class="w-full min-h-screen flex">
+<div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">

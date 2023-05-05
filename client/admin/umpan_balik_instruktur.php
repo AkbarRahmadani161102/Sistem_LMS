@@ -1,14 +1,14 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access(['Super Admin', 'Admin Akademik']);
+user_access('admin', 'umpan_balik_instruktur');
 
 $sql = "SELECT k.*, s.nama nama_siswa, i.nama nama_instruktur FROM kuesioner_instruktur k, siswa s, instruktur i WHERE k.id_siswa = s.id_siswa AND k.id_instruktur = i.id_instruktur";
 $result = $db->query($sql) or die($sql);
 $result->fetch_assoc();
 ?>
 
-<div id="jenjang" class="w-full min-h-screen flex">
+<div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">

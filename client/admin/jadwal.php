@@ -1,7 +1,7 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access(['Super Admin', 'Admin Akademik']);
+user_access('admin', 'jadwal.php');
 
 $hari = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
 $jam_kbm = ["14:30:00", "15:30:00", "16:30:00", "17:30:00"];
@@ -75,7 +75,7 @@ if (isset($_GET['assign_instruktur'])) {
 }
 ?>
 
-<div id="jadwal" class="w-full min-h-screen flex">
+<div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">

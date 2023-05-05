@@ -1,7 +1,7 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access(['Super Admin']);
+user_access('admin', 'admin.php');
 
 $user_id = $_SESSION['user_id'];
 $sql = "SELECT * FROM role";
@@ -32,7 +32,7 @@ if (isset($_GET['edit'])) {
 
 ?>
 
-<div id="anggota_kelas" class="w-full min-h-screen flex">
+<div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">

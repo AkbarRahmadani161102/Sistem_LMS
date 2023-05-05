@@ -1,7 +1,7 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access(['Super Admin', 'Admin Akademik']);
+user_access('admin', 'jenjang.php');
 
 $sql = "SELECT j.*, COUNT(m.id_mapel) count_mapel, COUNT(k.id_kelas) count_kelas FROM jenjang j
 LEFT JOIN mapel m ON j.id_jenjang = m.id_jenjang
@@ -11,7 +11,7 @@ $result = $db->query($sql) or die($sql);
 $result->fetch_assoc();
 ?>
 
-<div id="jenjang" class="w-full min-h-screen flex">
+<div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">

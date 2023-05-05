@@ -1,8 +1,7 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access(['Super Admin', 'Admin Akademik']);
-
+user_access('admin', 'siswa.php');
 $sql = "SELECT *, j.nama nama_jenjang FROM kelas k JOIN jenjang j ON k.id_jenjang = j.id_jenjang";
 $data_kelas = $db->query($sql) or die($db->error);
 $data_kelas->fetch_assoc();
@@ -31,7 +30,7 @@ if (isset($_GET['edit'])) {
 }
 ?>
 
-<div id="anggota_kelas" class="w-full min-h-screen flex">
+<div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">

@@ -1,7 +1,7 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access(['Super Admin', 'Admin Akademik']);
+user_access('admin', 'penilaian.php');
 
 $id_instruktur = $_SESSION['user_id'];
 
@@ -41,7 +41,7 @@ if (isset($_GET['detail'])) {
 }
 ?>
 
-<div id="jenjang" class="w-full min-h-screen flex">
+<div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">

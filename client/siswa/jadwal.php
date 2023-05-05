@@ -34,7 +34,7 @@ foreach ($data_kelas as $kelas) {
 
 ?>
 
-<div id="jadwal" class="w-full min-h-screen flex">
+<div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">

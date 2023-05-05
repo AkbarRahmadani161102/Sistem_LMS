@@ -1,7 +1,7 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access(['Super Admin', 'Admin Akademik']);
+user_access('admin', 'mapel.php');
 
 $sql = "SELECT m.*, j.id_jenjang id_jenjang, j.nama nama_jenjang, COUNT(dm.id_detail_mapel) count_detail_mapel, COUNT(ja.id_jadwal) count_jadwal FROM mapel m
 JOIN jenjang j ON m.id_jenjang = j.id_jenjang
@@ -21,7 +21,7 @@ $data_jenjang = $db->query($sql) or die($db->error);
 $data_jenjang->fetch_assoc();
 ?>
 
-<div id="mapel" class="w-full min-h-screen flex">
+<div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">

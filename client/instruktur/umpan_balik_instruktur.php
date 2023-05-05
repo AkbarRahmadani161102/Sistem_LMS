@@ -9,7 +9,7 @@ $data_umpan_balik = $db->query($sql) or die($db->error);
 $data_umpan_balik->fetch_assoc();
 ?>
 
-<div id="index" class="w-full min-h-screen flex">
+<div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">

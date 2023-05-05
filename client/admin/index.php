@@ -1,6 +1,6 @@
 <?php
 include_once('../template/header.php');
-user_access(['Super Admin', 'Admin Akademik', 'Admin Keuangan']);
+user_access('admin');
 
 $sql = "SELECT p.*, s.nama nama_siswa FROM pengajuan p, siswa s WHERE p.id_siswa = s.id_siswa AND p.status = 'Pending' LIMIT 6";
 $data_pengajuan_siswa = $db->query($sql) or die($sql);
@@ -19,7 +19,7 @@ $tahun_pertumbuhan_instruktur = $db->query($sql) or die($db->error);
 $tahun_pertumbuhan_instruktur->fetch_assoc();
 ?>
 
-<div id="index" class="w-full min-h-screen flex">
+<div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">

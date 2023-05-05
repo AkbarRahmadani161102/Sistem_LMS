@@ -1,7 +1,7 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access(['Super Admin', 'Admin Keuangan']);
+user_access('admin', 'gaji_instruktur.php');
 
 $sql = "SELECT MONTH(tgl_pertemuan) bulan FROM detail_jadwal GROUP BY MONTH(tgl_pertemuan)";
 $bulan_pertemuan = $db->query($sql) or die($db->error);
@@ -22,7 +22,7 @@ if (isset($_GET['tahun']) && isset($_GET['bulan'])) {
 }
 ?>
 
-<div id="gaji" class="w-full min-h-screen flex">
+<div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">
