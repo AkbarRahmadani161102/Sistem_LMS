@@ -159,6 +159,14 @@
         @apply bg-transparent pointer-events-none
     }
 
+    .btn.btn--green {
+        @apply bg-green-500 text-white
+    }
+
+    .btn.btn--green:hover {
+        @apply bg-green-600
+    }
+
     .btn.btn--blue {
         @apply bg-blue-500 text-white
     }

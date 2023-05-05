@@ -927,6 +927,18 @@ table tbody tr:hover {
   background-color: transparent;
 }
 
+.btn.btn--green {
+  --tw-bg-opacity: 1;
+  background-color: rgb(34 197 94 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.btn.btn--green:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 163 74 / var(--tw-bg-opacity));
+}
+
 .btn.btn--blue {
   --tw-bg-opacity: 1;
   background-color: rgb(59 130 246 / var(--tw-bg-opacity));
@@ -1405,14 +1417,6 @@ hr.vr {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.mr-0 {
-  margin-right: 0px;
-}
-
-.ml-0 {
-  margin-left: 0px;
 }
 
 .block {
@@ -2307,6 +2311,10 @@ hr.vr {
   text-transform: uppercase;
 }
 
+.leading-relaxed {
+  line-height: 1.625;
+}
+
 .tracking-wide {
   letter-spacing: 0.025em;
 }
@@ -2866,6 +2874,16 @@ hr.vr {
 .dark .dark\:text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.dark .dark\:placeholder-gray-400::-moz-placeholder {
+  --tw-placeholder-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-placeholder-opacity));
+}
+
+.dark .dark\:placeholder-gray-400::placeholder {
+  --tw-placeholder-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-placeholder-opacity));
 }
 
 .dark .dark\:ring-offset-gray-800 {

@@ -25,7 +25,7 @@ if (isset($_GET['edit'])) {
     $data_kelas_siswa = $db->query($sql) or die($db->error);
     $data_kelas_siswa = $data_kelas_siswa->fetch_assoc();
 } else {
-    $sql = "SELECT *, YEAR(tgl_dibuat) tgl_dibuat FROM siswa";
+    $sql = "SELECT * FROM siswa";
     $data_siswa = $db->query($sql) or die($db);
     $data_siswa->fetch_assoc();
 }
@@ -39,9 +39,55 @@ if (isset($_GET['edit'])) {
             <div class="flex items-center gap-5">
                 <h4 class="mt-7 font-semibold text-gray-800 dark:text-white my-7">Data Siswa</h4>
                 <?php if (!isset($_GET['edit'])) : ?>
-                    <button data-modal-target="add_siswa_modal" data-modal-toggle="add_siswa_modal" class="btn" type="button">
+                    <button data-modal-target="add_siswa_modal" data-modal-toggle="add_siswa_modal" class="btn">
                         Tambah Siswa
                     </button>
+
+                    <button data-modal-target="import_file_modal" data-modal-toggle="import_file_modal" class="btn btn--blue">
+                        Import Data Siswa
+                    </button>
+
+                    <div id="import_file_modal" tabindex="-1" aria-hidden="true" class="modal">
+                        <div class="modal__backdrop">
+                            <div class="modal__content">
+                                <form action="../../api/admin/siswa.php" method="post" enctype="multipart/form-data">
+                                    <div class="modal__header">
+                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                            Import Data Siswa
+                                        </h3>
+                                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="import_file_modal">
+                                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            <span class="sr-only">Close modal</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal__body">
+                                        <div class="flex flex-col gap-5">
+                                            <div class="flex flex-col bg-gray-200 dark:bg-gray-800 gap-5 rounded-lg p-5">
+                                                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                                    Untuk menambahkan data siswa dalam bentuk excel dapat dengan mengunduh file template dibawah ini
+                                                </p>
+                                                <a href="../../api/admin/siswa.php?file_import_example" class="btn btn--blue w-fit">
+                                                    Template File Import
+                                                </a>
+                                            </div>
+                                            <div class="flex flex-col bg-gray-200 dark:bg-gray-800 gap-5 rounded-lg p-5">
+                                                <label for="upload_file" class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                                    Unggah file excel (.xlsx)
+                                                </label>
+                                                <input id="upload_file" type="file" name="file" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal__footer">
+                                        <button type="submit" name="file_import" class="btn btn--green">Unggah</button>
+                                        <button data-modal-hide="import_file_modal" type="button" class="btn">Close</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 <?php endif ?>
             </div>
             <?php if (isset($_GET['edit'])) : ?>
@@ -99,7 +145,7 @@ if (isset($_GET['edit'])) {
                                 <th scope="col" class="px-6 py-3">Status</th>
                                 <th scope="col" class="px-6 py-3">Email</th>
                                 <th scope="col" class="px-6 py-3">Kelas</th>
-                                <th scope="col" class="px-6 py-3">Belajar Sejak</th>
+                                <th scope="col" class="px-6 py-3">Tanggal Pendaftaran</th>
                                 <th scope="col" class="px-6 py-3"></th>
                             </tr>
                         </thead>
