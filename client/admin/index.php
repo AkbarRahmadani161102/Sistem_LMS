@@ -112,7 +112,13 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
          * @param {String} param
          * @param {String} tahun
          */
-        const getSourceData = async (param, tahun) => await $.get(`${url}?${param}=${tahun}`)
+        const getSourceData = async (param, tahun) => {
+            try {
+                return await $.get(`${url}?${param}=${tahun}`)
+            } catch (error) {
+                
+            }
+        }
 
         /**
          * Fungsi untuk mengupdate data source grafik
@@ -135,8 +141,8 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
 
         const url = window.location.href.replace('client', 'api')
 
-        let dataPertumbuhanSiswa = await getSourceData('pertumbuhan_siswa', tahunSiswa)
-        let dataPertumbuhanInstruktur = await getSourceData('pertumbuhan_instruktur', tahunInstruktur)
+        let dataPertumbuhanSiswa = await getSourceData('pertumbuhan_siswa', tahunSiswa) || []
+        let dataPertumbuhanInstruktur = await getSourceData('pertumbuhan_instruktur', tahunInstruktur) || []
         let dataKehadiranSiswaPerHari = Object.assign({}, ...await getSourceData('presensi_siswa_per_hari'))
         let dataKehadiranInstrukturPerHari = Object.assign({}, ...await getSourceData('presensi_instruktur_per_hari'))
         let kehadiranSiswa = {
@@ -160,8 +166,8 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
             if (c === 'Berhalangan') kehadiranInstruktur.berhalangan = value
         }
 
-        $('#total_pertumbuhan_siswa').text(dataPertumbuhanSiswa.map(data => parseInt(data.jumlah_siswa)).reduce((a, c) => a + c))
-        $('#total_pertumbuhan_instruktur').text(dataPertumbuhanInstruktur.map(data => parseInt(data.jumlah_instruktur)).reduce((a, c) => a + c))
+        $('#total_pertumbuhan_siswa').text(dataPertumbuhanSiswa.length > 0 ? dataPertumbuhanSiswa.map(data => parseInt(data.jumlah_siswa)).reduce((a, c) => a + c) : 0)
+        $('#total_pertumbuhan_instruktur').text(dataPertumbuhanInstruktur.length > 0 ? dataPertumbuhanInstruktur.map(data => parseInt(data.jumlah_instruktur)).reduce((a, c) => a + c) : 0)
 
         const isDarkMode = $('html').hasClass('dark')
         const color = isDarkMode ? "#fff" : "#1f2937"
