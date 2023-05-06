@@ -335,8 +335,10 @@ if (isset($_GET['update'])) {
                                     <th class="px-6 py-4 text-amber-500"></th>
                                     <td class="px-6 py-4"><?= $value['title'] ?></td>
                                     <td class="px-6 py-4">
-                                        <?= $value['count_hak_akses'] ?>
-                                        <button data-popover-target="data_hak_akses<?= $key ?>" data-popover-placement="right" type="button" class="text-white"><i class="ri-question-line"></i></button>
+                                        <div class="flex items-center gap-1">
+                                            <?= $value['count_hak_akses'] ?>
+                                            <button data-popover-target="data_hak_akses<?= $key ?>" data-popover-placement="right" type="button" class="text-white"><i class="ri-question-line"></i></button>
+                                        </div>
                                         <div data-popover id="data_hak_akses<?= $key ?>" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                             <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
                                                 <h5 class="font-semibold text-gray-900 dark:text-white">Hak Akses</h5>
