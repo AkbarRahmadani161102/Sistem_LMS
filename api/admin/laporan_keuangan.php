@@ -6,6 +6,7 @@ include_once '../util/db.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+define('IDR_NUMBERING_FORMAT', 'Rp #,##0');
 if (isset($_GET['jurnal_umum'])) {
     function sync_tunggakan()
     {
@@ -147,12 +148,10 @@ if (isset($_GET['jurnal_umum'])) {
 
     $data_pertemuan->fetch_assoc();
 
-    define('XLSX_DATA_STARTING_INDEX', 7);
-
     function iterator($arr, string $title, string $tgl, string $mutasi)
     {
         $date_grouper = '00/00/0000';
-        global $sheet, $index, $mask;
+        global $sheet, $index;
         foreach ($arr as $value) {
             $current_loop_date = date_format(date_create($value[$tgl]), "d/m/Y");
             if ($date_grouper !== $current_loop_date) {
@@ -165,13 +164,13 @@ if (isset($_GET['jurnal_umum'])) {
             $sheet->setCellValue("B$index",  "$title " . $value['nama']);
             if ($mutasi === 'DEBIT') {
                 $sheet->setCellValue("C$index", $nominal);
-                $sheet->getStyle("C$index")->getNumberFormat()->setFormatCode($mask);
+                $sheet->getStyle("C$index")->getNumberFormat()->setFormatCode(IDR_NUMBERING_FORMAT);
             } else if ($mutasi === 'KREDIT') {
                 $sheet->setCellValue("D$index", $nominal);
-                $sheet->getStyle("D$index")->getNumberFormat()->setFormatCode($mask);
+                $sheet->getStyle("D$index")->getNumberFormat()->setFormatCode(IDR_NUMBERING_FORMAT);
             }
             $sheet->setCellValue("E$index", "=E$sbs_index+C$index-D$index");
-            $sheet->getStyle("E$index")->getNumberFormat()->setFormatCode($mask);
+            $sheet->getStyle("E$index")->getNumberFormat()->setFormatCode(IDR_NUMBERING_FORMAT);
             $sheet->getStyle("A$index:E$index")->applyFromArray(XLSX_JURNAL_UMUM_STYLE_TABLE_DATA);
             $index++;
         }
@@ -246,8 +245,7 @@ if (isset($_GET['jurnal_umum'])) {
         $data_gaji_instruktur = $db->query($sql);
         $data_gaji_instruktur->fetch_assoc();
 
-        $index = XLSX_DATA_STARTING_INDEX;
-        $mask = 'Rp #,##0';
+        $index = 7;
 
         // Tunggakan
         iterator($data_tunggakan, 'SPP', 'tgl_pembayaran', 'DEBIT');
@@ -258,8 +256,8 @@ if (isset($_GET['jurnal_umum'])) {
         $sheet->setCellValue("B$index", 'GAJI Admin');
         $sheet->setCellValue("D$index", '10000');
         $sheet->setCellValue("E$index", "=E$sbs_index+C$index-D$index");
-        $sheet->getStyle("D$index")->getNumberFormat()->setFormatCode($mask);
-        $sheet->getStyle("E$index")->getNumberFormat()->setFormatCode($mask);
+        $sheet->getStyle("D$index")->getNumberFormat()->setFormatCode(IDR_NUMBERING_FORMAT);
+        $sheet->getStyle("E$index")->getNumberFormat()->setFormatCode(IDR_NUMBERING_FORMAT);
         $sheet->getStyle("A$index:E$index")->applyFromArray(XLSX_JURNAL_UMUM_STYLE_TABLE_DATA);
         $index++;
 
@@ -270,7 +268,7 @@ if (isset($_GET['jurnal_umum'])) {
         $sheet->setCellValue("E$index", "=E$sbs_index");
         $sheet->setCellValue("F$index", "SALDO");
         $sheet->getStyle("E$index")->getFont()->setBold(true);
-        $sheet->getStyle("E$index")->getNumberFormat()->setFormatCode($mask);
+        $sheet->getStyle("E$index")->getNumberFormat()->setFormatCode(IDR_NUMBERING_FORMAT);
         $sheet->getStyle("F$index")->getFont()->setBold(true);
         $sheet->getStyle("A$index:E$index")->applyFromArray(XLSX_JURNAL_UMUM_STYLE_TABLE_DATA);
     }
@@ -446,7 +444,7 @@ if (isset($_GET['laporan_transport'])) {
             $cellInstruktur = $index + 2;
             $biaya_transport = XLSX_DATA_BIAYA_TRANSPORT;
             $sheet->setCellValue([$cellInstruktur, $date_list_index], "=SUM({$sheet->getCell([$cellInstruktur, 3])->getCoordinate()}:{$sheet->getCell([$cellInstruktur,$date_list_index - 1])->getCoordinate()})");
-            $sheet->setCellValue([$cellInstruktur, $date_list_index + 1], "=$biaya_transport*{$sheet->getCell([$cellInstruktur, $date_list_index])->getCoordinate()}" );
+            $sheet->setCellValue([$cellInstruktur, $date_list_index + 1], "=$biaya_transport*{$sheet->getCell([$cellInstruktur,$date_list_index])->getCoordinate()}");
         }
 
         $sheet
@@ -464,7 +462,199 @@ if (isset($_GET['laporan_transport'])) {
     $spreadsheet->removeSheetByIndex(0);
 
     header('Content-Type: application/vnd.ms-excel');
-    header("Content-Disposition: attachment;filename=LAPORAN TRANSPORT tahun $tahun.xlsx");
+    header("Content-Disposition: attachment;filename=LAPORAN TRANSPORT TAHUN $tahun.xlsx");
+    header('Cache-Control: max-age=0');
+
+    $writer = new Xlsx($spreadsheet);
+    $writer->save('php://output');
+}
+
+if (isset($_GET['slip_gaji_instruktur'])) {
+    define(
+        'XLSX_SLIP_GAJI_INSTRUKTUR_STYLE_HEADER',
+        [
+            'font' => [
+                'size' => 14,
+                'bold' => true
+            ],
+            'alignment' => [
+                'horizontal' =>  \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ]
+        ]
+    );
+    define(
+        'XLSX_SLIP_GAJI_INSTRUKTUR_STYLE_TABLE_HEADER',
+        [
+            'font' => [
+                'size' => 11,
+                'bold' => true
+            ],
+        ]
+    );
+    define(
+        'XLSX_SLIP_GAJI_INSTRUKTUR_STYLE_TABLE_DATA_CENTER_BOLD',
+        [
+            'font' => [
+                'size' => 11,
+                'bold' => true
+            ],
+            'alignment' => [
+                'horizontal' =>  \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+        ]
+    );
+    define(
+        'XLSX_SLIP_GAJI_INSTRUKTUR_STYLE_TABLE_DATA_CENTER',
+        [
+            'font' => [
+                'size' => 11
+            ],
+            'alignment' => [
+                'horizontal' =>  \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+        ]
+    );
+    define(
+        'XLSX_SLIP_GAJI_INSTRUKTUR_STYLE_TABLE_DATA_TOTAL_LABEL',
+        [
+            'font' => [
+                'size' => 11,
+                'bold' => true
+            ],
+            'alignment' => [
+                'horizontal' =>  \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
+            ],
+        ]
+    );
+    define(
+        'XLSX_SLIP_GAJI_INSTRUKTUR_CELL_BORDER',
+        [
+            'borders' => [
+                'outline' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => '000'],
+                ],
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['rgb' => '000']
+                ]
+            ]
+        ]
+    );
+
+    $tahun = $_GET['tahun'];
+    $bulan = $_GET['bulan'];
+    $nama_bulan = strtoupper(BULAN[$bulan - 1]);
+
+    $spreadsheet = new Spreadsheet();
+
+    $spreadsheet->getProperties()
+        ->setCreator(XLSX_AUTHOR)
+        ->setCompany(XLSX_COMPANY)
+        ->setCategory('Report', 'Slip', 'Salary')
+        ->setLastModifiedBy(XLSX_AUTHOR)
+        ->setTitle("Slip Gaji Instruktur Tahun $tahun Bulan $nama_bulan")
+        ->setSubject('Yearly Salary Report');
+
+    $sql = "SELECT i.id_instruktur, i.nama FROM detail_jadwal dj
+    JOIN instruktur i ON dj.id_instruktur = i.id_instruktur
+    WHERE YEAR(tgl_pertemuan) = $tahun
+    AND MONTH(tgl_pertemuan) = $bulan
+    GROUP BY i.id_instruktur";
+
+    $nama_instruktur = $db->query($sql);
+
+    foreach ($nama_instruktur as $instruktur) {
+        $header_nama_instruktur = strtoupper($instruktur['nama']);
+        $sheet = new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet($spreadsheet,  $header_nama_instruktur);
+        $spreadsheet->addSheet($sheet);
+
+        // Set Cell Width
+        $sheet->getColumnDimension('A')->setWidth(15);
+        $sheet->getColumnDimension('B')->setWidth(15);
+        $sheet->getColumnDimension('C')->setWidth(15);
+        $sheet->getColumnDimension('D')->setWidth(15);
+        $sheet->getColumnDimension('E')->setWidth(15);
+
+        // HEADER
+        $sheet->setCellValue('A1', 'SLIP GAJI')
+            ->mergeCells('A1:E1')
+            ->getStyle('A1:E1')
+            ->applyFromArray(XLSX_SLIP_GAJI_INSTRUKTUR_STYLE_HEADER);
+
+        // SUBHEADER
+        $sheet
+            ->setCellValue('A2', "BULAN {$nama_bulan}")
+            ->mergeCells('A2:E2')
+            ->getStyle('A2:E2')
+            ->applyFromArray(XLSX_SLIP_GAJI_INSTRUKTUR_STYLE_HEADER);
+
+        // CONTENT
+
+        //// Name
+        $sheet->setCellValue('A4', 'NAMA:');
+
+        $sheet->setCellValue('B4', $header_nama_instruktur);
+
+        $sheet->getStyle('A4:B4')->applyFromArray(XLSX_SLIP_GAJI_INSTRUKTUR_STYLE_TABLE_HEADER);
+
+        //// Header
+        $sheet->setCellValue('A5', 'NO');
+        $sheet->setCellValue('B5', 'NAMA KLP');
+        $sheet->setCellValue('C5', 'JUMLAH');
+        $sheet->setCellValue('D5', 'HONOR');
+        $sheet->setCellValue('E5', 'TOTAL');
+
+        $sheet->getStyle('A5:E5')->applyFromArray(XLSX_SLIP_GAJI_INSTRUKTUR_STYLE_TABLE_DATA_CENTER_BOLD);
+
+        // Data
+        $sql = "SELECT k.nama nama_klp, COUNT(dj.id_detail_jadwal) jumlah, je.biaya_per_pertemuan honor, SUM(je.biaya_per_pertemuan) total FROM detail_jadwal dj
+        JOIN jadwal j ON dj.id_jadwal = j.id_jadwal
+        JOIN kelas k ON j.id_kelas = k.id_kelas
+        JOIN jenjang je ON k.id_jenjang = je.id_jenjang
+        WHERE dj.id_instruktur = '{$instruktur['id_instruktur']}' AND status_kehadiran_instruktur = 'Hadir'
+        GROUP BY k.id_kelas";
+
+        $data_pertemuan = $db->query($sql) or die($db->error);
+        $starting_list_index = 6;
+        foreach ($data_pertemuan as $index => $pertemuan) {
+            $sheet->setCellValue("A$starting_list_index", $index + 1)->getStyle("A$starting_list_index")->applyFromArray(XLSX_SLIP_GAJI_INSTRUKTUR_STYLE_TABLE_DATA_CENTER_BOLD);
+            $sheet->setCellValue("B$starting_list_index", $pertemuan['nama_klp']);
+            $sheet->setCellValue("C$starting_list_index", $pertemuan['jumlah'])->getStyle("C$starting_list_index")->applyFromArray(XLSX_SLIP_GAJI_INSTRUKTUR_STYLE_TABLE_DATA_CENTER);
+            $sheet->setCellValue("D$starting_list_index", $pertemuan['honor'])->getStyle("D$starting_list_index")->applyFromArray(XLSX_SLIP_GAJI_INSTRUKTUR_STYLE_TABLE_DATA_CENTER);
+            $sheet->setCellValue("E$starting_list_index", $pertemuan['total'])->getStyle("E$starting_list_index")->applyFromArray(XLSX_SLIP_GAJI_INSTRUKTUR_STYLE_TABLE_DATA_CENTER);
+            $starting_list_index++;
+        }
+        
+        $last_list_index = $starting_list_index - 1;
+
+        $sheet
+            ->setCellValue("A$starting_list_index", "JUMLAH GAJI BLN $nama_bulan")
+            ->mergeCells("A$starting_list_index:D$starting_list_index")
+            ->getStyle("A$starting_list_index:E$starting_list_index")
+            ->applyFromArray(XLSX_SLIP_GAJI_INSTRUKTUR_STYLE_TABLE_DATA_TOTAL_LABEL);
+
+        $sheet->setCellValue("E$starting_list_index", "=SUM(E6:E$last_list_index)")->getStyle("E$starting_list_index")->applyFromArray(XLSX_SLIP_GAJI_INSTRUKTUR_STYLE_TABLE_DATA_CENTER);
+
+        $admin_title_index = $starting_list_index + 2;
+        $admin_name_index = $starting_list_index + 5;
+
+        $roles = strtoupper(implode(', ', $_SESSION['roles']));
+        $sheet->setCellValue("D$admin_title_index", "$roles BIMBEL SMART");
+        $sheet->setCellValue("D$admin_name_index", strtoupper($_SESSION['nama']));
+
+        // Bordering
+        $sheet->getStyle("A5:E$starting_list_index")->applyFromArray(XLSX_SLIP_GAJI_INSTRUKTUR_CELL_BORDER);
+
+        // Number Formatting
+        $sheet->getStyle("D5:E$starting_list_index")->getNumberFormat()->setFormatCode(IDR_NUMBERING_FORMAT);
+    }
+
+    $spreadsheet->removeSheetByIndex(0);
+
+    header('Content-Type: application/vnd.ms-excel');
+    header("Content-Disposition: attachment;filename=SLIP GAJI INSTRUKTUR TAHUN $tahun BULAN $nama_bulan.xlsx");
     header('Cache-Control: max-age=0');
 
     $writer = new Xlsx($spreadsheet);

@@ -40,9 +40,52 @@ $result->fetch_assoc();
                                         <div class="flex flex-col gap-2 p-5">
                                             <a href="../../api/admin/laporan_keuangan.php?jurnal_umum&tahun=<?= $value['tahun'] ?>&bulan=<?= $value['bulan'] ?>" class="btn btn--outline-cyan flex items-center gap-2"><i class="ri-file-chart-line"></i> Laporan Jurnal Umum</a>
                                             <a href="../../api/admin/laporan_keuangan.php?laporan_transport&tahun=<?= $value['tahun'] ?>&bulan=<?= $value['bulan'] ?>" class="btn btn--outline-cyan flex items-center gap-2"><i class="ri-file-transfer-line"></i> Laporan Transport Instruktur</a>
-                                            <a href="../../api/admin/laporan_keuangan.php?slip_gaji_instruktur&tahun=<?= $value['tahun'] ?>&bulan=<?= $value['bulan'] ?>" class="btn btn--outline-cyan flex items-center gap-2"><i class="ri-file-list-3-line"></i> Slip Gaji Instruktur</a>
                                         </div>
                                         <div data-popper-arrow></div>
+                                    </div>
+                                    <button data-modal-target="slip_gaji_instruktur_modal<?= $key ?>" data-modal-toggle="slip_gaji_instruktur_modal<?= $key ?>" class="btn btn--outline-cyan flex items-center gap-2">
+                                        <i class="ri-file-list-3-line"></i> Slip Gaji Instruktur
+                                    </button>
+                                    <div id="slip_gaji_instruktur_modal<?= $key ?>" tabindex="-1" aria-hidden="true" class="modal">
+                                        <div class="modal__backdrop">
+                                            <!-- Modal content -->
+                                            <form action="../../api/admin/laporan_keuangan.php?slip_gaji_instruktur" method="get" class="form">
+                                                <div class="modal__content">
+                                                    <!-- Modal header -->
+                                                    <div class="modal__header">
+                                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                                            Pilih bulan
+                                                        </h3>
+                                                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="slip_gaji_instruktur_modal<?= $key ?>">
+                                                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                                            </svg>
+                                                            <span class="sr-only">Close modal</span>
+                                                        </button>
+                                                    </div>
+                                                    <!-- Modal body -->
+                                                    <div class="modal__body">
+                                                        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                                            Pilih bulan untuk melakukan proses generate slip gaji
+                                                        </p>
+                                                        <input type="hidden" name="slip_gaji_instruktur" value="NULL">
+                                                        <input type="hidden" name="tahun" value="<?= $value['tahun'] ?>">
+                                                        <select name="bulan" class="input">
+                                                            <?php
+                                                            $sql = "SELECT DISTINCT MONTH(tgl_pertemuan) bulan FROM detail_jadwal WHERE YEAR(tgl_pertemuan) = {$value['tahun']}";
+                                                            $data_bulan_per_tahun = $db->query($sql) or die($db->error); ?>
+                                                            <?php foreach ($data_bulan_per_tahun as $data_bulan) : ?>
+                                                                <option value="<?= $data_bulan['bulan'] ?>"><?= BULAN[$data_bulan['bulan'] - 1] ?></option>
+                                                            <?php endforeach ?>
+                                                        </select>
+                                                    </div>
+                                                    <!-- Modal footer -->
+                                                    <div class="modal__footer">
+                                                        <button type="submit" class="btn btn--blue">Generate Slip Gaji</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

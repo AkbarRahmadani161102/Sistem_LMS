@@ -27,6 +27,7 @@ function login()
             $_SESSION['role'] = $role;
 
             $access_array = [];
+            $role_array = [];
 
             if ($role === 'admin') {
                 $user_id = $user_data["id_$role"];
@@ -37,10 +38,21 @@ function login()
                 JOIN detail_role dr ON r.id_role = dr.id_role
                 WHERE dr.id_admin = '$user_id'";
                 $has_access = $db->query($sql) or die($db->error);
-                foreach ($has_access as $key => $value) {
+                foreach ($has_access as $value) {
                     $access_array[] = $value['nama_file'];
                 }
+
+                $sql = "SELECT title FROM detail_role dr
+                JOIN role r ON dr.id_role =r.id_role
+                WHERE id_admin = '$user_id'
+                GROUP BY dr.id_role";
+                $has_role = $db->query($sql) or die($db->error);
+                foreach ($has_role as $value) {
+                    $role_array[] = $value['title'];
+                }
+
                 $_SESSION['sidebar_menu'] = $has_access;
+                $_SESSION['roles'] = $role_array;
                 $_SESSION['has_access'] = $access_array;
             }
 
