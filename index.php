@@ -58,8 +58,9 @@
                             <div id="dropdown-login" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                 <ul class="p-3 text-sm text-gray-700 dark:text-gray-400 flex flex-col gap-5 ">
                                     <a href="./client/siswa/login.php" class="btn w-full block btn--outline-green">Masuk Sebagai Siswa</a>
-                                    <hr>
                                     <a href="./client/instruktur/login.php" class="btn w-full block btn--outline-amber">Masuk Sebagai Instruktur</a>
+                                    <hr>
+                                    <a href="./client/admin/login.php" class="btn w-full block btn--outline-red">Masuk Sebagai Admin</a>
                                 </ul>
                             </div>
                         </li>
