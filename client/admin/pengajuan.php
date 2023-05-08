@@ -1,14 +1,14 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access(['Super Admin', 'Admin Akademik']);
+user_access('admin', 'pengajuan.php');
 
 $sql = "SELECT *, p.status, s.nama nama_siswa, IF(p.id_siswa IN (SELECT id_ketua_kelas FROM kelas ), 'Ketua Kelas', 'Siswa') role_siswa FROM pengajuan p, siswa s WHERE p.id_siswa = s.id_siswa;";
 $data_pengajuan = $db->query($sql) or die($db->error);
 $data_pengajuan->fetch_assoc();
 ?>
 
-<div id="anggota_kelas" class="w-full min-h-screen flex">
+<div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">

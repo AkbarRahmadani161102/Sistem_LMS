@@ -1,7 +1,7 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access(['Super Admin', 'Admin Akademik']);
+user_access('admin', 'presensi.php');
 
 if (isset($_GET['role']) && $_GET['role'] === 'siswa') {
     $sql = "SELECT dj.tgl_pertemuan, s.nama nama_siswa, k.nama nama_kelas, a.status FROM absensi_siswa a JOIN siswa s ON a.id_siswa = s.id_siswa JOIN detail_jadwal dj ON a.id_detail_jadwal = dj.id_detail_jadwal JOIN detail_kelas dk ON s.id_siswa = dk.id_siswa JOIN kelas k ON dk.id_kelas = k.id_kelas GROUP BY tgl_pertemuan, s.id_siswa";
@@ -14,7 +14,7 @@ if (isset($_GET['role']) && $_GET['role'] === 'siswa') {
 }
 ?>
 
-<div id="presensi" class="w-full min-h-screen flex">
+<div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">

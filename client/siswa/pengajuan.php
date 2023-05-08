@@ -8,7 +8,7 @@ $sql = "SELECT * FROM pengajuan p WHERE p.id_siswa = '$id_siswa'";
 $data_tunggakan = $db->query($sql);
 ?>
 
-<div id="pengajuan" class="w-full min-h-screen flex">
+<div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">
         <div class="p-4 sm:ml-64">

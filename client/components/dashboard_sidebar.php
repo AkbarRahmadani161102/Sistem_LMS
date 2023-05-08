@@ -2,17 +2,6 @@
 
 $role = $_SESSION['role'];
 
-$menu_user = [
-    'MENU' => [
-        ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
-    ],
-    'PENGATURAN' => [
-        ['Notifikasi', '../user/notifikasi.php', '<i class="ri-notification-4-line"></i>'],
-        ['Preferensi', '../user/user_settings.php', '<i class="ri-settings-4-line"></i>'],
-        ['Logout', '../../api/auth/logout.php', '<i class="ri-door-open-line"></i>'],
-    ]
-];
-
 $menu_siswa = [
     'MENU' => [
         ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
@@ -27,6 +16,11 @@ $menu_siswa = [
         ['Tunggakan', "../$role/tunggakan.php", '<i class="ri-money-dollar-circle-line"></i>'],
         ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>'],
         ['Pengajuan', "../$role/pengajuan.php", '<i class="ri-mail-send-line"></i>'],
+    ],
+    'PENGATURAN' => [
+        ['Notifikasi', '../user/notifikasi.php', '<i class="ri-notification-4-line"></i>'],
+        ['Preferensi', '../user/user_settings.php', '<i class="ri-settings-4-line"></i>'],
+        ['Logout', '../../api/auth/logout.php', '<i class="ri-door-open-line"></i>'],
     ]
 ];
 
@@ -43,70 +37,75 @@ $menu_instruktur = [
     'ADMINISTRASI' => [
         ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>'],
         ['Pendapatan', "../$role/pendapatan.php", '<i class="ri-wallet-2-line"></i>'],
+    ],
+    'PENGATURAN' => [
+        ['Notifikasi', '../user/notifikasi.php', '<i class="ri-notification-4-line"></i>'],
+        ['Preferensi', '../user/user_settings.php', '<i class="ri-settings-4-line"></i>'],
+        ['Logout', '../../api/auth/logout.php', '<i class="ri-door-open-line"></i>'],
     ]
 ];
 
-$menu_admin_akademik = [
-    'MENU' => [
-        ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
-        ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-settings-line"></i>'],
-        ['Siswa', "../$role/siswa.php", '<i class="ri-user-2-line"></i>'],
-        ['Pengajuan', "../$role/pengajuan.php", '<i class="ri-discuss-line"></i>'],
-    ],
-    'KBM' => [
-        ['Jadwal', "../$role/jadwal.php", '<i class="ri-list-check-2"></i>'],
-        ['Pertemuan', "../$role/pertemuan.php", '<i class="ri-calendar-event-line"></i>'],
-        ['Jenjang', "../$role/jenjang.php", '<i class="ri-stack-line"></i>'],
-        ['Kelas', "../$role/kelas.php", '<i class="ri-bookmark-3-line"></i>'],
-        ['Mapel', "../$role/mapel.php", '<i class="ri-book-2-line"></i>'],
-        ['Penilaian', "../$role/penilaian.php", '<i class="ri-star-line"></i>'],
-        ['Presensi', "../$role/presensi.php", '<i class="ri-check-line"></i>'],
-    ],
-    'ADMINISTRASI' => [
-        ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>'],
-    ]
-];
+// $menu_admin_akademik = [
+//     'MENU' => [
+//         ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
+//         ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-2-line"></i>'],
+//         ['Siswa', "../$role/siswa.php", '<i class="ri-user-line"></i>'],
+//         ['Pengajuan', "../$role/pengajuan.php", '<i class="ri-discuss-line"></i>'],
+//     ],
+//     'KBM' => [
+//         ['Jadwal', "../$role/jadwal.php", '<i class="ri-list-check-2"></i>'],
+//         ['Pertemuan', "../$role/pertemuan.php", '<i class="ri-calendar-event-line"></i>'],
+//         ['Jenjang', "../$role/jenjang.php", '<i class="ri-stack-line"></i>'],
+//         ['Kelas', "../$role/kelas.php", '<i class="ri-bookmark-3-line"></i>'],
+//         ['Mapel', "../$role/mapel.php", '<i class="ri-book-2-line"></i>'],
+//         ['Penilaian', "../$role/penilaian.php", '<i class="ri-star-line"></i>'],
+//         ['Presensi', "../$role/presensi.php", '<i class="ri-check-line"></i>'],
+//     ],
+//     'ADMINISTRASI' => [
+//         ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>'],
+//     ]
+// ];
 
-$menu_admin_keuangan = [
-    'MENU' => [
-        ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
-    ],
-    'ADMINISTRASI' => [
-        ['Tunggakan', "../$role/tunggakan.php", '<i class="ri-money-dollar-box-line"></i>'],
-        ['Gaji Instruktur', "../$role/gaji_instruktur.php", '<i class="ri-money-dollar-box-line"></i>'],
-        ['L. Keuangan', "../$role/laporan_keuangan.php", '<i class="ri-money-dollar-box-line"></i>'],
-    ]
-];
+// $menu_admin_keuangan = [
+//     'MENU' => [
+//         ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
+//     ],
+//     'ADMINISTRASI' => [
+//         ['Tunggakan', "../$role/tunggakan.php", '<i class="ri-money-dollar-box-line"></i>'],
+//         ['Gaji Instruktur', "../$role/gaji_instruktur.php", '<i class="ri-money-dollar-box-line"></i>'],
+//         ['L. Keuangan', "../$role/laporan_keuangan.php", '<i class="ri-money-dollar-box-line"></i>'],
+//     ]
+// ];
 
-$menu_superadmin = [
-    'MENU' => [
-        ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
-        ['Role Admin', "../$role/admin_role.php", '<i class="ri-key-2-line"></i>'],
-        ['Admin', "../$role/admin.php", '<i class="ri-admin-line"></i>'],
-        ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-settings-line"></i>'],
-        ['Siswa', "../$role/siswa.php", '<i class="ri-user-2-line"></i>'],
-        ['Pengajuan', "../$role/pengajuan.php", '<i class="ri-discuss-line"></i>'],
-    ],
-];
+// $menu_superadmin = [
+//     'MENU' => [
+//         ['Dashboard', "../$role/index.php", '<i class="ri-pie-chart-line"></i>'],
+//         ['Hak Akses', "../$role/hak_akses.php", '<i class="ri-key-2-line"></i>'],
+//         ['Admin', "../$role/admin.php", '<i class="ri-admin-line"></i>'],
+//         ['Instruktur', "../$role/instruktur.php", '<i class="ri-user-2-line"></i>'],
+//         ['Siswa', "../$role/siswa.php", '<i class="ri-user-line"></i>'],
+//         ['Pengajuan', "../$role/pengajuan.php", '<i class="ri-discuss-line"></i>'],
+//     ],
+// ];
 
-$menu_siswa = array_replace_recursive($menu_siswa, $menu_user);
+// $menu_siswa = array_replace_recursive($menu_siswa, $menu_user);
 
-$menu_instruktur = array_replace_recursive($menu_instruktur, $menu_user);
+// $menu_instruktur = array_replace_recursive($menu_instruktur, $menu_user);
 
-$menu_admin_akademik = array_replace_recursive($menu_admin_akademik, $menu_user);
+// $menu_admin_akademik = array_replace_recursive($menu_admin_akademik, $menu_user);
 
-$menu_admin_keuangan = array_replace_recursive($menu_admin_keuangan, $menu_user);
+// $menu_admin_keuangan = array_replace_recursive($menu_admin_keuangan, $menu_user);
 
-$menu_superadmin = array_replace_recursive($menu_admin_akademik, $menu_admin_keuangan, $menu_superadmin, $menu_user);
+// $menu_superadmin = array_replace_recursive($menu_admin_akademik, $menu_admin_keuangan, $menu_superadmin, $menu_user);
 
-$menu_admin_akademik_keuangan = array_replace_recursive($menu_admin_akademik, $menu_admin_keuangan, $menu_user, [
-    'ADMINISTRASI' => [
-        ['Tunggakan', "../$role/tunggakan.php", '<i class="ri-money-dollar-box-line"></i>'],
-        ['Gaji Instruktur', "../$role/gaji_instruktur.php", '<i class="ri-money-dollar-box-line"></i>'],
-        ['L. Keuangan', "../$role/laporan_keuangan.php", '<i class="ri-money-dollar-box-line"></i>'],
-        ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>']
-    ]
-]);
+// $menu_admin_akademik_keuangan = array_replace_recursive($menu_admin_akademik, $menu_admin_keuangan, $menu_user, [
+//     'ADMINISTRASI' => [
+//         ['Tunggakan', "../$role/tunggakan.php", '<i class="ri-money-dollar-box-line"></i>'],
+//         ['Gaji Instruktur', "../$role/gaji_instruktur.php", '<i class="ri-money-dollar-box-line"></i>'],
+//         ['L. Keuangan', "../$role/laporan_keuangan.php", '<i class="ri-money-dollar-box-line"></i>'],
+//         ['Umpan Balik', "../$role/umpan_balik_instruktur.php", '<i class="ri-feedback-line"></i>']
+//     ]
+// ]);
 
 function generate_sidebar(array $source_menu)
 {
@@ -132,10 +131,57 @@ function generate_sidebar(array $source_menu)
         <nav id="dashboard-sidebar">
             <?php if ($_SESSION['role'] === 'siswa') generate_sidebar($menu_siswa) ?>
             <?php if ($_SESSION['role'] === 'instruktur') generate_sidebar($menu_instruktur) ?>
-            <?php if (isset($_SESSION['detail_role']) && count($_SESSION['detail_role']) === 1 && $_SESSION['role'] === 'admin' && $_SESSION['detail_role'][0]['title'] === 'Super Admin') generate_sidebar($menu_superadmin); ?>
-            <?php if (isset($_SESSION['detail_role']) && count($_SESSION['detail_role']) === 1 && $_SESSION['role'] === 'admin' && $_SESSION['detail_role'][0]['title'] === 'Admin Akademik') generate_sidebar($menu_admin_akademik) ?>
-            <?php if (isset($_SESSION['detail_role']) && count($_SESSION['detail_role']) === 1 && $_SESSION['role'] === 'admin' && $_SESSION['detail_role'][0]['title'] === 'Admin Keuangan') generate_sidebar($menu_admin_keuangan) ?>
-            <?php if (isset($_SESSION['detail_role']) && count($_SESSION['detail_role']) > 1 && $_SESSION['role'] === 'admin') generate_sidebar($menu_admin_akademik_keuangan) ?>
+            <?php if ($_SESSION['role'] !== 'siswa' && $_SESSION['role'] !== 'instruktur') : ?>
+                <?php $user_id = $_SESSION['user_id'];
+                $sql = "SELECT DISTINCT(kategori) FROM detail_hak_akses dha 
+                JOIN hak_akses ha ON dha.id_hak_akses = ha.id_hak_akses 
+                JOIN role r ON dha.id_role = r.id_role 
+                JOIN detail_role dr ON r.id_role = dr.id_role 
+                WHERE dr.id_admin = '$user_id' 
+                ORDER BY ha.kategori DESC";
+                $menu_admin = $db->query($sql) or die($db->error); ?>
+
+                <?php foreach ($menu_admin as $menu) : ?>
+                    <div class="dashboard__sidebar-menu">
+                        <a href="" class="dashboard__sidebar-header"><?= $menu['kategori'] ?></a>
+                        <?php
+                        $kategori = $menu['kategori'];
+                        $sql = "SELECT * FROM detail_hak_akses dha 
+                        JOIN hak_akses ha ON dha.id_hak_akses = ha.id_hak_akses 
+                        JOIN role r ON dha.id_role = r.id_role 
+                        JOIN detail_role dr ON r.id_role = dr.id_role 
+                        WHERE dr.id_admin = '$user_id' 
+                        AND ha.kategori = '$kategori'";
+                        $submenu = $db->query($sql) or die($db->error);
+                        ?>
+
+                        <?php if ($menu['kategori'] === 'MENU') : ?>
+                            <a href="../admin/index.php" class="dashboard__sidebar-item">
+                                <i class="ri-pie-chart-line"></i>
+                                Dashboard
+                            </a>
+                        <?php endif ?>
+
+                        <?php foreach ($submenu as $sb) : ?>
+                            <a href="../admin/<?= $sb['nama_file'] ?>" class="dashboard__sidebar-item">
+                                <?= $sb['icon'] ?>
+                                <?= $sb['nama'] ?>
+                            </a>
+                        <?php endforeach ?>
+                    </div>
+                <?php endforeach ?>
+                <div class="dashboard__sidebar-menu">
+                    <a href="" class="dashboard__sidebar-header">PENGATURAN</a>
+                    <a href="../user/user_settings.php" class="dashboard__sidebar-item">
+                        <i class="ri-settings-4-line"></i>
+                        Preferensi
+                    </a>
+                    <a href="../../api/auth/logout.php" class="dashboard__sidebar-item">
+                        <i class="ri-door-open-line"></i>
+                        Logout
+                    </a>
+                </div>
+            <?php endif ?>
         </nav>
     </div>
 </aside>

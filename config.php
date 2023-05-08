@@ -12,8 +12,9 @@ define('BULAN', [
     'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
 ]);
 
-define('XLSX_Author', 'Ita Lailatul Fauziah');
-define('XLSX_Company', 'Bimbel Smart Solution');
+define('XLSX_AUTHOR', 'Ita Lailatul Fauziah');
+define('XLSX_COMPANY', 'Bimbel Smart Solution');
+define('XLSX_DATA_BIAYA_TRANSPORT', 4000);
 
 date_default_timezone_set('Asia/Jakarta');
 

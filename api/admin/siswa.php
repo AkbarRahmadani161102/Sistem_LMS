@@ -2,7 +2,10 @@
 require '../../vendor/autoload.php';
 include_once '../util/db.php';
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Ramsey\Uuid\Uuid;
+
 $current_date = date('Y-m-d');
 
 if (isset($_POST['create'])) {
@@ -35,6 +38,7 @@ if (isset($_POST['create'])) {
     } else {
         $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambah', 'icon_color' => 'red', 'text' => 'Password mengandung karakter'];
     }
+    redirect("../../client/admin/siswa.php");
 }
 if (isset($_POST['update'])) {
     $id_siswa = $_POST['update'];
@@ -82,6 +86,7 @@ if (isset($_POST['update'])) {
     } else {
         $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Field nomor telp mengandung karakter'];
     }
+    redirect("../../client/admin/siswa.php");
 }
 if (isset($_POST['delete'])) {
     try {
@@ -119,12 +124,123 @@ if (isset($_POST['delete'])) {
 
         $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data siswa berhasil dihapus', 'icon_color' => 'greenlight'];
 
-        if($db->error) {
+        if ($db->error) {
             $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
         }
     } catch (\Throwable $th) {
         $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
     }
+    redirect("../../client/admin/siswa.php");
 }
 
-redirect("../../client/admin/siswa.php");
+if (isset($_GET['file_import_example'])) {
+    define(
+        'XLSX_STYLE_HEADER',
+        [
+            'font' => [
+                'size' => 18,
+                'bold' => true
+            ],
+            'alignment' => [
+                'horizontal' =>  \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ]
+        ]
+    );
+
+    define(
+        'XLSX_STYLE_SUBHEADER',
+        [
+            'font' => [
+                'size' => 12,
+                'bold' => true
+            ],
+            'alignment' => [
+                'horizontal' =>  \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ]
+        ]
+    );
+
+
+    $spreadsheet = new Spreadsheet();
+    $spreadsheet->getProperties()
+        ->setCreator(XLSX_Author)
+        ->setCompany(XLSX_Company)
+        ->setCategory('Import File')
+        ->setLastModifiedBy(XLSX_Author)
+        ->setTitle("File Import Data Siswa")
+        ->setSubject('Yearly Report');
+
+    $spreadsheet->getDefaultStyle()->getNumberFormat()->setFormatCode('#');
+
+    $sheet = $spreadsheet->getActiveSheet();
+    // HEADER
+    $sheet->setCellValue('A1', 'DATA PENDAFTAR SISWA');
+    $sheet->mergeCells('A1:E2');
+    $sheet->getStyle('A1:E2')->applyFromArray(XLSX_STYLE_HEADER);
+
+    // SUB HEADER
+    $tahun = date('Y');
+    $bulan = BULAN[date('m') - 1];
+    $sheet->setCellValue('A3', "Tahun $tahun Bulan $bulan");
+    $sheet->mergeCells('A3:E3');
+    $sheet->getStyle('A3:E3')->applyFromArray(XLSX_STYLE_SUBHEADER);
+
+    $sheet->setCellValue('A5', "Nama");
+    $sheet->setCellValue('B5', "Nomor Telepon");
+    $sheet->setCellValue('C5', "Alamat");
+    $sheet->setCellValue('D5', "Email");
+    $sheet->setCellValue('E5', "Password");
+
+    $sheet->getColumnDimension('A')->setWidth(15);
+    $sheet->getColumnDimension('B')->setWidth(15);
+    $sheet->getColumnDimension('C')->setWidth(15);
+    $sheet->getColumnDimension('D')->setWidth(15);
+    $sheet->getColumnDimension('E')->setWidth(15);
+
+    $sheet->getStyle('A5')->getFont()->setBold(true);
+    $sheet->getStyle('B5')->getFont()->setBold(true);
+    $sheet->getStyle('C5')->getFont()->setBold(true);
+    $sheet->getStyle('D5')->getFont()->setBold(true);
+    $sheet->getStyle('E5')->getFont()->setBold(true);
+
+    header('Content-Type: application/vnd.ms-excel');
+    header("Content-Disposition: attachment;filename=File Import Data Pendaftar.xlsx");
+    header('Cache-Control: max-age=0');
+
+    $writer = new Xlsx($spreadsheet);
+    $writer->save('php://output');
+}
+
+if (isset($_POST['file_import'])) {
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["file"]["name"]);
+
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    if ($imageFileType !== 'xlsx')
+        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal import data siswa', 'icon_color' => 'red', 'text' => 'Pastikan format file yang diungah bertipe .xlsx'];
+    else {
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        $reader->setReadDataOnly(true);
+
+        $uploaded_file = $_FILES['file']['tmp_name'];
+        $data_siswa = $reader->load($uploaded_file)->getActiveSheet()->toArray();
+
+        foreach ($data_siswa as $index => $siswa) {
+            if ($index >= 5) {
+                $id_siswa = Uuid::uuid4()->toString();
+                $nama = $siswa[0];
+                $no_telp =  $siswa[1];
+                $alamat = $siswa[2];
+                $status = 'Aktif';
+                $email = $siswa[3];
+                $password = md5($siswa[4]);
+                $sql = "INSERT INTO siswa (id_siswa, nama, no_telp, alamat, status, email, password) VALUES('$id_siswa', '$nama', '$no_telp', '$alamat', '$status', '$email', '$password')";
+                $db->query($sql);
+            }
+        }
+        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data siswa berhasil di import', 'icon_color' => 'greenlight'];
+    }
+    redirect("../../client/admin/siswa.php");
+}

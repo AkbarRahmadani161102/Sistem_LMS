@@ -145,6 +145,10 @@
         @apply bg-gray-700
     }
 
+    .modal__close-button {
+        @apply text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white
+    }
+
     /* Button Component */
 
     .btn {
@@ -157,6 +161,14 @@
 
     .btn.btn--transparent {
         @apply bg-transparent pointer-events-none
+    }
+
+    .btn.btn--green {
+        @apply bg-green-500 text-white
+    }
+
+    .btn.btn--green:hover {
+        @apply bg-green-600
     }
 
     .btn.btn--blue {

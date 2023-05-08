@@ -26,26 +26,36 @@ function login()
             $_SESSION['email'] = $user_data['email'];
             $_SESSION['role'] = $role;
 
+            $access_array = [];
+            $role_array = [];
+
             if ($role === 'admin') {
-                /**
-                 * ID Role:
-                 * 1. Super Admin
-                 * 2. Admin Keuangan
-                 * 3. Admin Akademik
-                 */
+                $user_id = $user_data["id_$role"];
 
-                $id_admin = $user_data["id_$role"];
-
-                $sql = "SELECT a.nama, r.id_role , r.title FROM admin a, role r, detail_role dr WHERE a.id_admin = dr.id_admin AND dr.id_role = r.id_role AND a.id_admin = '$id_admin'";
-                $result = $db->query($sql) or die(mysqli_error($db));
-                $result->fetch_assoc();
-
-                $detail_role = [];
-                foreach ($result as $key => $value) {
-                    array_push($detail_role, ['id_role' => $value['id_role'], 'title' => $value['title']]);
+                $sql = "SELECT * FROM hak_akses ha
+                JOIN detail_hak_akses dha ON ha.id_hak_akses = dha.id_hak_akses
+                JOIN role r ON dha.id_role = r.id_role
+                JOIN detail_role dr ON r.id_role = dr.id_role
+                WHERE dr.id_admin = '$user_id'";
+                $has_access = $db->query($sql) or die($db->error);
+                foreach ($has_access as $value) {
+                    $access_array[] = $value['nama_file'];
                 }
-                $_SESSION['detail_role'] = $detail_role;
+
+                $sql = "SELECT title FROM detail_role dr
+                JOIN role r ON dr.id_role =r.id_role
+                WHERE id_admin = '$user_id'
+                GROUP BY dr.id_role";
+                $has_role = $db->query($sql) or die($db->error);
+                foreach ($has_role as $value) {
+                    $role_array[] = $value['title'];
+                }
+
+                $_SESSION['sidebar_menu'] = $has_access;
+                $_SESSION['roles'] = $role_array;
+                $_SESSION['has_access'] = $access_array;
             }
+
 
             $_SESSION['alert'] = ['icon' => 'success', 'title' => 'Berhasil Login'];
 

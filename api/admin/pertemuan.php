@@ -2,7 +2,7 @@
 include_once '../util/db.php';
 
 if (isset($_POST['sync'])) {
-    
+
     $array_tgl = [
         [], // Senin
         [], // Selasa
@@ -34,15 +34,17 @@ if (isset($_POST['sync'])) {
     foreach (HARI as $index_hari => $hari) {
         $sql = "SELECT * FROM jadwal 
         WHERE id_jadwal 
-        NOT IN (SELECT id_jadwal FROM detail_jadwal WHERE YEAR(tgl_pertemuan) = $year AND MONTH(tgl_pertemuan) = $month) 
+        NOT IN (SELECT id_jadwal FROM detail_jadwal WHERE YEAR(tgl_pertemuan) = $year AND MONTH(tgl_pertemuan) = $month AND DAYNAME(tgl_pertemuan) = '$index_hari') 
         AND id_instruktur IS NOT NULL AND hari = '$hari' ORDER BY jam_mulai";
         $result = $db->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
+
                 $id_jadwal = $row['id_jadwal'];
                 $id_instruktur = $row['id_instruktur'];
 
                 foreach ($array_tgl[$index_hari] as $tgl_pertemuan) {
+
                     $sql = "INSERT INTO detail_jadwal (id_jadwal, id_instruktur, tgl_pertemuan) VALUES ('$id_jadwal', '$id_instruktur', '$tgl_pertemuan')";
                     $db->query($sql);
                 }
@@ -57,6 +59,9 @@ if (isset($_POST['sync'])) {
                     $db->query($sql);
                 }
             }
+        } else {
+            echo "not";
+            // die();
         }
     }
 
