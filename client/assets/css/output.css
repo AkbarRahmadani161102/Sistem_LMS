@@ -999,6 +999,18 @@ table tbody tr:hover {
   background-color: rgb(217 119 6 / var(--tw-bg-opacity));
 }
 
+.btn.btn--red {
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.btn.btn--red:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
+}
+
 .btn--outline-red,
     .dark .btn--outline-red {
   border-width: 1px;
