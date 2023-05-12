@@ -300,7 +300,7 @@ $data_jenjang = $db->query($sql) or die($db->error);
             <div class="mt-5 space-y-2">
                 <p><span class="font-semibold">Telepon:</span> 0813-9125-0606</p>
                 <p><span class="font-semibold">Email:</span> bimbelsmartsolution@gmail.com</p>
-                <p><span class="font-semibold">Alamat:</span> Gedangan, Kabupaten Sukoharjo, Jawa Tengah 57552, Indonesia </p>
+                <p><span class="font-semibold">Alamat:</span> Turen, Kec. Turen, Kabupaten Malang, Jawa Timur 65175 </p>
             </div>
         </div>
     </div>
