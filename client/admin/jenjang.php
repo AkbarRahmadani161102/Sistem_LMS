@@ -9,6 +9,8 @@ LEFT JOIN kelas k ON j.id_jenjang = k.id_jenjang
 GROUP BY j.id_jenjang";
 $result = $db->query($sql) or die($sql);
 $result->fetch_assoc();
+
+$exclude_deletion = ['SD', 'SMP', 'SMA']; // Mencegah kesalahan sistem
 ?>
 
 <div class="w-full min-h-screen flex">
@@ -39,7 +41,7 @@ $result->fetch_assoc();
                     </thead>
                     <tbody>
                         <?php foreach ($result as $key => $value) : ?>
-                            <?php $delete_able = $value['count_mapel'] === '0' && $value['count_kelas'] === '0' ?>
+                            <?php $delete_able = $value['count_mapel'] === '0' && $value['count_kelas'] === '0' && !in_array($value['nama'], $exclude_deletion) ?>
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
                                 <td class="px-6 py-4"><?= $value['nama'] ?></td>
