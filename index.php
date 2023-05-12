@@ -1,3 +1,25 @@
+<?php
+
+require_once('./vendor/autoload.php');
+require_once('./config.php');
+
+use Dotenv\Dotenv;
+
+// Load ENV
+$dotenv = Dotenv::createImmutable(__DIR__, './.env')->load();
+
+// Connect Database
+if (ENVIRONMENT === 'PRODUCTION')
+    $db = mysqli_connect($_ENV['PROD_DB_HOST'], $_ENV['PROD_DB_USER'], $_ENV['PROD_DB_PASS'], $_ENV['PROD_DB_NAME']) or die("ERROR: Could not connect. " . mysqli_connect_error());
+else
+    $db = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASS'], $_ENV['DB_NAME']) or die("ERROR: Could not connect. " . mysqli_connect_error());
+
+$include_jenjang = ['SD', 'SMP', 'SMA'];
+
+$sql = "SELECT * FROM jenjang WHERE nama IN ('SD', 'SMP', 'SMA')";
+$data_jenjang = $db->query($sql) or die($db->error);
+?>
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 
@@ -110,8 +132,32 @@
             <div class="bg-gray-800 w-full mb-8 h-1 absolute -top-1 left-0">&nbsp;</div>
         </div>
         <div class="flex justify-between items-center flex-1 flex-wrap gap-12">
-            <div class="flex flex-1 justify-between">
-                <div class="rounded-xl flex-1 h-96 flex flex-col shadow-lg justify-around pl-9 bg-gradient-to-r from-red-500 text-white">
+
+            <?php
+            // Class untuk menentukan style pada card di bagian biaya
+            $biaya_card_classes = [
+                'rounded-xl flex-1 h-96 flex flex-col shadow-lg justify-around pl-9 bg-gradient-to-r from-red-500 text-white',
+                'rounded-xl flex-1 h-96 flex flex-col shadow-lg justify-around pl-9 bg-gradient-to-r from-blue-500 text-white',
+                'rounded-xl flex-1 h-96 flex flex-col shadow-lg justify-around pl-9 bg-gradient-to-r from-gray-500 text-white'
+            ] ?>
+
+            <?php foreach ($data_jenjang as $index => $jenjang) : ?>
+                <div class="flex flex-1 justify-between">
+                    <div class="<?= $biaya_card_classes[$index] ?>">
+                        <h3 class="text-4xl font-semibold"><?= $jenjang['nama'] ?></h3>
+                        <div class="flex flex-col">
+                            <p class="text-2xl">Mulai Dari</p>
+                            <div class="flex items-end">
+                                <p class="text-4xl font-semibold">Rp. <?= number_format($jenjang['biaya_pendidikan'], 0, ".", "."); ?></p>
+                                <span class="text-xl">/ Bulan</span>
+                            </div>
+                        </div>
+                        <a href="./client/siswa/register.php" class="btn w-fit bg-white hover:bg-gray-800 hover:text-white text-gray-800 px-8 py-2 transition-all">DAFTAR</a>
+                    </div>
+                </div>
+            <?php endforeach ?>
+            <!-- <div class="flex flex-1 justify-between">
+                <div class="">
                     <h3 class="text-4xl font-semibold">Sekolah Dasar</h3>
                     <div class="flex flex-col">
                         <p class="text-2xl">Mulai Dari</p>
@@ -124,7 +170,7 @@
                 </div>
             </div>
             <div class="flex flex-1 justify-between">
-                <div class="rounded-xl flex-1 h-96 flex flex-col shadow-lg justify-around pl-9 bg-gradient-to-r from-blue-500 text-white">
+                <div class="">
                     <h3 class="text-4xl font-semibold">Sekolah Menengah Pertama</h3>
                     <div class="flex flex-col">
                         <p class="text-2xl">Mulai Dari</p>
@@ -137,7 +183,7 @@
                 </div>
             </div>
             <div class="flex flex-1 justify-between">
-                <div class="rounded-xl flex-1 h-96 flex flex-col shadow-lg justify-around pl-9 bg-gradient-to-r from-gray-500 text-white">
+                <div class="">
                     <h3 class="text-4xl font-semibold">Sekolah Menengah Atas</h3>
                     <div class="flex flex-col">
                         <p class="text-2xl">Mulai Dari</p>
@@ -148,7 +194,7 @@
                     </div>
                     <a href="./client/siswa/register.php" class="btn w-fit bg-white hover:bg-gray-800 hover:text-white text-gray-800 px-8 py-2 transition-all">DAFTAR</a>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 
