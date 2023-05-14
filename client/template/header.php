@@ -47,11 +47,29 @@ include_once('../../api/util/db.php');
                 }
             })
         }
+        
+        let permission;
+        (async () => {
+            permission = await Notification.requestPermission();
+        })()
+        
+        const pushNotification = (sessionKey = 'tglNotifikasiInstruktur', title, body = '', onClickEvent = () => {}) => {
+            const icon = 'https://i3.lensdump.com/i/k66AYD.png'
+
+            const isNotYetNotified = !sessionStorage.getItem(sessionKey) || sessionStorage.getItem(sessionKey) != new Date().getDate()
+            if (isNotYetNotified && permission === 'granted') {
+                sessionStorage.setItem(sessionKey, new Date().getDate())
+                new Notification(title, {
+                    body,
+                    icon
+                }).onclick = () => onClickEvent();
+            }
+        }
     </script>
 
     <script src="../assets/js/flowbite.min.js" defer></script>
     <script src="../assets/js/script.js" defer></script>
-    
+
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches))

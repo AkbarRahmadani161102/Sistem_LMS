@@ -10,8 +10,21 @@ JOIN kelas k on j.id_kelas = k.id_kelas
 JOIN detail_kelas dk on dk.id_kelas = k.id_kelas 
 WHERE dk.id_siswa = '$id_siswa'";
 $data_pertemuan = $db->query($sql) or die($db->error);
-?>
 
+$sql = "SELECT k.id_kelas FROM kelas k, detail_kelas dk WHERE k.id_kelas = dk.id_kelas AND dk.id_siswa = '$id_siswa' LIMIT 1";
+$id_kelas = $db->query($sql)->fetch_assoc() or die($db->error);
+$id_kelas = $id_kelas['id_kelas'];
+
+$sql = "SELECT COUNT(*) jumlah_pertemuan FROM detail_jadwal dj JOIN jadwal j ON dj.id_jadwal = j.id_jadwal JOIN kelas k ON j.id_kelas = k.id_kelas WHERE k.id_kelas = '$id_kelas' AND status_kehadiran_instruktur IS NULL AND tgl_pertemuan = CURDATE()";
+$jumlah_pertemuan = $db->query($sql)->fetch_assoc() or die($db->error);
+$jumlah_pertemuan = $jumlah_pertemuan['jumlah_pertemuan']; ?>
+
+<?php if ($jumlah_pertemuan > 0) : ?>
+    <script>
+        const redirectTo = () => window.location = './pertemuan.php';
+        pushNotification('tglNotifikasiSiswa', 'Pemberitahuan Pertemuan', "Anda diharapkan untuk menghadiri <?= $jumlah_pertemuan ?> pertemuan hari ini", redirectTo)
+    </script>
+<?php endif ?>
 <div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
     <div class="w-full flex flex-col">

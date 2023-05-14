@@ -2,7 +2,17 @@
 include_once('../template/header.php');
 user_access('instruktur');
 $id_instruktur = $_SESSION['user_id'];
-?>
+
+$sql = "SELECT COUNT(*) jumlah_pertemuan FROM detail_jadwal WHERE id_instruktur = '$id_instruktur' AND status_kehadiran_instruktur IS NULL AND tgl_pertemuan = CURDATE()";
+$jumlah_pertemuan = $db->query($sql)->fetch_assoc() or die($db->error);
+$jumlah_pertemuan = $jumlah_pertemuan['jumlah_pertemuan']; ?>
+
+<?php if ($jumlah_pertemuan > 0) : ?>
+    <script>
+        const redirectTo = () => window.location = './pertemuan.php';
+        pushNotification('tglNotifikasiInstruktur', 'Pemberitahuan Pertemuan', "Anda diharapkan untuk menghadiri <?= $jumlah_pertemuan ?> pertemuan hari ini", redirectTo)
+    </script>
+<?php endif ?>
 
 <div class="w-full min-h-screen flex">
     <?php include_once '../components/dashboard_sidebar.php' ?>
