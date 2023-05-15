@@ -19,8 +19,13 @@ if (isset($_POST['sync'])) {
     foreach ($data_siswa as $siswa) {
         $biaya_pendidikan =  $siswa['biaya_pendidikan'];
         $id_siswa = $siswa['id_siswa'];
+        $nama_bulan = BULAN[$bulan - 1];
         $sql = "INSERT INTO tunggakan (id_siswa, tenggat_pembayaran, nominal, tgl_dibuat)
         VALUES('$id_siswa', '$tenggat', '$biaya_pendidikan', '$tanggal_trigger')";
+        $db->query($sql);
+
+        $msg = "Tunggakan bulan $nama_bulan tahun $tahun telah diperbarui, silahkan lakukan pembayaran";
+        $sql = "INSERT INTO notifikasi_siswa (id_siswa, deskripsi) VALUES('$id_siswa', '$msg')";
         $db->query($sql);
     }
 

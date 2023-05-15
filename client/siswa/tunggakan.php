@@ -20,7 +20,10 @@ $data_tunggakan->fetch_assoc();
             generate_breadcrumb([['title' => 'Pengaturan', 'filename' => 'pengaturan.php']]);
             ?>
 
-            <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Tunggakan</h4>
+            <div class="flex flex-col my-7 gap-4 text-gray-800 dark:text-white">
+                <h4 class="font-semibold">Tunggakan</h4>
+                <p>Untuk melakukan pembayaran, silahkan menuju ke administrasi keuangan</p>
+            </div>
 
             <div class="relative overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -35,13 +38,13 @@ $data_tunggakan->fetch_assoc();
                     </thead>
                     <tbody>
                         <?php foreach ($data_tunggakan as $key => $tunggakan) : ?>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                            <td class="px-6 py-4"><?= $tunggakan['tgl_pembayaran'] ?></td>
-                            <td class="px-6 py-4"><?= $tunggakan['tenggat_pembayaran'] ?></td>
-                            <td class="px-6 py-4"><?= $tunggakan['nominal'] ?></td>
-                            <td class="px-6 py-4 <?= $tunggakan['status'] === 'Lunas' ? 'text-green-500' : 'text-red-500'?> "><?= $tunggakan['status'] === 'Lunas' ? $tunggakan['status'] : 'Belum Terbayar' ?></td>
-                        </tr>
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
+                                <td class="px-6 py-4"><?= $tunggakan['tgl_pembayaran'] === '0000-00-00' ? '-' : $tunggakan['tgl_pembayaran'] ?></td>
+                                <td class="px-6 py-4"><?= $tunggakan['tenggat_pembayaran'] ?></td>
+                                <td class="px-6 py-4"><?= $tunggakan['nominal'] ?></td>
+                                <td class="px-6 py-4 <?= $tunggakan['status'] === 'Lunas' ? 'text-green-500' : 'text-red-500' ?> "><?= $tunggakan['status'] === 'Lunas' ? $tunggakan['status'] : 'Belum Terbayar' ?></td>
+                            </tr>
                         <?php endforeach ?>
                     </tbody>
                 </table>
