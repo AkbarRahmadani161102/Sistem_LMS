@@ -15,6 +15,7 @@
                     <label for="password" class="text-secondary text-gray-400 dark:text-white">Password</label>
                     <input type="password" class="input" id="password" name="password" required>
                 </div>
+                <hr>
                 <div class="flex flex-col gap-5 pt-4">
                     <input type="hidden" name="role" value="admin">
                     <button type="submit" class="btn w-full bg-amber-500 dark:bg-amber-500 dark:text-white" name="login">Login</button>
