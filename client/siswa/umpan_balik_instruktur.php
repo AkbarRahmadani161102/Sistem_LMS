@@ -81,9 +81,9 @@ $data_instruktur->fetch_assoc();
                 <div class="modal__body">
                     <label class="block" for="id_instruktur">Instruktur</label>
                     <select class="selectize input" id="id_instruktur" name="id_instruktur" required>
-                        <?php while (($data = mysqli_fetch_assoc($data_instruktur))) { ?>
-                            <option value="<?= $data['id_instruktur'] ?>"><?= $data['nama'] ?></option>
-                        <?php } ?>
+                        <?php foreach ($data_instruktur as $instruktur) : ?>
+                            <option value="<?= $instruktur['id_instruktur'] ?>"><?= $instruktur['nama'] ?></option>
+                        <?php endforeach ?>
                     </select>
 
                     <label for="deskripsi" class="block">Deskripsi</label>
