@@ -165,10 +165,10 @@ if (isset($_GET['file_import_example'])) {
 
     $spreadsheet = new Spreadsheet();
     $spreadsheet->getProperties()
-        ->setCreator(XLSX_Author)
-        ->setCompany(XLSX_Company)
+        ->setCreator(XLSX_AUTHOR)
+        ->setCompany(XLSX_COMPANY)
         ->setCategory('Import File')
-        ->setLastModifiedBy(XLSX_Author)
+        ->setLastModifiedBy(XLSX_AUTHOR)
         ->setTitle("File Import Data Siswa")
         ->setSubject('Yearly Report');
 
