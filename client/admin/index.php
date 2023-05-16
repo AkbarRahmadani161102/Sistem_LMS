@@ -17,6 +17,18 @@ $tahun_pertumbuhan_siswa->fetch_assoc();
 $sql = "SELECT DISTINCT YEAR(tgl_dibuat) tahun FROM instruktur ORDER BY tahun";
 $tahun_pertumbuhan_instruktur = $db->query($sql) or die($db->error);
 $tahun_pertumbuhan_instruktur->fetch_assoc();
+
+$sql = "SELECT COUNT(*) jumlah_siswa, status FROM (SELECT dj.tgl_pertemuan, id_siswa, status FROM absensi_siswa a
+JOIN detail_jadwal dj ON a.id_detail_jadwal = dj.id_detail_jadwal
+WHERE dj.tgl_pertemuan = CURRENT_DATE()
+GROUP BY id_siswa) grouped_absensi 
+GROUP BY status";
+$presensi_siswa = $db->query($sql) or die($db->error);
+
+$sql = "SELECT COUNT(*) jumlah_instruktur, status_kehadiran_instruktur as status
+FROM (SELECT IF(status_kehadiran_instruktur IS NULL, 'Berhalangan', status_kehadiran_instruktur) status_kehadiran_instruktur FROM detail_jadwal WHERE tgl_pertemuan = CURRENT_DATE() GROUP BY id_instruktur) grouped_instruktur
+GROUP BY status_kehadiran_instruktur";
+$presensi_instruktur = $db->query($sql) or die($db->error);
 ?>
 
 <div class="w-full min-h-screen flex">
@@ -67,18 +79,22 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
                     <div class="flex justify-between items-center">
                         <h4>Pengajuan Siswa</h4>
                     </div>
-                    <?php foreach ($data_pengajuan_siswa as $key => $value) : ?>
-                        <a href="./pengajuan.php" class="flex flex-col flex-1 rounded-lg p-5 bg-white dark:bg-gray-500 gap-2">
-                            <div class="flex justify-between">
-                                <h6><?= $value['nama_siswa'] ?></h6>
-                                <h6 class="<?= $value['status'] === 'Pending' ? 'text-amber-500' : 'text-green-500' ?>"><?= $value['status'] ?></h6>
-                            </div>
-                            <div class="flex justify-between">
-                                <p class="text-sm"><?= $value['judul'] ?></p>
-                                <p class="text-sm text-gray-500 dark:text-gray-200"><?= $value['tgl_dibuat'] ?></p>
-                            </div>
-                        </a>
-                    <?php endforeach ?>
+                    <?php if ($data_pengajuan_siswa->num_rows > 0) : ?>
+                        <?php foreach ($data_pengajuan_siswa as $key => $value) : ?>
+                            <a href="./pengajuan.php" class="flex flex-col flex-1 rounded-lg p-5 bg-white dark:bg-gray-500 gap-2">
+                                <div class="flex justify-between">
+                                    <h6><?= $value['nama_siswa'] ?></h6>
+                                    <h6 class="<?= $value['status'] === 'Pending' ? 'text-amber-500' : 'text-green-500' ?>"><?= $value['status'] ?></h6>
+                                </div>
+                                <div class="flex justify-between">
+                                    <p class="text-sm"><?= $value['judul'] ?></p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-200"><?= $value['tgl_dibuat'] ?></p>
+                                </div>
+                            </a>
+                        <?php endforeach ?>
+                    <?php else : ?>
+                        <cite>Tidak ada pengajuan</cite>
+                    <?php endif ?>
                 </div>
 
                 <div class="flex flex-col lg:flex-row w-full lg:w-fit gap-12">
@@ -87,15 +103,24 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
                             <h4>Kehadiran Siswa</h4>
                         </div>
                         <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative p-16 lg:p-0 border-t-2 lg:border-0">
-                            <canvas id="chart_kehadiran_siswa_hari_ini"></canvas>
+                            <?php if ($presensi_siswa->num_rows > 0) : ?>
+                                <canvas id="chart_kehadiran_siswa_hari_ini"></canvas>
+                            <?php else : ?>
+                                <cite>Tidak ada presensi siswa</cite>
+                            <?php endif ?>
                         </div>
                     </div>
+
                     <div class="flex w-full lg:w-80 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5">
                         <div class="flex justify-between items-center">
                             <h4>Kehadiran Instruktur</h4>
                         </div>
                         <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative p-16 lg:p-0 border-t-2 lg:border-0">
-                            <canvas id="chart_kehadiran_instruktur_hari_ini"></canvas>
+                            <?php if ($presensi_instruktur->num_rows > 0) : ?>
+                                <canvas id="chart_kehadiran_instruktur_hari_ini"></canvas>
+                            <?php else : ?>
+                                <cite>Tidak ada presensi instruktur</cite>
+                            <?php endif ?>
                         </div>
                     </div>
                 </div>
@@ -116,7 +141,7 @@ $tahun_pertumbuhan_instruktur->fetch_assoc();
             try {
                 return await $.get(`${url}?${param}=${tahun}`)
             } catch (error) {
-                
+
             }
         }
 
