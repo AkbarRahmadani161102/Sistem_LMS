@@ -1159,7 +1159,7 @@ table tbody tr:hover {
 hr.vr {
   margin-left: 0.75rem;
   margin-right: 0.75rem;
-  height: 3rem;
+  height: 2.5rem;
   width: 0.125rem;
   --tw-bg-opacity: 1;
   background-color: rgb(156 163 175 / var(--tw-bg-opacity));
@@ -1409,10 +1409,6 @@ hr.vr {
   margin-left: 0.75rem;
 }
 
-.ml-5 {
-  margin-left: 1.25rem;
-}
-
 .ml-8 {
   margin-left: 2rem;
 }
@@ -1431,10 +1427,6 @@ hr.vr {
 
 .mr-3 {
   margin-right: 0.75rem;
-}
-
-.mr-auto {
-  margin-right: auto;
 }
 
 .mt-1 {
@@ -1690,6 +1682,12 @@ hr.vr {
 
 .rotate-180 {
   --tw-rotate: 180deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.scale-95 {
+  --tw-scale-x: .95;
+  --tw-scale-y: .95;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -3012,6 +3010,10 @@ hr.vr {
     margin-left: 16rem;
   }
 
+  .sm\:flex {
+    display: flex;
+  }
+
   .sm\:h-7 {
     height: 1.75rem;
   }
@@ -3118,6 +3120,10 @@ hr.vr {
 
   .lg\:block {
     display: block;
+  }
+
+  .lg\:flex {
+    display: flex;
   }
 
   .lg\:w-1\/4 {

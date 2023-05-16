@@ -256,7 +256,7 @@
     }
 
     hr.vr {
-        @apply w-0.5 h-12 bg-gray-400 mx-3;
+        @apply w-0.5 h-10 bg-gray-400 mx-3;
     }
 
     .dashboard__sidebar-menu {
