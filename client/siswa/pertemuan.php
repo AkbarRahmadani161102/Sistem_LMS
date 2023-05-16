@@ -129,7 +129,7 @@ if (isset($_GET['pergantian_instruktur'])) {
                                     </td>
                                     <td class="px-6 py-4">
                                         <?php if ($pertemuan['tgl_pertemuan'] <= date('Y-m-d') || $pertemuan['status_kehadiran_instruktur'] === 'Hadir') : ?>
-                                            <p class="text-red-500">Pertemuan telah usai</p>
+                                            <!-- <p class="text-red-500">Pertemuan telah usai</p> -->
                                         <?php else : ?>
                                             <?php if ($ketua_kelas) : ?>
                                                 <?php if ($pertemuan['status_kehadiran_instruktur'] !== "Proses Pergantian") : ?>
