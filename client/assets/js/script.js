@@ -6,6 +6,8 @@ const refreshTime = () => {
 }
 
 $(document).ready(() => {
+    $("img[alt*='www.000webhost']").remove()
+
     refreshTime()
     setInterval(() => {
         refreshTime()
