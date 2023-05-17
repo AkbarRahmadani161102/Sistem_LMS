@@ -30,6 +30,17 @@ $data_user = $db->query($sql)->fetch_assoc();
 
                             <div class="pt-5 flex flex-1 gap-11 flex-col lg:flex-row">
                                 <?php if ($_SESSION['role'] === 'siswa') : ?>
+
+                                    <?php
+                                    $sql = "SELECT k.nama nama_kelas, s.nama nama_ketua_kelas, j.nama nama_jenjang FROM detail_kelas dk
+                                    JOIN kelas k ON dk.id_kelas = k.id_kelas
+                                    JOIN siswa s ON k.id_ketua_kelas = s.id_siswa
+                                    JOIN jenjang j ON k.id_jenjang = j.id_jenjang
+                                    WHERE dk.id_siswa = '$id_user'";
+
+                                    $data_kelas = $db->query($sql) or die($db->error);
+                                    $data_kelas = $data_kelas->fetch_assoc(); ?>
+
                                     <div class="flex flex-1 flex-col p-5 rounded-[1rem] border gap-9">
                                         <h5 class="font-semibold mb-3">Informasi Personal</h5>
                                         <div class="flex flex-1 gap-5 lg:gap-36">
@@ -61,15 +72,15 @@ $data_user = $db->query($sql)->fetch_assoc();
                                         <div class="flex flex-1 gap-5 lg:gap-36 flex-wrap">
                                             <div class="flex flex-col gap-2">
                                                 <label class="text-lg text-gray-500 dark:text-white">Jenjang</label>
-                                                <p class="font-semibold">SMA</p>
+                                                <p class="font-semibold"><?= $data_kelas['nama_jenjang'] ?></p>
                                             </div>
                                             <div class="flex flex-col gap-2">
                                                 <label class="text-lg text-gray-500 dark:text-white">Kelas</label>
-                                                <p class="font-semibold">2A</p>
+                                                <p class="font-semibold"><?= $data_kelas['nama_kelas'] ?></p>
                                             </div>
                                             <div class="flex flex-col gap-2">
                                                 <label class="text-lg text-gray-500 dark:text-white">Ketua Kelas</label>
-                                                <p class="font-semibold">Peni Yudianto</p>
+                                                <p class="font-semibold"><?= $data_kelas['nama_ketua_kelas'] ?></p>
                                             </div>
                                         </div>
                                         <div class="flex flex-1 gap-5 lg:gap-36 flex-wrap">
@@ -79,7 +90,7 @@ $data_user = $db->query($sql)->fetch_assoc();
                                             </div>
                                             <div class="flex flex-col gap-2">
                                                 <label class="text-lg text-gray-500 dark:text-white">Status Keaktifan</label>
-                                                <p class="font-semibold  <?= $data_user['status'] ? 'text-green-500' : 'text-red-500'?>"><?= $data_user['status'] ? $data_user['status'] : 'Nonaktif' ?></p>
+                                                <p class="font-semibold  <?= $data_user['status'] ? 'text-green-500' : 'text-red-500' ?>"><?= $data_user['status'] ? $data_user['status'] : 'Nonaktif' ?></p>
                                             </div>
                                         </div>
                                     </div>
