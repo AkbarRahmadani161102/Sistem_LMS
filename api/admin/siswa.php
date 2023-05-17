@@ -278,9 +278,9 @@ if (isset($_POST['bulk_delete'])) {
             $sql = "DELETE FROM siswa WHERE id_siswa = '$id_siswa'";
             $db->query($sql);
         }
-        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Pertemuan Dihapus', 'icon_color' => 'greenlight'];
+        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data Siswa Dihapus', 'icon_color' => 'greenlight'];
     } catch (\Throwable $th) {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Pertemuan Gagal Dihapus', 'icon_color' => 'red', 'text' => 'Constraint Integrity'];
+        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Data Siswa Gagal Dihapus', 'icon_color' => 'red', 'text' => 'Constraint Integrity'];
     }
     redirect("../../client/admin/siswa.php");
 }

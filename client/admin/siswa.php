@@ -138,7 +138,16 @@ if (isset($_GET['edit'])) {
                         <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3"><button type="submit" class="btn btn--outline-red block mx-auto">Hapus</button></th>
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex flex-col items-center gap-3">
+                                            <button type="submit" class="btn btn--outline-red w-full">Hapus</button>
+                                            <div class="flex gap-4">
+                                                <label for="check_all">CHECK ALL</label>
+                                                <input type="checkbox" name="" id="check_all">
+
+                                            </div>
+                                        </div>
+                                    </th>
                                     <th scope="col" class="px-6 py-3">Nama</th>
                                     <th scope="col" class="px-6 py-3">No.Telp</th>
                                     <th scope="col" class="px-6 py-3">Alamat</th>
@@ -181,7 +190,7 @@ if (isset($_GET['edit'])) {
                                                 <i class="ri-edit-box-line"></i>
                                             </a>
 
-                                            <button onclick="generateConfirmationDialog('../../api/admin/siswa.php', {delete: '<?= $siswa['id_siswa'] ?>'})" class="btn btn--outline-red z-20">
+                                            <button type="button" onclick="generateConfirmationDialog('../../api/admin/siswa.php', {delete: '<?= $siswa['id_siswa'] ?>'})" class="btn btn--outline-red z-20">
                                                 <i class="ri-delete-bin-6-line"></i>
                                             </button>
                                         </td>
@@ -246,5 +255,20 @@ if (isset($_GET['edit'])) {
         </div>
     </div>
 <?php endif ?>
+
+<script>
+    $('#check_all').on('click', function(e) {
+        let condition = this.checked
+        if (condition) {
+            $("input[name='bulk_delete[]']").each(function() {
+                this.checked = true
+            })
+        } else {
+            $("input[name='bulk_delete[]']").each(function() {
+                this.checked = false
+            })
+        }
+    })
+</script>
 
 <?php include_once('../template/footer.php') ?>
