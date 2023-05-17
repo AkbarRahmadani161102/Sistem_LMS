@@ -172,7 +172,9 @@ if (isset($_GET['file_import_example'])) {
         ->setTitle("File Import Data Siswa")
         ->setSubject('Yearly Report');
 
-    $spreadsheet->getDefaultStyle()->getNumberFormat()->setFormatCode('#');
+    // $spreadsheet->getDefaultStyle()->getNumberFormat()->setFormatCode('#');
+    $spreadsheet->getActiveSheet()->getStyle('B')->getNumberFormat()
+    ->setFormatCode('@');
 
     $sheet = $spreadsheet->getActiveSheet();
     // HEADER
