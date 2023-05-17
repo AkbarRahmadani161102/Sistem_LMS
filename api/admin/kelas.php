@@ -2,9 +2,9 @@
 include_once '../util/db.php';
 
 if (isset($_POST['create'])) {
-    $jenjang = $_POST['jenjang'];
-    $nama_kelas = $_POST['nama_kelas'];
-    $status = $_POST['status_kelas'];
+    $jenjang = escape($_POST['jenjang']);
+    $nama_kelas = escape($_POST['nama_kelas']);
+    $status = escape($_POST['status_kelas']);
 
     $sql = "SELECT * FROM kelas WHERE nama = '$nama_kelas'";
     $data_kelas = $db->query($sql);
@@ -41,10 +41,10 @@ if (isset($_POST['create'])) {
 }
 
 if (isset($_POST['update'])) {
-    $id_kelas = $_POST['update'];
-    $jenjang = $_POST['jenjang'];
-    $nama_kelas = $_POST['nama_kelas'];
-    $status = $_POST['status_kelas'];
+    $id_kelas = escape($_POST['update']);
+    $jenjang = escape($_POST['jenjang']);
+    $nama_kelas = escape($_POST['nama_kelas']);
+    $status = escape($_POST['status_kelas']);
 
     if (isset($_POST['ketua_kelas']) && isset($_POST['anggota_kelas'])) {
         if (in_array($_POST['ketua_kelas'], $_POST['anggota_kelas'])) {
@@ -77,7 +77,7 @@ if (isset($_POST['update'])) {
 
 if (isset($_POST['delete'])) {
     try {
-        $id_kelas = $_POST['delete'];
+        $id_kelas = escape($_POST['delete']);
         $sql = "DELETE FROM detail_kelas WHERE id_kelas = '$id_kelas'";
         $db->query($sql);
         $sql = "DELETE FROM kelas WHERE id_kelas = '$id_kelas'";

@@ -41,7 +41,7 @@ if (isset($_POST['create'])) {
     redirect("../../client/admin/siswa.php");
 }
 if (isset($_POST['update'])) {
-    $id_siswa = $_POST['update'];
+    $id_siswa = escape($_POST['update']);
     $nama = escape($_POST['nama']);
     $no_telp = escape($_POST['no_telp']);
     $alamat = escape($_POST['alamat']);

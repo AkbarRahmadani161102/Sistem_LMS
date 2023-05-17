@@ -3,7 +3,7 @@
 include_once '../util/db.php';
 
 if (isset($_POST['create'])) {
-    $title = $_POST['title'];
+    $title = escape($_POST['title']);
     $sql = "INSERT INTO role (title) VALUES('$title')";
     $db->query($sql);
 
@@ -18,8 +18,8 @@ if (isset($_POST['create'])) {
 
     $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data role berhasil ditambahkan', 'icon_color' => 'greenlight'];
 } else if (isset($_POST['update'])) {
-    $id_role = $_POST['update'];
-    $title = $_POST['title'];
+    $id_role = escape($_POST['update']);
+    $title = escape($_POST['title']);
     $sql = "UPDATE role SET title = '$title' WHERE id_role = '$id_role'";
     $db->query($sql);
 
@@ -35,7 +35,7 @@ if (isset($_POST['create'])) {
     $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data role berhasil diubah', 'icon_color' => 'greenlight'];
 } else if (isset($_POST['delete'])) {
     // ISSUE: constraint foreign key
-    $id_role = $_POST['delete'];
+    $id_role = escape($_POST['delete']);
     $sql = "DELETE FROM detail_hak_akses WHERE id_role = '$id_role'";
     $db->query($sql);
     $sql = "DELETE FROM role WHERE id_role = '$id_role'";
@@ -58,10 +58,10 @@ if (isset($_POST['create'])) {
     }
     $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Daftar hak akses berhasil diperbarui', 'icon_color' => 'greenlight'];
 } else if (isset($_POST['update_hak_akses'])) {
-    $id_hak_akses = $_POST['update_hak_akses'];
-    $nama = $_POST['nama'];
-    $kategori = $_POST['kategori'];
-    $icon = $_POST['icon'];
+    $id_hak_akses = escape($_POST['update_hak_akses']);
+    $nama = escape($_POST['nama']);
+    $kategori = escape($_POST['kategori']);
+    $icon = escape($_POST['icon']);
 
     $sql = "UPDATE hak_akses SET nama = '$nama', kategori = '$kategori', icon='$icon' WHERE id_hak_akses = '$id_hak_akses'";
     $db->query($sql) or die($db->error);

@@ -3,8 +3,8 @@
 include_once '../util/db.php';
 
 if (isset($_POST['update'])) {
-    $status = $_POST['status'];
-    $id_pengajuan = $_POST['update'];
+    $status = escape($_POST['status']);
+    $id_pengajuan = escape($_POST['update']);
 
     $sql = "SELECT * FROM pengajuan WHERE id_pengajuan = '$id_pengajuan'";
     $data_pengajuan = $db->query($sql)->fetch_assoc();

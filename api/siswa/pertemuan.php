@@ -4,13 +4,13 @@ include_once '../util/db.php';
 
 if (isset($_POST['ajukan_instruktur'])) {
     $data_instruktur = explode('|', $_POST['instruktur']);
-    $id_detail_jadwal = $_POST['ajukan_instruktur'];
-    $id_siswa = $_POST['id_siswa'];
-    $id_instruktur = $data_instruktur[0];
-    $nama_instruktur =  $data_instruktur[1];
-    $kelas = $_POST['kelas'];
-    $tgl_pertemuan = $_POST['tgl_pertemuan'];
-    $mapel = $_POST['mapel'];
+    $id_detail_jadwal = escape($_POST['ajukan_instruktur']);
+    $id_siswa = escape($_POST['id_siswa']);
+    $id_instruktur = escape($data_instruktur[0]);
+    $nama_instruktur =  escape($data_instruktur[1]);
+    $kelas = escape($_POST['kelas']);
+    $tgl_pertemuan = escape($_POST['tgl_pertemuan']);
+    $mapel = escape($_POST['mapel']);
     $judul = "Pergantian Instruktur";
     $keterangan = "Instruktur pengganti yang diminta: $nama_instruktur \nKelas: $kelas \nMapel: $mapel \nTanggal: $tgl_pertemuan";
     $sql = "INSERT INTO pengajuan (id_siswa, judul, keterangan, id_detail_jadwal, id_instruktur) VALUES('$id_siswa', '$judul', '$keterangan', '$id_detail_jadwal', '$id_instruktur')";

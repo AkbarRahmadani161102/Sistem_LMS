@@ -62,8 +62,8 @@ if (isset($_GET['jurnal_umum'])) {
     sync_tunggakan();
     sync_gaji_instruktur();
 
-    $bulan = $_GET['bulan'];
-    $tahun = $_GET['tahun'];
+    $bulan = escape($_GET['bulan']);
+    $tahun = escape($_GET['tahun']);
 
     $sql = "SELECT DISTINCT YEAR(tgl_pembayaran) tahun, MONTH(tgl_pembayaran) bulan FROM tunggakan WHERE status = 'Lunas' AND YEAR(tgl_pembayaran) = $tahun
     UNION
@@ -543,8 +543,8 @@ if (isset($_GET['slip_gaji_instruktur'])) {
         ]
     );
 
-    $tahun = $_GET['tahun'];
-    $bulan = $_GET['bulan'];
+    $tahun = escape($_GET['tahun']);
+    $bulan = escape($_GET['bulan']);
     $nama_bulan = strtoupper(BULAN[$bulan - 1]);
 
     $spreadsheet = new Spreadsheet();

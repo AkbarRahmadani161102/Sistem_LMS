@@ -1,8 +1,8 @@
 <?php
 include_once '../util/db.php';
 if (isset($_POST['sync'])) {
-    $tahun = $_POST['tahun'];
-    $bulan = $_POST['bulan'];
+    $tahun = escape($_POST['tahun']);
+    $bulan = escape($_POST['bulan']);
     $hari = 10;
     $tanggal_trigger = "$tahun-$bulan-$hari";
     $tgl_dibuat = date('Y-m-t', strtotime($tanggal_trigger));
@@ -27,8 +27,8 @@ if (isset($_POST['sync'])) {
     $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data berhasil disinkronkan', 'icon_color' => 'greenlight'];
 }
 if (isset($_POST['update'])) {
-    $id_gaji = $_POST['update'];
-    $tgl_penerimaan = $_POST['tgl_penerimaan'];
+    $id_gaji = escape($_POST['update']);
+    $tgl_penerimaan = escape($_POST['tgl_penerimaan']);
 
     if ($tgl_penerimaan === 'NULL')
         $sql = "UPDATE gaji SET tgl_penerimaan = NULL WHERE id_gaji = '$id_gaji'";
@@ -39,8 +39,8 @@ if (isset($_POST['update'])) {
     $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data berhasil diubah', 'icon_color' => 'greenlight'];
 }
 if (isset($_POST['redirect'])) {
-    $tahun = $_POST['tahun'];
-    $bulan = $_POST['bulan'];
+    $tahun = escape($_POST['tahun']);
+    $bulan = escape($_POST['bulan']);
 
     redirect("../../client/admin/gaji_instruktur.php?tahun=$tahun&bulan=$bulan");
 }

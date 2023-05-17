@@ -68,8 +68,8 @@ if (isset($_POST['sync'])) {
     $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data berhasil disinkronkan', 'icon_color' => 'greenlight'];
 }
 if (isset($_POST['reassign_instruktur'])) {
-    $id_detail_jadwal = $_POST['reassign_instruktur'];
-    $id_instruktur_baru = $_POST['instruktur'];
+    $id_detail_jadwal = escape($_POST['reassign_instruktur']);
+    $id_instruktur_baru = escape($_POST['instruktur']);
 
     $sql = "SELECT *, dj.id_instruktur id_instruktur_lama, i.nama nama_instruktur_lama, k.nama nama_kelas_lama FROM detail_jadwal dj 
     JOIN jadwal j ON dj.id_jadwal = j.id_jadwal 
@@ -119,7 +119,7 @@ if (isset($_POST['reassign_instruktur'])) {
         $db->query($sql);
 
         if (isset($_POST['pengajuan'])) {
-            $id_pengajuan = $_POST['pengajuan'];
+            $id_pengajuan = escape($_POST['pengajuan']);
             $sql = "UPDATE pengajuan SET id_detail_jadwal = NULL, status = 'Selesai' WHERE id_pengajuan = '$id_pengajuan'";
             $db->query($sql);
 
@@ -133,7 +133,7 @@ if (isset($_POST['reassign_instruktur'])) {
     }
 }
 if (isset($_POST['delete'])) {
-    $id_detail_jadwal = $_POST['delete'];
+    $id_detail_jadwal = escape($_POST['delete']);
     $sql = "DELETE FROM detail_jadwal WHERE id_detail_jadwal = '$id_detail_jadwal'";
     $db->query($sql);
     $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Pertemuan Dihapus', 'icon_color' => 'greenlight'];

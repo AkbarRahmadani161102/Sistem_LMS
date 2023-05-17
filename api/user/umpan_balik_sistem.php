@@ -15,7 +15,7 @@ if (isset($_POST['create'])) {
     else
         $tipe_user = 1;
         
-    $deskripsi = $_POST['deskripsi'];
+    $deskripsi = escape($_POST['deskripsi']);
     $sql = "INSERT INTO kuesioner_app (nama, tipe_user, deskripsi) VALUES('$nama', '$tipe_user','$deskripsi')";
 
     $db->query($sql) or die($db->error);
