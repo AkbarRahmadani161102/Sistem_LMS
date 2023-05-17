@@ -244,3 +244,43 @@ if (isset($_POST['file_import'])) {
     }
     redirect("../../client/admin/siswa.php");
 }
+if (isset($_POST['bulk_delete'])) {
+    $data_siswa = $_POST['bulk_delete'];
+    try {
+        foreach ($data_siswa as $id_siswa) {
+            $sql = "DELETE FROM tunggakan WHERE id_siswa = '$id_siswa'";
+            $db->query($sql);
+
+            $sql = "DELETE FROM detail_penilaian WHERE id_siswa = '$id_siswa'";
+            $db->query($sql);
+
+            $sql = "DELETE FROM pengajuan WHERE id_siswa = '$id_siswa'";
+            $db->query($sql);
+
+            $sql = "DELETE FROM kuesioner_instruktur WHERE id_siswa = '$id_siswa'";
+            $db->query($sql);
+
+            $sql = "DELETE FROM notifikasi_siswa WHERE id_siswa = '$id_siswa'";
+            $db->query($sql);
+
+            $sql = "DELETE FROM detail_penilaian WHERE id_siswa = '$id_siswa'";
+            $db->query($sql);
+
+            $sql = "DELETE FROM absensi_siswa WHERE id_siswa = '$id_siswa'";
+            $db->query($sql);
+
+            $sql = "UPDATE kelas SET id_ketua_kelas = NULL WHERE id_ketua_kelas = '$id_siswa'";
+            $db->query($sql);
+
+            $sql = "DELETE FROM detail_kelas WHERE id_siswa = '$id_siswa'";
+            $db->query($sql);
+
+            $sql = "DELETE FROM siswa WHERE id_siswa = '$id_siswa'";
+            $db->query($sql);
+        }
+        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Pertemuan Dihapus', 'icon_color' => 'greenlight'];
+    } catch (\Throwable $th) {
+        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Pertemuan Gagal Dihapus', 'icon_color' => 'red', 'text' => 'Constraint Integrity'];
+    }
+    redirect("../../client/admin/siswa.php");
+}
