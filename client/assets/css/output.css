@@ -1157,8 +1157,8 @@ table tbody tr:hover {
 }
 
 hr.vr {
-  margin-left: 0.75rem;
-  margin-right: 0.75rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
   height: 2.5rem;
   width: 0.125rem;
   --tw-bg-opacity: 1;
@@ -1334,10 +1334,6 @@ hr.vr {
   margin: 0px;
 }
 
-.m-auto {
-  margin: auto;
-}
-
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -1394,11 +1390,6 @@ hr.vr {
 
 .mb-8 {
   margin-bottom: 2rem;
-}
-
-.me-3 {
-  -webkit-margin-end: 0.75rem;
-          margin-inline-end: 0.75rem;
 }
 
 .ml-16 {
@@ -2087,21 +2078,6 @@ hr.vr {
 .bg-zinc-800 {
   --tw-bg-opacity: 1;
   background-color: rgb(39 39 42 / var(--tw-bg-opacity));
-}
-
-.bg-cyan-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(6 182 212 / var(--tw-bg-opacity));
-}
-
-.bg-cyan-100 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(207 250 254 / var(--tw-bg-opacity));
-}
-
-.bg-cyan-50 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(236 254 255 / var(--tw-bg-opacity));
 }
 
 .bg-gradient-to-r {

@@ -18,5 +18,9 @@ if (isset($_POST['delete'])) {
     $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data notifikasi berhasil dihapus', 'icon_color' => 'greenlight'];
     redirect("../../client/user/notifikasi.php");
 }
+if (isset($_POST['check_all'])) {
+    $sql = "UPDATE notifikasi_$role SET status = 'Selesai' WHERE id_$role = '$id_user'";
+    $db->query($sql) or die($db->error);
+}
 
 redirect("../../client/$role/index.php");

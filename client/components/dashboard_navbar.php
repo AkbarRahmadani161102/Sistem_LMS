@@ -24,52 +24,56 @@ if ($role !== 'admin') {
             <select class="selectize-search bg-transparent input rounded-full border-0">
             </select>
         </label>
-        <p id="live-clock" class="hidden lg:flex m-0 me-3 font-semibold"></p>
+        <p id="live-clock" class="hidden lg:flex m-0 font-semibold"></p>
 
         <div class="flex gap-2">
-            <button data-dropdown-toggle="notifikasi_dropdown" class="relative rounded-full h-10 w-10 border hover:bg-amber-500 hover:border-amber-500 hover:text-white transition active:translate-y-1 scale-95">
-                <?php if ($role !== 'admin' && $data_notifikasi->num_rows > 0) : ?>
-                    <i class="ri-checkbox-blank-circle-fill text-red-500 absolute -top-[3px] -right-[3px]"></i>
-                <?php endif ?>
-                <i class="ri-notification-line"></i>
-            </button>
 
-            <div id="notifikasi_dropdown" class="z-20 hidden w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700" aria-labelledby="dropdownNotificationButton">
-                <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800 dark:text-white">
-                    Notifikasi
-                </div>
-                <div class="divide-y divide-gray-100 dark:divide-gray-700">
-                    <?php if ($role !== 'admin' && $data_notifikasi->num_rows <= 0) : ?>
-                        <div class="flex w-full p-2 py-4 justify-center">
-                            <p>Tidak ada notifikasi</p>
-                        </div>
+            <?php if ($_SESSION['role'] !== 'admin') : ?>
+                <button data-dropdown-toggle="notifikasi_dropdown" class="relative rounded-full h-10 w-10 border hover:bg-amber-500 hover:border-amber-500 hover:text-white transition active:translate-y-1 scale-95">
+                    <?php if ($role !== 'admin' && $data_notifikasi->num_rows > 0) : ?>
+                        <i class="ri-checkbox-blank-circle-fill text-red-500 absolute -top-[3px] -right-[3px]"></i>
                     <?php endif ?>
-                    <?php while ($role !== 'admin' && $notifikasi = $data_notifikasi->fetch_assoc()) : ?>
-                        <div class="flex px-4 py-3 group relative">
-                            <div class="w-full pl-3">
-                                <div class="text-gray-500 text-sm mb-1.5 dark:text-gray-400"><?= $notifikasi['deskripsi'] ?></div>
-                                <div class="text-xs text-blue-600 dark:text-blue-500">
-                                    <?php if (date('Y-m-d') === $notifikasi['tgl_dibuat']) : ?>
-                                        Hari ini
-                                    <?php else : echo $notifikasi['tgl_dibuat']; ?>
-                                    <?php endif ?>
-                                </div>
-                            </div>
-                            <form class="absolute invisible right-1 bottom-2 group-hover:visible transition" action="../../api/user/notifikasi.php" method="post">
-                                <input type="hidden" name="id_notifikasi" value="<?= $notifikasi["id_notifikasi_$role"] ?>">
-                                <button class="text-xs text-blue-600 dark:text-blue-500" name="change_status" value="Selesai" type="submit">Tandai sebagai selesai <i class="ri-check-double-line "></i></button>
-                            </form>
-                        </div>
-                    <?php endwhile ?>
-                </div>
-                <a href="../user/notifikasi.php" class="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white">
-                    <div class="inline-flex items-center">
-                        <i class="ri-eye-line mr-1"></i>
-                        Lihat Histori
-                    </div>
-                </a>
-            </div>
+                    <i class="ri-notification-line"></i>
+                </button>
 
+                <div id="notifikasi_dropdown" class="z-20 hidden w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700" aria-labelledby="dropdownNotificationButton">
+                    <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800 dark:text-white">
+                        <a href="../user/notifikasi.php">Notifikasi</a>
+                    </div>
+                    <div class="divide-y divide-gray-100 dark:divide-gray-700">
+                        <?php if ($role !== 'admin' && $data_notifikasi->num_rows <= 0) : ?>
+                            <div class="flex w-full p-2 py-4 justify-center">
+                                <p>Tidak ada notifikasi</p>
+                            </div>
+                        <?php endif ?>
+                        <?php while ($role !== 'admin' && $notifikasi = $data_notifikasi->fetch_assoc()) : ?>
+                            <div class="flex px-4 py-3 group relative">
+                                <div class="w-full pl-3">
+                                    <div class="text-gray-500 text-sm mb-1.5 dark:text-gray-400"><?= $notifikasi['deskripsi'] ?></div>
+                                    <div class="text-xs text-blue-600 dark:text-blue-500">
+                                        <?php if (date('Y-m-d') === $notifikasi['tgl_dibuat']) : ?>
+                                            Hari ini
+                                        <?php else : echo $notifikasi['tgl_dibuat']; ?>
+                                        <?php endif ?>
+                                    </div>
+                                </div>
+                                <form class="absolute invisible right-1 bottom-2 group-hover:visible transition" action="../../api/user/notifikasi.php" method="post">
+                                    <input type="hidden" name="id_notifikasi" value="<?= $notifikasi["id_notifikasi_$role"] ?>">
+                                    <button class="text-xs text-blue-600 dark:text-blue-500" name="change_status" value="Selesai" type="submit">Tandai sebagai selesai <i class="ri-check-double-line "></i></button>
+                                </form>
+                            </div>
+                        <?php endwhile ?>
+                    </div>
+                    <form action="../../api/user/notifikasi.php" method="post" class="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white">
+                        <button name="check_all" type="submit">
+                            <div class="inline-flex items-center">
+                                <i class="ri-eye-line mr-1"></i>
+                                Tandai semua sebagai terlihat
+                            </div>
+                        </button>
+                    </form>
+                </div>
+            <?php endif ?>
             <hr class="vr hidden lg:block">
 
             <img class="w-10 h-10 rounded-full border border-amber-500 border" src="../assets/image/example.png" alt="User image">
