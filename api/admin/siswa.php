@@ -286,3 +286,4 @@ if (isset($_POST['bulk_delete'])) {
     }
     redirect("../../client/admin/siswa.php");
 }
+redirect("../../client/admin/siswa.php");
