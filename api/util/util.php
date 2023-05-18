@@ -24,6 +24,14 @@ function escape($str)
     return mysqli_real_escape_string($db, trim($str));
 }
 
+$status_colors = [
+    ['status' => 'success', 'icon_color' => 'greenlight'],
+    ['status' => 'error', 'icon_color' => 'red'],
+    ['status' => 'warning', 'icon_color' => 'yellow'],
+    ['status' => 'info', 'icon_color' => 'cyan'],
+    ['status' => 'question', 'icon_color' => 'gray'],
+];
+
 /**
  * Aka. Flash Message
  * 
@@ -37,17 +45,30 @@ function escape($str)
  */
 function push_toast($title = '', $status = 'success', $text = null)
 {
-    $status_colors = [
-        ['status' => 'success', 'icon_color' => 'greenlight'],
-        ['status' => 'error', 'icon_color' => 'red'],
-        ['status' => 'warning', 'icon_color' => 'yellow'],
-        ['status' => 'info', 'icon_color' => 'cyan'],
-        ['status' => 'question', 'icon_color' => 'gray'],
-    ];
-
+    global $status_colors;
     foreach ($status_colors as $toast) {
         if ($toast['status'] === $status) {
             return $_SESSION['toast'] = ['icon' => $toast['status'], 'title' => $title, 'text' => $text, 'icon_color' => $toast['icon_color']];
+        }
+    }
+}
+
+/**
+ * Aka. Flash Alert
+ * 
+ * Add message alert to session
+ * 
+ * @param string $title Judul alert
+ * @param string $status Tema alert (Opsi: 'success', 'error', 'warning', 'info', 'question'; Default: 'success')
+ * 
+ * @return array Array Session yang telah diisi oleh data dari detail alert
+ */
+function push_alert($title = '', $status = 'success')
+{
+    global $status_colors;
+    foreach ($status_colors as $alert) {
+        if ($alert['status'] === $status) {
+            return $_SESSION['alert'] = ['icon' => $alert['status'], 'title' => $title, 'icon_color' => $alert['icon_color']];
         }
     }
 }

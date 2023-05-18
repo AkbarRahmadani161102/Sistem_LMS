@@ -57,17 +57,17 @@ function login()
             }
 
 
-            $_SESSION['alert'] = ['icon' => 'success', 'title' => 'Berhasil Login'];
+            push_alert('Berhasil Login');
 
             redirect("../../client/$role/index.php");
         } else {
             // Jika gagal login
-            $_SESSION['alert'] = ['icon' => 'error', 'title' => 'Email atau password anda salah'];
+            push_alert('Email atau password anda salah', 'error');
             redirect("../../client/$role/login.php");
         }
     } else {
         // Jika user tidak ditemukan
-        $_SESSION['alert'] = ['icon' => 'error', 'title' => 'Email atau Password anda belum terdaftar'];
+        push_alert('Email atau Password anda belum terdaftar', 'error');
         redirect("../../client/$role/login.php");
     }
 }
@@ -95,12 +95,12 @@ if (isset($_POST['login'])) {
             login();
         } else {
             // Jika register gagal
-            $_SESSION['alert'] = ['icon' => 'error', 'title' => 'Register gagal'];
+            push_alert('Register gagal', 'error');
             redirect("../../client/siswa/register.php");
         }
     } else {
         // Jika email sudah digunakan
-        $_SESSION['alert'] = ['icon' => 'error', 'title' => 'Email sudah terdaftar'];
+        push_alert('Email sudah terdaftar', 'error');
         redirect("../../client/siswa/register.php");
     }
 }
