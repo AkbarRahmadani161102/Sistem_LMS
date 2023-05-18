@@ -119,7 +119,7 @@ $data_user = $db->query($sql)->fetch_assoc();
                                         </div>
                                     </div>
 
-                                    <div class="flex flex-col p-5 rounded-[1rem] border gap-9 w-fit">
+                                    <div class="flex flex-col p-5 rounded-[1rem] border gap-9 w-full lg:w-fit">
                                         <h5 class="font-semibold mb-3">Informasi Administrasi</h5>
                                         <div class="flex flex-col gap-5 flex-wrap h-full justify-around">
                                             <div class="flex flex-col gap-2">

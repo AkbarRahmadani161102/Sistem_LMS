@@ -3062,6 +3062,11 @@ hr.vr {
     width: auto;
   }
 
+  .md\:w-fit {
+    width: -moz-fit-content;
+    width: fit-content;
+  }
+
   .md\:flex-row {
     flex-direction: row;
   }
