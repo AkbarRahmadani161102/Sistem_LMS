@@ -20,12 +20,12 @@ if (isset($_GET['presence'])) {
     $id_instruktur_pertemuan = $data_siswa->fetch_assoc()['id_instruktur'];
     if ($tgl_pertemuan < date('Y-m-d')) {
         // Jika instruktur mengakses peretemuan yang telah usai
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Pertemuan telah usai', 'icon_color' => 'red'];
+        push_toast('Pertemuan telah usai', 'error');
         redirect('./pertemuan_hari_ini.php');
     }
     if ($id_instruktur !== $id_instruktur_pertemuan) {
         // Jika instruktur mengakses pertemuan dari instruktur lain
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Akses ditolak', 'icon_color' => 'red', 'text' => 'Anda tidak memiliki hak untuk mengakses sumber daya ini'];
+        push_toast('Akses ditolak', 'error', 'Anda tidak memiliki hak untuk mengakses sumber daya ini');
         redirect('./pertemuan_hari_ini.php');
     }
 }

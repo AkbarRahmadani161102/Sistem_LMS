@@ -21,7 +21,7 @@ if (isset($_GET['edit'])) {
     }
     if (count($hak_akses_admin) > 0) {
     } else {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Data hak akses tidak ditemukan', 'icon_color' => 'red', 'text' => 'Silahkan hapus data, lalu buat ulang'];
+        push_toast('Data hak akses tidak ditemukan', 'error', 'Silahkan hapus data, lalu buat ulang');
         redirect('admin.php');
     }
 } else {
