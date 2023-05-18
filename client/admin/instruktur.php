@@ -140,31 +140,31 @@ if (isset($_GET['edit'])) {
                 </div>
             <?php else : ?>
                 <?php generate_breadcrumb([['title' => 'Data Instruktur', 'filename' => 'instruktur.php']]); ?>
-                <div class="relative overflow-x-auto mt-5">
-                    <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <div class="table__container">
+                    <table class="datatable table">
+                        <thead>
                             <tr>
-                                <th scope="col" class="px-6 py-3"></th>
-                                <th scope="col" class="px-6 py-3">Nama</th>
-                                <th scope="col" class="px-6 py-3">No.Telp</th>
-                                <th scope="col" class="px-6 py-3">Alamat</th>
-                                <th scope="col" class="px-6 py-3">Email</th>
-                                <th scope="col" class="px-6 py-3">Status</th>
-                                <th scope="col" class="px-6 py-3">Mapel yang diampu</th>
-                                <th scope="col" class="px-6 py-3">Lama Bekerja</th>
-                                <th scope="col" class="px-6 py-3"></th>
+                                <th></th>
+                                <th>Nama</th>
+                                <th>No.Telp</th>
+                                <th>Alamat</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Mapel yang diampu</th>
+                                <th>Lama Bekerja</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($result as $main_key => $value) : ?>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th class="px-6 py-4 text-amber-500"></th>
-                                    <td class="px-6 py-4"><?= $value['nama'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['no_telp'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['alamat'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['email'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['status'] ?></td>
-                                    <td class="px-6 py-4">
+                                <tr>
+                                    <th></th>
+                                    <td><?= $value['nama'] ?></td>
+                                    <td><?= $value['no_telp'] ?></td>
+                                    <td><?= $value['alamat'] ?></td>
+                                    <td><?= $value['email'] ?></td>
+                                    <td><?= $value['status'] ?></td>
+                                    <td>
                                         <div class="flex gap-1">
                                             <?= $value['count_mapel'] ?>
                                             <button data-popover-target="data_mapel_instruktur<?= $main_key ?>" data-popover-placement="right" type="button" class="text-white"><i class="ri-question-line"></i></button>
@@ -186,7 +186,7 @@ if (isset($_GET['edit'])) {
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td>
                                         <?php
                                         $from = new DateTime($value['tgl_dibuat']);
                                         $to = new DateTime("now");
@@ -197,7 +197,7 @@ if (isset($_GET['edit'])) {
                                             : $range->format('%R%a days/%R%y years');
                                         ?>
                                     </td>
-                                    <td class="px-6 py-4 flex gap-2">
+                                    <td class="flex gap-2">
                                         <a class="btn btn--outline-blue" href="?edit=<?= $value['id_instruktur'] ?>">
                                             <i class="ri-edit-box-line"></i>
                                         </a>

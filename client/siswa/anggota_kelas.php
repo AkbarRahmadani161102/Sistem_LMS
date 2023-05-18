@@ -44,32 +44,32 @@ if (isset($_GET['kelas'])) {
 
             <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Anggota kelas <?php if (isset($_GET['kelas'])) echo $nama_kelas[$id_kelas] ?></h4>
 
-            <div class="relative overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <div class="table__container">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <th scope="col" class="px-6 py-3"></th>
-                            <th scope="col" class="px-6 py-3">Kelas</th>
-                            <th scope="col" class="px-6 py-3">Nama</th>
-                            <th scope="col" class="px-6 py-3">No.Telp</th>
-                            <th scope="col" class="px-6 py-3">Alamat</th>
-                            <th scope="col" class="px-6 py-3">Status</th>
+                            <th></th>
+                            <th>Kelas</th>
+                            <th>Nama</th>
+                            <th>No.Telp</th>
+                            <th>Alamat</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($data_siswa as $key => $siswa) : ?>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                <td class="px-6 py-4"><?= $siswa['nama_kelas'] ?></td>
-                                <td class="px-6 py-4">
+                            <tr>
+                                <th><?= $key + 1 ?></th>
+                                <td><?= $siswa['nama_kelas'] ?></td>
+                                <td>
                                     <?= $siswa['nama'] ?>
                                     <?php if ($siswa['id_ketua_kelas'] === $siswa['id_siswa']) : ?>
                                         <span class="text-amber-500">(Ketua kelas)</span>
                                     <?php endif ?>
                                 </td>
-                                <td class="px-6 py-4"><?= $siswa['no_telp'] ?></td>
-                                <td class="px-6 py-4"><?= $siswa['alamat'] ?></td>
-                                <td class="px-6 py-4"><?= $siswa['status'] ?></td>
+                                <td><?= $siswa['no_telp'] ?></td>
+                                <td><?= $siswa['alamat'] ?></td>
+                                <td><?= $siswa['status'] ?></td>
                             </tr>
                         <?php endforeach ?>
                     </tbody>

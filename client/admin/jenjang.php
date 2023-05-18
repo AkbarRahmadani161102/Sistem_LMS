@@ -28,26 +28,26 @@ $exclude_deletion = ['SD', 'SMP', 'SMA']; // Mencegah kesalahan sistem
             </div>
 
             <?php generate_breadcrumb([['title' => 'Jenjang', 'filename' => 'jenjang.php']]); ?>
-            <div class="relative overflow-x-auto mt-5">
-                <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <div class="table__container">
+                <table class="datatable table">
+                    <thead>
                         <tr>
-                            <th scope="col" class="px-6 py-3"></th>
-                            <th scope="col" class="px-6 py-3">Jenjang</th>
-                            <th scope="col" class="px-6 py-3">Biaya Pendidikan</th>
-                            <th scope="col" class="px-6 py-3">Biaya Per Pertemuan</th>
-                            <th scope="col" class="px-6 py-3"></th>
+                            <th></th>
+                            <th>Jenjang</th>
+                            <th>Biaya Pendidikan</th>
+                            <th>Biaya Per Pertemuan</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($result as $key => $value) : ?>
                             <?php $delete_able = $value['count_mapel'] === '0' && $value['count_kelas'] === '0' && !in_array($value['nama'], $exclude_deletion) ?>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                <td class="px-6 py-4"><?= $value['nama'] ?></td>
-                                <td class="px-6 py-4"><?= $value['biaya_pendidikan'] ?></td>
-                                <td class="px-6 py-4"><?= $value['biaya_per_pertemuan'] ?></td>
-                                <td class="px-6 py-4 flex gap-4">
+                            <tr>
+                                <th><?= $key + 1 ?></th>
+                                <td><?= $value['nama'] ?></td>
+                                <td><?= $value['biaya_pendidikan'] ?></td>
+                                <td><?= $value['biaya_per_pertemuan'] ?></td>
+                                <td class="flex gap-4">
                                     <button type="button" class="btn btn--outline-blue" data-modal-target="edit<?= $value['id_jenjang'] ?>" data-modal-toggle="edit<?= $value['id_jenjang'] ?>">
                                         <i class="ri-edit-box-line"></i>
                                     </button>

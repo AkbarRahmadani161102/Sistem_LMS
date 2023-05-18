@@ -36,9 +36,9 @@ $jumlah_pertemuan = $jumlah_pertemuan['jumlah_pertemuan']; ?>
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Jadwal Minggu Ini</h4>
             </div>
 
-            <div class="relative overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <div class="table__container">
+                <table class="table">
+                    <thead>
                         <tr>
                             <th scope="col" class="px-6 py-3 text-center"></th>
                             <th scope="col" class="px-6 py-3 text-center">Instruktur dan Mapel</th>
@@ -56,12 +56,12 @@ $jumlah_pertemuan = $jumlah_pertemuan['jumlah_pertemuan']; ?>
                                     JOIN detail_jadwal dj on dj.id_jadwal = j.id_jadwal 
                                     JOIN instruktur i on i.id_instruktur = dj.id_instruktur
                                     WHERE dk.id_siswa = '$id_siswa' AND j.hari = '$hari'"; ?>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <tr>
                                 <th class="px-6 py-4 text-amber-500 text-center">
                                     <p><?= $jadwal['hari'] ?></p>
                                 </th>
 
-                                <td class="px-6 py-4 text-center">
+                                <td class="text-center">
                                     <?php
                                     $data = $db->query($sql) or die($db->error);
                                     $data = $data->fetch_assoc();

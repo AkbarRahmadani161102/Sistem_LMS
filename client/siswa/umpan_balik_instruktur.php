@@ -24,30 +24,30 @@ $data_instruktur->fetch_assoc();
                 <button class="btn" data-modal-target="add-feedback-modal" data-modal-toggle="add-feedback-modal">Isi Feedback</button>
             </div>
 
-            <div class="relative overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <div class="table__container">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <th scope="col" class="px-6 py-3"></th>
-                            <th scope="col" class="px-6 py-3">Instruktur</th>
-                            <th scope="col" class="px-6 py-3">Pesan Anda</th>
-                            <th scope="col" class="px-6 py-3">Rating</th>
-                            <th scope="col" class="px-6 py-3">Tanggal Diunggah</th>
-                            <th scope="col" class="px-6 py-3"></th>
+                            <th></th>
+                            <th>Instruktur</th>
+                            <th>Pesan Anda</th>
+                            <th>Rating</th>
+                            <th>Tanggal Diunggah</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php while ($row = $data_umpan_balik->fetch_assoc()) : ?>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th class="px-6 py-4 text-amber-500"></th>
-                                <td class="px-6 py-4"><?= $row['nama'] ?></td>
-                                <td class="px-6 py-4"><?= $row['deskripsi'] ?></td>
-                                <td class="px-6 py-4">
+                            <tr>
+                                <th></th>
+                                <td><?= $row['nama'] ?></td>
+                                <td><?= $row['deskripsi'] ?></td>
+                                <td>
                                     <?php for ($i = 0; $i < $row['rating']; $i++) : ?>
                                         <i class="ri-star-fill text-amber-500"></i>
                                     <?php endfor ?>
-                                <td class="px-6 py-4"><?= $row['tgl_dibuat'] ?></td>
-                                <td class="px-6 py-4">
+                                <td><?= $row['tgl_dibuat'] ?></td>
+                                <td>
                                     <form action="../../api/siswa/umpan_balik.php" method="post">
                                         <button type="submit" name="delete_instruktur" value="<?= $row['id_kuesioner'] ?>" class="btn btn--outline-red"><i class="ri-delete-bin-line"></i></button>
                                     </form>

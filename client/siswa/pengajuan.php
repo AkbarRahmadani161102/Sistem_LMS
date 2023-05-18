@@ -21,26 +21,26 @@ $data_tunggakan = $db->query($sql);
                 <button class="btn" data-modal-target="add-pengajuan-modal" data-modal-toggle="add-pengajuan-modal">Ajukan Pengajuan</button>
             </div>
 
-            <div class="relative overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <div class="table__container">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <th scope="col" class="px-6 py-3"></th>
-                            <th scope="col" class="px-6 py-3">Judul</th>
-                            <th scope="col" class="px-6 py-3">Keterangan</th>
-                            <th scope="col" class="px-6 py-3">Status</th>
-                            <th scope="col" class="px-6 py-3"></th>
+                            <th></th>
+                            <th>Judul</th>
+                            <th>Keterangan</th>
+                            <th>Status</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php while ($row = $data_tunggakan->fetch_assoc()) : ?>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th class="px-6 py-4 text-amber-500"></th>
-                                <td class="px-6 py-4"><?= $row['judul'] ?></td>
-                                <td class="px-6 py-4"><?= $row['keterangan'] ?></td>
-                                <td class="px-6 py-4"><?= $row['status'] ?></td>
+                            <tr>
+                                <th></th>
+                                <td><?= $row['judul'] ?></td>
+                                <td><?= $row['keterangan'] ?></td>
+                                <td><?= $row['status'] ?></td>
                                 <form action="../../api/siswa/pengajuan.php" method="post">
-                                    <td class="px-6 py-4"><button type="submit" name="delete" value="<?= $row['id_pengajuan'] ?>" class="btn btn--outline-red"><i class="ri-delete-bin-line"></i></button></td>
+                                    <td><button type="submit" name="delete" value="<?= $row['id_pengajuan'] ?>" class="btn btn--outline-red"><i class="ri-delete-bin-line"></i></button></td>
                                 </form>
                             </tr>
                         <?php endwhile ?>

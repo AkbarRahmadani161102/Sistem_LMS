@@ -133,12 +133,12 @@ if (isset($_GET['edit'])) {
                 </form>
             <?php else : ?>
                 <?php generate_breadcrumb([['title' => 'Data Siswa', 'filename' => 'siswa.php']]); ?>
-                <div class="relative overflow-x-auto mt-5">
+                <div class="table__container">
                     <form action="../../api/admin/siswa.php" method="post">
-                        <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <table class="datatable table">
+                            <thead>
                                 <tr>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th>
                                         <div class="flex flex-col items-center gap-3">
                                             <button type="submit" class="btn btn--outline-red w-full">Hapus</button>
                                             <div class="flex gap-4">
@@ -148,29 +148,29 @@ if (isset($_GET['edit'])) {
                                             </div>
                                         </div>
                                     </th>
-                                    <th scope="col" class="px-6 py-3">Nama</th>
-                                    <th scope="col" class="px-6 py-3">No.Telp</th>
-                                    <th scope="col" class="px-6 py-3">Alamat</th>
-                                    <th scope="col" class="px-6 py-3">Status</th>
-                                    <th scope="col" class="px-6 py-3">Email</th>
-                                    <th scope="col" class="px-6 py-3">Kelas</th>
-                                    <th scope="col" class="px-6 py-3">Tanggal Pendaftaran</th>
-                                    <th scope="col" class="px-6 py-3"></th>
+                                    <th>Nama</th>
+                                    <th>No.Telp</th>
+                                    <th>Alamat</th>
+                                    <th>Status</th>
+                                    <th>Email</th>
+                                    <th>Kelas</th>
+                                    <th>Tanggal Pendaftaran</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($data_siswa as $main_key => $siswa) : ?>
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 relative">
-                                        <th class="px-6 py-4 flex justify-center">
+                                    <tr class="relative">
+                                        <th class="flex justify-center">
                                             <label for="bulk_delete<?= $main_key ?>" class="w-full h-full absolute top-0 left-0">&nbsp;</label>
                                             <input type="checkbox" name="bulk_delete[]" value="<?= $siswa['id_siswa'] ?>" id="bulk_delete<?= $main_key ?>" class="block mx-auto">
                                         </th>
-                                        <td class="px-6 py-4"><?= $siswa['nama'] ?></td>
-                                        <td class="px-6 py-4"><?= $siswa['no_telp'] ?></td>
-                                        <td class="px-6 py-4"><?= $siswa['alamat'] ?></td>
-                                        <td class="px-6 py-4"><?= $siswa['status'] ?></td>
-                                        <td class="px-6 py-4"><?= $siswa['email'] ?></td>
-                                        <td class="px-6 py-4">
+                                        <td><?= $siswa['nama'] ?></td>
+                                        <td><?= $siswa['no_telp'] ?></td>
+                                        <td><?= $siswa['alamat'] ?></td>
+                                        <td><?= $siswa['status'] ?></td>
+                                        <td><?= $siswa['email'] ?></td>
+                                        <td>
                                             <ul>
                                                 <?php
                                                 $id_siswa = $siswa['id_siswa'];
@@ -183,9 +183,9 @@ if (isset($_GET['edit'])) {
                                                 <?php endforeach ?>
                                             </ul>
                                         </td>
-                                        <td class="px-6 py-4"><?= $siswa['tgl_dibuat'] ?></td>
+                                        <td><?= $siswa['tgl_dibuat'] ?></td>
 
-                                        <td class="px-6 py-4 flex gap-2">
+                                        <td class="flex gap-2">
                                             <a class="btn btn--outline-blue z-20" href="?edit=<?= $siswa['id_siswa'] ?>">
                                                 <i class="ri-edit-box-line"></i>
                                             </a>

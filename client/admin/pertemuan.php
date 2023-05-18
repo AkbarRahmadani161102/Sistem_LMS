@@ -124,46 +124,46 @@ if (isset($_GET['reassign_instruktur'])) {
                             </li>
                         <?php endforeach ?>
                     </ul>
-                    <div class="relative overflow-x-auto mt-5">
+                    <div class="table__container">
                         <form action="../../api/admin/pertemuan.php" method="post">
-                            <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <table class="datatable table">
+                                <thead>
                                     <tr>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th>
                                             <div class="flex flex-col items-center gap-4 z-10">
                                                 <button name="bulk_delete" type="submit" class="btn w-full btn--outline-red">Hapus</button>
                                                 <label class="flex">Check All <input class="ml-3" type="checkbox" id="check_all"></label>
                                             </div>
                                         </th>
-                                        <th scope="col" class="px-6 py-3">Nama Kelas</th>
-                                        <th scope="col" class="px-6 py-3">Nama Mapel</th>
-                                        <th scope="col" class="px-6 py-3">Nama Instruktur</th>
-                                        <th scope="col" class="px-6 py-3">Hari, Tanggal</th>
-                                        <th scope="col" class="px-6 py-3">Jam Mulai</th>
-                                        <th scope="col" class="px-6 py-3">Jam Selesai</th>
-                                        <th scope="col" class="px-6 py-3">Status Kehadiran Instruktur</th>
-                                        <th scope="col" class="px-6 py-3"></th>
+                                        <th>Nama Kelas</th>
+                                        <th>Nama Mapel</th>
+                                        <th>Nama Instruktur</th>
+                                        <th>Hari, Tanggal</th>
+                                        <th>Jam Mulai</th>
+                                        <th>Jam Selesai</th>
+                                        <th>Status Kehadiran Instruktur</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($data_pertemuan as $key => $pertemuan) : ?>
                                         <?php $delete_able = $pertemuan['count_absensi_siswa'] === '0' && $pertemuan['count_penilaian'] === '0' && $pertemuan['count_pengajuan'] === '0' ?>
 
-                                        <tr class="border-b dark:bg-gray-800 dark:border-gray-700 bg-transparent relative">
+                                        <tr class="relative">
                                             <th class="mt-5">
                                                 <?php if ($delete_able) : ?>
                                                     <label for="check<?= $key ?>" class="absolute top-0 left-0 h-full w-full"></label>
                                                     <input id="check<?= $key ?>" class="ml-8" type="checkbox" name="delete_pertemuan[]" value="<?= $pertemuan['id_detail_jadwal'] ?>">
                                                 <?php endif ?>
                                             </th>
-                                            <td class="px-6 py-4"><?= $pertemuan['nama_kelas'] ?></td>
-                                            <td class="px-6 py-4"><?= $pertemuan['nama_mapel'] ?></td>
-                                            <td class="px-6 py-4"><?= $pertemuan['nama_instruktur'] ?></td>
-                                            <td class="px-6 py-4"><?= $pertemuan['hari'] ?>, <?= $pertemuan['tgl_pertemuan'] ?></td>
-                                            <td class="px-6 py-4"><?= $pertemuan['jam_mulai'] ?></td>
-                                            <td class="px-6 py-4"><?= $pertemuan['jam_selesai'] ?></td>
-                                            <td class="px-6 py-4 <?= $pertemuan['status_kehadiran_instruktur'] === 'Hadir' ? 'text-green-500' : 'text-red-500' ?>"><?= $pertemuan['status_kehadiran_instruktur'] ?></td>
-                                            <td class="px-6 py-4">
+                                            <td><?= $pertemuan['nama_kelas'] ?></td>
+                                            <td><?= $pertemuan['nama_mapel'] ?></td>
+                                            <td><?= $pertemuan['nama_instruktur'] ?></td>
+                                            <td><?= $pertemuan['hari'] ?>, <?= $pertemuan['tgl_pertemuan'] ?></td>
+                                            <td><?= $pertemuan['jam_mulai'] ?></td>
+                                            <td><?= $pertemuan['jam_selesai'] ?></td>
+                                            <td class="<?= $pertemuan['status_kehadiran_instruktur'] === 'Hadir' ? 'text-green-500' : 'text-red-500' ?>"><?= $pertemuan['status_kehadiran_instruktur'] ?></td>
+                                            <td>
                                                 <?php if ($delete_able) : ?>
                                                     <div class="flex gap-3">
                                                         <a href="?reassign_instruktur=<?= $pertemuan['id_detail_jadwal'] ?>" class="btn btn--outline-green flex items-center justify-around z-20 gap-2"><i class="ri-arrow-left-right-line"></i><span>Ganti Instruktur</span></a>

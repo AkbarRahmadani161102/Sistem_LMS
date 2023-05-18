@@ -86,35 +86,35 @@ if (isset($_GET['tahun']) && isset($_GET['bulan'])) {
             </div>
 
             <?php if (isset($_GET['tahun']) && isset($_GET['bulan'])) : ?>
-                <div class="relative overflow-x-auto">
-                    <table class="datatable-disable-paging w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <div class="table__container">
+                    <table class="datatable-disable-paging table">
+                        <thead>
                             <tr>
-                                <th scope="col" class="px-6 py-3"></th>
-                                <th scope="col" class="px-6 py-3">Tanggal Pembayaran</th>
-                                <th scope="col" class="px-6 py-3">Tenggat Pembayaran</th>
-                                <th scope="col" class="px-6 py-3">Nominal (Rp)</th>
-                                <th scope="col" class="px-6 py-3">Jenjang</th>
-                                <th scope="col" class="px-6 py-3">Kelas</th>
-                                <th scope="col" class="px-6 py-3">Siswa</th>
-                                <th scope="col" class="px-6 py-3">Status</th>
-                                <th scope="col" class="px-6 py-3">Aksi</th>
+                                <th></th>
+                                <th>Tanggal Pembayaran</th>
+                                <th>Tenggat Pembayaran</th>
+                                <th>Nominal (Rp)</th>
+                                <th>Jenjang</th>
+                                <th>Kelas</th>
+                                <th>Siswa</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($data_tunggakan as $key => $tunggakan) : ?>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th class="px-6 py-4 text-amber-500"></th>
-                                    <td class="px-6 py-4"><?= $tunggakan['tgl_pembayaran'] ?></td>
-                                    <td class="px-6 py-4"><?= $tunggakan['tenggat_pembayaran'] ?></td>
-                                    <td class="px-6 py-4"><?= $tunggakan['nominal'] ?></td>
-                                    <td class="px-6 py-4"><?= $tunggakan['nama_jenjang'] ?></td>
-                                    <td class="px-6 py-4"><?= $tunggakan['nama_kelas'] ?></td>
-                                    <td class="px-6 py-4"><?= $tunggakan['nama_siswa'] ?></td>
-                                    <td class="px-6 py-4 <?= $tunggakan['status'] === null ? 'text-red-500' : 'text-green-500' ?>">
+                                <tr>
+                                    <th></th>
+                                    <td><?= $tunggakan['tgl_pembayaran'] ?></td>
+                                    <td><?= $tunggakan['tenggat_pembayaran'] ?></td>
+                                    <td><?= $tunggakan['nominal'] ?></td>
+                                    <td><?= $tunggakan['nama_jenjang'] ?></td>
+                                    <td><?= $tunggakan['nama_kelas'] ?></td>
+                                    <td><?= $tunggakan['nama_siswa'] ?></td>
+                                    <td class="<?= $tunggakan['status'] === null ? 'text-red-500' : 'text-green-500' ?>">
                                         <?= $tunggakan['status'] === null ? 'Belum Terbayar' : $tunggakan['status'] ?>
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td>
                                         <?php if ($tunggakan['status'] !== 'Lunas') : ?>
                                             <button data-modal-target="edit<?= $tunggakan['id_tunggakan'] ?>" data-modal-toggle="edit<?= $tunggakan['id_tunggakan'] ?>" type="submit" class="btn btn--outline-green">Tandai sebagai lunas</button>
                                             <div id="edit<?= $tunggakan['id_tunggakan'] ?>" tabindex="-1" aria-hidden="true" class="modal">
@@ -174,35 +174,35 @@ if (isset($_GET['tahun']) && isset($_GET['bulan'])) {
                     </table>
                 </div>
             <?php else : ?>
-                <div class="relative overflow-x-auto">
-                    <table class="datatable-disable-paging w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <div class="table__container">
+                    <table class="datatable-disable-paging table">
+                        <thead>
                             <tr>
-                                <th scope="col" class="px-6 py-3"></th>
-                                <th scope="col" class="px-6 py-3">Tanggal Pembayaran</th>
-                                <th scope="col" class="px-6 py-3">Tenggat Pembayaran</th>
-                                <th scope="col" class="px-6 py-3">Total (Rp)</th>
-                                <th scope="col" class="px-6 py-3">Jenjang</th>
-                                <th scope="col" class="px-6 py-3">Kelas</th>
-                                <th scope="col" class="px-6 py-3">Siswa</th>
-                                <th scope="col" class="px-6 py-3">Status</th>
-                                <th scope="col" class="px-6 py-3">Aksi</th>
+                                <th></th>
+                                <th>Tanggal Pembayaran</th>
+                                <th>Tenggat Pembayaran</th>
+                                <th>Total (Rp)</th>
+                                <th>Jenjang</th>
+                                <th>Kelas</th>
+                                <th>Siswa</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($data_tunggakan as $key => $tunggakan) : ?>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th class="px-6 py-4 text-amber-500"></th>
-                                    <td class="px-6 py-4"><?= $tunggakan['tgl_pembayaran'] ?></td>
-                                    <td class="px-6 py-4"><?= $tunggakan['tenggat_pembayaran'] ?></td>
-                                    <td class="px-6 py-4"><?= $tunggakan['total_nominal'] ?></td>
-                                    <td class="px-6 py-4"><?= $tunggakan['nama_jenjang'] ?></td>
-                                    <td class="px-6 py-4"><?= $tunggakan['nama_kelas'] ?></td>
-                                    <td class="px-6 py-4"><?= $tunggakan['nama_siswa'] ?></td>
-                                    <td class="px-6 py-4 <?= $tunggakan['status_tunggakan'] === null ? 'text-red-500' : 'text-green-500' ?>">
+                                <tr>
+                                    <th></th>
+                                    <td><?= $tunggakan['tgl_pembayaran'] ?></td>
+                                    <td><?= $tunggakan['tenggat_pembayaran'] ?></td>
+                                    <td><?= $tunggakan['total_nominal'] ?></td>
+                                    <td><?= $tunggakan['nama_jenjang'] ?></td>
+                                    <td><?= $tunggakan['nama_kelas'] ?></td>
+                                    <td><?= $tunggakan['nama_siswa'] ?></td>
+                                    <td class="<?= $tunggakan['status_tunggakan'] === null ? 'text-red-500' : 'text-green-500' ?>">
                                         <?= $tunggakan['status_tunggakan'] === null ? 'Belum Terbayar' : $tunggakan['status_tunggakan'] ?>
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td>
                                         <?php if ($tunggakan['status_tunggakan'] !== 'Lunas') : ?>
                                             <button data-modal-target="edit<?= $tunggakan['id_tunggakan'] ?>" data-modal-toggle="edit<?= $tunggakan['id_tunggakan'] ?>" type="submit" class="btn btn--outline-green">Tandai sebagai lunas</button>
                                             <div id="edit<?= $tunggakan['id_tunggakan'] ?>" tabindex="-1" aria-hidden="true" class="modal">

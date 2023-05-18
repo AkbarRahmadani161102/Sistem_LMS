@@ -185,37 +185,37 @@ if (isset($_GET['assign_instruktur'])) {
                         </li>
                     <?php endforeach ?>
                 </ul>
-                <div class="relative overflow-x-auto">
-                    <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <div class="table__container">
+                    <table class="datatable table">
+                        <thead>
                             <tr>
-                                <th scope="col" class="px-6 py-3">#</th>
-                                <th scope="col" class="px-6 py-3">Nama Kelas</th>
-                                <th scope="col" class="px-6 py-3">Nama Mapel</th>
-                                <th scope="col" class="px-6 py-3">Nama Instruktur</th>
-                                <th scope="col" class="px-6 py-3">Status</th>
-                                <th scope="col" class="px-6 py-3">Nama Ketua Kelas</th>
-                                <th scope="col" class="px-6 py-3">Nama Jenjang</th>
-                                <th scope="col" class="px-6 py-3">Hari</th>
-                                <th scope="col" class="px-6 py-3">Jam Mulai</th>
-                                <th scope="col" class="px-6 py-3">Jam Selesai</th>
-                                <th scope="col" class="px-6 py-3"></th>
+                                <th>#</th>
+                                <th>Nama Kelas</th>
+                                <th>Nama Mapel</th>
+                                <th>Nama Instruktur</th>
+                                <th>Status</th>
+                                <th>Nama Ketua Kelas</th>
+                                <th>Nama Jenjang</th>
+                                <th>Hari</th>
+                                <th>Jam Mulai</th>
+                                <th>Jam Selesai</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($data_jadwal as $key => $jadwal) : ?>
-                                <tr class="border-b dark:bg-gray-800 dark:border-gray-700 bg-transparent">
-                                    <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                    <td class="px-6 py-4"><?= $jadwal['nama_kelas'] ?></td>
-                                    <td class="px-6 py-4"><?= $jadwal['nama_mapel'] ?></td>
-                                    <td class="px-6 py-4"><?= $jadwal['nama_instruktur'] ?></td>
-                                    <td class="px-6 py-4"><?= $jadwal['status'] ?></td>
-                                    <td class="px-6 py-4"><?= $jadwal['ketua_kelas'] ?></td>
-                                    <td class="px-6 py-4"><?= $jadwal['nama_jenjang'] ?></td>
-                                    <td class="px-6 py-4"><?= $jadwal['hari'] ?></td>
-                                    <td class="px-6 py-4"><?= $jadwal['jam_mulai'] ?></td>
-                                    <td class="px-6 py-4"><?= $jadwal['jam_selesai'] ?></td>
-                                    <td class="px-6 py-4">
+                                <tr>
+                                    <th><?= $key + 1 ?></th>
+                                    <td><?= $jadwal['nama_kelas'] ?></td>
+                                    <td><?= $jadwal['nama_mapel'] ?></td>
+                                    <td><?= $jadwal['nama_instruktur'] ?></td>
+                                    <td><?= $jadwal['status'] ?></td>
+                                    <td><?= $jadwal['ketua_kelas'] ?></td>
+                                    <td><?= $jadwal['nama_jenjang'] ?></td>
+                                    <td><?= $jadwal['hari'] ?></td>
+                                    <td><?= $jadwal['jam_mulai'] ?></td>
+                                    <td><?= $jadwal['jam_selesai'] ?></td>
+                                    <td>
                                         <div class="flex gap-3">
                                             <a class="btn btn--outline-green flex justify-around gap-3" href="?assign_instruktur=<?= $jadwal['id_jadwal'] ?>">
                                                 <i class="ri-arrow-left-right-line"></i>

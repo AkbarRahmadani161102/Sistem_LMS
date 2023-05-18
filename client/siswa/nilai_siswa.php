@@ -25,27 +25,27 @@ $data_nilai = $db->query($sql);
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Nilai Siswa</h4>
             </div>
 
-            <div class="relative overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <div class="table__container">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <th scope="col" class="px-6 py-3"></th>
-                            <th scope="col" class="px-6 py-3">Mata Pelajaran</th>
-                            <th scope="col" class="px-6 py-3">Judul</th>
-                            <th scope="col" class="px-6 py-3">Keterangan</th>
-                            <th scope="col" class="px-6 py-3">Tanggal Pertemuan</th>
-                            <th scope="col" class="px-6 py-3">Nilai</th>
+                            <th></th>
+                            <th>Mata Pelajaran</th>
+                            <th>Judul</th>
+                            <th>Keterangan</th>
+                            <th>Tanggal Pertemuan</th>
+                            <th>Nilai</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($data_nilai as $key => $value) : ?>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th class="px-6 py-4 text-amber-500"><?= (int) $key + 1 ?></th>
-                                <td class="px-6 py-4"><?= $value['nama_mapel'] ?></td>
-                                <td class="px-6 py-4"><?= $value['judul_penilaian'] ?></td>
-                                <td class="px-6 py-4"><?= $value['keterangan_penilaian'] ?></td>
-                                <td class="px-6 py-4"><?= $value['tgl_pertemuan'] ?></td>
-                                <td class="px-6 py-4"><?= $value['nilai'] ?></td>
+                            <tr>
+                                <th><?= (int) $key + 1 ?></th>
+                                <td><?= $value['nama_mapel'] ?></td>
+                                <td><?= $value['judul_penilaian'] ?></td>
+                                <td><?= $value['keterangan_penilaian'] ?></td>
+                                <td><?= $value['tgl_pertemuan'] ?></td>
+                                <td><?= $value['nilai'] ?></td>
                             </tr>
                         <?php endforeach ?>
                     </tbody>

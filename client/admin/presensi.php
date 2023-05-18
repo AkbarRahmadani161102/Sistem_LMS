@@ -34,35 +34,35 @@ if (isset($_GET['role']) && $_GET['role'] === 'siswa') {
                     </li>
                 </ul>
             </div>
-            <div class="relative overflow-x-auto mt-5">
-                <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <div class="table__container">
+                <table class="datatable table">
+                    <thead>
                         <?php if (isset($_GET['role']) && $_GET['role'] === 'siswa') : ?>
                             <tr>
-                                <th scope="col" class="px-6 py-3"></th>
-                                <th scope="col" class="px-6 py-3">Tanggal</th>
-                                <th scope="col" class="px-6 py-3">Nama</th>
-                                <th scope="col" class="px-6 py-3">Kelas</th>
-                                <th scope="col" class="px-6 py-3">Status Kehadiran</th>
+                                <th></th>
+                                <th>Tanggal</th>
+                                <th>Nama</th>
+                                <th>Kelas</th>
+                                <th>Status Kehadiran</th>
                             </tr>
                         <?php else : ?>
                             <tr>
-                                <th scope="col" class="px-6 py-3"></th>
-                                <th scope="col" class="px-6 py-3">Tanggal</th>
-                                <th scope="col" class="px-6 py-3">Nama</th>
-                                <th scope="col" class="px-6 py-3">Status Kehadiran</th>
+                                <th></th>
+                                <th>Tanggal</th>
+                                <th>Nama</th>
+                                <th>Status Kehadiran</th>
                             </tr>
                         <?php endif ?>
                     </thead>
                     <tbody>
                         <?php if (isset($_GET['role']) && $_GET['role'] === 'siswa') : ?>
                             <?php foreach ($data_presensi_siswa as $key => $value) : ?>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                    <td class="px-6 py-4"><?= $value['tgl_pertemuan'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['nama_siswa'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['nama_kelas'] ?></td>
-                                    <td class="px-6 py-4">
+                                <tr>
+                                    <th><?= $key + 1 ?></th>
+                                    <td><?= $value['tgl_pertemuan'] ?></td>
+                                    <td><?= $value['nama_siswa'] ?></td>
+                                    <td><?= $value['nama_kelas'] ?></td>
+                                    <td>
                                         <?php if ($value['status'] === 'H') : ?>
                                             <p class="text-green-500">Hadir</p>
                                         <?php endif ?>
@@ -78,11 +78,11 @@ if (isset($_GET['role']) && $_GET['role'] === 'siswa') {
 
                         <?php else : ?>
                             <?php foreach ($data_presensi_instruktur as $key => $value) : ?>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                    <td class="px-6 py-4"><?= $value['tgl_pertemuan'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['nama'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['status_kehadiran_instruktur'] ?></td>
+                                <tr>
+                                    <th><?= $key + 1 ?></th>
+                                    <td><?= $value['tgl_pertemuan'] ?></td>
+                                    <td><?= $value['nama'] ?></td>
+                                    <td><?= $value['status_kehadiran_instruktur'] ?></td>
                                 </tr>
                             <?php endforeach ?>
                         <?php endif ?>

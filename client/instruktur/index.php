@@ -24,9 +24,9 @@ $jumlah_pertemuan = $jumlah_pertemuan['jumlah_pertemuan']; ?>
 
             <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Jadwal</h4>
 
-            <div class="relative overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <div class="table__container">
+                <table class="table">
+                    <thead>
                         <tr>
                             <th scope="col" class="px-6 py-3 text-center">Jam Mulai</th>
                             <th scope="col" class="px-6 py-3 text-center">Senin</th>
@@ -40,7 +40,7 @@ $jumlah_pertemuan = $jumlah_pertemuan['jumlah_pertemuan']; ?>
                     </thead>
                     <tbody>
                         <?php foreach (WAKTU as $key => $waktu) : ?>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <tr>
                                 <th class="px-6 py-4 text-amber-500 text-center"><?= $waktu ?></th>
                                 <?php foreach (HARI as $hari) : ?>
                                     <?php
@@ -54,12 +54,12 @@ $jumlah_pertemuan = $jumlah_pertemuan['jumlah_pertemuan']; ?>
                                     $data_per_hari = $data_per_hari->fetch_assoc(); ?>
 
                                     <?php if ($data_per_hari) : ?>
-                                        <td class="px-6 py-4 text-center">
+                                        <td class="text-center">
                                             <h6><?= $data_per_hari['nama_kelas'] ?></h6>
                                             <p><?= $data_per_hari['nama_mapel'] ?></p>
                                         </td>
                                     <?php else : ?>
-                                        <td class="px-6 py-4 text-center">
+                                        <td class="text-center">
                                             <h6>&nbsp;</h6>
                                             <p>&nbsp;</p>
                                         </td>

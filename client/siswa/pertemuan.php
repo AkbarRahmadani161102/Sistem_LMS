@@ -93,30 +93,30 @@ if (isset($_GET['pergantian_instruktur'])) {
             <?php else : ?>
                 <?php generate_breadcrumb([['title' => 'Pertemuan', 'filename' => 'pertemuan.php']]); ?>
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Pertemuan Kelas</h4>
-                <div class="relative overflow-x-auto">
-                    <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <div class="table__container">
+                    <table class="datatable table">
+                        <thead>
                             <tr>
-                                <th scope="col" class="px-6 py-3"></th>
-                                <th scope="col" class="px-6 py-3">Mata Pelajaran</th>
-                                <th scope="col" class="px-6 py-3">Instruktur</th>
-                                <th scope="col" class="px-6 py-3">Tanggal</th>
-                                <th scope="col" class="px-6 py-3">Jam Mulai</th>
-                                <th scope="col" class="px-6 py-3">Jam Selesai</th>
-                                <th scope="col" class="px-6 py-3">Status Kehadiran</th>
-                                <th scope="col" class="px-6 py-3"></th>
+                                <th></th>
+                                <th>Mata Pelajaran</th>
+                                <th>Instruktur</th>
+                                <th>Tanggal</th>
+                                <th>Jam Mulai</th>
+                                <th>Jam Selesai</th>
+                                <th>Status Kehadiran</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($data_pertemuan as $key => $pertemuan) : ?>
-                                <tr class="border-b bg-white dark:bg-gray-800 dark:border-gray-700">
-                                    <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                    <td class="px-6 py-4"><?= $pertemuan['nama_mapel'] ?></td>
-                                    <td class="px-6 py-4"><?= $pertemuan['nama_instruktur'] ?></td>
-                                    <td class="px-6 py-4"><?= $pertemuan['tgl_pertemuan'] ?></td>
-                                    <td class="px-6 py-4"><?= $pertemuan['jam_mulai'] ?></td>
-                                    <td class="px-6 py-4"><?= $pertemuan['jam_selesai'] ?></td>
-                                    <td class="px-6 py-4">
+                                <tr>
+                                    <th><?= $key + 1 ?></th>
+                                    <td><?= $pertemuan['nama_mapel'] ?></td>
+                                    <td><?= $pertemuan['nama_instruktur'] ?></td>
+                                    <td><?= $pertemuan['tgl_pertemuan'] ?></td>
+                                    <td><?= $pertemuan['jam_mulai'] ?></td>
+                                    <td><?= $pertemuan['jam_selesai'] ?></td>
+                                    <td>
                                         <?php if ($pertemuan['status_kehadiran'] === 'H') : ?>
                                             <span class="text-green-500">Hadir</span>
                                         <?php endif ?>
@@ -127,7 +127,7 @@ if (isset($_GET['pergantian_instruktur'])) {
                                             <span class="text-red-500">Tidak ada keterangan</span>
                                         <?php endif ?>
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td>
                                         <?php if ($pertemuan['tgl_pertemuan'] <= date('Y-m-d') || $pertemuan['status_kehadiran_instruktur'] === 'Hadir') : ?>
                                             <!-- <p class="text-red-500">Pertemuan telah usai</p> -->
                                         <?php else : ?>

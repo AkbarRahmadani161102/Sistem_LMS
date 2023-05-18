@@ -106,17 +106,17 @@ if (isset($_GET['detail'])) {
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col" class="px-6 py-3"></th>
-                                <th scope="col" class="px-6 py-3">Nama</th>
-                                <th scope="col" class="px-6 py-3">Nilai</th>
+                                <th></th>
+                                <th>Nama</th>
+                                <th>Nilai</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($data_penilaian as $key => $penilaian) : ?>
                                 <tr class="relative group">
-                                    <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                    <td class="px-6 py-4"><?= $penilaian['nama_siswa'] ?></td>
-                                    <td class="px-6 py-4"><?= $penilaian['nilai'] ?></td>
+                                    <th><?= $key + 1 ?></th>
+                                    <td><?= $penilaian['nama_siswa'] ?></td>
+                                    <td><?= $penilaian['nilai'] ?></td>
                                 </tr>
                             <?php endforeach ?>
                         </tbody>
@@ -130,27 +130,27 @@ if (isset($_GET['detail'])) {
                     <table class="datatable table">
                         <thead>
                             <tr>
-                                <th scope="col" class="px-6 py-3"></th>
-                                <th scope="col" class="px-6 py-3">Kelas</th>
-                                <th scope="col" class="px-6 py-3">Mapel</th>
-                                <th scope="col" class="px-6 py-3">Judul</th>
-                                <th scope="col" class="px-6 py-3">Instruktur</th>
-                                <th scope="col" class="px-6 py-3">Tanggal Pertemuan</th>
-                                <th scope="col" class="px-6 py-3">Jam mulai</th>
-                                <th scope="col" class="px-6 py-3"></th>
+                                <th></th>
+                                <th>Kelas</th>
+                                <th>Mapel</th>
+                                <th>Judul</th>
+                                <th>Instruktur</th>
+                                <th>Tanggal Pertemuan</th>
+                                <th>Jam mulai</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($data_detail_jadwal as $key => $value) : ?>
                                 <tr class="relative group">
-                                    <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                    <td class="px-6 py-4"><?= $value['nama_kelas'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['nama_mapel'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['judul_penilaian'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['nama_instruktur'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['tgl_pertemuan'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['jam_mulai'] ?></td>
-                                    <td class="px-6 py-4">
+                                    <th><?= $key + 1 ?></th>
+                                    <td><?= $value['nama_kelas'] ?></td>
+                                    <td><?= $value['nama_mapel'] ?></td>
+                                    <td><?= $value['judul_penilaian'] ?></td>
+                                    <td><?= $value['nama_instruktur'] ?></td>
+                                    <td><?= $value['tgl_pertemuan'] ?></td>
+                                    <td><?= $value['jam_mulai'] ?></td>
+                                    <td>
                                         <a href="?detail=<?= $value['id_detail_jadwal'] ?>" class="btn btn--outline-cyan flex items-center gap-1 w-fit"><i class="ri-search-line"></i> Detail</a>
                                     </td>
                                 </tr>

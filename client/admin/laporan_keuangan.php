@@ -19,19 +19,19 @@ $result->fetch_assoc();
             </div>
 
             <?php generate_breadcrumb([['title' => 'Laporan Keuangan', 'filename' => 'laporan_keuangan.php']]); ?>
-            <div class="relative overflow-x-auto mt-5">
-                <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <div class="table__container">
+                <table class="datatable table">
+                    <thead>
                         <tr>
-                            <th scope="col" class="px-6 py-3">Tahun</th>
-                            <th scope="col" class="px-6 py-3">Laporan</th>
+                            <th>Tahun</th>
+                            <th>Laporan</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($result as $key => $value) : ?>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <td class="px-6 py-4"><?= $value['tahun'] ?></td>
-                                <td class="px-6 py-4 flex gap-4 flex-wrap">
+                            <tr>
+                                <td><?= $value['tahun'] ?></td>
+                                <td class="flex gap-4 flex-wrap">
                                     <button data-popover-target="popover-laporan-<?= $key ?>" data-popover-placement="right" type="button" class="btn btn--outline-blue">Lihat Laporan</button>
                                     <div data-popover id="popover-laporan-<?= $key ?>" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                         <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">

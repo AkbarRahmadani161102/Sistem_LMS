@@ -96,15 +96,15 @@ if (isset($_GET['edit'])) {
                         </div>
                     </div>
                     <hr class="mt-12">
-                    <div class="relative overflow-x-auto">
+                    <div class="table__container">
                         <table class="datatable-add-siswa table">
                             <thead>
                                 <tr>
-                                    <th scope="col" class="px-6 py-3">#</th>
-                                    <th scope="col" class="px-6 py-3">Nama Siswa</th>
-                                    <th scope="col" class="px-6 py-3">Nomor Telepon</th>
-                                    <th scope="col" class="px-6 py-3">Anggota Kelas</th>
-                                    <th scope="col" class="px-6 py-3">Ketua Kelas</th>
+                                    <th>#</th>
+                                    <th>Nama Siswa</th>
+                                    <th>Nomor Telepon</th>
+                                    <th>Anggota Kelas</th>
+                                    <th>Ketua Kelas</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -154,21 +154,21 @@ if (isset($_GET['edit'])) {
                         </div>
                     </div>
                     <hr class="mt-12">
-                    <div class="relative overflow-x-auto">
+                    <div class="table__container">
                         <table class="datatable-add-siswa table">
                             <thead>
                                 <tr>
-                                    <th scope="col" class="px-6 py-3">#</th>
-                                    <th scope="col" class="px-6 py-3">Nama Siswa</th>
-                                    <th scope="col" class="px-6 py-3">Nomor Telepon</th>
-                                    <th scope="col" class="px-6 py-3">Anggota Kelas</th>
-                                    <th scope="col" class="px-6 py-3">Ketua Kelas</th>
+                                    <th>#</th>
+                                    <th>Nama Siswa</th>
+                                    <th>Nomor Telepon</th>
+                                    <th>Anggota Kelas</th>
+                                    <th>Ketua Kelas</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($data_siswa as $key => $siswa) : ?>
                                     <tr class="relative">
-                                        <td class="text-amber-500"><?= (int) $key + 1 ?></td>
+                                        <th><?= (int) $key + 1 ?></th>
                                         <td><?= $siswa['nama'] ?></td>
                                         <td><?= $siswa['no_telp'] ?></td>
                                         <td>
@@ -191,25 +191,25 @@ if (isset($_GET['edit'])) {
                     <table class="datatable table">
                         <thead>
                             <tr>
-                                <th scope="col" class="px-6 py-3"></th>
-                                <th scope="col" class="px-6 py-3">Kelas</th>
-                                <th scope="col" class="px-6 py-3">Jenjang</th>
-                                <th scope="col" class="px-6 py-3">Status</th>
-                                <th scope="col" class="px-6 py-3">Ketua Kelas</th>
-                                <th scope="col" class="px-6 py-3">Jumlah Siswa</th>
-                                <th scope="col" class="px-6 py-3"></th>
+                                <th></th>
+                                <th>Kelas</th>
+                                <th>Jenjang</th>
+                                <th>Status</th>
+                                <th>Ketua Kelas</th>
+                                <th>Jumlah Siswa</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($result as $key => $value) : ?>
                                 <?php $delete_able = $value['count_jadwal'] === '0'  ?>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                    <td class="px-6 py-4"><?= $value['nama'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['nama_jenjang'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['status'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['nama_ketua_kelas'] ?></td>
-                                    <td class="px-6 py-4">
+                                <tr>
+                                    <th><?= $key + 1 ?></th>
+                                    <td><?= $value['nama'] ?></td>
+                                    <td><?= $value['nama_jenjang'] ?></td>
+                                    <td><?= $value['status'] ?></td>
+                                    <td><?= $value['nama_ketua_kelas'] ?></td>
+                                    <td>
                                         <?php if ((int) $value['count_detail_kelas'] < 1) : ?>
                                             <p class="text-green-500">New</p>
                                         <?php else : ?>
@@ -236,7 +236,7 @@ if (isset($_GET['edit'])) {
                                             </div>
                                         <?php endif ?>
                                     </td>
-                                    <td class="px-6 py-4 flex gap-4">
+                                    <td class="flex gap-4">
                                         <a class="btn btn--outline-blue group" href="?edit=<?= $value['id_kelas'] ?>" class="px-5 py-2 border border-blue-500 rounded group hover:bg-blue-500">
                                             <i class="ri-edit-box-line text-blue-500 group-hover:text-white"></i>
                                         </a>

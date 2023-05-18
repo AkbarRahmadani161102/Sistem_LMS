@@ -43,9 +43,9 @@ if (isset($_GET['presence'])) {
                 <div class="flex justify-between items-center">
                     <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Pertemuan Hari Ini</h4>
                 </div>
-                <div class="relative overflow-x-auto">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <div class="table__container">
+                    <table class="table">
+                        <thead>
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-center">Hari/Tanggal</th>
                                 <th scope="col" class="px-6 py-3 text-center">14.30</th>
@@ -66,7 +66,7 @@ if (isset($_GET['presence'])) {
                                         AND j.hari = '$hari'
                                         AND tgl_pertemuan = '$tgl_pertemuan'
                                         AND jam_mulai = "; ?>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <tr>
                                     <th class="px-6 py-4 text-amber-500 text-center">
                                         <p><?= $pertemuan['hari'] ?></p>
                                         <p><?= $pertemuan['tgl_pertemuan'] ?></p>
@@ -76,7 +76,7 @@ if (isset($_GET['presence'])) {
                                         $pertemuan = $db->query("$sql'$w'") or die($db->error);
                                         $pertemuan = $pertemuan->fetch_assoc();
                                         if ($pertemuan) : ?>
-                                            <td class="px-6 py-4 text-center group relative text-gray-800 dark:text-white <?= $pertemuan['status_kehadiran_instruktur'] === 'Hadir' ? 'bg-rose-500' : '' ?>">
+                                            <td class="text-center group relative text-gray-800 dark:text-white <?= $pertemuan['status_kehadiran_instruktur'] === 'Hadir' ? 'bg-rose-500' : '' ?>">
                                                 <h6><?= isset($pertemuan['nama_kelas']) ? $pertemuan['nama_kelas'] : "" ?></h6>
                                                 <p><?= isset($pertemuan['nama_mapel']) ? $pertemuan['nama_mapel'] : "" ?></p>
                                                 <?php if (date('d', strtotime($pertemuan['tgl_pertemuan'])) < date('d')) : ?>
@@ -105,9 +105,9 @@ if (isset($_GET['presence'])) {
 
                 <form action="../../api/instruktur/pertemuan_hari_ini.php" method="post">
                     <div>
-                        <div class="relative overflow-x-auto">
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <div class="table__container">
+                            <table class="table">
+                                <thead>
                                     <tr>
                                         <th scope="col" class="px-6 py-3 text-center">#</th>
                                         <th scope="col" class="px-6 py-3 text-center">Nama Siswa</th>
@@ -122,16 +122,16 @@ if (isset($_GET['presence'])) {
                                 </thead>
                                 <tbody>
                                     <?php foreach ($data_siswa as $key => $siswa) : ?>
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                            <th class="px-6 py-4 text-amber-500 text-center"><?= $key + 1 ?></th>
-                                            <td class="px-6 py-4 text-center"><?= $siswa['nama'] ?></td>
-                                            <td class="px-6 py-4 text-center">
+                                        <tr>
+                                            <th class="text-center"><?= $key + 1 ?></th>
+                                            <td class="text-center"><?= $siswa['nama'] ?></td>
+                                            <td class="text-center">
                                                 <input id="kehadiran<?= $key ?>" type="radio" value="H" name="kehadiran['<?= $siswa['id_siswa'] ?>']" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked>
                                             </td>
-                                            <td class="px-6 py-4 text-center">
+                                            <td class="text-center">
                                                 <input id="kehadiran<?= $key ?>" type="radio" value="I" name="kehadiran['<?= $siswa['id_siswa'] ?>']" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </td>
-                                            <td class="px-6 py-4 text-center">
+                                            <td class="text-center">
                                                 <input id="kehadiran<?= $key ?>" type="radio" value="T" name="kehadiran['<?= $siswa['id_siswa'] ?>']" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </td>
                                         </tr>

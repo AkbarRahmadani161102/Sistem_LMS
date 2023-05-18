@@ -82,17 +82,17 @@ if (isset($_GET['detail'])) {
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col" class="px-6 py-3"></th>
-                                    <th scope="col" class="px-6 py-3">Nama Siswa</th>
-                                    <th scope="col" class="px-6 py-3">Input Nilai</th>
+                                    <th></th>
+                                    <th>Nama Siswa</th>
+                                    <th>Input Nilai</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($data_siswa as $key => $siswa) : ?>
                                     <tr>
-                                        <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                        <td class="px-6 py-4"><label for="siswa-<?= $siswa['id_siswa'] ?>"><?= $siswa['nama'] ?></label></td>
-                                        <td class="px-6 py-4"><input id="siswa-<?= $siswa['id_siswa'] ?>" value="0" min="0" max="100" type="number" name="nilai_siswa[<?= $siswa['id_siswa'] ?>]" required></td>
+                                        <th><?= $key + 1 ?></th>
+                                        <td><label for="siswa-<?= $siswa['id_siswa'] ?>"><?= $siswa['nama'] ?></label></td>
+                                        <td><input id="siswa-<?= $siswa['id_siswa'] ?>" value="0" min="0" max="100" type="number" name="nilai_siswa[<?= $siswa['id_siswa'] ?>]" required></td>
                                     </tr>
                                 <?php endforeach ?>
                             </tbody>
@@ -154,17 +154,17 @@ if (isset($_GET['detail'])) {
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col" class="px-6 py-3"></th>
-                                <th scope="col" class="px-6 py-3">Nama</th>
-                                <th scope="col" class="px-6 py-3">Nilai</th>
+                                <th></th>
+                                <th>Nama</th>
+                                <th>Nilai</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($data_penilaian as $key => $penilaian) : ?>
                                 <tr class="relative group">
-                                    <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                    <td class="px-6 py-4"><?= $penilaian['nama_siswa'] ?></td>
-                                    <td class="px-6 py-4"><?= $penilaian['nilai'] ?></td>
+                                    <th><?= $key + 1 ?></th>
+                                    <td><?= $penilaian['nama_siswa'] ?></td>
+                                    <td><?= $penilaian['nilai'] ?></td>
                                 </tr>
                             <?php endforeach ?>
                         </tbody>
@@ -178,25 +178,25 @@ if (isset($_GET['detail'])) {
                     <table class="datatable table">
                         <thead>
                             <tr>
-                                <th scope="col" class="px-6 py-3"></th>
-                                <th scope="col" class="px-6 py-3">Kelas</th>
-                                <th scope="col" class="px-6 py-3">Mapel</th>
-                                <th scope="col" class="px-6 py-3">Tanggal Pertemuan</th>
-                                <th scope="col" class="px-6 py-3">Jam mulai</th>
-                                <th scope="col" class="px-6 py-3">Status</th>
-                                <th scope="col" class="px-6 py-3"></th>
+                                <th></th>
+                                <th>Kelas</th>
+                                <th>Mapel</th>
+                                <th>Tanggal Pertemuan</th>
+                                <th>Jam mulai</th>
+                                <th>Status</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($data_detail_jadwal as $key => $value) : ?>
                                 <tr class="relative group">
-                                    <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                    <td class="px-6 py-4"><?= $value['nama_kelas'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['nama_mapel'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['tgl_pertemuan'] ?></td>
-                                    <td class="px-6 py-4"><?= $value['jam_mulai'] ?></td>
-                                    <td class="px-6 py-4 text-green-500"><?= $value['id_penilaian'] ? 'Ternilai' : '' ?></td>
-                                    <td class="px-6 py-4">
+                                    <th><?= $key + 1 ?></th>
+                                    <td><?= $value['nama_kelas'] ?></td>
+                                    <td><?= $value['nama_mapel'] ?></td>
+                                    <td><?= $value['tgl_pertemuan'] ?></td>
+                                    <td><?= $value['jam_mulai'] ?></td>
+                                    <td class="text-green-500"><?= $value['id_penilaian'] ? 'Ternilai' : '' ?></td>
+                                    <td>
                                         <?php if ($value['id_penilaian']) : ?>
                                             <div class="flex gap-5">
                                                 <form action="../../api/instruktur/penilaian.php" method="post">

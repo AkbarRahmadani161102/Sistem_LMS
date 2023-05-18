@@ -18,9 +18,9 @@ $data_pertemuan = $db->query($sql) or die($db->error);
             <div class="flex justify-between items-center">
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Pertemuan Bulan <?= BULAN[date('n') - 1] ?></h4>
             </div>
-            <div class="relative overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <div class="table__container">
+                <table class="table">
+                    <thead>
                         <tr>
                             <th scope="col" class="px-6 py-3 text-center">Hari</th>
                             <th scope="col" class="px-6 py-3 text-center">14.30</th>
@@ -37,12 +37,12 @@ $data_pertemuan = $db->query($sql) or die($db->error);
                                     WHERE id_instruktur = '$id_instruktur'
                                     AND j.hari = '$hari'
                                     AND jam_mulai = "; ?>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <tr>
                                 <th class="px-6 py-4 text-amber-500 text-center">
                                     <p><?= $pertemuan['hari'] ?></p>
                                 </th>
 
-                                <td class="px-6 py-4 text-center">
+                                <td class="text-center">
                                     <?php
                                     $data = $db->query($sql . "'14:30:00'") or die($db->error);
                                     $data = $data->fetch_assoc();
@@ -51,7 +51,7 @@ $data_pertemuan = $db->query($sql) or die($db->error);
                                     <p><?= isset($data['nama_mapel']) ? $data['nama_mapel'] : "" ?></p>
                                 </td>
 
-                                <td class="px-6 py-4 text-center">
+                                <td class="text-center">
                                     <?php
                                     $data = $db->query($sql . "'15:30:00'") or die($db->error);
                                     $data = $data->fetch_assoc();
@@ -60,7 +60,7 @@ $data_pertemuan = $db->query($sql) or die($db->error);
                                     <p><?= isset($data['nama_mapel']) ? $data['nama_mapel'] : "" ?></p>
                                 </td>
 
-                                <td class="px-6 py-4 text-center">
+                                <td class="text-center">
                                     <?php
                                     $data = $db->query($sql . "'16:30:00'") or die($db->error);
                                     $data = $data->fetch_assoc();

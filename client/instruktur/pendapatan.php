@@ -20,21 +20,21 @@ $data_pendapatan->fetch_assoc();
             </div>
 
             <?php generate_breadcrumb([['title' => 'Pendapatan', 'filename' => 'pendapatan.php']]); ?>
-            <div class="relative overflow-x-auto mt-5">
-                <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <div class="table__container">
+                <table class="datatable table">
+                    <thead>
                         <tr>
-                            <th scope="col" class="px-6 py-3"></th>
-                            <th scope="col" class="px-6 py-3">Nominal</th>
-                            <th scope="col" class="px-6 py-3">Tanggal Penerimaan</th>
+                            <th></th>
+                            <th>Nominal</th>
+                            <th>Tanggal Penerimaan</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($data_pendapatan as $key => $value) : ?>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                <td class="px-6 py-4"><?= $value['nominal'] ?></td>
-                                <td class="px-6 py-4">
+                            <tr>
+                                <th><?= $key + 1 ?></th>
+                                <td><?= $value['nominal'] ?></td>
+                                <td>
                                     <?php if ($value['tgl_penerimaan']) : ?>
                                         <?= $value['tgl_penerimaan'] ?>
                                     <?php else : ?>

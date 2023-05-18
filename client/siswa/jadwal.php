@@ -52,29 +52,29 @@ foreach ($data_kelas as $kelas) {
 
             <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Jadwal Kelas</h4>
 
-            <div class="relative overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <div class="table__container">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <th scope="col" class="px-6 py-3"></th>
-                            <th scope="col" class="px-6 py-3">Hari</th>
-                            <th scope="col" class="px-6 py-3">Mata Pelajaran</th>
-                            <th scope="col" class="px-6 py-3">Kelas</th>
-                            <th scope="col" class="px-6 py-3">Instruktur</th>
-                            <th scope="col" class="px-6 py-3">Jam Mulai</th>
-                            <th scope="col" class="px-6 py-3">Jam Selesai</th>
+                            <th></th>
+                            <th>Hari</th>
+                            <th>Mata Pelajaran</th>
+                            <th>Kelas</th>
+                            <th>Instruktur</th>
+                            <th>Jam Mulai</th>
+                            <th>Jam Selesai</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($data_jadwal as $key => $jadwal) : ?>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                <td class="px-6 py-4"><?= $jadwal['hari'] ?></td>
-                                <td class="px-6 py-4"><?= $jadwal['nama_mapel'] ?></td>
-                                <td class="px-6 py-4"><?= $jadwal['nama_kelas'] ?></td>
-                                <td class="px-6 py-4"><?= $jadwal['nama_instruktur'] ?></td>
-                                <td class="px-6 py-4"><?= $jadwal['jam_mulai'] ?></td>
-                                <td class="px-6 py-4"><?= $jadwal['jam_selesai'] ?></td>
+                            <tr>
+                                <th><?= $key + 1 ?></th>
+                                <td><?= $jadwal['hari'] ?></td>
+                                <td><?= $jadwal['nama_mapel'] ?></td>
+                                <td><?= $jadwal['nama_kelas'] ?></td>
+                                <td><?= $jadwal['nama_instruktur'] ?></td>
+                                <td><?= $jadwal['jam_mulai'] ?></td>
+                                <td><?= $jadwal['jam_selesai'] ?></td>
                             </tr>
                         <?php endforeach ?>
                     </tbody>

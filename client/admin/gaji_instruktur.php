@@ -69,25 +69,25 @@ if (isset($_GET['tahun']) && isset($_GET['bulan'])) {
             </div>
 
             <?php if (isset($_GET['tahun']) && isset($_GET['bulan'])) : ?>
-                <div class="relative overflow-x-auto">
-                    <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <div class="table__container">
+                    <table class="datatable table">
+                        <thead>
                             <tr>
-                                <th scope="col" class="px-6 py-3"></th>
-                                <th scope="col" class="px-6 py-3">Nama Instruktur</th>
-                                <th scope="col" class="px-6 py-3">Tanggal Penerimaan</th>
-                                <th scope="col" class="px-6 py-3">Nominal (Rp)</th>
-                                <th scope="col" class="px-6 py-3">Aksi</th>
+                                <th></th>
+                                <th>Nama Instruktur</th>
+                                <th>Tanggal Penerimaan</th>
+                                <th>Nominal (Rp)</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($data_gaji as $key => $gaji) : ?>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                    <td class="px-6 py-4"><?= $gaji['nama'] ?></td>
-                                    <td class="px-6 py-4"><?= $gaji['tgl_penerimaan'] ?></td>
-                                    <td class="px-6 py-4"><?= $gaji['nominal'] ? $gaji['nominal'] : 0 ?></td>
-                                    <td class="px-6 py-4">
+                                <tr>
+                                    <th><?= $key + 1 ?></th>
+                                    <td><?= $gaji['nama'] ?></td>
+                                    <td><?= $gaji['tgl_penerimaan'] ?></td>
+                                    <td><?= $gaji['nominal'] ? $gaji['nominal'] : 0 ?></td>
+                                    <td>
                                         <?php if ($gaji['nominal']) : ?>
                                             <?php if (!$gaji['tgl_penerimaan']) : ?>
                                                 <button data-modal-target="edit<?= $gaji['id_gaji'] ?>" data-modal-toggle="edit<?= $gaji['id_gaji'] ?>" class="btn btn--outline-green">Tandai telah diterima</button>
@@ -140,21 +140,21 @@ if (isset($_GET['tahun']) && isset($_GET['bulan'])) {
                     </table>
                 </div>
             <?php else : ?>
-                <div class="relative overflow-x-auto">
-                    <table class="datatable w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <div class="table__container">
+                    <table class="datatable table">
+                        <thead>
                             <tr>
-                                <th scope="col" class="px-6 py-3"></th>
-                                <th scope="col" class="px-6 py-3">Nama Instruktur</th>
-                                <th scope="col" class="px-6 py-3">Total Pendapatan (Rp)</th>
+                                <th></th>
+                                <th>Nama Instruktur</th>
+                                <th>Total Pendapatan (Rp)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($data_gaji as $key => $gaji) : ?>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th class="px-6 py-4 text-amber-500"><?= $key + 1 ?></th>
-                                    <td class="px-6 py-4"><?= $gaji['nama'] ?></td>
-                                    <td class="px-6 py-4"><?= $gaji['total_nominal'] ? $gaji['total_nominal'] : 0 ?></td>
+                                <tr>
+                                    <th><?= $key + 1 ?></th>
+                                    <td><?= $gaji['nama'] ?></td>
+                                    <td><?= $gaji['total_nominal'] ? $gaji['total_nominal'] : 0 ?></td>
                                 <?php endforeach ?>
                         </tbody>
                     </table>
