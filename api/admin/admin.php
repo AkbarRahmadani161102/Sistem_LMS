@@ -40,7 +40,7 @@ if (isset($_POST['create'])) {
                             break;
                         }
                         $db->query($sql);
-                        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data admin berhasil ditambahkan', 'icon_color' => 'greenlight'];
+                        push_toast('Data admin berhasil ditambahkan');
                     }
                 } else {
                     $sql = "SELECT id_role FROM role LIMIT 1";
@@ -49,13 +49,13 @@ if (isset($_POST['create'])) {
                     $sql = "INSERT INTO detail_role (id_role, id_admin) VALUES('$id_role', '$id_admin')";
                     $db->query($sql);
                 }
-                $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Admin berhasil ditambah', 'icon_color' => 'greenlight'];
+                push_toast('Admin berhasil ditambah');
             }
         } catch (\Throwable $th) {
-            $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambah', 'icon_color' => 'red', 'text' => 'Email sudah ada'];
+            push_toast('Gagal menambah', 'Email sudah ada', 'error', 'red');
         }
     } else {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambah', 'icon_color' => 'red', 'text' => 'Password mengandung karakter'];
+        push_toast('Gagal menambah', 'error', 'Password mengandung karakter');
     }
 }
 if (isset($_POST['update_profil'])) {
@@ -69,9 +69,9 @@ if (isset($_POST['update_profil'])) {
         $_SESSION['nama'] = $nama;
         $sql = "UPDATE admin SET nama = '$nama', no_telp = '$nomor_telepon', alamat = '$alamat', tgl_diubah = '$current_date' WHERE id_admin = '$id_admin'";
         $db->query($sql);
-        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data profil berhasil diubah', 'icon_color' => 'greenlight'];
+        push_toast('Data profil berhasil diubah');
     } else {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Field nomor telp mengandung karakter'];
+        push_toast('Gagal mengubah', 'error', 'Field nomor telp mengandung karakter');
     }
     redirect("../../client/admin/admin.php?edit=$id_admin");
 }
@@ -94,12 +94,12 @@ if (isset($_POST['update_kredensial'])) {
                 $sql = "UPDATE admin SET email = '$email', password = '$encrypted_password', tgl_diubah = '$current_date' WHERE id_admin = '$id_admin'";
             }
             $db->query($sql);
-            $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data kredensial berhasil diubah', 'icon_color' => 'greenlight'];
+            push_toast('Data kredensial berhasil diubah');
         } catch (\Throwable $th) {
-            $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Email sudah ada'];
+            push_toast('Gagal mengubah', 'error', 'Email sudah ada');
         }
     } else {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Pastikan konfirmasi password sama'];
+        push_toast('Gagal mengubah', 'error', 'Pastikan konfirmasi password sama');
     }
     redirect("../../client/admin/admin.php?edit=$id_admin");
 }
@@ -118,7 +118,7 @@ if (isset($_POST['update_hak_akses'])) {
         }
         $db->query($sql);
     }
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data hak akses berhasil diubah', 'icon_color' => 'greenlight'];
+    push_toast('Data hak akses berhasil diubah');
     redirect("../../client/admin/admin.php?edit=$id_admin");
 }
 if (isset($_POST['delete'])) {
@@ -132,14 +132,14 @@ if (isset($_POST['delete'])) {
 
         $sql = "DELETE FROM admin WHERE id_admin = '$id_admin'";
         $db->query($sql);
-        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data admin berhasil dihapus', 'icon_color' => 'greenlight'];
+        push_toast('Data admin berhasil dihapus');
         redirect("../../client/admin/admin.php");
 
         if ($db->error) {
-            $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
+            push_toast('Gagal menghapus', 'error', 'Constraint integrity error');
         }
     }
-    $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
+    push_toast('Gagal menghapus', 'error', 'Constraint integrity error');
 }
 
 redirect("../../client/admin/admin.php");

@@ -24,7 +24,8 @@ if (isset($_POST['sync'])) {
         $sql = "INSERT INTO gaji (id_instruktur, nominal, tgl_dibuat) VALUES ('$id_instruktur', '$nominal', '$tgl_dibuat')";
         $db->query($sql);
     }
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data berhasil disinkronkan', 'icon_color' => 'greenlight'];
+
+    push_toast('Data berhasil disinkronkan');
 }
 if (isset($_POST['update'])) {
     $id_gaji = escape($_POST['update']);
@@ -36,7 +37,7 @@ if (isset($_POST['update'])) {
         $sql = "UPDATE gaji SET tgl_penerimaan = '$tgl_penerimaan' WHERE id_gaji = '$id_gaji'";
 
     $db->query($sql);
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data berhasil diubah', 'icon_color' => 'greenlight'];
+    push_toast('Data berhasil diubah');
 }
 if (isset($_POST['redirect'])) {
     $tahun = escape($_POST['tahun']);

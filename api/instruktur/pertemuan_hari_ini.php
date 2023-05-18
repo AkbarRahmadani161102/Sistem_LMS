@@ -11,6 +11,6 @@ if(isset($_POST['presence'])) {
         $sql = "UPDATE detail_jadwal SET status_kehadiran_instruktur = 'Hadir' WHERE id_detail_jadwal = '$id_detail_jadwal'";
         $db->query($sql) or die($db->error);
     }
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Berhasil melakukan absensi', 'icon_color' => 'greenlight'];
+    push_toast('Berhasil melakukan absensi');
 }
 redirect('../../client/instruktur/pertemuan_hari_ini.php');

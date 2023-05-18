@@ -29,7 +29,7 @@ if (isset($_POST['sync'])) {
         $db->query($sql);
     }
 
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data berhasil disinkronkan', 'icon_color' => 'greenlight'];
+    push_toast('Data berhasil disinkronkan');
 }
 
 if (isset($_POST['update'])) {
@@ -55,7 +55,7 @@ if (isset($_POST['update'])) {
         $db->query($sql);
     }
 
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data berhasil diubah', 'icon_color' => 'greenlight'];
+    push_toast('Data berhasil diubah');
 }
 
 if (isset($_POST['redirect'])) {

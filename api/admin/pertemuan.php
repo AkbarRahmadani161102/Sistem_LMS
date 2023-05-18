@@ -65,7 +65,7 @@ if (isset($_POST['sync'])) {
         }
     }
 
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data berhasil disinkronkan', 'icon_color' => 'greenlight'];
+    push_toast('Data berhasil disinkronkan');
 }
 if (isset($_POST['reassign_instruktur'])) {
     $id_detail_jadwal = escape($_POST['reassign_instruktur']);
@@ -127,16 +127,16 @@ if (isset($_POST['reassign_instruktur'])) {
             $db->query($sql);
         }
 
-        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Instruktur berhasil ditetapkan', 'icon_color' => 'greenlight'];
+        push_toast('Instruktur berhasil ditetapkan');
     } else {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menetapkan instruktur', 'icon_color' => 'red', 'text' => 'Instruktur yang bersangkutan sudah ada di jadwal lain di hari dan jam yang sama'];
+        push_toast('Gagal menetapkan instruktur', 'error', 'Instruktur yang bersangkutan sudah ada di jadwal lain di hari dan jam yang sama');
     }
 }
 if (isset($_POST['delete'])) {
     $id_detail_jadwal = escape($_POST['delete']);
     $sql = "DELETE FROM detail_jadwal WHERE id_detail_jadwal = '$id_detail_jadwal'";
     $db->query($sql);
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Pertemuan Dihapus', 'icon_color' => 'greenlight'];
+    push_toast('Pertemuan Dihapus');
 }
 if (isset($_POST['bulk_delete'])) {
     $data_pertemuan = $_POST['delete_pertemuan'];
@@ -145,9 +145,9 @@ if (isset($_POST['bulk_delete'])) {
             $sql = "DELETE FROM detail_jadwal WHERE id_detail_jadwal = '$id_detail_jadwal'";
             $db->query($sql);
         }
-        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Pertemuan Dihapus', 'icon_color' => 'greenlight'];
+        push_toast('Pertemuan Dihapus');
     } catch (\Throwable $th) {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Pertemuan Gagal Dihapus', 'icon_color' => 'red', 'text' => 'Constraint Integrity'];
+        push_toast('Pertemuan Gagal Dihapus', 'error','Constraint integrity error');
     }
 }
 redirect('../../client/admin/pertemuan.php');

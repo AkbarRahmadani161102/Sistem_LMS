@@ -15,7 +15,7 @@ if (isset($_POST['update'])) {
 
     $sql = "UPDATE pengajuan SET status = '$status', id_detail_jadwal = NULL WHERE id_pengajuan = '$id_pengajuan'";
     $db->query($sql);
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Status pengajuan berhasil diubah', 'icon_color' => 'greenlight'];
+    push_toast('Status pengajuan berhasil diubah');
 }
 
 redirect('../../client/admin/pengajuan.php');

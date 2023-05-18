@@ -16,7 +16,7 @@ if (isset($_POST['create'])) {
         $db->query($sql) or die($db->error);
     }
 
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data penilaian berhasil ditambahkan', 'icon_color' => 'greenlight'];
+    push_toast('Data penilaian berhasil ditambahkan');
 }
 if (isset($_POST['reset'])) {
     $id_penilaian = $_POST['reset'];
@@ -26,7 +26,7 @@ if (isset($_POST['reset'])) {
     $sql = "DELETE FROM penilaian WHERE id_penilaian = '$id_penilaian'";
     $db->query($sql) or die($db->error);
 
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data penilaian berhasil direset', 'icon_color' => 'greenlight'];
+    push_toast('Data penilaian berhasil direset');
 }
 
 redirect('../../client/instruktur/penilaian.php');

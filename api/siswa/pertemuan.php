@@ -19,6 +19,6 @@ if (isset($_POST['ajukan_instruktur'])) {
     $sql = "UPDATE detail_jadwal SET status_kehadiran_instruktur = 'Proses Pergantian' WHERE id_detail_jadwal = '$id_detail_jadwal'";
     $db->query($sql) or die($db->error);
 
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Pengajuan ditambahkan', 'icon_color' => 'greenlight'];
+    push_toast('Pengajuan ditambahkan');
 }
 redirect('../../client/siswa/pertemuan.php');

@@ -36,12 +36,12 @@ if (isset($_POST['create'])) {
                     $db->query($sql);
                 }
             }
-            $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data instruktur berhasil ditambahkan', 'icon_color' => 'greenlight'];
+            push_toast('Data instruktur berhasil ditambahkan');
         } else {
-            $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambah', 'icon_color' => 'red', 'text' => 'Email sudah ada'];
+            push_toast('Gagal menambah', 'error', 'Email sudah ada');
         }
     } else {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambah', 'icon_color' => 'red', 'text' => 'Password mengandung karakter'];
+        push_toast('Gagal menambah', 'error', 'Password mengandung karakter');
     }
 }
 if (isset($_POST['update_profil'])) {
@@ -56,9 +56,9 @@ if (isset($_POST['update_profil'])) {
         $_SESSION['nama'] = $nama;
         $sql = "UPDATE instruktur SET nama = '$nama', no_telp = '$nomor_telepon', alamat = '$alamat', status = '$status', tgl_diubah = '$current_date' WHERE id_instruktur = '$id_instruktur'";
         $db->query($sql);
-        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data profil berhasil diubah', 'icon_color' => 'greenlight'];
+        push_toast('Data profil berhasil diubah');
     } else {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Field nomor telp mengandung karakter'];
+        push_toast('Gagal mengubah', 'error', 'telp mengandung karakter');
     }
     redirect("../../client/admin/instruktur.php?edit=$id_instruktur");
 }
@@ -81,12 +81,12 @@ if (isset($_POST['update_kredensial'])) {
                 $sql = "UPDATE instruktur SET email = '$email', password = '$encrypted_password', tgl_diubah = '$current_date' WHERE id_instruktur = '$id_instruktur'";
             }
             $db->query($sql);
-            $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data kredensial berhasil diubah', 'icon_color' => 'greenlight'];
+            push_toast('Data kredensial berhasil diubah');
         } catch (\Throwable $th) {
-            $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Email sudah ada'];
+            push_toast('Gagal mengubah', 'error', 'Email sudah ada');
         }
     } else {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Pastikan konfirmasi password sama'];
+        push_toast('Gagal mengubah', 'error', 'konfirmasi password sama');
     }
     redirect("../../client/admin/instruktur.php?edit=$id_instruktur");
 }
@@ -102,7 +102,7 @@ if (isset($_POST['update_mapel'])) {
             $sql = "INSERT INTO detail_mapel (id_mapel, id_instruktur) VALUES('$value', '$id_instruktur')";
             $db->query($sql);
         }
-        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data mapel berhasil diubah', 'icon_color' => 'greenlight'];
+        push_toast('Data mapel berhasil diubah');
     }
 }
 if (isset($_POST['delete'])) {
@@ -126,9 +126,9 @@ if (isset($_POST['delete'])) {
         $sql = "DELETE FROM penilaian WHERE id_instruktur = '$id_instruktur'";
         $db->query($sql);
 
-        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data instruktur berhasil dihapus', 'icon_color' => 'greenlight'];
+        push_toast('Data instruktur berhasil dihapus');
     } catch (\Throwable $th) {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
+        push_toast('Gagal menghapus', 'error', 'Constraint integrity error');
     }
 }
 redirect("../../client/admin/instruktur.php");

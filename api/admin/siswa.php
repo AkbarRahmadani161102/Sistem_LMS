@@ -31,12 +31,12 @@ if (isset($_POST['create'])) {
         if (is_email_available()) {
             $sql = "INSERT INTO siswa (id_siswa, nama, no_telp, alamat, email, password) VALUES ('$id_siswa', '$nama', '$no_telp', '$alamat', '$email' , '$password')";
             $db->query($sql);
-            $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data siswa berhasil ditambahkan', 'icon_color' => 'greenlight'];
+            push_toast('Data siswa berhasil ditambahkan');
         } else {
-            $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambah', 'icon_color' => 'red', 'text' => 'Email sudah ada'];
+            push_toast('Gagal menambah', 'error', 'Email sudah ada');
         }
     } else {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambah', 'icon_color' => 'red', 'text' => 'Password mengandung karakter'];
+        push_toast('Gagal menambah', 'error', 'Password mengandung karakter');
     }
     redirect("../../client/admin/siswa.php");
 }
@@ -82,9 +82,9 @@ if (isset($_POST['update'])) {
         $sql = "UPDATE siswa SET nama = '$nama', no_telp = '$no_telp', alamat = '$alamat', status = '$status', tgl_diubah = '$current_date' $ext_sql WHERE id_siswa = '$id_siswa'";
         $db->query($sql);
 
-        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data siswa berhasil diubah', 'icon_color' => 'greenlight'];
+        push_toast('Data siswa berhasil diubah');
     } else {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Field nomor telp mengandung karakter'];
+        push_toast('Gagal mengubah', 'error', 'Field nomor telp mengandung karakter');
     }
     redirect("../../client/admin/siswa.php");
 }
@@ -122,13 +122,13 @@ if (isset($_POST['delete'])) {
         $sql = "DELETE FROM siswa WHERE id_siswa = '$id_siswa'";
         $db->query($sql);
 
-        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data siswa berhasil dihapus', 'icon_color' => 'greenlight'];
+        push_toast('Data siswa berhasil dihapus');
 
         if ($db->error) {
-            $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
+            push_toast('Gagal menghapus', 'error', 'Constraint integrity error');
         }
     } catch (\Throwable $th) {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
+        push_toast('Gagal menghapus', 'error', 'Constraint integrity error');
     }
     redirect("../../client/admin/siswa.php");
 }
@@ -221,7 +221,7 @@ if (isset($_POST['file_import'])) {
 
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     if ($imageFileType !== 'xlsx')
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal import data siswa', 'icon_color' => 'red', 'text' => 'Pastikan format file yang diungah bertipe .xlsx'];
+        push_toast('Gagal import data siswa', 'error', 'Pastikan format file yang diungah bertipe .xlsx');
     else {
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $reader->setReadDataOnly(true);
@@ -242,7 +242,7 @@ if (isset($_POST['file_import'])) {
                 $db->query($sql);
             }
         }
-        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data siswa berhasil di import', 'icon_color' => 'greenlight'];
+        push_toast('Data siswa berhasil di import');
     }
     redirect("../../client/admin/siswa.php");
 }
@@ -280,9 +280,9 @@ if (isset($_POST['bulk_delete'])) {
             $sql = "DELETE FROM siswa WHERE id_siswa = '$id_siswa'";
             $db->query($sql);
         }
-        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data Siswa Dihapus', 'icon_color' => 'greenlight'];
+        push_toast('Data Siswa Dihapus');
     } catch (\Throwable $th) {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Data Siswa Gagal Dihapus', 'icon_color' => 'red', 'text' => 'Constraint Integrity'];
+        push_toast('Data Siswa Gagal Dihapus', 'error','Constraint integrity error');
     }
     redirect("../../client/admin/siswa.php");
 }

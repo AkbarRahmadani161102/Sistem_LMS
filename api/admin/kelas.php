@@ -10,7 +10,7 @@ if (isset($_POST['create'])) {
     $data_kelas = $db->query($sql);
 
     if ($data_kelas->num_rows > 0) {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambahkan kelas', 'icon_color' => 'greenlight', 'text' => 'Kelas dengan nama yang sama telah ada'];
+        push_toast('Gagal menambahkan kelas', 'error', 'Kelas dengan nama yang sama telah ada');
         redirect('../../client/admin/kelas.php');
     }
 
@@ -19,7 +19,7 @@ if (isset($_POST['create'])) {
             $id_ketua_kelas = $_POST['ketua_kelas'];
             $sql = "INSERT INTO kelas (id_jenjang, nama, status, id_ketua_kelas) VALUES('$jenjang', '$nama_kelas', '$status', '$id_ketua_kelas')";
         } else {
-            $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambahkan kelas', 'icon_color' => 'greenlight', 'text' => 'Pastikan ketua kelas dipilih menjadi anggota kelas'];
+            push_toast('Gagal menambahkan kelas', 'error', 'Pastikan ketua kelas dipilih menjadi anggota kelas');
             redirect('../../client/admin/kelas.php');
         }
     } else {
@@ -37,7 +37,7 @@ if (isset($_POST['create'])) {
         }
     }
 
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Kelas berhasil ditambahkan', 'icon_color' => 'greenlight'];
+    push_toast('Kelas berhasil ditambahkan');
 }
 
 if (isset($_POST['update'])) {
@@ -51,7 +51,7 @@ if (isset($_POST['update'])) {
             $id_ketua_kelas = $_POST['ketua_kelas'];
             $sql = "UPDATE kelas SET id_jenjang = '$jenjang', nama = '$nama_kelas', status = '$status', id_ketua_kelas = '$id_ketua_kelas' WHERE id_kelas = '$id_kelas'";
         } else {
-            $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menambahkan kelas', 'icon_color' => 'greenlight', 'text' => 'Pastikan ketua kelas dipilih menjadi anggota kelas'];
+            push_toast('Gagal menambahkan kelas', 'error', 'Pastikan ketua kelas dipilih menjadi anggota kelas');
             redirect('../../client/admin/kelas.php');
         }
     } else {
@@ -72,7 +72,7 @@ if (isset($_POST['update'])) {
         }
     }
 
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Kelas berhasil diubah', 'icon_color' => 'greenlight'];
+    push_toast('Kelas berhasil diubah');
 }
 
 if (isset($_POST['delete'])) {
@@ -82,9 +82,9 @@ if (isset($_POST['delete'])) {
         $db->query($sql);
         $sql = "DELETE FROM kelas WHERE id_kelas = '$id_kelas'";
         $db->query($sql);
-        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Kelas berhasil dihapus', 'icon_color' => 'greenlight'];
+        push_toast('Kelas berhasil dihapus');
     } catch (\Throwable $th) {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
+        push_toast('Gagal menghapus', 'error', 'Constraint integrity error');
     }
 }
 

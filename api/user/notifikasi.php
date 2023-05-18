@@ -15,7 +15,7 @@ if (isset($_POST['delete'])) {
     $id_notifikasi = escape($_POST['delete']);
     $sql = "DELETE FROM notifikasi_$role WHERE id_notifikasi_$role = '$id_notifikasi'";
     $db->query($sql) or die($db->error);
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data notifikasi berhasil dihapus', 'icon_color' => 'greenlight'];
+    push_toast('Data notifikasi berhasil dihapus');
     redirect("../../client/user/notifikasi.php");
 }
 if (isset($_POST['check_all'])) {

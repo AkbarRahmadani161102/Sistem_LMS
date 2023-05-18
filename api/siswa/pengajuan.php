@@ -8,16 +8,16 @@ if (isset($_POST['create'])) {
     $judul = escape($_POST['judul']);
 
     $sql = "INSERT INTO pengajuan (id_siswa, judul, keterangan) VALUES('$id_siswa', '$judul', '$keterangan')";
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Pengajuan baru berhasil diunggah', 'icon_color' => 'greenlight'];
+    push_toast('Pengajuan baru berhasil diunggah');
     $db->query($sql);
 } else if (isset($_POST['delete'])) {
     try {
         $id_pengajuan = escape($_POST['delete']);
         $sql = "DELETE FROM pengajuan WHERE id_pengajuan = '$id_pengajuan'";
         $db->query($sql);
-        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data pengajuan berhasil dihapus', 'icon_color' => 'greenlight'];
+        push_toast('Data pengajuan berhasil dihapus');
     } catch (\Throwable $th) {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
+        push_toast('Gagal menghapus', 'error', 'Constraint integrity error');
     }
 }
 redirect('../../client/siswa/pengajuan.php');

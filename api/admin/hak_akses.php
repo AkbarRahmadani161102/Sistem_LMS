@@ -15,8 +15,7 @@ if (isset($_POST['create'])) {
             $db->query($sql);
         }
     }
-
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data role berhasil ditambahkan', 'icon_color' => 'greenlight'];
+    push_toast('Data role berhasil ditambahkan');
 } else if (isset($_POST['update'])) {
     $id_role = escape($_POST['update']);
     $title = escape($_POST['title']);
@@ -32,7 +31,8 @@ if (isset($_POST['create'])) {
             $db->query($sql);
         }
     }
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data role berhasil diubah', 'icon_color' => 'greenlight'];
+
+    push_toast('Data role berhasil diubah');
 } else if (isset($_POST['delete'])) {
     // ISSUE: constraint foreign key
     $id_role = escape($_POST['delete']);
@@ -40,10 +40,10 @@ if (isset($_POST['create'])) {
     $db->query($sql);
     $sql = "DELETE FROM role WHERE id_role = '$id_role'";
     $db->query($sql);
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data role berhasil dihapus', 'icon_color' => 'greenlight'];
+    push_toast('Data role berhasil dihapus');
 
     if ($db->error) {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal menghapus', 'icon_color' => 'red', 'text' => 'Constraint integrity error'];
+        push_toast('Gagal menghapus', 'error', 'Constraint integrity error');
     }
 } else if (isset($_POST['sync'])) {
     $data_hak_akses = $_POST['data_hak_akses'];
@@ -56,7 +56,8 @@ if (isset($_POST['create'])) {
         $sql = "INSERT INTO hak_akses (nama, kategori, nama_file, icon) VALUES('$nama', '$kategori', '$nama_file', '$icon')";
         $db->query($sql) or die($db->error);
     }
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Daftar hak akses berhasil diperbarui', 'icon_color' => 'greenlight'];
+
+    push_toast('Daftar hak akses berhasil diperbarui');
 } else if (isset($_POST['update_hak_akses'])) {
     $id_hak_akses = escape($_POST['update_hak_akses']);
     $nama = escape($_POST['nama']);
@@ -65,8 +66,7 @@ if (isset($_POST['create'])) {
 
     $sql = "UPDATE hak_akses SET nama = '$nama', kategori = '$kategori', icon='$icon' WHERE id_hak_akses = '$id_hak_akses'";
     $db->query($sql) or die($db->error);
-    $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Hak akses berhasil diperbarui', 'icon_color' => 'greenlight'];
-
+    push_toast('Hak akses berhasil diperbarui');
 ?>
     <script>
         history.back()

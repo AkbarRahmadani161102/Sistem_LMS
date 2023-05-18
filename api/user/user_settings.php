@@ -16,9 +16,9 @@ if (isset($_POST['update_profil'])) {
         $_SESSION['nama'] = $nama;
         $sql = "UPDATE $role SET nama = '$nama', no_telp = '$nomor_telepon', alamat = '$alamat', tgl_diubah = '$current_date' WHERE id_$role = '$id_user'";
         $db->query($sql);
-        $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data profil berhasil diubah', 'icon_color' => 'greenlight'];
+        push_toast('Data profil berhasil diubah');
     } else {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal mengubah', 'icon_color' => 'red', 'text' => 'Field nomor telp mengandung karakter'];
+        push_toast('Gagal Mengubah', 'error', 'Field nomor telp mengandung karakter');
     }
     redirect("../../client/user/user_settings.php");
 }
@@ -32,10 +32,10 @@ if (isset($_POST['update_kredensial'])) {
             $password = md5($password);
             $sql = "UPDATE $role SET email = '$email', password = '$password', tgl_diubah = '$current_date' WHERE id_$role = '$id_user'";
             $db->query($sql);
-            $_SESSION['toast'] = ['icon' => 'success', 'title' => 'Data kredensial berhasil diubah', 'icon_color' => 'greenlight'];
+            push_toast('Data kredensial berhasil diubah');
         }
     } else {
-        $_SESSION['toast'] = ['icon' => 'error', 'title' => 'Gagal Mengubah', 'icon_color' => 'red', 'text' => 'Pastikan isi konfirmasi password sama'];
+        push_toast('Gagal Mengubah', 'error', 'Pastikan isi konfirmasi password sama');
     }
     redirect("../../client/user/user_settings.php");
 }
