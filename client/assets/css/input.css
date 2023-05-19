@@ -324,6 +324,11 @@
     }
 }
 
+/* Loading Screen */
+#loading-screen {
+    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7));
+}
+
 /* Override Selectize Search (Dashboard Navbar) */
 .selectize-search.selectize-control .selectize-input:after {
     display: none;

@@ -6,6 +6,7 @@ const refreshTime = () => {
 }
 
 $(document).ready(() => {
+    $('#loading-screen').remove()
     $("img[alt*='www.000webhost']").remove()
 
     refreshTime()
