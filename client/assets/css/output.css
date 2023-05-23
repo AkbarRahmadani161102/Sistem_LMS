@@ -1642,6 +1642,10 @@ hr.vr {
   width: 100vw;
 }
 
+.w-2\/4 {
+  width: 50%;
+}
+
 .max-w-2xl {
   max-width: 42rem;
 }
@@ -1710,6 +1714,11 @@ hr.vr {
 
 .resize-none {
   resize: none;
+}
+
+.columns-2 {
+  -moz-columns: 2;
+       columns: 2;
 }
 
 .flex-col {
@@ -2670,6 +2679,32 @@ hr.vr {
 .dark .dataTables_wrapper select option {
   --tw-text-opacity: 1;
   color: rgb(31 41 55 / var(--tw-text-opacity));
+}
+
+/* Override Datatable SearchPane*/
+
+.dark div[class*="panesContainer"] div[class*="titleRow"] button:not(:disabled):hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
+}
+
+.dark div[class*="panesContainer"] div[class*="searchPane"] div[class*="topRow"]:hover {
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.dark div[class*="panesContainer"] .dataTables_scroll .dataTables_scrollBody {
+  background-color: transparent !important;
+}
+
+.dark div[class*="panesContainer"] input::-moz-placeholder {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.dark div[class*="panesContainer"] input::placeholder {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .hover\:translate-y-0:hover {

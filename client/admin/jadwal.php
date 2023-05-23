@@ -186,7 +186,7 @@ if (isset($_GET['assign_instruktur'])) {
                     <?php endforeach ?>
                 </ul>
                 <div class="table__container">
-                    <table class="datatable table">
+                    <table class="datatable-searchpane table">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -314,5 +314,27 @@ if (isset($_GET['assign_instruktur'])) {
     </div>
 <?php endif ?>
 
-<?php
-include_once('../template/footer.php') ?>
+<script>
+    $('.datatable-searchpane').DataTable({
+        dom: 'Pfrtip',
+        searchPanes: {
+            controls: false,
+            initCollapsed: true
+        },
+        columnDefs: [{
+                searchPanes: {
+                    show: false
+                },
+                targets: [3, 4, 5, 7, 8, 9]
+            },
+            {
+                searchPanes: {
+                    show: true
+                },
+                targets: [6]
+            }
+        ]
+    });
+</script>
+
+<?php include_once('../template/footer.php') ?>

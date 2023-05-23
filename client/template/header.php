@@ -15,6 +15,8 @@ include_once('../../api/util/db.php');
     <link rel="stylesheet" href="../assets/css/sweetalert2.min.css" />
     <link rel="stylesheet" href="../assets/css/selectize.default.min.css" />
     <link rel="stylesheet" href="../assets/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="../assets/css/select.dataTables.min.css" />
+    <link rel="stylesheet" href="../assets/css/searchPanes.dataTables.min.css" />
     <link rel="stylesheet" href="../assets/css/output.css" />
     <link rel="stylesheet" href="../assets/icons/remixicon/remixicon.css" />
     <script src="../assets/js/chart.umd.min.js"></script>
@@ -22,6 +24,8 @@ include_once('../../api/util/db.php');
     <script src="../assets/js/jquery-3.6.4.min.js"></script>
     <script src="../assets/js/selectize.min.js"></script>
     <script src="../assets/js/jquery.dataTables.min.js"></script>
+    <script src="../assets/js/dataTables.select.min.js"></script>
+    <script src="../assets/js/dataTables.searchPanes.min.js"></script>
     <script>
         function generateConfirmationDialog(url, body) {
             return Swal.fire({

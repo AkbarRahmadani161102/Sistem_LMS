@@ -413,3 +413,20 @@
 .dark .dataTables_wrapper select option {
     @apply text-gray-800
 }
+
+/* Override Datatable SearchPane*/
+.dark div[class*="panesContainer"] div[class*="titleRow"] button:not(:disabled):hover {
+    @apply bg-gray-500
+}
+
+.dark div[class*="panesContainer"] div[class*="searchPane"] div[class*="topRow"]:hover {
+    @apply border-transparent bg-transparent
+}
+
+.dark div[class*="panesContainer"] .dataTables_scroll .dataTables_scrollBody{
+    @apply bg-transparent !important
+}
+
+.dark div[class*="panesContainer"] input::placeholder {
+    @apply text-white
+}
