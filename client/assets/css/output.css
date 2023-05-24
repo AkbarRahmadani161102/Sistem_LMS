@@ -1642,10 +1642,6 @@ hr.vr {
   width: 100vw;
 }
 
-.w-2\/4 {
-  width: 50%;
-}
-
 .max-w-2xl {
   max-width: 42rem;
 }
@@ -1714,11 +1710,6 @@ hr.vr {
 
 .resize-none {
   resize: none;
-}
-
-.columns-2 {
-  -moz-columns: 2;
-       columns: 2;
 }
 
 .flex-col {
@@ -2682,6 +2673,10 @@ hr.vr {
 }
 
 /* Override Datatable SearchPane*/
+
+div[class*="panesContainer"] div[class*="searchPane"] div[class*="searchCont"] input {
+  padding-left: 0.75rem !important;
+}
 
 .dark div[class*="panesContainer"] div[class*="titleRow"] button:not(:disabled):hover {
   --tw-bg-opacity: 1;

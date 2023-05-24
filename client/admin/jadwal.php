@@ -17,8 +17,7 @@ LEFT JOIN detail_jadwal dj ON j.id_jadwal = dj.id_jadwal
 LEFT JOIN instruktur i ON j.id_instruktur = i.id_instruktur
 LEFT JOIN siswa s ON k.id_ketua_kelas = s.id_siswa
 GROUP BY j.id_jadwal
-ORDER BY nama_kelas, nama_jenjang, hari
-";
+ORDER BY nama_kelas, nama_jenjang, hari";
 $data_jadwal = $db->query($sql) or die($db->error);
 $data_jadwal->fetch_assoc();
 
@@ -186,16 +185,16 @@ if (isset($_GET['assign_instruktur'])) {
                     <?php endforeach ?>
                 </ul>
                 <div class="table__container">
-                    <table class="datatable-searchpane table">
+                    <table class="<?= isset($_GET['jenjang']) ? 'datatable' : 'datatable-searchpane' ?> table">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Nama Kelas</th>
-                                <th>Nama Mapel</th>
-                                <th>Nama Instruktur</th>
+                                <th>Kelas</th>
+                                <th>Mapel</th>
+                                <th>Instruktur</th>
                                 <th>Status</th>
-                                <th>Nama Ketua Kelas</th>
-                                <th>Nama Jenjang</th>
+                                <th>Ketua Kelas</th>
+                                <th>Jenjang</th>
                                 <th>Hari</th>
                                 <th>Jam Mulai</th>
                                 <th>Jam Selesai</th>
@@ -319,19 +318,25 @@ if (isset($_GET['assign_instruktur'])) {
         dom: 'Pfrtip',
         searchPanes: {
             controls: false,
-            initCollapsed: true
+            initCollapsed: true,
         },
         columnDefs: [{
                 searchPanes: {
-                    show: false
+                    header: 'Kelas',
                 },
-                targets: [3, 4, 5, 7, 8, 9]
+                targets: [1]
             },
             {
                 searchPanes: {
-                    show: true
+                    header: 'Jenjang',
                 },
                 targets: [6]
+            },
+            {
+                searchPanes: {
+                    show: false,
+                },
+                targets: ['_all']
             }
         ]
     });

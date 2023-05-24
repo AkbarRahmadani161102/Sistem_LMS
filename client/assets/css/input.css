@@ -415,6 +415,10 @@
 }
 
 /* Override Datatable SearchPane*/
+div[class*="panesContainer"] div[class*="searchPane"] div[class*="searchCont"] input {
+    @apply pl-3 !important
+}
+
 .dark div[class*="panesContainer"] div[class*="titleRow"] button:not(:disabled):hover {
     @apply bg-gray-500
 }
