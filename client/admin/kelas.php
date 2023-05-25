@@ -16,7 +16,7 @@ if (isset($_GET['edit'])) {
     $nama_jenjang = $data_kelas['nama_jenjang'];
     $status = $data_kelas['status'];
 
-    $sql = "SELECT * FROM siswa s WHERE id_siswa NOT IN (SELECT id_siswa FROM detail_kelas WHERE id_siswa = s.id_siswa)
+    $sql = "SELECT * FROM siswa s WHERE id_siswa
     UNION
     SELECT * FROM siswa s WHERE id_siswa IN (SELECT id_siswa FROM detail_kelas WHERE id_kelas = '$id_kelas');";
     $data_siswa = $db->query($sql) or die($db->error);
@@ -35,7 +35,7 @@ if (isset($_GET['edit'])) {
         $arr_anggota_kelas[] = $anggota['id_siswa'];
     }
 } else if (isset($_GET['create'])) {
-    $sql = "SELECT * FROM siswa s WHERE id_siswa NOT IN (SELECT id_siswa FROM detail_kelas WHERE id_siswa = s.id_siswa)";
+    $sql = "SELECT * FROM siswa";
     $data_siswa = $db->query($sql) or die($db->error);
     $data_siswa->fetch_assoc();
 } else if (!isset($_GET['edit']) && !isset($_GET['create'])) {
@@ -76,7 +76,7 @@ if (isset($_GET['edit'])) {
                                 <label class="text-gray-800 dark:text-white" for="status_kelas">Status Kelas</label>
                                 <select name="status_kelas" id="status_kelas" class="rounded" required <?= $akses_terbatas ? 'disabled' : '' ?>>
                                     <option value="Reguler" <?= $status === 'Reguler' ? 'selected' : '' ?>>Reguler</option>
-                                    <!-- <option value="Privat">Privat</option> -->
+                                    <option value="Privat">Privat</option>
                                 </select>
                                 <?php if ($akses_terbatas) : ?>
                                     <input type="hidden" name="status_kelas" value="<?= $status ?>">
@@ -140,7 +140,7 @@ if (isset($_GET['edit'])) {
                                 <label class="text-gray-800 dark:text-white" for="status_kelas">Status Kelas</label>
                                 <select name="status_kelas" id="status_kelas" class="rounded" required>
                                     <option value="Reguler">Reguler</option>
-                                    <!-- <option value="Privat">Privat</option> -->
+                                    <option value="Privat">Privat</option>
                                 </select>
                             </div>
                             <div class="flex flex-1 flex-col gap-1">

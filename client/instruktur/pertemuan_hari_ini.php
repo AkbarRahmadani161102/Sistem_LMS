@@ -8,21 +8,27 @@ $data_pertemuan = $db->query($sql) or die($db->error);
 
 if (isset($_GET['presence'])) {
     $id_detail_jadwal = $_GET['presence'];
-    $sql = "SELECT s.*, dj.tgl_pertemuan, dj.id_instruktur FROM detail_jadwal dj
+    $sql = "SELECT s.* FROM detail_jadwal dj
     JOIN jadwal j ON dj.id_jadwal = j.id_jadwal
     JOIN kelas k ON j.id_kelas = k.id_kelas
     JOIN detail_kelas dk ON dk.id_kelas = k.id_kelas
     JOIN siswa s ON dk.id_siswa = s.id_siswa
     WHERE id_detail_jadwal = '$id_detail_jadwal'";
+
     $data_siswa = $db->query($sql) or die($db->error);
     $data_siswa->fetch_assoc();
-    $tgl_pertemuan = $data_siswa->fetch_assoc()['tgl_pertemuan'];
-    $id_instruktur_pertemuan = $data_siswa->fetch_assoc()['id_instruktur'];
+
+    $sql = "SELECT * FROM detail_jadwal WHERE id_detail_jadwal = '$id_detail_jadwal' LIMIT 1";
+    $data_jadwal = $db->query($sql)->fetch_assoc() or die($db->error);
+    $tgl_pertemuan = $data_jadwal['tgl_pertemuan'];
+    $id_instruktur_pertemuan = $data_jadwal['id_instruktur'];
+
     if ($tgl_pertemuan < date('Y-m-d')) {
         // Jika instruktur mengakses peretemuan yang telah usai
         push_toast('Pertemuan telah usai', 'error');
         redirect('./pertemuan_hari_ini.php');
     }
+
     if ($id_instruktur !== $id_instruktur_pertemuan) {
         // Jika instruktur mengakses pertemuan dari instruktur lain
         push_toast('Akses ditolak', 'error', 'Anda tidak memiliki hak untuk mengakses sumber daya ini');

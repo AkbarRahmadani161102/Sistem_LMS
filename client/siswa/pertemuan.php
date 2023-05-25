@@ -5,6 +5,10 @@ user_access('siswa');
 
 $id_siswa = $_SESSION['user_id'];
 
+$nama_kelas = [];
+$sql = "SELECT k.id_kelas, k.nama nama_kelas FROM detail_kelas dk, kelas k WHERE dk.id_kelas = k.id_kelas AND dk.id_siswa = '$id_siswa'";
+$data_kelas = $db->query($sql) or die($db->error);
+$data_kelas->fetch_assoc();
 
 if (isset($_GET['pergantian_instruktur'])) {
     $id_detail_jadwal = $_GET['pergantian_instruktur'];
@@ -17,7 +21,6 @@ if (isset($_GET['pergantian_instruktur'])) {
 
     $data_detail_jadwal = $db->query($sql) or die($db->error);
     $data_detail_jadwal = $data_detail_jadwal->fetch_assoc();
-
     $ketua_kelas =  $data_detail_jadwal['id_ketua_kelas'] === $id_siswa;
 
     $id_detail_jadwal = $data_detail_jadwal['id_detail_jadwal'];
@@ -27,6 +30,7 @@ if (isset($_GET['pergantian_instruktur'])) {
     $nama_kelas = $data_detail_jadwal['nama_kelas'];
     $nama_mapel = $data_detail_jadwal['nama_mapel'];
     $tgl_pertemuan = $data_detail_jadwal['tgl_pertemuan'];
+    
     $sql = "SELECT * FROM detail_mapel dm
     JOIN instruktur i ON dm.id_instruktur = i.id_instruktur
     WHERE dm.id_mapel = '$id_mapel'
@@ -34,20 +38,30 @@ if (isset($_GET['pergantian_instruktur'])) {
 
     $data_instruktur = $db->query($sql) or die($db->error);
     $data_instruktur->fetch_assoc();
+
+    if(!$data_instruktur->num_rows) {
+        push_toast('Instruktur tidak ada yang tersedia', 'error');
+        redirect('./pertemuan.php');
+    }
+
 } else {
+    $condition = '';
+    if (isset($_GET['kelas']))
+        $condition = 'AND k.id_kelas = ' . $_GET['kelas'];
+
     $sql = "SELECT *, dj.id_detail_jadwal, m.nama nama_mapel, i.nama nama_instruktur, abs.status status_kehadiran FROM detail_jadwal dj
-    JOIN jadwal j ON dj.id_jadwal = j.id_jadwal
-    JOIN mapel m ON j.id_mapel = m.id_mapel
-    JOIN instruktur i ON j.id_instruktur = i.id_instruktur
-    JOIN kelas k ON j.id_kelas = k.id_kelas
-    LEFT JOIN absensi_siswa abs ON dj.id_detail_jadwal = abs.id_detail_jadwal
-    WHERE j.id_kelas = (SELECT id_kelas FROM detail_kelas WHERE id_siswa = '$id_siswa')
-    GROUP BY dj.id_detail_jadwal
-    ORDER BY dj.tgl_pertemuan DESC";
+        JOIN jadwal j ON dj.id_jadwal = j.id_jadwal
+        JOIN mapel m ON j.id_mapel = m.id_mapel
+        JOIN instruktur i ON dj.id_instruktur = i.id_instruktur
+        JOIN detail_kelas dk ON j.id_kelas = dk.id_kelas
+        JOIN kelas k ON dk.id_kelas = k.id_kelas
+        LEFT JOIN absensi_siswa abs ON dj.id_detail_jadwal = abs.id_detail_jadwal
+        WHERE dk.id_siswa = '$id_siswa' $condition
+        GROUP BY dj.id_detail_jadwal
+        ORDER BY dj.tgl_pertemuan DESC";
+
     $data_pertemuan = $db->query($sql) or die($db->error);
     $data_pertemuan->fetch_assoc();
-
-    $ketua_kelas =  $data_pertemuan->fetch_assoc()['id_ketua_kelas'] === $id_siswa;
 }
 ?>
 
@@ -58,6 +72,7 @@ if (isset($_GET['pergantian_instruktur'])) {
             <?php include_once '../components/dashboard_navbar.php'; ?>
             <?php if (isset($_GET['pergantian_instruktur'])) : ?>
                 <?php generate_breadcrumb([['title' => 'Pertemuan', 'filename' => 'pertemuan.php'], ['title' => 'Pergantian Instruktur', 'filename' => '#']]); ?>
+
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Pergantian Instruktur</h4>
 
                 <?php if ($ketua_kelas) : ?>
@@ -92,6 +107,15 @@ if (isset($_GET['pergantian_instruktur'])) {
                 <?php endif ?>
             <?php else : ?>
                 <?php generate_breadcrumb([['title' => 'Pertemuan', 'filename' => 'pertemuan.php']]); ?>
+
+                <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+                    <?php foreach ($data_kelas as $key => $kelas) : ?>
+                        <li class="mr-2">
+                            <a href="?kelas=<?= $kelas['id_kelas'] ?>" class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 <?= isset($_GET['kelas']) && $_GET['kelas'] === $kelas['id_kelas'] ? 'text-blue-500' : '' ?>"><?= $kelas['nama_kelas'] ?></a>
+                        </li>
+                    <?php endforeach ?>
+                </ul>
+
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Pertemuan Kelas</h4>
                 <div class="table__container">
                     <table class="datatable table">
@@ -128,6 +152,8 @@ if (isset($_GET['pergantian_instruktur'])) {
                                         <?php endif ?>
                                     </td>
                                     <td>
+                                        <?php $ketua_kelas =  $pertemuan['id_ketua_kelas'] === $id_siswa; ?>
+                                        
                                         <?php if ($pertemuan['tgl_pertemuan'] <= date('Y-m-d') || $pertemuan['status_kehadiran_instruktur'] === 'Hadir') : ?>
                                             <!-- <p class="text-red-500">Pertemuan telah usai</p> -->
                                         <?php else : ?>

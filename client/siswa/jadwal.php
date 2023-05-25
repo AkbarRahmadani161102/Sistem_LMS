@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * Note: 
+ * Data jadwal tidak muncul dikarenakan jadwal tersebut belum diupdate di tabel pertemuan admin
+ */
+
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
 user_access('siswa');
@@ -13,10 +19,9 @@ JOIN mapel m on j.id_mapel = m.id_mapel
 JOIN siswa s on s.id_siswa = dk.id_siswa
 JOIN detail_jadwal dj on dj.id_jadwal = j.id_jadwal 
 JOIN instruktur i on i.id_instruktur = dj.id_instruktur
-WHERE s.id_siswa = '$id_siswa' AND j.id_jadwal = dj.id_jadwal
-";
+WHERE s.id_siswa = '$id_siswa' AND j.id_jadwal = dj.id_jadwal";
 
-if(isset($_GET['kelas'])) {
+if (isset($_GET['kelas'])) {
     $id_kelas = $_GET['kelas'];
     $sql .= " AND k.id_kelas = '$id_kelas'";
 }
@@ -28,9 +33,7 @@ $sql = "SELECT k.id_kelas, k.nama nama_kelas FROM detail_kelas dk, kelas k WHERE
 $data_kelas = $db->query($sql) or die($db->error);
 $data_kelas->fetch_assoc();
 
-foreach ($data_kelas as $kelas) {
-    $nama_kelas[$kelas['id_kelas']] = $kelas['nama_kelas'];
-}
+foreach ($data_kelas as $kelas) $nama_kelas[$kelas['id_kelas']] = $kelas['nama_kelas'];
 
 ?>
 
@@ -53,7 +56,7 @@ foreach ($data_kelas as $kelas) {
             <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Jadwal Kelas</h4>
 
             <div class="table__container">
-                <table class="table">
+                <table class="datatable table">
                     <thead>
                         <tr>
                             <th></th>

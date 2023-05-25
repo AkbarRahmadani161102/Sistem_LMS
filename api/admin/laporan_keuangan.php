@@ -68,6 +68,7 @@ if (isset($_GET['jurnal_umum'])) {
     $sql = "SELECT DISTINCT YEAR(tgl_pembayaran) tahun, MONTH(tgl_pembayaran) bulan FROM tunggakan WHERE status = 'Lunas' AND YEAR(tgl_pembayaran) = $tahun
     UNION
     SELECT DISTINCT YEAR(tgl_penerimaan) tahun, MONTH(tgl_penerimaan) bulan FROM gaji WHERE tgl_penerimaan IS NOT NULL AND YEAR(tgl_penerimaan) = $tahun";
+
     $data_pertemuan = $db->query($sql);
 
     define(
@@ -281,6 +282,7 @@ if (isset($_GET['jurnal_umum'])) {
 
     $writer = new Xlsx($spreadsheet);
     $writer->save('php://output');
+    die;
 }
 
 if (isset($_GET['laporan_transport'])) {
@@ -626,7 +628,7 @@ if (isset($_GET['slip_gaji_instruktur'])) {
             $sheet->setCellValue("E$starting_list_index", $pertemuan['total'])->getStyle("E$starting_list_index")->applyFromArray(XLSX_SLIP_GAJI_INSTRUKTUR_STYLE_TABLE_DATA_CENTER);
             $starting_list_index++;
         }
-        
+
         $last_list_index = $starting_list_index - 1;
 
         $sheet

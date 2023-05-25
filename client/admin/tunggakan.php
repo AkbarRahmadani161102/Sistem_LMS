@@ -1,7 +1,7 @@
 <?php
 include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
-user_access('admin','tunggakan.php');
+user_access('admin', 'tunggakan.php');
 
 $sql = "SELECT YEAR(dj.tgl_pertemuan) tahun FROM absensi_siswa abs
 JOIN detail_jadwal dj ON abs.id_detail_jadwal = dj.id_detail_jadwal
@@ -24,11 +24,11 @@ if (isset($_GET['tahun']) && isset($_GET['bulan'])) {
     JOIN kelas k ON dk.id_kelas = k.id_kelas
     JOIN jenjang j ON k.id_jenjang = j.id_jenjang
     WHERE MONTH(t.tgl_dibuat) = $bulan AND YEAR(t.tgl_dibuat) = $tahun
-    GROUP BY t.id_siswa";
+    GROUP BY t.id_siswa, deskripsi";
     $data_tunggakan = $db->query($sql) or die($db->error);
     $data_tunggakan->fetch_assoc();
 } else {
-    $sql = "SELECT t.*, s.nama nama_siswa, k.nama nama_kelas, j.nama nama_jenjang, (SUM(t.nominal) - COUNT(t.status) * nominal) total_nominal, COUNT(t.id_tunggakan) jumlah_tunggakan, COUNT(t.status) jumlah_lunas, IF(COUNT(t.id_tunggakan) = COUNT(t.status), 'Lunas', NULL) status_tunggakan FROM tunggakan t
+    $sql = "SELECT t.*, s.nama nama_siswa, k.nama nama_kelas, j.nama nama_jenjang, COUNT(t.id_tunggakan) jumlah_tunggakan, COUNT(t.status) jumlah_lunas, IF(COUNT(t.id_tunggakan) = COUNT(t.status), 'Lunas', NULL) status_tunggakan FROM tunggakan t
     JOIN siswa s ON t.id_siswa = s.id_siswa
     JOIN detail_kelas dk ON s.id_siswa = dk.id_siswa
     JOIN kelas k ON dk.id_kelas = k.id_kelas
@@ -97,6 +97,7 @@ if (isset($_GET['tahun']) && isset($_GET['bulan'])) {
                                 <th>Jenjang</th>
                                 <th>Kelas</th>
                                 <th>Siswa</th>
+                                <th>Deskripsi</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -111,6 +112,7 @@ if (isset($_GET['tahun']) && isset($_GET['bulan'])) {
                                     <td><?= $tunggakan['nama_jenjang'] ?></td>
                                     <td><?= $tunggakan['nama_kelas'] ?></td>
                                     <td><?= $tunggakan['nama_siswa'] ?></td>
+                                    <td><?= $tunggakan['deskripsi'] ?></td>
                                     <td class="<?= $tunggakan['status'] === null ? 'text-red-500' : 'text-green-500' ?>">
                                         <?= $tunggakan['status'] === null ? 'Belum Terbayar' : $tunggakan['status'] ?>
                                     </td>
@@ -191,11 +193,11 @@ if (isset($_GET['tahun']) && isset($_GET['bulan'])) {
                         </thead>
                         <tbody>
                             <?php foreach ($data_tunggakan as $key => $tunggakan) : ?>
-                                <tr>
+                                <tr id="tunggakan<?= $key ?>">
                                     <th></th>
                                     <td><?= $tunggakan['tgl_pembayaran'] ?></td>
                                     <td><?= $tunggakan['tenggat_pembayaran'] ?></td>
-                                    <td><?= $tunggakan['total_nominal'] ?></td>
+                                    <td class="tunggakan-total"></td>
                                     <td><?= $tunggakan['nama_jenjang'] ?></td>
                                     <td><?= $tunggakan['nama_kelas'] ?></td>
                                     <td><?= $tunggakan['nama_siswa'] ?></td>
@@ -244,14 +246,14 @@ if (isset($_GET['tahun']) && isset($_GET['bulan'])) {
                                                                             <tbody>
                                                                                 <?php foreach ($data_tunggakan_siswa as $ts) : ?>
                                                                                     <tr>
-                                                                                        <td><?= $ts['tahun']?>, <?= BULAN[$ts['bulan'] - 1] ?></td>
-                                                                                        <td>Rp. <?= $ts['nominal'] ?></td>
+                                                                                        <td><?= $ts['tahun'] ?>, <?= BULAN[$ts['bulan'] - 1] ?></td>
+                                                                                        <td>Rp. <span class="tunggakan-subtotal"><?= $ts['nominal'] ?></span></td>
                                                                                     </tr>
                                                                                 <?php endforeach ?>
                                                                             </tbody>
                                                                         </table>
                                                                     </div>
-                                                                    <p>Total: Rp. <?= $tunggakan['total_nominal'] ?></p>
+                                                                    <p>Total: Rp. <span class="tunggakan-total"></span></p>
                                                                 </div>
 
                                                                 <label for="tgl_pembayaran">Tanggal pembayaran</label>
@@ -283,5 +285,17 @@ if (isset($_GET['tahun']) && isset($_GET['bulan'])) {
         </div>
     </div>
 </div>
+
+<script>
+    $("tr[id*='tunggakan']").each((i, e) => {
+        let total = 0;
+
+        // Menghitung subtotal
+        $(e).find('.tunggakan-subtotal').each((i, e) => total += parseInt(e.innerHTML))
+
+        // Mengisi total tunggakan pada tabel dan modal
+        $(e).find('.tunggakan-total').each((i, e) => e.innerHTML = total)
+    })
+</script>
 
 <?php include_once('../template/footer.php') ?>

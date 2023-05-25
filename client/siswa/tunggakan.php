@@ -32,6 +32,7 @@ $data_tunggakan->fetch_assoc();
                             <th></th>
                             <th>Tanggal Pembayaran</th>
                             <th>Tenggat Pembayaran</th>
+                            <th>Deskripsi</th>
                             <th>Nominal (Rp)</th>
                             <th>Status</th>
                         </tr>
@@ -42,6 +43,7 @@ $data_tunggakan->fetch_assoc();
                                 <th><?= $key + 1 ?></th>
                                 <td><?= $tunggakan['tgl_pembayaran'] === '0000-00-00' ? '-' : $tunggakan['tgl_pembayaran'] ?></td>
                                 <td><?= $tunggakan['tenggat_pembayaran'] ?></td>
+                                <td><?= $tunggakan['deskripsi'] ?></td>
                                 <td><?= $tunggakan['nominal'] ?></td>
                                 <td class="<?= $tunggakan['status'] === 'Lunas' ? 'text-green-500' : 'text-red-500' ?> "><?= $tunggakan['status'] === 'Lunas' ? $tunggakan['status'] : 'Belum Terbayar' ?></td>
                             </tr>
