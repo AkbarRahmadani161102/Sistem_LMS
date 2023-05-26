@@ -1650,6 +1650,10 @@ hr.vr {
   width: 100vw;
 }
 
+.w-2\/4 {
+  width: 50%;
+}
+
 .max-w-2xl {
   max-width: 42rem;
 }
@@ -1684,6 +1688,10 @@ hr.vr {
 
 .flex-1 {
   flex: 1 1 0%;
+}
+
+.table-fixed {
+  table-layout: fixed;
 }
 
 .-translate-x-full {

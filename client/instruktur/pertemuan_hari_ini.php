@@ -50,10 +50,14 @@ if (isset($_GET['presence'])) {
                     <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Pertemuan Hari Ini</h4>
                 </div>
                 <div class="table__container">
-                    <table class="table">
+                    <table class="table table-fixed">
                         <thead>
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-center">Hari/Tanggal</th>
+                                <th scope="col" class="px-6 py-3 text-center" colspan="3">Jam Mulai</th>
+                            </tr>
+                            <tr>
+                                <th></th>
                                 <th scope="col" class="px-6 py-3 text-center">14.30</th>
                                 <th scope="col" class="px-6 py-3 text-center">15.30</th>
                                 <th scope="col" class="px-6 py-3 text-center">16.30</th>
