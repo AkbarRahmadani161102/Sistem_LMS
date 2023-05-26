@@ -1524,6 +1524,10 @@ hr.vr {
   height: 1.25rem;
 }
 
+.h-56 {
+  height: 14rem;
+}
+
 .h-6 {
   height: 1.5rem;
 }
@@ -1555,6 +1559,10 @@ hr.vr {
 
 .max-h-72 {
   max-height: 18rem;
+}
+
+.max-h-56 {
+  max-height: 14rem;
 }
 
 .min-h-full {
@@ -2875,6 +2883,11 @@ div[class*="panesContainer"] div[class*="searchPane"] div[class*="searchCont"] i
 :is(.dark .dark\:divide-gray-700) > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-opacity: 1;
   border-color: rgb(55 65 81 / var(--tw-divide-opacity));
+}
+
+:is(.dark .dark\:divide-gray-800) > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-opacity: 1;
+  border-color: rgb(31 41 55 / var(--tw-divide-opacity));
 }
 
 :is(.dark .dark\:border-gray-500) {

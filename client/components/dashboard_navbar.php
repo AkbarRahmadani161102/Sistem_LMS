@@ -37,10 +37,10 @@ if ($role !== 'admin') {
                 </button>
 
                 <div id="notifikasi_dropdown" class="z-20 hidden w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700" aria-labelledby="dropdownNotificationButton">
-                    <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800 dark:text-white">
+                    <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-700 dark:text-white">
                         <a href="../user/notifikasi.php">Notifikasi</a>
                     </div>
-                    <div class="divide-y divide-gray-100 dark:divide-gray-700">
+                    <div class="divide-y divide-gray-100 dark:divide-gray-700 max-h-56 overflow-y-auto">
                         <?php if ($role !== 'admin' && $data_notifikasi->num_rows <= 0) : ?>
                             <div class="flex w-full p-2 py-4 justify-center">
                                 <p>Tidak ada notifikasi</p>
@@ -64,7 +64,7 @@ if ($role !== 'admin') {
                             </div>
                         <?php endwhile ?>
                     </div>
-                    <form action="../../api/user/notifikasi.php" method="post" class="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white">
+                    <form action="../../api/user/notifikasi.php" method="post" class="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-700 dark:text-white">
                         <button name="check_all" type="submit">
                             <div class="inline-flex items-center">
                                 <i class="ri-eye-line mr-1"></i>
