@@ -149,27 +149,51 @@ if (isset($_GET['jurnal_umum'])) {
 
     $data_pertemuan->fetch_assoc();
 
-    function iterator($arr, string $title, string $tgl, string $mutasi)
+    /**
+     * Fungsi mapping 
+     * @param Array $arr Array data mutasi
+     * @param String $title Prefix keterangan/Key value (Jika $catatan_mutasi bernilai TRUE)
+     * @param String|Null $tgl (Opsional) Key yang digunakan untuk mengakses tanggal mutasi
+     * @param String $mutasi Tipe mutasi (Opsi: 'Debit', 'Kredit')
+     * @param Boolean|Null $catatan_mutasi (Opsional) Key yang digunakan untuk mengakses keterangan (digunakan untuk catatan mutasi)
+     */
+    function iterator($arr, $title, $tgl, $mutasi, $catatan_mutasi = NULL)
     {
         $date_grouper = '00/00/0000';
         global $sheet, $index;
         foreach ($arr as $value) {
-            $current_loop_date = date_format(date_create($value[$tgl]), "d/m/Y");
-            if ($date_grouper !== $current_loop_date) {
-                $sheet->setCellValue("A$index", $current_loop_date);
-                $date_grouper = $current_loop_date;
+
+            // CELL TGL
+            if ($tgl) {
+                $current_loop_date = date_format(date_create($value[$tgl]), "d/m/Y");
+                if ($date_grouper !== $current_loop_date) {
+                    $sheet->setCellValue("A$index", $current_loop_date);
+                    $date_grouper = $current_loop_date;
+                }
             }
 
+            // CELL KETERANGAN
+            if ($catatan_mutasi)
+                $sheet->setCellValue("B$index", $value[$title]);
+            else
+                $sheet->setCellValue("B$index",  "$title " . $value['nama']);
+
+            // CELL MUTASI
             $nominal = $value['nominal'];
-            $sbs_index = $index - 1;
-            $sheet->setCellValue("B$index",  "$title " . $value['nama']);
-            if ($mutasi === 'DEBIT') {
+
+            if ($catatan_mutasi)
+                $mutasi = $value['tipe_mutasi'];
+
+            if ($mutasi === 'Debit') {
                 $sheet->setCellValue("C$index", $nominal);
                 $sheet->getStyle("C$index")->getNumberFormat()->setFormatCode(IDR_NUMBERING_FORMAT);
-            } else if ($mutasi === 'KREDIT') {
+            } else if ($mutasi === 'Kredit') {
                 $sheet->setCellValue("D$index", $nominal);
                 $sheet->getStyle("D$index")->getNumberFormat()->setFormatCode(IDR_NUMBERING_FORMAT);
             }
+
+            // CELL SALDO
+            $sbs_index = $index - 1;
             $sheet->setCellValue("E$index", "=E$sbs_index+C$index-D$index");
             $sheet->getStyle("E$index")->getNumberFormat()->setFormatCode(IDR_NUMBERING_FORMAT);
             $sheet->getStyle("A$index:E$index")->applyFromArray(XLSX_JURNAL_UMUM_STYLE_TABLE_DATA);
@@ -249,9 +273,20 @@ if (isset($_GET['jurnal_umum'])) {
         $index = 7;
 
         // Tunggakan
-        iterator($data_tunggakan, 'SPP', 'tgl_pembayaran', 'DEBIT');
+        iterator($data_tunggakan, 'SPP', 'tgl_pembayaran', 'Debit');
 
-        // Gaji Admin
+        // Catatan Mutasi
+        $sql = "SELECT * FROM detail_mutasi_jurnal_umum 
+        WHERE MONTH(tgl_laporan) = '$bulan_pertemuan' 
+        AND YEAR(tgl_laporan) = '$tahun_pertemuan' 
+        ORDER BY tipe_mutasi ASC";
+
+        $data_mutasi = $db->query($sql);
+        $data_mutasi->fetch_assoc();
+
+        iterator($data_mutasi, 'keterangan', NULL, 'tipe_mutasi', TRUE);
+
+        // Gaji Admin (Static)
         $sbs_index = $index - 1;
 
         $sheet->setCellValue("B$index", 'GAJI Admin');
@@ -263,7 +298,7 @@ if (isset($_GET['jurnal_umum'])) {
         $index++;
 
         // Gaji Instruktur
-        iterator($data_gaji_instruktur, 'GAJI', 'tgl_penerimaan', 'KREDIT');
+        iterator($data_gaji_instruktur, 'GAJI', 'tgl_penerimaan', 'Kredit');
 
         $sbs_index = $index - 1;
         $sheet->setCellValue("E$index", "=E$sbs_index");
@@ -661,4 +696,45 @@ if (isset($_GET['slip_gaji_instruktur'])) {
 
     $writer = new Xlsx($spreadsheet);
     $writer->save('php://output');
+}
+
+if (isset($_GET['redirect_catatan_mutasi_jurnal_umum'])) {
+    $bulan = escape($_GET['bulan']);
+    $tahun = escape($_GET['tahun']);
+
+    redirect("../../client/admin/laporan_keuangan.php?catatan_mutasi_jurnal_umum&tahun=$tahun&bulan=$bulan");
+}
+
+if (isset($_POST['create_catatan_mutasi_jurnal_umum'])) {
+    $tgl_laporan = escape($_POST['tgl_laporan']);
+    $keterangan = escape($_POST['keterangan']);
+    $tipe_mutasi = escape($_POST['tipe_mutasi']);
+    $nominal = escape($_POST['nominal']);
+
+    $sql = "INSERT INTO detail_mutasi_jurnal_umum (tgl_laporan, keterangan, tipe_mutasi, nominal) 
+    VALUES('$tgl_laporan', '$keterangan', '$tipe_mutasi', '$nominal')";
+
+    $db->query($sql);
+
+    push_toast('Catatan mutasi berhasil ditambahkan');
+?>
+    <script>
+        history.back()
+    </script>
+<?php
+}
+
+if (isset($_POST['delete_catatan_mutasi_jurnal_umum'])) {
+    $id_mutasi = escape($_POST['delete_catatan_mutasi_jurnal_umum']);
+
+    $sql = "DELETE FROM detail_mutasi_jurnal_umum WHERE id_detail_mutasi_jurnal_umum = $id_mutasi";
+
+    $db->query($sql);
+
+    push_toast('Catatan mutasi berhasil dihapus');
+?>
+    <script>
+        history.back()
+    </script>
+<?php
 }
