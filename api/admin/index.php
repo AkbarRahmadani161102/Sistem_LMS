@@ -2,38 +2,33 @@
 require_once '../util/db.php';
 header('Content-Type: application/json');
 
-if (isset($_GET['pertumbuhan_siswa'])) {
-    $tahun = $_GET['pertumbuhan_siswa'];
+if (isset($_GET['pertumbuhan_pendaftar'])) {
+    $tahun = $_GET['pertumbuhan_pendaftar'];
     $sql = "SELECT COUNT(*) jumlah_siswa, tgl_dibuat, MONTH(tgl_dibuat) bulan, YEAR(tgl_dibuat) tahun, MONTHNAME(tgl_dibuat) nama_bulan FROM siswa WHERE YEAR(tgl_dibuat) = $tahun  GROUP BY bulan ORDER BY tgl_dibuat";
     $result = $db->query($sql) or die($sql);
     $result->fetch_assoc();
-    $arr = [];
+    $data_siswa = [];
     foreach ($result as $key => $value) {
-        $arr[] = [
+        $data_siswa[] = [
             'jumlah_siswa' => $value['jumlah_siswa'],
             'tgl_dibuat' => $value['tgl_dibuat'],
-            'bulan' => $value['nama_bulan'],
+            'bulan' => BULAN[$value['bulan'] - 1],
         ];
     }
 
-    echo json_encode($arr);
-}
-
-if (isset($_GET['pertumbuhan_instruktur'])) {
-    $tahun = $_GET['pertumbuhan_instruktur'];
     $sql = "SELECT COUNT(*) jumlah_instruktur, tgl_dibuat, MONTH(tgl_dibuat) bulan, YEAR(tgl_dibuat) tahun, MONTHNAME(tgl_dibuat) nama_bulan FROM instruktur WHERE YEAR(tgl_dibuat) = $tahun  GROUP BY bulan ORDER BY tgl_dibuat";
     $result = $db->query($sql) or die($sql);
     $result->fetch_assoc();
-    $arr = [];
+    $data_instruktur = [];
     foreach ($result as $key => $value) {
-        $arr[] = [
+        $data_instruktur[] = [
             'jumlah_instruktur' => $value['jumlah_instruktur'],
             'tgl_dibuat' => $value['tgl_dibuat'],
-            'bulan' => $value['nama_bulan'],
+            'bulan' => BULAN[$value['bulan'] - 1],
         ];
     }
 
-    echo json_encode($arr);
+    echo json_encode(['siswa' => [...$data_siswa], 'instruktur' => [...$data_instruktur]]);
 }
 
 if (isset($_GET['presensi_siswa_per_hari'])) {

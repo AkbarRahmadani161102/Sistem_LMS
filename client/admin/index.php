@@ -10,13 +10,13 @@ $sql = "SELECT * FROM kelas LIMIT 7";
 $data_kelas = $db->query($sql) or die($sql);
 $data_kelas->fetch_assoc();
 
-$sql = "SELECT DISTINCT YEAR(tgl_dibuat) tahun FROM siswa ORDER BY tahun";
-$tahun_pertumbuhan_siswa = $db->query($sql) or die($db->error);
-$tahun_pertumbuhan_siswa->fetch_assoc();
-
-$sql = "SELECT DISTINCT YEAR(tgl_dibuat) tahun FROM instruktur ORDER BY tahun";
-$tahun_pertumbuhan_instruktur = $db->query($sql) or die($db->error);
-$tahun_pertumbuhan_instruktur->fetch_assoc();
+$sql = "SELECT DISTINCT tahun FROM (
+    SELECT YEAR(tgl_dibuat) tahun FROM siswa
+    UNION ALL
+    SELECT YEAR(tgl_dibuat) tahun FROM instruktur) tahun
+    ORDER BY tahun DESC";
+$tahun_pertumbuhan_pendaftar = $db->query($sql) or die($db->error);
+$tahun_pertumbuhan_pendaftar->fetch_assoc();
 
 $sql = "SELECT COUNT(*) jumlah_siswa, status FROM (SELECT dj.tgl_pertemuan, id_siswa, status FROM absensi_siswa a
 JOIN detail_jadwal dj ON a.id_detail_jadwal = dj.id_detail_jadwal
@@ -38,38 +38,26 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
             <?php include_once '../components/dashboard_navbar.php';
             generate_breadcrumb([['title' => 'Dashboard', 'filename' => 'index.php']]);
             ?>
-
-            <div class="mt-8 flex flex-col lg:flex-row gap-12">
-                <div class="flex flex-1 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-4 p-5">
+            <div class="mt-8 flex flex-col lg:flex-row gap-12 max-h-16">
+                <div class="flex flex-1 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-4 p-5 h-full">
                     <div class="flex justify-between items-center">
-                        <h4>Pertumbuhan Siswa</h4>
-                        <select name="" id="tahun_pertumbuhan_siswa" class="rounded-lg text-gray-800">
-                            <?php foreach ($tahun_pertumbuhan_siswa as $key => $value) : ?>
+                        <h4>Grafik Pendaftar</h4>
+                        <select name="" id="tahun_pertumbuhan_pendaftar" class="input w-fit">
+                            <?php foreach ($tahun_pertumbuhan_pendaftar as $key => $value) : ?>
                                 <option value="<?= $value['tahun']; ?>"><?= $value['tahun']; ?></option>
                             <?php endforeach ?>
                         </select>
                     </div>
                     <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative">
-                        <canvas id="chart_pertumbuhan_siswa"></canvas>
+                        <canvas id="chart_pertumbuhan_user" height="100"></canvas>
                     </div>
-                    <div class="text-center">
-                        <p>Total: <span id="total_pertumbuhan_siswa"></span> Siswa</p>
-                    </div>
-                </div>
-                <div class="flex flex-1 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-4 p-5">
-                    <div class="flex justify-between items-center">
-                        <h4>Pertumbuhan Instruktur</h4>
-                        <select name="" id="tahun_pertumbuhan_instruktur" class="rounded-lg text-gray-800">
-                            <?php foreach ($tahun_pertumbuhan_instruktur as $key => $value) : ?>
-                                <option value="<?= $value['tahun']; ?>"><?= $value['tahun']; ?></option>
-                            <?php endforeach ?>
-                        </select>
-                    </div>
-                    <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative">
-                        <canvas id="chart_pertumbuhan_instruktur"></canvas>
-                    </div>
-                    <div class="text-center">
-                        <p>Total: <span id="total_pertumbuhan_instruktur"></span> Instruktur</p>
+                    <div class="text center text-gray-800 dark:text-white mx-auto flex gap-5">
+                        <div class="flex gap-2">
+                            <p>Total Siswa:</p><span id="total_pendaftar_siswa">0</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <p>Total Instruktur:</p><span id="total_pendaftar_instruktur">0</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -132,44 +120,24 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
 
 <script>
     (async () => {
+        const url = window.location.href.replace('client', 'api')
+
         /**
          * Fungsi untuk mengambil data source grafik
          * @param {String} param
          * @param {String} tahun
          */
-        const getSourceData = async (param, tahun) => {
-            try {
-                return await $.get(`${url}?${param}=${tahun}`)
-            } catch (error) {
+        const getSourceData = async (param, tahun) => await $.get(`${url}?${param}=${tahun}`).then(response => response)
 
-            }
-        }
-
-        /**
-         * Fungsi untuk mengupdate data source grafik
-         * @param {Object} obj
-         * @param {Object} data
-         */
-        const updateChartObject = (obj, data) => {
-            obj.data.datasets[0].data = data.map(data => data.jumlah_siswa)
-            obj.data.labels = data.map(data => data.bulan)
-            obj.update()
-        }
-
-        const chartPertumbuhanSiswa = $('#chart_pertumbuhan_siswa');
-        const chartPertumbuhanInstruktur = $('#chart_pertumbuhan_instruktur');
+        const chartPertumbuhanPendaftar = $('#chart_pertumbuhan_user')[0].getContext('2d');
         const chartKehadiranSiswa = $('#chart_kehadiran_siswa_hari_ini');
         const chartKehadiranInstruktur = $('#chart_kehadiran_instruktur_hari_ini');
 
-        let tahunSiswa = $('select#tahun_pertumbuhan_siswa option:selected').text()
-        let tahunInstruktur = $('select#tahun_pertumbuhan_instruktur option:selected').text()
-
-        const url = window.location.href.replace('client', 'api')
-
-        let dataPertumbuhanSiswa = await getSourceData('pertumbuhan_siswa', tahunSiswa) || []
-        let dataPertumbuhanInstruktur = await getSourceData('pertumbuhan_instruktur', tahunInstruktur) || []
+        let valueTahunPendaftar = $('select#tahun_pertumbuhan_pendaftar option:selected').text()
+        let dataPertumbuhanPendaftar = await getSourceData('pertumbuhan_pendaftar', valueTahunPendaftar) || []
         let dataKehadiranSiswaPerHari = Object.assign({}, ...await getSourceData('presensi_siswa_per_hari'))
         let dataKehadiranInstrukturPerHari = Object.assign({}, ...await getSourceData('presensi_instruktur_per_hari'))
+
         let kehadiranSiswa = {
             hadir: 0,
             izin: 0,
@@ -179,6 +147,7 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
             hadir: 0,
             berhalangan: 0
         }
+        
         for (const c of Object.keys(dataKehadiranSiswaPerHari)) {
             let value = parseInt(dataKehadiranSiswaPerHari[c])
             if (c === 'H') kehadiranSiswa.hadir = value
@@ -191,11 +160,9 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
             if (c === 'Berhalangan') kehadiranInstruktur.berhalangan = value
         }
 
-        $('#total_pertumbuhan_siswa').text(dataPertumbuhanSiswa.length > 0 ? dataPertumbuhanSiswa.map(data => parseInt(data.jumlah_siswa)).reduce((a, c) => a + c) : 0)
-        $('#total_pertumbuhan_instruktur').text(dataPertumbuhanInstruktur.length > 0 ? dataPertumbuhanInstruktur.map(data => parseInt(data.jumlah_instruktur)).reduce((a, c) => a + c) : 0)
-
         const isDarkMode = $('html').hasClass('dark')
         const color = isDarkMode ? "#fff" : "#1f2937"
+        const bulan = <?= json_encode(BULAN) ?>
 
         const lineOptions = {
             responsive: true,
@@ -209,11 +176,11 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
                     },
                     grid: {
                         drawOnChartArea: false,
-                        drawTicks: false
+                        color
                     },
                     border: {
                         color,
-                    }
+                    },
                 },
                 y: {
                     ticks: {
@@ -222,7 +189,7 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
                     },
                     grid: {
                         drawOnChartArea: false,
-                        drawTicks: false
+                        color
                     },
                     border: {
                         color,
@@ -231,12 +198,13 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
             },
             plugins: {
                 legend: {
-                    display: false
+                    labels: {
+                        color
+                    }
                 }
             },
             elements: {
                 point: {
-                    radius: 0,
                     hitRadius: 50
                 }
             }
@@ -256,42 +224,74 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
         }
 
         // Line Chart
-        let objChartPertumbuhanSiswa = new Chart(chartPertumbuhanSiswa, {
+
+        gradientChartPertumbuhanSiswa = chartPertumbuhanPendaftar.createLinearGradient(0, 25, 0, 1200);
+        gradientChartPertumbuhanSiswa.addColorStop(0, 'rgba(14, 165, 233, .5)');
+        gradientChartPertumbuhanSiswa.addColorStop(0.35, 'rgba(14, 165, 233, .25)');
+        gradientChartPertumbuhanSiswa.addColorStop(1, 'rgba(14, 165, 233, 1)');
+
+        gradientChartPertumbuhanInstruktur = chartPertumbuhanPendaftar.createLinearGradient(0, 0, 0, 800);
+        gradientChartPertumbuhanInstruktur.addColorStop(0, 'rgba(245, 158, 11, .5)');
+        gradientChartPertumbuhanInstruktur.addColorStop(0.35, 'rgba(245, 158, 11, .25)');
+        gradientChartPertumbuhanInstruktur.addColorStop(1, 'rgba(245, 158, 11, 1)');
+
+        let objChartPertumbuhanPendaftar = new Chart(chartPertumbuhanPendaftar, {
             type: 'line',
             data: {
                 datasets: [{
-                    label: 'Siswa',
-                    data: dataPertumbuhanSiswa.map(data => data.jumlah_siswa)
-                }],
-                labels: dataPertumbuhanSiswa.map(data => data.bulan)
+                        label: 'Siswa',
+                        fill: true,
+                        backgroundColor: gradientChartPertumbuhanSiswa,
+                        data: dataPertumbuhanPendaftar.siswa.map(data => ({
+                            x: data.bulan,
+                            y: data.jumlah_siswa
+                        })),
+                        pointBackgroundColor: 'rgba(14, 165, 233, 1)',
+                        borderColor: 'rgba(14, 165, 233, 1)',
+                    },
+                    {
+                        label: 'Instruktur',
+                        fill: true,
+                        backgroundColor: gradientChartPertumbuhanInstruktur,
+                        data: dataPertumbuhanPendaftar.instruktur.map(data => ({
+                            x: data.bulan,
+                            y: data.jumlah_instruktur
+                        })),
+                        pointBackgroundColor: 'rgba(245, 158, 11, 1)',
+                        borderColor: 'rgba(245, 158, 11, 1)',
+                    }
+                ],
+                labels: bulan
             },
             options: lineOptions
         });
 
-        let objChartPertumbuhanInstruktur = new Chart(chartPertumbuhanInstruktur, {
-            type: 'line',
-            data: {
-                datasets: [{
-                    label: 'Instruktur',
-                    data: dataPertumbuhanInstruktur.map(data => data.jumlah_instruktur),
-                    borderColor: '#f59e0b'
-                }],
-                labels: dataPertumbuhanInstruktur.map(data => data.bulan)
-            },
-            options: lineOptions
-        });
+        let jumlahPendaftarSiswa = dataPertumbuhanPendaftar.siswa.reduce((accumulator, currentValue) => accumulator + parseInt(currentValue.jumlah_siswa), 0);
+        $('#total_pendaftar_siswa').text(jumlahPendaftarSiswa)
+
+        let jumlahPendaftarInstruktur = dataPertumbuhanPendaftar.instruktur.reduce((accumulator, currentValue) => accumulator + parseInt(currentValue.jumlah_instruktur), 0);
+        $('#total_pendaftar_instruktur').text(jumlahPendaftarInstruktur)
 
         // Event Handler
-        $('select#tahun_pertumbuhan_siswa').on('change', async function() {
-            dataPertumbuhanSiswa = await getSourceData('pertumbuhan_siswa', $(this).val())
-            updateChartObject(objChartPertumbuhanSiswa, dataPertumbuhanSiswa)
-            $('#total_pertumbuhan_siswa').text(dataPertumbuhanSiswa.map(data => parseInt(data.jumlah_siswa)).reduce((a, c) => a + c))
-        })
+        $('select#tahun_pertumbuhan_pendaftar').on('change', async function() {
+            dataPertumbuhanPendaftar = await getSourceData('pertumbuhan_pendaftar', $(this).val())
 
-        $('select#tahun_pertumbuhan_instruktur').on('change', async function() {
-            dataPertumbuhanInstruktur = await getSourceData('pertumbuhan_instruktur', $(this).val())
-            updateChartObject(objChartPertumbuhanInstruktur, dataPertumbuhanInstruktur)
-            $('#total_pertumbuhan_instruktur').text(dataPertumbuhanInstruktur.map(data => parseInt(data.jumlah_instruktur)).reduce((a, c) => a + c))
+            objChartPertumbuhanPendaftar.data.datasets[0].data = dataPertumbuhanPendaftar.siswa.map(data => ({
+                x: data.bulan,
+                y: data.jumlah_siswa
+            }))
+            objChartPertumbuhanPendaftar.data.datasets[1].data = dataPertumbuhanPendaftar.instruktur.map(data => ({
+                x: data.bulan,
+                y: data.jumlah_instruktur
+            }))
+
+            objChartPertumbuhanPendaftar.update()
+
+            jumlahPendaftarSiswa = dataPertumbuhanPendaftar.siswa.reduce((accumulator, currentValue) => accumulator + parseInt(currentValue.jumlah_siswa), 0);
+            $('#total_pendaftar_siswa').text(jumlahPendaftarSiswa)
+
+            jumlahPendaftarInstruktur = dataPertumbuhanPendaftar.instruktur.reduce((accumulator, currentValue) => accumulator + parseInt(currentValue.jumlah_instruktur), 0);
+            $('#total_pendaftar_instruktur').text(jumlahPendaftarInstruktur)
         })
 
         // Pie Chart
