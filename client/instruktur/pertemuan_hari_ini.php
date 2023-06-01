@@ -29,7 +29,7 @@ if (isset($_GET['presence'])) {
         redirect('./pertemuan_hari_ini.php');
     }
 
-    if ($id_instruktur !== $id_instruktur_pertemuan) {
+    if ($id_instruktur !== $id_instruktur_pertemuan || $tgl_pertemuan !== date('Y-m-d')) {
         // Jika instruktur mengakses pertemuan dari instruktur lain
         push_toast('Akses ditolak', 'error', 'Anda tidak memiliki hak untuk mengakses sumber daya ini');
         redirect('./pertemuan_hari_ini.php');
@@ -53,11 +53,10 @@ if (isset($_GET['presence'])) {
                     <table class="table table-fixed">
                         <thead>
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-center">Hari/Tanggal</th>
+                                <th scope="col" class="px-6 py-3 text-center" rowspan="2">Hari/Tanggal</th>
                                 <th scope="col" class="px-6 py-3 text-center" colspan="3">Jam Mulai</th>
                             </tr>
                             <tr>
-                                <th></th>
                                 <th scope="col" class="px-6 py-3 text-center">14.30</th>
                                 <th scope="col" class="px-6 py-3 text-center">15.30</th>
                                 <th scope="col" class="px-6 py-3 text-center">16.30</th>
@@ -89,11 +88,10 @@ if (isset($_GET['presence'])) {
                                             <td class="text-center group relative text-gray-800 dark:text-white <?= $pertemuan['status_kehadiran_instruktur'] === 'Hadir' ? 'bg-rose-500' : '' ?>">
                                                 <h6><?= isset($pertemuan['nama_kelas']) ? $pertemuan['nama_kelas'] : "" ?></h6>
                                                 <p><?= isset($pertemuan['nama_mapel']) ? $pertemuan['nama_mapel'] : "" ?></p>
-                                                <?php if (date('d', strtotime($pertemuan['tgl_pertemuan'])) < date('d')) : ?>
-                                                    <span class="bg-red-100 text-red-800 text-xs font-medium mx-auto px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Ditutup</span>
-                                                <?php endif ?>
-                                                <?php if ($pertemuan['status_kehadiran_instruktur'] !== 'Hadir' && date('d', strtotime($pertemuan['tgl_pertemuan'])) >= date('d')) : ?>
+                                                <?php if ($pertemuan['status_kehadiran_instruktur'] !== 'Hadir' &&  $pertemuan['tgl_pertemuan'] === date('Y-m-d')) : ?>
                                                     <a href="?presence=<?= $pertemuan['id_detail_jadwal'] ?>" class="w-full h-0 bg-green-500 group-hover:z-[100] absolute bottom-0 left-0 justify-center items-center hidden group-hover:flex group-hover:h-full active:bg-gradient-to-r active:from-cyan-500 active:to-blue-500 transition-all text-xl text-white">Pilih</a>
+                                                <?php else : ?>
+                                                    <span class="bg-red-100 text-red-800 text-xs font-medium mx-auto px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"><?= $pertemuan['id_detail_jadwal'] ?></span>
                                                 <?php endif ?>
                                             </td>
                                         <?php else : ?>

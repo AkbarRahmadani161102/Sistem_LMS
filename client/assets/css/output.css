@@ -1557,6 +1557,10 @@ hr.vr {
   height: 100vh;
 }
 
+.max-h-16 {
+  max-height: 4rem;
+}
+
 .max-h-56 {
   max-height: 14rem;
 }
@@ -2059,6 +2063,11 @@ hr.vr {
 .bg-gray-800 {
   --tw-bg-opacity: 1;
   background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+}
+
+.bg-gray-900 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(17 24 39 / var(--tw-bg-opacity));
 }
 
 .bg-green-300 {
