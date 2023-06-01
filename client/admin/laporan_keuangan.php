@@ -125,7 +125,7 @@ $result->fetch_assoc();
                         <tbody>
                             <?php foreach ($result as $key => $value) : ?>
                                 <?php
-                                $sql = "SELECT DISTINCT MONTH(tgl_pertemuan) bulan FROM detail_jadwal WHERE YEAR(tgl_pertemuan) = {$value['tahun']}";
+                                $sql = "SELECT DISTINCT MONTH(tgl_pertemuan) bulan FROM detail_jadwal WHERE YEAR(tgl_pertemuan) = {$value['tahun']} ORDER BY bulan DESC";
                                 $data_bulan_per_tahun = $db->query($sql) or die($db->error); ?>
 
                                 <tr>

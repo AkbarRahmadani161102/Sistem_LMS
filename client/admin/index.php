@@ -38,7 +38,36 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
             <?php include_once '../components/dashboard_navbar.php';
             generate_breadcrumb([['title' => 'Dashboard', 'filename' => 'index.php']]);
             ?>
-            <div class="mt-8 flex flex-col lg:flex-row gap-12 max-h-16">
+
+            <div class="mt-8 flex flex-col lg:flex-row gap-12">
+                <div class="flex flex-1 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-4 p-5 h-full">
+                    <div class="flex justify-between items-center">
+                        <div class="flex gap-2">
+                            <h4>Grafik Finansial</h4>
+                            <button data-popover-target="grafik_finansial_tooltip" data-popover-placement="right" type="button" class="text-gray-800 dark:text-white"><i class="ri-question-line"></i></button>
+                            <div id="grafik_finansial_tooltip" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                                Untuk mengupdate data silahkan unduh laporan jurnal umum
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
+                        </div>
+                        <select name="" id="tahun_pertumbuhan_finansial" class="input w-fit">
+                            <?php foreach ($tahun_pertumbuhan_finansial as $key => $value) : ?>
+                                <option value="<?= $value['tahun']; ?>"><?= $value['tahun']; ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative">
+                        <canvas id="chart_pertumbuhan_finansial" height="100"></canvas>
+                    </div>
+                    <div class="text center text-gray-800 dark:text-white mx-auto flex gap-5">
+                        <div class="flex gap-2">
+                            <p>Rata rata:</p><span id="rata_rata_pertumbuhan_finansial">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 flex flex-col lg:flex-row gap-12">
                 <div class="flex flex-1 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-4 p-5 h-full">
                     <div class="flex justify-between items-center">
                         <h4>Grafik Pendaftar</h4>
@@ -63,7 +92,7 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
             </div>
 
             <div class="mt-8 flex flex-col lg:flex-row items-start gap-12">
-                <div class="flex w-full flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5">
+                <div class="flex flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5">
                     <div class="flex justify-between items-center">
                         <h4>Pengajuan Siswa</h4>
                     </div>
@@ -129,6 +158,7 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
          */
         const getSourceData = async (param, tahun) => await $.get(`${url}?${param}=${tahun}`).then(response => response)
 
+        const chartPertumbuhanFinansial = $('#chart_pertumbuhan_finansial')[0].getContext('2d');
         const chartPertumbuhanPendaftar = $('#chart_pertumbuhan_user')[0].getContext('2d');
         const chartKehadiranSiswa = $('#chart_kehadiran_siswa_hari_ini');
         const chartKehadiranInstruktur = $('#chart_kehadiran_instruktur_hari_ini');
@@ -147,7 +177,7 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
             hadir: 0,
             berhalangan: 0
         }
-        
+
         for (const c of Object.keys(dataKehadiranSiswaPerHari)) {
             let value = parseInt(dataKehadiranSiswaPerHari[c])
             if (c === 'H') kehadiranSiswa.hadir = value
@@ -164,7 +194,66 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
         const color = isDarkMode ? "#fff" : "#1f2937"
         const bulan = <?= json_encode(BULAN) ?>
 
-        const lineOptions = {
+        const customPluginLegendMargin = {
+            id: 'customPluginLegendMargin',
+            beforeInit(chart, legend, options) {
+                console.log(chart, legend, options)
+                const fitValue = chart.legend.fit
+
+                chart.legend.fit = function fit() {
+                    fitValue.bind(chart.legend)();
+                    return this.height += 30;
+                }
+            }
+        }
+
+        const optionsGrafikFinansial = {
+            responsive: true,
+            layout: {
+                padding: 20
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color,
+                    },
+                    grid: {
+                        color
+                    },
+                    border: {
+                        color,
+                    },
+                },
+                y: {
+                    ticks: {
+                        color,
+                        stepSize: 10
+                    },
+                    grid: {
+                        drawOnChartArea: false,
+                        color
+                    },
+                    border: {
+                        color,
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        padding: 5,
+                        color,
+                    }
+                }
+            },
+            elements: {
+                point: {
+                    hitRadius: 50
+                }
+            }
+        }
+
+        const optionsGrafikPendaftar = {
             responsive: true,
             layout: {
                 padding: 20
@@ -199,7 +288,7 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
             plugins: {
                 legend: {
                     labels: {
-                        color
+                        color,
                     }
                 }
             },
@@ -224,7 +313,23 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
         }
 
         // Line Chart
-
+        let objChartPertumbuhanFinansial = new Chart(chartPertumbuhanFinansial, {
+            type: 'bar',
+            data: {
+                datasets: [{
+                        label: 'Saldo',
+                        data: [10, 20, 30]
+                    },
+                    {
+                        label: 'Kredit',
+                        data: [50, 80, 20]
+                    }
+                ],
+                labels: ['Mei', 'Juni', 'Juli']
+            },
+            options: optionsGrafikFinansial,
+            plugins: [customPluginLegendMargin]
+        });
         gradientChartPertumbuhanSiswa = chartPertumbuhanPendaftar.createLinearGradient(0, 25, 0, 1200);
         gradientChartPertumbuhanSiswa.addColorStop(0, 'rgba(14, 165, 233, .5)');
         gradientChartPertumbuhanSiswa.addColorStop(0.35, 'rgba(14, 165, 233, .25)');
@@ -263,7 +368,8 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
                 ],
                 labels: bulan
             },
-            options: lineOptions
+            options: optionsGrafikPendaftar,
+            plugins: [customPluginLegendMargin]
         });
 
         let jumlahPendaftarSiswa = dataPertumbuhanPendaftar.siswa.reduce((accumulator, currentValue) => accumulator + parseInt(currentValue.jumlah_siswa), 0);
@@ -295,7 +401,7 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
         })
 
         // Pie Chart
-        const p = new Chart(chartKehadiranSiswa, {
+        new Chart(chartKehadiranSiswa, {
             type: 'pie',
             data: {
                 labels: ['Hadir', 'Izin', 'Tidak ada keterangan'],

@@ -5,6 +5,7 @@ include_once '../util/db.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
 
 define('IDR_NUMBERING_FORMAT', 'Rp #,##0');
 if (isset($_GET['jurnal_umum'])) {
@@ -249,15 +250,16 @@ if (isset($_GET['jurnal_umum'])) {
         $bulan_pertemuan = $pertemuan['bulan'];
         $tahun_pertemuan = $pertemuan['tahun'];
 
-        $sql = "SELECT t.*, SUM(t.nominal) nominal, j.nama nama FROM tunggakan t
+        $sql = "SELECT *, SUM(subnominal) nominal FROM (SELECT t.tenggat_pembayaran, t.deskripsi, t.nominal subnominal, j.nama nama FROM tunggakan t
         JOIN detail_kelas dk ON t.id_siswa = dk.id_siswa
         JOIN kelas k ON dk.id_kelas = k.id_kelas
         JOIN jenjang j ON k.id_jenjang = j.id_jenjang
+        JOIN siswa s ON t.id_siswa = s.id_siswa
         WHERE t.status = 'Lunas'
-        AND MONTH(t.tgl_pembayaran) = $bulan_pertemuan
-        AND YEAR(t.tgl_pembayaran) = $tahun_pertemuan
-        GROUP BY tgl_pembayaran, nama
-        ORDER BY tgl_pembayaran";
+        AND MONTH(t.tgl_dibuat) = $bulan_pertemuan
+        AND YEAR(t.tgl_dibuat) = $tahun_pertemuan
+        GROUP BY t.id_siswa, dk.id_kelas) b
+        GROUP BY nama";
 
         $data_tunggakan = $db->query($sql);
         $data_tunggakan->fetch_assoc();
@@ -273,7 +275,7 @@ if (isset($_GET['jurnal_umum'])) {
         $index = 7;
 
         // Tunggakan
-        iterator($data_tunggakan, 'SPP', 'tgl_pembayaran', 'Debit');
+        iterator($data_tunggakan, 'SPP', 'tenggat_pembayaran', 'Debit');
 
         // Catatan Mutasi
         $sql = "SELECT * FROM detail_mutasi_jurnal_umum 
@@ -307,7 +309,22 @@ if (isset($_GET['jurnal_umum'])) {
         $sheet->getStyle("E$index")->getNumberFormat()->setFormatCode(IDR_NUMBERING_FORMAT);
         $sheet->getStyle("F$index")->getFont()->setBold(true);
         $sheet->getStyle("A$index:E$index")->applyFromArray(XLSX_JURNAL_UMUM_STYLE_TABLE_DATA);
+
+        $bulan_pertemuan = str_pad($bulan_pertemuan, 2, '0', STR_PAD_LEFT);
+        $tgl_perubahan = "$tahun_pertemuan-$bulan_pertemuan-01";
+
+        $calc = new Calculation($spreadsheet);
+        $total_kredit = $calc->calculateFormula("=SUM(D7:D$sbs_index)");
+        $total_saldo = $spreadsheet->getActiveSheet()->getCell("E$sbs_index")->getCalculatedValue();
+
+        $sql = "INSERT INTO perubahan_saldo_kredit (tgl_perubahan, kredit, saldo)
+                VALUES ('$tgl_perubahan', $total_kredit, $total_saldo)
+                ON DUPLICATE KEY UPDATE kredit = $total_kredit, saldo = $total_saldo";
+
+        $db->query($sql) or die($db->error);
     }
+
+
 
     $spreadsheet->removeSheetByIndex(0);
 
