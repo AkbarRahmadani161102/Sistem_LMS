@@ -91,7 +91,7 @@ if (isset($_GET['presence'])) {
                                                 <?php if ($pertemuan['status_kehadiran_instruktur'] !== 'Hadir' &&  $pertemuan['tgl_pertemuan'] === date('Y-m-d')) : ?>
                                                     <a href="?presence=<?= $pertemuan['id_detail_jadwal'] ?>" class="w-full h-0 bg-green-500 group-hover:z-[100] absolute bottom-0 left-0 justify-center items-center hidden group-hover:flex group-hover:h-full active:bg-gradient-to-r active:from-cyan-500 active:to-blue-500 transition-all text-xl text-white">Pilih</a>
                                                 <?php else : ?>
-                                                    <span class="bg-red-100 text-red-800 text-xs font-medium mx-auto px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"><?= $pertemuan['id_detail_jadwal'] ?></span>
+                                                    <span class="bg-red-100 text-red-800 text-xs font-medium mx-auto px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Ditutup</span>
                                                 <?php endif ?>
                                             </td>
                                         <?php else : ?>
