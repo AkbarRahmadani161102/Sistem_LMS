@@ -3,10 +3,10 @@ include_once('../template/header.php');
 include_once('../../api/auth/access_control.php');
 user_access('admin', 'gaji_instruktur.php');
 
-$sql = "SELECT MONTH(tgl_pertemuan) bulan FROM detail_jadwal GROUP BY MONTH(tgl_pertemuan)";
+$sql = "SELECT MONTH(tgl_pertemuan) bulan FROM detail_jadwal GROUP BY MONTH(tgl_pertemuan) ORDER BY bulan DESC";
 $bulan_pertemuan = $db->query($sql) or die($db->error);
 
-$sql = "SELECT YEAR(tgl_pertemuan) tahun FROM detail_jadwal GROUP BY YEAR(tgl_pertemuan)";
+$sql = "SELECT YEAR(tgl_pertemuan) tahun FROM detail_jadwal GROUP BY YEAR(tgl_pertemuan) ORDER BY tahun DESC";
 $tahun_pertemuan = $db->query($sql) or die($db->error);
 
 if (isset($_GET['tahun']) && isset($_GET['bulan'])) {
