@@ -10,6 +10,10 @@ $sql = "SELECT * FROM kelas LIMIT 7";
 $data_kelas = $db->query($sql) or die($sql);
 $data_kelas->fetch_assoc();
 
+$sql = "SELECT DISTINCT YEAR(tgl_perubahan) tahun FROM perubahan_saldo_kredit ORDER BY tahun DESC";
+$tahun_pertumbuhan_finansial = $db->query($sql) or die($db->error);
+$tahun_pertumbuhan_finansial->fetch_assoc();
+
 $sql = "SELECT DISTINCT tahun FROM (
     SELECT YEAR(tgl_dibuat) tahun FROM siswa
     UNION ALL
@@ -61,7 +65,10 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
                     </div>
                     <div class="text center text-gray-800 dark:text-white mx-auto flex gap-5">
                         <div class="flex gap-2">
-                            <p>Rata rata:</p><span id="rata_rata_pertumbuhan_finansial">0</span>
+                            <p>Rata Rata Kredit:</p><span id="rata_rata_pertumbuhan_finansial_kredit">0</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <p>Rata Rata Saldo:</p><span id="rata_rata_pertumbuhan_finansial_saldo">0</span>
                         </div>
                     </div>
                 </div>
@@ -156,14 +163,32 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
          * @param {String} param
          * @param {String} tahun
          */
-        const getSourceData = async (param, tahun) => await $.get(`${url}?${param}=${tahun}`).then(response => response)
+        const getSourceData = async (param, tahun) => {
+            try {
+                return await $.get(`${url}?${param}=${tahun}`)
+            } catch (err) {
 
+            }
+        }
+
+        /**
+         * Fungsi untuk konversi desimal ke rupiah
+         */
+        const rupiah = (number) => {
+            if (!number) return
+            return new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR"
+            }).format(number);
+        }
         const chartPertumbuhanFinansial = $('#chart_pertumbuhan_finansial')[0].getContext('2d');
         const chartPertumbuhanPendaftar = $('#chart_pertumbuhan_user')[0].getContext('2d');
         const chartKehadiranSiswa = $('#chart_kehadiran_siswa_hari_ini');
         const chartKehadiranInstruktur = $('#chart_kehadiran_instruktur_hari_ini');
 
+        let valueTahunFinansial = $('select#tahun_pertumbuhan_finansial option:selected').text()
         let valueTahunPendaftar = $('select#tahun_pertumbuhan_pendaftar option:selected').text()
+        let dataPertumbuhanFinansial = await getSourceData('pertumbuhan_finansial', valueTahunFinansial) || []
         let dataPertumbuhanPendaftar = await getSourceData('pertumbuhan_pendaftar', valueTahunPendaftar) || []
         let dataKehadiranSiswaPerHari = Object.assign({}, ...await getSourceData('presensi_siswa_per_hari'))
         let dataKehadiranInstrukturPerHari = Object.assign({}, ...await getSourceData('presensi_instruktur_per_hari'))
@@ -197,7 +222,6 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
         const customPluginLegendMargin = {
             id: 'customPluginLegendMargin',
             beforeInit(chart, legend, options) {
-                console.log(chart, legend, options)
                 const fitValue = chart.legend.fit
 
                 chart.legend.fit = function fit() {
@@ -317,19 +341,26 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
             type: 'bar',
             data: {
                 datasets: [{
-                        label: 'Saldo',
-                        data: [10, 20, 30]
-                    },
-                    {
                         label: 'Kredit',
-                        data: [50, 80, 20]
-                    }
+                        data: dataPertumbuhanFinansial.finansial?.map(data => data.kredit),
+                        backgroundColor: 'rgba(239, 68, 68, .2)',
+                        borderColor: 'rgba(239, 68, 68, 1)',
+                        borderWidth: 2
+                    }, {
+                        label: 'Saldo',
+                        data: dataPertumbuhanFinansial.finansial?.map(data => data.saldo),
+                        backgroundColor: 'rgba(74, 222, 128, .2)',
+                        borderColor: 'rgba(74, 222, 128, 1)',
+                        borderWidth: 2
+                    },
+
                 ],
-                labels: ['Mei', 'Juni', 'Juli']
+                labels: dataPertumbuhanFinansial.finansial?.map(data => data.bulan)
             },
             options: optionsGrafikFinansial,
             plugins: [customPluginLegendMargin]
         });
+
         gradientChartPertumbuhanSiswa = chartPertumbuhanPendaftar.createLinearGradient(0, 25, 0, 1200);
         gradientChartPertumbuhanSiswa.addColorStop(0, 'rgba(14, 165, 233, .5)');
         gradientChartPertumbuhanSiswa.addColorStop(0.35, 'rgba(14, 165, 233, .25)');
@@ -353,6 +384,7 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
                         })),
                         pointBackgroundColor: 'rgba(14, 165, 233, 1)',
                         borderColor: 'rgba(14, 165, 233, 1)',
+                        borderWidth: 2
                     },
                     {
                         label: 'Instruktur',
@@ -364,6 +396,7 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
                         })),
                         pointBackgroundColor: 'rgba(245, 158, 11, 1)',
                         borderColor: 'rgba(245, 158, 11, 1)',
+                        borderWidth: 2
                     }
                 ],
                 labels: bulan
@@ -372,6 +405,12 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
             plugins: [customPluginLegendMargin]
         });
 
+        let rataRataFinansialKredit = dataPertumbuhanFinansial.rataRata?.reduce((accumulator, currentValue) => accumulator + parseInt(currentValue.kredit), 0);
+        $('#rata_rata_pertumbuhan_finansial_kredit').text(rupiah(rataRataFinansialKredit))
+
+        let rataRataFinansialSaldo = dataPertumbuhanFinansial.rataRata?.reduce((accumulator, currentValue) => accumulator + parseInt(currentValue.saldo), 0);
+        $('#rata_rata_pertumbuhan_finansial_saldo').text(rupiah(rataRataFinansialSaldo))
+
         let jumlahPendaftarSiswa = dataPertumbuhanPendaftar.siswa.reduce((accumulator, currentValue) => accumulator + parseInt(currentValue.jumlah_siswa), 0);
         $('#total_pendaftar_siswa').text(jumlahPendaftarSiswa)
 
@@ -379,6 +418,21 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
         $('#total_pendaftar_instruktur').text(jumlahPendaftarInstruktur)
 
         // Event Handler
+        $('select#tahun_pertumbuhan_finansial').on('change', async function() {
+            dataPertumbuhanFinansial = await getSourceData('pertumbuhan_finansial', $(this).val())
+
+            objChartPertumbuhanFinansial.data.datasets[0].data = dataPertumbuhanFinansial.finansial.map(data => data.kredit)
+            objChartPertumbuhanFinansial.data.datasets[1].data = dataPertumbuhanFinansial.finansial.map(data => data.saldo)
+            objChartPertumbuhanFinansial.data.labels = dataPertumbuhanFinansial.finansial.map(data => data.bulan)
+            objChartPertumbuhanFinansial.update()
+
+            let rataRataFinansialKredit = dataPertumbuhanFinansial.rataRata.reduce((accumulator, currentValue) => accumulator + parseInt(currentValue.kredit), 0);
+            $('#rata_rata_pertumbuhan_finansial_kredit').text(rupiah(rataRataFinansialKredit))
+
+            let rataRataFinansialSaldo = dataPertumbuhanFinansial.rataRata.reduce((accumulator, currentValue) => accumulator + parseInt(currentValue.saldo), 0);
+            $('#rata_rata_pertumbuhan_finansial_saldo').text(rupiah(rataRataFinansialSaldo))
+        })
+
         $('select#tahun_pertumbuhan_pendaftar').on('change', async function() {
             dataPertumbuhanPendaftar = await getSourceData('pertumbuhan_pendaftar', $(this).val())
 
