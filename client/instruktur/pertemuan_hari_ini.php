@@ -89,7 +89,7 @@ if (isset($_GET['presence'])) {
                                                 <h6><?= isset($pertemuan['nama_kelas']) ? $pertemuan['nama_kelas'] : "" ?></h6>
                                                 <p><?= isset($pertemuan['nama_mapel']) ? $pertemuan['nama_mapel'] : "" ?></p>
                                                 <?php if ($pertemuan['status_kehadiran_instruktur'] !== 'Hadir' &&  $pertemuan['tgl_pertemuan'] === date('Y-m-d')) : ?>
-                                                    <a href="?presence=<?= $pertemuan['id_detail_jadwal'] ?>" class="absolute bottom-0 right-0 bg-green-500 active:bg-blue-500 w-full h-0 group-hover:h-full transition-all"><span class="absolute h-full w-full -top-32 left-0 group-hover:top-0 flex items-center justify-center transition-all delay-75">Pilih</span></a>
+                                                    <a href="?presence=<?= $pertemuan['id_detail_jadwal'] ?>" class="absolute bottom-0 right-0 bg-green-500 active:bg-blue-500 w-full h-0 group-hover:h-full transition-all"><span class="absolute h-full w-full -top-64 left-0 group-hover:top-0 flex items-center justify-center transition-all delay-75">Pilih</span></a>
                                                 <?php else : ?>
                                                     <span class="bg-red-100 text-red-800 text-xs font-medium mx-auto px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Ditutup</span>
                                                 <?php endif ?>
