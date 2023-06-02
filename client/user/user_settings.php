@@ -72,15 +72,15 @@ $data_user = $db->query($sql)->fetch_assoc();
                                         <div class="flex flex-1 gap-5 lg:gap-36 flex-wrap">
                                             <div class="flex flex-col gap-2">
                                                 <label class="text-lg text-gray-500 dark:text-white">Jenjang</label>
-                                                <p class="font-semibold"><?= $data_kelas['nama_jenjang'] ?></p>
+                                                <p class="font-semibold"><?= isset($data_kelas['nama_jenjang']) ? $data_kelas['nama_jenjang'] : '-' ?></p>
                                             </div>
                                             <div class="flex flex-col gap-2">
                                                 <label class="text-lg text-gray-500 dark:text-white">Kelas</label>
-                                                <p class="font-semibold"><?= $data_kelas['nama_kelas'] ?></p>
+                                                <p class="font-semibold"><?= isset($data_kelas['nama_kelas']) ? $data_kelas['nama_kelas'] : '-' ?></p>
                                             </div>
                                             <div class="flex flex-col gap-2">
                                                 <label class="text-lg text-gray-500 dark:text-white">Ketua Kelas</label>
-                                                <p class="font-semibold"><?= $data_kelas['nama_ketua_kelas'] ?></p>
+                                                <p class="font-semibold"><?= isset($data_kelas['nama_ketua_kelas']) ? $data_kelas['nama_ketua_kelas'] : '-' ?></p>
                                             </div>
                                         </div>
                                         <div class="flex flex-1 gap-5 lg:gap-36 flex-wrap">
