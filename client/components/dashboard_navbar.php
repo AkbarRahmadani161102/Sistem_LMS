@@ -59,7 +59,7 @@ if ($role !== 'admin') {
                                 </div>
                                 <form class="absolute invisible right-1 bottom-2 group-hover:visible transition" action="../../api/user/notifikasi.php" method="post">
                                     <input type="hidden" name="id_notifikasi" value="<?= $notifikasi["id_notifikasi_$role"] ?>">
-                                    <button class="text-xs text-blue-600 dark:text-blue-500" name="change_status" value="Selesai" type="submit">Tandai sebagai selesai <i class="ri-check-double-line "></i></button>
+                                    <button class="text-xs text-blue-600 dark:text-blue-500" name="change_status" value="Selesai" type="submit">Tandai sebagai terlihat <i class="ri-check-double-line "></i></button>
                                 </form>
                             </div>
                         <?php endwhile ?>

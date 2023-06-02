@@ -154,7 +154,7 @@ $data_user = $db->query($sql)->fetch_assoc();
                                 <label for="alamat" class="form-label text-secondary text-gray-400">Alamat</label>
                                 <textarea class="input resize-none" id="alamat" name="alamat" required maxlength="40"><?= $data_user['alamat'] ?></textarea>
                             </div>
-                            <button type="submit" class="btn w-full bg-green-500 dark:bg-green-500 text-white dark:text-white" name="update_profil">Ubah Profil</button>
+                            <button type="submit" class="btn btn--green w-full" name="update_profil">Ubah Profil</button>
                         </form>
                     </div>
 
@@ -175,7 +175,7 @@ $data_user = $db->query($sql)->fetch_assoc();
                                 <label for="confirm_password" class="form-label text-secondary text-gray-400">Konfirmasi Password</label>
                                 <input type="password" class="input" id="confirm_password" name="confirm_password" maxlength="50" required>
                             </div>
-                            <button type="submit" class="btn w-full bg-red-500 dark:bg-red-500 text-white dark:text-white" name="update_kredensial">Ubah Kredensial</button>
+                            <button type="submit" class="btn btn--red w-full" name="update_kredensial">Ubah Kredensial</button>
                         </form>
                     </div>
                 </div>

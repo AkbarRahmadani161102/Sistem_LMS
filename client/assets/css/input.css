@@ -125,6 +125,10 @@
         @apply flex items-start justify-between p-4 border-b rounded-t
     }
 
+    .modal__close {
+        @apply text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white
+    }
+
     .dark .modal__header {
         @apply border-gray-600
     }
@@ -152,7 +156,7 @@
     /* Button Component */
 
     .btn {
-        @apply bg-gray-800 text-white font-medium rounded text-base px-4 py-1.5
+        @apply bg-gray-800 text-white font-medium rounded text-base px-4 py-1.5 transition-all
     }
 
     .dark .btn {
@@ -193,6 +197,14 @@
 
     .btn.btn--red:hover {
         @apply bg-red-600
+    }
+
+    .btn.btn--gray {
+        @apply bg-gray-500 text-white
+    }
+
+    .btn.btn--gray:hover {
+        @apply bg-gray-600
     }
 
     .btn--outline-red,

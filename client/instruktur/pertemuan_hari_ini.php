@@ -146,7 +146,7 @@ if (isset($_GET['presence'])) {
                                     <?php endforeach ?>
                                 </tbody>
                             </table>
-                            <button type="submit" name="presence" value="<?= $_GET['presence'] ?>" class="block ml-auto mt-5 px-4 py-2 bg-green-300 rounded">Selesai Absensi</button>
+                            <button type="submit" name="presence" value="<?= $_GET['presence'] ?>" class="btn btn--green block ml-auto mt-5">Selesai Absensi</button>
                         </div>
                     </div>
                 </form>

@@ -111,7 +111,7 @@ if (isset($_GET['reassign_instruktur'])) {
                             <input type="hidden" name="pengajuan" value="<?= $_GET['pengajuan'] ?>">
                         <?php endif ?>
 
-                        <button type="submit" class="btn dark:bg-green-500 dark:text-white" name="reassign_instruktur" value="<?= $id_detail_jadwal ?>">Tetapkan</button>
+                        <button type="submit" class="btn btn--green" name="reassign_instruktur" value="<?= $id_detail_jadwal ?>">Tetapkan</button>
                     </form>
                 </div>
             <?php else : ?>

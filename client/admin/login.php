@@ -18,7 +18,7 @@
                 <hr>
                 <div class="flex flex-col gap-5 pt-4">
                     <input type="hidden" name="role" value="admin">
-                    <button type="submit" class="btn w-full bg-amber-500 dark:bg-amber-500 dark:text-white" name="login">Login</button>
+                    <button type="submit" class="btn btn--amber" name="login">Login</button>
                     <a href="../../index.php" class="btn text-center">Kembali</a>
                 </div>
             </form>
