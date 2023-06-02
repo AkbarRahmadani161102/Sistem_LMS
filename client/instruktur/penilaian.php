@@ -206,7 +206,7 @@ if (isset($_GET['detail'])) {
                                             </div>
                                         <?php else : ?>
                                             <button class="btn invisible">&nbsp;</button>
-                                            <a class="invisible group-hover:visible absolute w-full h-full flex top-0 left-0 bg-green-500 text-white items-center justify-center" href="?create=<?= $value['id_detail_jadwal'] ?>">Tambah Penilaian</a>
+                                            <a class="absolute top-0 left-0 w-0 h-full group-hover:w-full transition-all duration-200 bg-green-500" href="?create=<?= $value['id_detail_jadwal'] ?>"><span class="absolute top-0 left-0 overflow-hidden w-0 h-full group-hover:w-full flex items-center justify-center text-white transition-all duration-200">Tambah Penilaian</span></a>
                                         <?php endif ?>
                                     </td>
                                 </tr>

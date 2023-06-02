@@ -1274,6 +1274,11 @@ hr.vr {
   right: 25%;
 }
 
+.inset-x-1\/2 {
+  left: 50%;
+  right: 50%;
+}
+
 .-right-\[3px\] {
   right: -3px;
 }
@@ -1312,6 +1317,26 @@ hr.vr {
 
 .top-2\/4 {
   top: 50%;
+}
+
+.-top-5 {
+  top: -1.25rem;
+}
+
+.-bottom-5 {
+  bottom: -1.25rem;
+}
+
+.-top-16 {
+  top: -4rem;
+}
+
+.-top-32 {
+  top: -8rem;
+}
+
+.-top-6 {
+  top: -1.5rem;
 }
 
 .z-10 {
@@ -1699,6 +1724,11 @@ hr.vr {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.-translate-y-6 {
+  --tw-translate-y: -1.5rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .rotate-180 {
   --tw-rotate: 180deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -1886,6 +1916,10 @@ hr.vr {
 
 .overflow-auto {
   overflow: auto;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }
 
 .overflow-x-auto {
@@ -2587,6 +2621,18 @@ hr.vr {
   transition-duration: 150ms;
 }
 
+.delay-300 {
+  transition-delay: 300ms;
+}
+
+.delay-150 {
+  transition-delay: 150ms;
+}
+
+.delay-75 {
+  transition-delay: 75ms;
+}
+
 .duration-300 {
   transition-duration: 300ms;
 }
@@ -2597,6 +2643,22 @@ hr.vr {
 
 .duration-500 {
   transition-duration: 500ms;
+}
+
+.duration-200 {
+  transition-duration: 200ms;
+}
+
+.ease-in {
+  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+}
+
+.ease-out {
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.ease-in-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 ::-webkit-scrollbar {
@@ -2772,6 +2834,10 @@ div[class*="panesContainer"] div[class*="searchPane"] div[class*="searchCont"] i
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.hover\:w-full:hover {
+  width: 100%;
+}
+
 .hover\:translate-y-0:hover {
   --tw-translate-y: 0px;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -2893,6 +2959,11 @@ div[class*="panesContainer"] div[class*="searchPane"] div[class*="searchCont"] i
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.active\:bg-blue-500:active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+}
+
 .active\:bg-gradient-to-r:active {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
@@ -2911,8 +2982,16 @@ div[class*="panesContainer"] div[class*="searchPane"] div[class*="searchCont"] i
   visibility: visible;
 }
 
+.group:hover .group-hover\:top-0 {
+  top: 0px;
+}
+
 .group:hover .group-hover\:z-\[100\] {
   z-index: 100;
+}
+
+.group:hover .group-hover\:block {
+  display: block;
 }
 
 .group:hover .group-hover\:flex {
@@ -2930,6 +3009,10 @@ div[class*="panesContainer"] div[class*="searchPane"] div[class*="searchCont"] i
 .group:hover .group-hover\:translate-x-2 {
   --tw-translate-x: 0.5rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.group:hover .group-hover\:transform-none {
+  transform: none;
 }
 
 .group:hover .group-hover\:text-white {
