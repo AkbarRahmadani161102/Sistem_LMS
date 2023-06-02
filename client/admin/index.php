@@ -98,58 +98,72 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
                 </div>
             </div>
 
-            <div class="mt-8 flex flex-col lg:flex-row items-start gap-12">
-                <div class="flex flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5">
-                    <div class="flex justify-between items-center">
-                        <h4>Pengajuan Siswa</h4>
-                    </div>
-                    <?php if ($data_pengajuan_siswa->num_rows > 0) : ?>
-                        <?php foreach ($data_pengajuan_siswa as $key => $value) : ?>
-                            <a href="./pengajuan.php" class="flex flex-col flex-1 rounded-lg p-5 bg-white dark:bg-gray-500 gap-2">
-                                <div class="flex justify-between">
-                                    <h6><?= $value['nama_siswa'] ?></h6>
-                                    <h6 class="<?= $value['status'] === 'Pending' ? 'text-amber-500' : 'text-green-500' ?>"><?= $value['status'] ?></h6>
-                                </div>
-                                <div class="flex justify-between">
-                                    <p class="text-sm"><?= $value['judul'] ?></p>
-                                    <p class="text-sm text-gray-500 dark:text-gray-200"><?= $value['tgl_dibuat'] ?></p>
-                                </div>
-                            </a>
-                        <?php endforeach ?>
-                    <?php else : ?>
-                        <cite>Tidak ada pengajuan</cite>
-                    <?php endif ?>
-                </div>
-
-                <div class="flex flex-col lg:flex-row w-full lg:w-fit gap-12">
-                    <div class="flex w-full lg:w-80 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5">
+            <div class="mt-8 flex flex-col lg:flex-row items-start bg-gray-100 dark:bg-gray-700 gap-12 rounded-lg">
+                <div class="flex flex-col lg:flex-row w-full gap-12">
+                    <div class="flex w-full flex-col text-gray-800 dark:text-white space-y-6 p-5">
                         <div class="flex justify-between items-center">
-                            <h4>Kehadiran Siswa</h4>
+                            <h4>Presensi</h4>
                         </div>
-                        <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative p-16 lg:p-0 border-t-2 lg:border-0">
-                            <?php if ($presensi_siswa->num_rows > 0) : ?>
-                                <canvas id="chart_kehadiran_siswa_hari_ini"></canvas>
-                            <?php else : ?>
-                                <cite>Tidak ada presensi siswa</cite>
-                            <?php endif ?>
-                        </div>
-                    </div>
+                        <div class="flex w-full flex-col md:flex-row justify-around">
+                            <div class="flex flex-col items-center gap-5">
+                                <h6>Siswa</h6>
+                                <div class="flex relative border-t-2 lg:border-0">
+                                    <?php if ($presensi_siswa->num_rows > 0) : ?>
+                                        <canvas id="chart_kehadiran_siswa_hari_ini"></canvas>
+                                    <?php else : ?>
+                                        <cite>Tidak ada presensi siswa</cite>
+                                    <?php endif ?>
+                                </div>
+                            </div>
 
-                    <div class="flex w-full lg:w-80 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5">
-                        <div class="flex justify-between items-center">
-                            <h4>Kehadiran Instruktur</h4>
-                        </div>
-                        <div class="flex flex-1 bg-gray-100 dark:bg-gray-700 relative p-16 lg:p-0 border-t-2 lg:border-0">
-                            <?php if ($presensi_instruktur->num_rows > 0) : ?>
-                                <canvas id="chart_kehadiran_instruktur_hari_ini"></canvas>
-                            <?php else : ?>
-                                <cite>Tidak ada presensi instruktur</cite>
-                            <?php endif ?>
+                            <div class="w-0.5 h-full bg-gray-100 dark:bg-white hidden lg:block">&nbsp;</div>
+
+                            <div class="flex flex-col items-center gap-5">
+                                <h6>Instruktur</h6>
+                                <div class="flex relative border-t-2 lg:border-0">
+                                    <?php if ($presensi_instruktur->num_rows > 0) : ?>
+                                        <canvas id="chart_kehadiran_instruktur_hari_ini"></canvas>
+                                    <?php else : ?>
+                                        <cite>Tidak ada presensi instruktur</cite>
+                                    <?php endif ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <div class="mt-8 flex flex-1 flex-col lg:flex-row items-start gap-12">
+                <div class="flex flex-1 flex-col text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 rounded-lg space-y-6 p-5">
+                    <div class="flex justify-between items-center">
+                        <h4>Pengajuan Siswa</h4>
+                    </div>
+                    <?php if ($data_pengajuan_siswa->num_rows > 0) : ?>
+                        <table class="table">
+                            <thead >
+                                <tr>
+                                    <th class="rounded-tl-lg bg-gray-200 dark:bg-gray-600">Siswa</th>
+                                    <th class="bg-gray-200 dark:bg-gray-600">Judul</th>
+                                    <th class="bg-gray-200 dark:bg-gray-600">Keterangan</th>
+                                    <th class="rounded-tr-lg bg-gray-200 dark:bg-gray-600">Tanggal Unggah</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($data_pengajuan_siswa as $key => $value) : ?>
+                                    <tr class="relative group">
+                                        <td><a href="./pengajuan.php" class="h-full w-0 group-hover:w-full mix-blend-overlay bg-green-500 transition-all duration-500 absolute top-0 left-0">&nbsp;</a><?= $value['nama_siswa'] ?></td>
+                                        <td><?= $value['judul'] ?></td>
+                                        <td><?= $value['keterangan'] ?></td>
+                                        <td><?= $value['tgl_dibuat'] ?></td>
+                                    </tr>
+                                <?php endforeach ?>
+                            </tbody>
+                        </table>
+                    <?php else : ?>
+                        <cite>Tidak ada pengajuan</cite>
+                    <?php endif ?>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -251,7 +265,7 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
                 y: {
                     ticks: {
                         color,
-                        stepSize: 10
+                        stepSize: 10000
                     },
                     grid: {
                         drawOnChartArea: false,
@@ -323,7 +337,7 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
             }
         }
 
-        const pieOptions = {
+        const optionsPie = {
             responsive: true,
             plugins: {
                 legend: {
@@ -473,7 +487,7 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
                     ]
                 }],
             },
-            options: pieOptions
+            options: optionsPie
         });
 
         new Chart(chartKehadiranInstruktur, {
@@ -489,7 +503,7 @@ $presensi_instruktur = $db->query($sql) or die($db->error);
                 }],
                 labels: ['Hadir', 'Berhalangan/Belum presensi']
             },
-            options: pieOptions
+            options: optionsPie
         });
     })()
 </script>
