@@ -57,7 +57,7 @@
 
 @layer components {
     main.landing-page section:not(:first-of-type) {
-        @apply flex flex-col p-16 min-h-screen
+        @apply flex flex-col p-6 md:p-16 min-h-screen
     }
 
     main.landing-page section:not(:first-of-type) {

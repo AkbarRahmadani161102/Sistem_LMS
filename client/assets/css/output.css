@@ -742,7 +742,13 @@ main.landing-page section:not(:first-of-type) {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
-  padding: 4rem;
+  padding: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  main.landing-page section:not(:first-of-type) {
+    padding: 4rem;
+  }
 }
 
 main.landing-page section:not(:first-of-type):nth-child(odd) {
@@ -2288,14 +2294,6 @@ hr.vr {
   padding: 2rem;
 }
 
-.p-14 {
-  padding: 3.5rem;
-}
-
-.p-20 {
-  padding: 5rem;
-}
-
 .px-16 {
   padding-left: 4rem;
   padding-right: 4rem;
@@ -3488,12 +3486,20 @@ div[class*="panesContainer"] div[class*="searchPane"] div[class*="searchCont"] i
     width: auto;
   }
 
+  .md\:w-96 {
+    width: 24rem;
+  }
+
   .md\:flex-row {
     flex-direction: row;
   }
 
   .md\:\!items-start {
     align-items: flex-start !important;
+  }
+
+  .md\:justify-between {
+    justify-content: space-between;
   }
 
   .md\:space-x-8 > :not([hidden]) ~ :not([hidden]) {
@@ -3529,8 +3535,22 @@ div[class*="panesContainer"] div[class*="searchPane"] div[class*="searchCont"] i
 }
 
 @media (min-width: 1024px) {
+  .lg\:mx-0 {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  .lg\:\!mx-0 {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+
   .lg\:mr-auto {
     margin-right: auto;
+  }
+
+  .lg\:mt-0 {
+    margin-top: 0px;
   }
 
   .lg\:block {
@@ -3575,12 +3595,16 @@ div[class*="panesContainer"] div[class*="searchPane"] div[class*="searchCont"] i
     background-color: rgb(31 41 55 / var(--tw-bg-opacity));
   }
 
+  .lg\:p-0 {
+    padding: 0px;
+  }
+
   .lg\:p-20 {
     padding: 5rem;
   }
 
-  .lg\:p-0 {
-    padding: 0px;
+  .lg\:p-16 {
+    padding: 4rem;
   }
 
   .lg\:px-8 {

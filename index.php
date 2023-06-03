@@ -56,7 +56,7 @@ function format_rupiah(int $dec)
             <!-- Overlay -->
             <div class="absolute top-0 left-0 w-full h-full bg-gray-500 mix-blend-multiply">&nbsp;</div>
             <nav id="tentang" class="border-gray-200 z-20">
-                <div class="max-w-screen flex flex-wrap items-center justify-between mx-auto px-16 py-4">
+                <div class="max-w-screen flex flex-wrap items-center justify-center md:justify-between mx-auto px-16 py-4">
                     <a href="#" class="flex items-center">
                         <img src="./client/assets/image/icon.png" class="h-8 mr-3" alt="Logo" />
                         <span class="self-center text-2xl font-semibold whitespace-nowrap text-white"><span class="text-amber-500">SMART</span> Solution</span>
@@ -67,7 +67,7 @@ function format_rupiah(int $dec)
                             <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
                         </svg>
                     </button>
-                    <div class="hidden w-full md:block md:w-auto" id="main-navbar">
+                    <div class="hidden w-full md:block md:w-auto mt-5 lg:mt-0" id="main-navbar">
                         <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-transparent md:text-white">
                             <li class="relative group">
                                 <a href="#tentang" class="block py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 transition-all">Tentang</a>
@@ -123,24 +123,24 @@ function format_rupiah(int $dec)
             </div>
             <div class="flex items-center flex-col md:flex-row flex-1 min-h-full gap-12 flex-wrap">
                 <div class="flex flex-1 flex-wrap gap-12 flex-col lg:flex-row">
-                    <div class="rounded w-96 h-96 flex flex-1 flex-col lg:pr-5">
+                    <div class="rounded w-full md:w-96 h-96 flex flex-1 flex-col lg:pr-5">
                         <div class="text-5xl text-amber-500"><i class="ri-chat-private-line"></i></div>
                         <h3 class="text-xl h-fit font-semibold my-5 h-fit md:h-1/5">Private Tutoring</h3>
                         <p class="text-lg break-normal">Kami memberikan layanan les privat bagi siswa yang membutuhkan bantuan dalam pemahaman materi pelajaran</p>
                     </div>
-                    <div class="rounded w-96 h-96 flex flex-1 flex-col lg:pr-5">
+                    <div class="rounded w-full md:w-96 h-96 flex flex-1 flex-col lg:pr-5">
                         <div class="text-5xl text-indigo-500"><i class="ri-link-unlink-m"></i></div>
                         <h3 class="text-xl h-fit font-semibold my-5 h-fit md:h-1/5">Intensive Course</h3>
                         <p class="text-lg break-normal">Program ini ditujukan untuk siswa yang ingin mempersiapkan diri untuk menghadapi ujian tertentu</p>
                     </div>
                 </div>
                 <div class="flex flex-1 flex-wrap gap-12 flex-col lg:flex-row">
-                    <div class="rounded w-96 h-96 flex flex-1 flex-col lg:pr-5">
+                    <div class="rounded w-full md:w-96 h-96 flex flex-1 flex-col lg:pr-5">
                         <div class="text-5xl text-blue-500"><i class="ri-article-line"></i></div>
                         <h3 class="text-xl h-fit font-semibold my-5 h-fit md:h-1/5">Persiapan Masuk Perguruan Tinggi</h3>
                         <p class="text-lg break-normal">Dalam program ini, siswa akan mendapatkan materi-materi persiapan ujian</p>
                     </div>
-                    <div class="rounded w-96 h-96 flex flex-1 flex-col lg:pr-5">
+                    <div class="rounded w-full md:w-96 h-96 flex flex-1 flex-col lg:pr-5">
                         <div class="text-5xl text-red-500"><i class="ri-git-repository-commits-line"></i></div>
                         <h3 class="text-xl h-fit font-semibold my-5 h-fit md:h-1/5">Peningkatan Kemampuan Akademik</h3>
                         <p class="text-lg break-normal">Dalam program ini, siswa akan mendapatkan bimbingan belajar secara intensif dari instruktur yang berpengalaman.</p>
@@ -231,7 +231,7 @@ function format_rupiah(int $dec)
             <div class="relative text-center mb-16">
                 <h2>Testimoni</h2>
             </div>
-            <div class="flex flex-col lg:flex-row gap-8 p-16 lg:p-0">
+            <div class="flex flex-col lg:flex-row gap-8 p-0 lg:p-16 lg:p-0">
                 <figure class="flex flex-1 flex-col shadow-lg rounded-lg p-8 space-y-6">
                     <div class="flex flex-1 justify-between">
                         <div class="flex gap-5 items-center">
