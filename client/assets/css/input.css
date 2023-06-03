@@ -56,9 +56,21 @@
 }
 
 @layer components {
-    .landing-page {
-        background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)), url('../image/landing_page.jpg');
-        background-size: cover;
+    main.landing-page section:not(:first-of-type) {
+        @apply flex flex-col p-16 min-h-screen
+    }
+
+    main.landing-page section:not(:first-of-type) {
+        @apply odd:bg-white even:bg-slate-50
+    }
+
+    main.landing-page section h2 {
+        @apply relative text-2xl
+    }
+
+    main.landing-page section h2::after {
+        content: '';
+        @apply absolute -top-2 left-0 bg-amber-500 h-1 w-full
     }
 
     .table__container {
@@ -165,6 +177,14 @@
 
     .btn.btn--transparent {
         @apply bg-transparent pointer-events-none
+    }
+
+    .btn.btn--white {
+        @apply bg-white text-gray-800
+    }
+
+    .btn.btn--white:hover {
+        @apply bg-white
     }
 
     .btn.btn--green {
@@ -336,6 +356,109 @@
     }
 }
 
+/* Flipable Card */
+.flip-card {
+    @apply bg-transparent w-80 h-[28rem];
+    perspective: 1000px;
+    /* Remove this if you don't want the 3D effect */
+}
+
+.flip-card-inner {
+    @apply relative w-full h-full text-center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    @apply absolute w-full h-full rounded-t rounded-b;
+    -webkit-backface-visibility: hidden;
+    /* Safari */
+    backface-visibility: hidden;
+}
+
+.flip-card-front {
+    @apply shadow-lg text-gray-800 rounded-t rounded-b
+}
+
+.flip-card-front h3 {
+    @apply text-2xl text-end ml-auto -mt-20 z-10 relative text-white w-fit px-2
+}
+
+.flip-card-front h3 span {
+    @apply box-decoration-clone	p-1
+}
+
+.flip-card-image {
+    @apply h-44 w-full bg-cover mix-blend-screen z-20 relative rounded-t;
+    clip-path: polygon(0 0, 100% 0%, 100% 80%, 0 100%);
+}
+
+.flip-card-feature {
+    @apply mt-20 flex flex-col items-center
+}
+
+.flip-card-feature li {
+    @apply py-2 w-9/12
+}
+
+.flip-card-feature li:not(:last-of-type) {
+    @apply border-b-2 border-gray-200
+}
+
+.flip-card-back {
+    @apply bg-gray-800 text-white flex flex-1 flex-col items-center justify-center shadow-lg;
+    transform: rotateY(180deg);
+}
+
+.flip-card-back p {
+    @apply text-2xl
+}
+
+.flip-card-back h6 {
+    @apply text-4xl font-light my-5
+}
+
+.flip-card-back h6 span {
+    @apply text-xl font-light my-5
+}
+
+
+.flip-card-back a {
+    @apply block btn bg-white text-gray-800 rounded-full w-6/12 mt-4 hover:scale-110 active:translate-y-2 transition-all;
+}
+
+#landing-page-biaya-sd .flip-card-image,
+#landing-page-biaya-sd h3 span {
+    background-image: linear-gradient(to right bottom, rgba(239, 68, 68, 0.9), rgba(31, 41, 55, .5)), url('../image/landing_page_biaya_sd.jpg');
+}
+
+#landing-page-biaya-sd .flip-card-back {
+    background-image: linear-gradient(to right bottom, rgba(239, 68, 68, 0.9), rgba(31, 41, 55, .8));
+}
+
+#landing-page-biaya-smp .flip-card-image,
+#landing-page-biaya-smp h3 span {
+    background-image: linear-gradient(to right bottom, rgba(14, 164, 233, 0.5), rgba(31, 41, 55, .5)), url('../image/landing_page_biaya_smp.jpg');
+}
+
+#landing-page-biaya-smp .flip-card-back {
+    background-image: linear-gradient(to right bottom, rgba(14, 164, 233, 0.5), rgba(31, 41, 55, .8));
+}
+
+#landing-page-biaya-sma .flip-card-image,
+#landing-page-biaya-sma h3 span {
+    background-image: linear-gradient(to right bottom, rgba(107, 114, 128, 0.5), rgba(31, 41, 55, .5)), url('../image/landing_page_biaya_sma.jpg');
+}
+
+#landing-page-biaya-sma .flip-card-back {
+    background-image: linear-gradient(to right bottom, rgba(107, 114, 128, 0.5), rgba(31, 41, 55, .8));
+}
+
 /* Loading Screen */
 #loading-screen {
     background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7));
@@ -439,7 +562,7 @@ div[class*="panesContainer"] div[class*="searchPane"] div[class*="searchCont"] i
     @apply border-transparent bg-transparent
 }
 
-.dark div[class*="panesContainer"] .dataTables_scroll .dataTables_scrollBody{
+.dark div[class*="panesContainer"] .dataTables_scroll .dataTables_scrollBody {
     @apply bg-transparent !important
 }
 
