@@ -65,13 +65,14 @@
     }
 
     main.landing-page section h2 {
-        @apply relative text-2xl
+        @apply uppercase relative font-semibold text-3xl bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600 tracking-widest;
+        -webkit-text-fill-color: transparent;
     }
 
-    main.landing-page section h2::after {
+    /* main.landing-page section h2::after {
         content: '';
         @apply absolute -top-2 left-0 bg-amber-500 h-1 w-full
-    }
+    } */
 
     .table__container {
         @apply relative overflow-x-auto mt-5
@@ -382,11 +383,11 @@
 }
 
 .flip-card-front {
-    @apply shadow-lg text-gray-800 rounded-t rounded-b
+    @apply shadow-lg text-gray-800 rounded-t rounded-b flex flex-1 flex-col justify-around
 }
 
 .flip-card-front h3 {
-    @apply text-2xl text-end ml-auto -mt-20 z-10 relative text-white w-fit px-2
+    @apply text-2xl text-end ml-auto -mt-20 z-10 relative text-white px-2
 }
 
 .flip-card-front h3 span {
@@ -399,7 +400,7 @@
 }
 
 .flip-card-feature {
-    @apply mt-20 flex flex-col items-center
+    @apply mt-20 flex flex-col items-center mb-16
 }
 
 .flip-card-feature li {

@@ -23,6 +23,11 @@ foreach ($data_jenjang as $key => $value)
     $arr_jenjang[$key] = $value['biaya_pendidikan'];
 
 $data_jenjang = $arr_jenjang;
+
+function format_rupiah(int $dec)
+{
+    return number_format($dec, 0, "", ".");
+}
 ?>
 
 <!DOCTYPE html>
@@ -105,7 +110,7 @@ $data_jenjang = $arr_jenjang;
                 <div class="flex flex-col gap-5 w-full md:!w-3/5 text-center md:!text-left items-center md:!items-start">
                     <h1 class="text-4xl">Temukan Solusi Belajar Terbaik di Sistem Bimbel Kami</h1>
                     <p class="text-lg">Sistem bimbel kami hadir untuk memberikan solusi belajar terbaik bagi siswa dan siswi dari berbagai jenjang pendidikan. Kami menyediakan program belajar yang berkualitas dan didukung oleh tutor profesional untuk membantu siswa mencapai potensi terbaik mereka.</p>
-                    <a href="./client/siswa/register.php" class="p-3 px-8 bg-amber-500 hover:bg-emerald-500 transition-all duration-300 active:translate-y-2 hover:shadow-lg hover:shadow-green-500/50 rounded-full">
+                    <a href="./client/siswa/register.php" class="p-3 px-8 bg-amber-500 hover:bg-emerald-500 transition-all duration-300 active:translate-y-2 hover:shadow-lg hover:shadow-green-500/50 rounded-full font-bold">
                         DAFTAR SEKARANG
                     </a>
                 </div>
@@ -113,7 +118,7 @@ $data_jenjang = $arr_jenjang;
         </section>
 
         <section id="program">
-            <div class="relative w-fit mx-auto md:!mx-0 mb-8">
+            <div class="relative text-center mb-16">
                 <h2>Program Kami</h2>
             </div>
             <div class="flex items-center flex-col md:flex-row flex-1 min-h-full gap-12 flex-wrap">
@@ -159,10 +164,10 @@ $data_jenjang = $arr_jenjang;
         </section>
 
         <section id="biaya">
-            <div class="relative w-fit mx-auto md:!mx-0 mb-8">
+            <div class="relative text-center mb-16">
                 <h2>Biaya Pendidikan</h2>
             </div>
-            <div class="flex flex-col lg:flex-row justify-around">
+            <div class="flex flex-col lg:flex-row justify-around gap-16 lg:gap-0 items-center">
                 <div class="flip-card" id="landing-page-biaya-sd">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
@@ -176,7 +181,7 @@ $data_jenjang = $arr_jenjang;
                         </div>
                         <div class="flip-card-back">
                             <p>Mulai dari</p>
-                            <h6>Rp. <?= $data_jenjang[0] ?><span>/ Bulan</span></h6>
+                            <h6>Rp <?= format_rupiah($data_jenjang[0]) ?><span>/ Bulan</span></h6>
                             <a href="./client/siswa/login.php">DAFTAR</a>
                         </div>
                     </div>
@@ -194,7 +199,7 @@ $data_jenjang = $arr_jenjang;
                         </div>
                         <div class="flip-card-back">
                             <p>Mulai dari</p>
-                            <h6>Rp. <?= $data_jenjang[1] ?><span>/ Bulan</span></h6>
+                            <h6>Rp <?= format_rupiah($data_jenjang[1]) ?><span>/ Bulan</span></h6>
                             <a href="./client/siswa/login.php">DAFTAR</a>
                         </div>
                     </div>
@@ -212,19 +217,68 @@ $data_jenjang = $arr_jenjang;
                         </div>
                         <div class="flip-card-back">
                             <p>Mulai dari</p>
-                            <h6>Rp. <?= $data_jenjang[2] ?><span>/ Bulan</span></h6>
+                            <h6>Rp <?= format_rupiah($data_jenjang[2]) ?><span>/ Bulan</span></h6>
                             <a href="./client/siswa/login.php">DAFTAR</a>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <a href="./client/siswa/login.php" class="btn btn--amber py-3 px-8 rounded-full mt-16 w-60 text-center mx-auto font-normal tracking-wider hover:tracking-widest hover:shadow-lg hover:shadow-amber-500/50 active:translate-y-2 transition-all">LIHAT LEBIH LANJUT</a>
         </section>
 
         <section id="testimoni">
-            <div class="relative w-fit mx-auto md:!mx-0 mb-8">
+            <div class="relative text-center mb-16">
                 <h2>Testimoni</h2>
             </div>
-            <div class="flex justify-between items-center flex-1 flex-wrap gap-5">
+            <div class="flex flex-col lg:flex-row gap-8 p-16 lg:p-0">
+                <figure class="flex flex-1 flex-col shadow-lg rounded-lg p-8 space-y-6">
+                    <div class="flex flex-1 justify-between">
+                        <div class="flex gap-5 items-center">
+                            <img class="w-20 h-20 rounded-lg" src="https://images.pexels.com/photos/5792654/pexels-photo-5792654.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="profile picture">
+                            <figcaption class="flex flex-col gap-1">
+                                <cite class="font-medium text-gray-900">Yahya Anwar</cite>
+                                <cite class="text-sm text-gray-500">Alumni 2020</cite>
+                            </figcaption>
+                        </div>
+                        <i class="ri-double-quotes-r text-amber-500 text-6xl"></i>
+                    </div>
+                    <blockquote>
+                        <p class="text-lg text-gray-600">Program bimbingan belajar di sistem informasi bimbel ini sangat membantu saya dalam mempersiapkan ujian masuk perguruan tinggi. Tidak hanya diberikan latihan soal secara intensif, tetapi juga diberikan tips dan trik dalam menghadapi ujian. Saya berhasil diterima di universitas impian saya, terima kasih bimbel SMART Solution!</p>
+                    </blockquote>
+                    <div class="flex items-center text-yellow-300">
+                        <i class="ri-star-fill text-amber-400 text-2xl"></i>
+                        <i class="ri-star-fill text-amber-400 text-2xl"></i>
+                        <i class="ri-star-fill text-amber-400 text-2xl"></i>
+                        <i class="ri-star-fill text-amber-400 text-2xl"></i>
+                        <i class="ri-star-fill text-amber-400 text-2xl"></i>
+                    </div>
+                </figure>
+
+                <figure class="flex flex-1 flex-col shadow-lg rounded-lg p-8 space-y-6">
+                    <div class="flex flex-1 justify-between">
+                        <div class="flex gap-5 items-center">
+                            <img class="w-20 h-20 rounded-lg" src="https://images.pexels.com/photos/14431385/pexels-photo-14431385.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="profile picture">
+                            <figcaption class="flex flex-col gap-1">
+                                <cite class="font-medium text-gray-900">Aldi Yusuf</cite>
+                                <cite class="text-sm text-gray-500">Alumni 2015</cite>
+                            </figcaption>
+                        </div>
+                        <i class="ri-double-quotes-r text-amber-500 text-6xl"></i>
+                    </div>
+                    <blockquote>
+                        <p class="text-lg text-gray-600">Saya sangat merekomendasikan sistem informasi bimbel ini kepada siapa saja yang ingin memperdalam pemahaman mereka di bidang tertentu. Harganya sangat terjangkau dan kualitasnya tidak kalah dengan bimbel-bimbel ternama lainnya. Terima kasih Bimbel SMART Solution!</p>
+                    </blockquote>
+                    <div class="flex items-center text-yellow-300">
+                        <i class="ri-star-fill text-amber-400 text-2xl"></i>
+                        <i class="ri-star-fill text-amber-400 text-2xl"></i>
+                        <i class="ri-star-fill text-amber-400 text-2xl"></i>
+                        <i class="ri-star-fill text-amber-400 text-2xl"></i>
+                        <i class="ri-star-fill text-amber-400 text-2xl"></i>
+                    </div>
+                </figure>
+            </div>
+            <!-- <div class="flex justify-between items-center flex-1 flex-wrap gap-5">
                 <figure class="max-w-screen-md">
                     <div class="flex items-center mb-4 text-yellow-300">
                         <i class="ri-star-fill text-amber-400 text-2xl"></i>
@@ -304,11 +358,11 @@ $data_jenjang = $arr_jenjang;
                         </div>
                     </figcaption>
                 </figure>
-            </div>
+            </div> -->
         </section>
 
         <section id="kontak" class="!min-h-0">
-            <div class="relative w-fit mx-auto md:!mx-0 mb-8">
+            <div class="relative text-center mb-16">
                 <h2>Kontak Kami</h2>
             </div>
             <div class="w-3/4 flex-col gap-2">
@@ -325,7 +379,7 @@ $data_jenjang = $arr_jenjang;
         </section>
 
         <section id="lokasi">
-            <div class="relative w-fit mx-auto md:!mx-0 mb-8">
+            <div class="relative text-center mb-16">
                 <h2>Lokasi</h2>
             </div>
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3949.2976038678607!2d112.69759431546774!3d-8.17274358417597!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd61f44ddac6311%3A0xbaf67cbef55a263c!2sBimbel%20SMART!5e0!3m2!1sid!2sid!4v1680863237905!5m2!1sid!2sid" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -345,7 +399,7 @@ $data_jenjang = $arr_jenjang;
             </div>
         </div>
         <div class="flex flex-1 flex-col gap-3">
-            <h3 class="font-semibold text-xl">Navigation</h3>
+            <h3 class="font-semibold text-xl">Navigasi</h3>
             <a class="hover:text-amber-500 transition-all w-fit" href="#tentang">Tentang</a>
             <a class="hover:text-amber-500 transition-all w-fit" href="#program">Program</a>
             <a class="hover:text-amber-500 transition-all w-fit" href="#biaya">Biaya Pendidikan</a>
