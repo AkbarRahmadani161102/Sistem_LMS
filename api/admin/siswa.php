@@ -174,7 +174,7 @@ if (isset($_GET['file_import_example'])) {
 
     // $spreadsheet->getDefaultStyle()->getNumberFormat()->setFormatCode('#');
     $spreadsheet->getActiveSheet()->getStyle('B')->getNumberFormat()
-    ->setFormatCode('@');
+        ->setFormatCode('@');
 
     $sheet = $spreadsheet->getActiveSheet();
     // HEADER
@@ -213,6 +213,7 @@ if (isset($_GET['file_import_example'])) {
 
     $writer = new Xlsx($spreadsheet);
     $writer->save('php://output');
+    die;
 }
 
 if (isset($_POST['file_import'])) {
@@ -282,7 +283,7 @@ if (isset($_POST['bulk_delete'])) {
         }
         push_toast('Data Siswa Dihapus');
     } catch (\Throwable $th) {
-        push_toast('Data Siswa Gagal Dihapus', 'error','Constraint integrity error');
+        push_toast('Data Siswa Gagal Dihapus', 'error', 'Constraint integrity error');
     }
     redirect("../../client/admin/siswa.php");
 }
