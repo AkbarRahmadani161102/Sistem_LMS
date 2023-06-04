@@ -3482,12 +3482,12 @@ div[class*="panesContainer"] div[class*="searchPane"] div[class*="searchCont"] i
     width: 50%;
   }
 
-  .md\:w-auto {
-    width: auto;
-  }
-
   .md\:w-96 {
     width: 24rem;
+  }
+
+  .md\:w-auto {
+    width: auto;
   }
 
   .md\:flex-row {
@@ -3535,16 +3535,6 @@ div[class*="panesContainer"] div[class*="searchPane"] div[class*="searchCont"] i
 }
 
 @media (min-width: 1024px) {
-  .lg\:mx-0 {
-    margin-left: 0px;
-    margin-right: 0px;
-  }
-
-  .lg\:\!mx-0 {
-    margin-left: 0px !important;
-    margin-right: 0px !important;
-  }
-
   .lg\:mr-auto {
     margin-right: auto;
   }
@@ -3599,12 +3589,12 @@ div[class*="panesContainer"] div[class*="searchPane"] div[class*="searchCont"] i
     padding: 0px;
   }
 
-  .lg\:p-20 {
-    padding: 5rem;
-  }
-
   .lg\:p-16 {
     padding: 4rem;
+  }
+
+  .lg\:p-20 {
+    padding: 5rem;
   }
 
   .lg\:px-8 {

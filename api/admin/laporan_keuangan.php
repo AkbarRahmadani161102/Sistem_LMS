@@ -617,6 +617,7 @@ if (isset($_GET['slip_gaji_instruktur'])) {
     AND MONTH(tgl_pertemuan) = $bulan
     GROUP BY i.id_instruktur";
 
+
     $nama_instruktur = $db->query($sql);
 
     foreach ($nama_instruktur as $instruktur) {
@@ -667,7 +668,10 @@ if (isset($_GET['slip_gaji_instruktur'])) {
         JOIN jadwal j ON dj.id_jadwal = j.id_jadwal
         JOIN kelas k ON j.id_kelas = k.id_kelas
         JOIN jenjang je ON k.id_jenjang = je.id_jenjang
-        WHERE dj.id_instruktur = '{$instruktur['id_instruktur']}' AND status_kehadiran_instruktur = 'Hadir'
+        WHERE dj.id_instruktur = '{$instruktur['id_instruktur']}' 
+        AND status_kehadiran_instruktur = 'Hadir'
+        AND MONTH(dj.tgl_pertemuan) = $bulan
+        AND YEAR(dj.tgl_pertemuan) = $tahun
         GROUP BY k.id_kelas";
 
         $data_pertemuan = $db->query($sql) or die($db->error);
