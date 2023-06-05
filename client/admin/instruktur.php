@@ -194,7 +194,7 @@ if (isset($_GET['edit'])) {
                                         $range_int = (int) $range->format('%a');
                                         echo $range_int < 365
                                             ? "<span class='text-green-500'>NEW</span>"
-                                            : $range->format('%R%a days/%R%y years');
+                                            : $range->format('%y Tahun');
                                         ?>
                                     </td>
                                     <td class="flex gap-2">
