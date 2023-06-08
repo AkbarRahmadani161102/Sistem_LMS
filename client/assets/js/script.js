@@ -6,7 +6,7 @@ const refreshTime = () => {
 }
 
 $(document).ready(() => {
-    $('#loading-screen').remove()
+    $('#loading-screen').hide()
     $("img[alt*='www.000webhost']").remove()
 
     refreshTime()
@@ -23,6 +23,8 @@ $(document).ready(() => {
             && href.match(/(.*)\/(.*.php)(.*)/)[2] === urlFilename
             && $(this).addClass('active')
     })
+
+    $('.dashboard__sidebar-item').on('click', () => $('#loading-screen').show())
 
     $('#check_all').on('click', function (e) {
         let condition = this.checked
