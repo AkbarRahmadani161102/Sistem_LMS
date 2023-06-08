@@ -228,6 +228,16 @@
         @apply bg-gray-600
     }
 
+    .btn--outline-white,
+    .dark .btn--outline-white {
+        @apply bg-transparent border border-white text-white
+    }
+
+    .btn--outline-white:hover,
+    .dark .btn--outline-white:hover {
+        @apply bg-white transition border-transparent text-gray-800
+    }
+
     .btn--outline-red,
     .dark .btn--outline-red {
         @apply bg-transparent border border-red-500 text-red-500

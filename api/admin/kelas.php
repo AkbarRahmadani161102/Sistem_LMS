@@ -76,8 +76,47 @@ if (isset($_POST['update'])) {
 }
 
 if (isset($_POST['delete'])) {
+    $id_kelas = escape($_POST['delete']);
+    function delete_jadwal()
+    {
+        global $db, $id_kelas;
+        $sql = "SELECT id_jadwal FROM jadwal WHERE id_kelas = $id_kelas";
+        $data_jadwal = $db->query($sql);
+
+        // Jadwal
+        foreach ($data_jadwal as $jadwal) {
+
+            $sql = "SELECT id_detail_jadwal FROM detail_jadwal WHERE id_jadwal = {$jadwal['id_jadwal']}";
+
+            $data_detail_jadwal = $db->query($sql);
+
+            // Detail Jadwal
+            foreach ($data_detail_jadwal as $detail_jadwal) {
+                // Absensi Siswa
+                $sql = "DELETE FROM absensi_siswa WHERE id_detail_jadwal = {$detail_jadwal['id_detail_jadwal']}";
+                $db->query($sql);
+
+                // Penilaian
+                $sql = "SELECT id_penilaian FROM penilaian WHERE id_detail_jadwal = {$detail_jadwal['id_detail_jadwal']}";
+                $data_penilaian = $db->query($sql);
+
+                foreach ($data_penilaian as $penilaian) {
+                    $sql = "DELETE FROM detail_penilaian WHERE id_penilaian = {$penilaian['id_penilaian']}";
+                    $db->query($sql);
+                }
+
+                $sql = "DELETE FROM penilaian WHERE id_detail_jadwal = {$detail_jadwal['id_detail_jadwal']}";
+                $db->query($sql);
+            }
+
+            $sql = "DELETE FROM detail_jadwal WHERE id_jadwal = {$jadwal['id_jadwal']}";
+            $db->query($sql);
+        }
+        $sql = "DELETE FROM jadwal WHERE id_kelas = '$id_kelas'";
+        $db->query($sql);
+    }
     try {
-        $id_kelas = escape($_POST['delete']);
+        delete_jadwal();
         $sql = "DELETE FROM detail_kelas WHERE id_kelas = '$id_kelas'";
         $db->query($sql);
         $sql = "DELETE FROM kelas WHERE id_kelas = '$id_kelas'";

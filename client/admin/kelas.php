@@ -123,7 +123,10 @@ if (isset($_GET['edit'])) {
                             </tbody>
                         </table>
                     </div>
-                    <button type="submit" class="btn btn--blue w-fit" name="update" value="<?= $id_kelas ?>">Ubah</button>
+                    <div class="flex gap-2">
+                        <button type="button" id="clear-checkbox" class="btn btn--outline-white">Clear checkbox</button>
+                        <button type="submit" class="btn btn--blue w-fit" name="update" value="<?= $id_kelas ?>">Ubah</button>
+                    </div>
                 </form>
             <?php endif ?>
 
@@ -181,7 +184,10 @@ if (isset($_GET['edit'])) {
                             </tbody>
                         </table>
                     </div>
-                    <button type="submit" class="btn btn--blue w-fit" name="create" value="<?= $id_kelas ?>">Tambah</button>
+                    <div class="flex gap-2">
+                        <button type="button" id="clear-checkbox" class="btn btn--outline-white">Clear checkbox</button>
+                        <button type="submit" class="btn btn--blue w-fit" name="create" value="<?= $id_kelas ?>">Tambah</button>
+                    </div>
                 </form>
             <?php endif ?>
 
@@ -202,7 +208,6 @@ if (isset($_GET['edit'])) {
                         </thead>
                         <tbody>
                             <?php foreach ($result as $key => $value) : ?>
-                                <?php $delete_able = $value['count_jadwal'] === '0'  ?>
                                 <tr>
                                     <th><?= $key + 1 ?></th>
                                     <td><?= $value['nama'] ?></td>
@@ -240,11 +245,9 @@ if (isset($_GET['edit'])) {
                                         <a class="btn btn--outline-blue group" href="?edit=<?= $value['id_kelas'] ?>" class="px-5 py-2 border border-blue-500 rounded group hover:bg-blue-500">
                                             <i class="ri-edit-box-line text-blue-500 group-hover:text-white"></i>
                                         </a>
-                                        <?php if ($delete_able) : ?>
-                                            <button onclick="generateConfirmationDialog('../../api/admin/kelas.php', {delete: '<?= $value['id_kelas'] ?>'})" class="btn btn--outline-red">
-                                                <i class="ri-delete-bin-6-line"></i>
-                                            </button>
-                                        <?php endif ?>
+                                        <button onclick="generateConfirmationDialog('../../api/admin/kelas.php', {delete: '<?= $value['id_kelas'] ?>'})" class="btn btn--outline-red">
+                                            <i class="ri-delete-bin-6-line"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             <?php endforeach ?>
@@ -256,3 +259,7 @@ if (isset($_GET['edit'])) {
     </div>
 </div>
 <?php include_once('../template/footer.php') ?>
+
+<script>
+    $('#clear-checkbox').on('click', () => $('input[type="radio"]:checked').prop('checked', false))
+</script>
