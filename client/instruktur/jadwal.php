@@ -10,10 +10,10 @@ $data_jadwal = $db->query($sql) or die($db->error);
 $data_jadwal->fetch_assoc();
 ?>
 
-<div class="w-full min-h-screen flex">
+<div class="dashboard__main">
     <?php include_once '../components/dashboard_sidebar.php' ?>
-    <div class="w-full flex flex-col">
-        <div class="p-4 sm:ml-64">
+    <div class="dashboard__content">
+        <div class="dashboard__subcontent">
             <?php include_once '../components/dashboard_navbar.php';
             generate_breadcrumb([['title' => 'Jadwal', 'filename' => 'jadwal.php']]);
             ?>

@@ -49,10 +49,10 @@ if (isset($_GET['edit'])) {
 }
 ?>
 
-<div class="w-full min-h-screen flex">
+<div class="dashboard__main">
     <?php include_once '../components/dashboard_sidebar.php' ?>
-    <div class="w-full flex flex-col">
-        <div class="p-4 sm:ml-64">
+    <div class="dashboard__content">
+        <div class="dashboard__subcontent">
             <?php include_once '../components/dashboard_navbar.php'; ?>
             <div class="flex items-center gap-5">
                 <h4 class="my-7 font-semibold text-gray-800 dark:text-white">Data Kelas</h4>

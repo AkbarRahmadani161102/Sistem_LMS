@@ -25,10 +25,10 @@ if (isset($_GET['kelas'])) {
 }
 ?>
 
-<div class="w-full min-h-screen flex">
+<div class="dashboard__main">
     <?php include_once '../components/dashboard_sidebar.php' ?>
-    <div class="w-full flex flex-col">
-        <div class="p-4 sm:ml-64">
+    <div class="dashboard__content">
+        <div class="dashboard__subcontent">
             <?php
             include_once '../components/dashboard_navbar.php';
             generate_breadcrumb([['title' => 'Anggota Kelas', 'filename' => 'anggota_kelas.php']]);

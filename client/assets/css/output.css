@@ -875,6 +875,10 @@ main.landing-page section h2 {
   padding: 1rem;
 }
 
+.dashboard__sidebar-main.modal {
+  width: 4rem !important;
+}
+
 .modal__backdrop {
   position: relative;
   height: 100%;
@@ -1259,6 +1263,12 @@ hr.vr {
   background-color: rgb(156 163 175 / var(--tw-bg-opacity));
 }
 
+.dashboard__main {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
 .dashboard__sidebar-menu {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
@@ -1274,12 +1284,12 @@ hr.vr {
 
 .dashboard__sidebar-item {
   display: flex;
-  gap: 0.5rem;
+  gap: 1.25rem;
   border-radius: 0.25rem;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   font-weight: 500;
   --tw-text-opacity: 1;
   color: rgb(31 41 55 / var(--tw-text-opacity));
@@ -1414,10 +1424,6 @@ hr.vr {
 
 .z-20 {
   z-index: 20;
-}
-
-.z-40 {
-  z-index: 40;
 }
 
 .z-50 {
@@ -1789,11 +1795,6 @@ hr.vr {
 
 .table-fixed {
   table-layout: fixed;
-}
-
-.-translate-x-full {
-  --tw-translate-x: -100%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .rotate-180 {
@@ -2643,12 +2644,6 @@ hr.vr {
   transition-duration: 150ms;
 }
 
-.transition-transform {
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
 .delay-75 {
   transition-delay: 75ms;
 }
@@ -2694,6 +2689,55 @@ hr.vr {
   font-family: "Poppins-Regular";
 
   src: url("../fonts/Poppins-Regular.ttf");
+}
+
+/* Dashboard Subcontent (Sidebar Toggle) */
+
+.dashboard__content {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.dashboard__subcontent {
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .dashboard__subcontent {
+    margin-left: 16rem;
+  }
+}
+
+.dashboard__subcontent-show {
+  margin-left: 4rem !important;
+}
+
+/* Dashboard Sidebar (Sidebar Toggle) */
+
+.dashboard__sidebar-main {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 40;
+  height: 100vh;
+  width: 16rem;
+  --tw-translate-x: -100%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+@media (min-width: 640px) {
+  .dashboard__sidebar-main {
+    --tw-translate-x: 0px;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+}
+
+.dashboard__sidebar-main.hidden {
+  width: 4rem !important;
 }
 
 /* Flipable Card */
@@ -3418,17 +3462,8 @@ div[class*="panesContainer"] div[class*="searchPane"] div[class*="searchCont"] i
     right: 0px;
   }
 
-  .sm\:ml-64 {
-    margin-left: 16rem;
-  }
-
   .sm\:h-7 {
     height: 1.75rem;
-  }
-
-  .sm\:translate-x-0 {
-    --tw-translate-x: 0px;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   }
 }
 
