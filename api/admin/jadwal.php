@@ -14,7 +14,7 @@ if (isset($_POST['create'])) {
         if ($jam_mulai < $jam_selesai) {
             $sql = "INSERT INTO jadwal (id_mapel, id_kelas, hari, jam_mulai, jam_selesai) VALUES ('$id_mapel', '$id_kelas', '$hari', '$jam_mulai', '$jam_selesai')";
             $db->query($sql);
-            push_toast('Data jadwal berhasil ditambah');
+            push_toast('Data jadwal berhasil ditambah', 'success', 'Pastikan untuk melakukan update pertemuan untuk menetapkan pertemuan');
             $id_jadwal = $db->insert_id;
             redirect("../../client/admin/jadwal.php?assign_instruktur=$id_jadwal");
         } else
@@ -43,7 +43,7 @@ if (isset($_POST['assign_instruktur'])) {
     if ($jadwal_hari !== $instruktur_hari || $jadwal_jam_mulai !== $instruktur_jam_mulai) {
         $sql = "UPDATE jadwal SET id_instruktur = '$id_instruktur' WHERE id_jadwal = '$id_jadwal'";
         $db->query($sql);
-        push_toast('Instruktur berhasil ditetapkan');
+        push_toast('Instruktur berhasil ditetapkan', 'success', 'Pastikan untuk melakukan update pertemuan untuk menetapkan pertemuan');
     } else {
         push_toast('Gagal menetapkan instruktur', 'error', 'Instruktur yang bersangkutan sudah ada di jadwal lain, di hari dan jam yang sama');
     }
@@ -61,7 +61,7 @@ if (isset($_POST['update'])) {
     if ($jam_mulai < $jam_selesai) {
         $sql = "UPDATE jadwal SET id_mapel = '$id_mapel', id_kelas = '$id_kelas', hari =  '$hari', jam_mulai = '$jam_mulai', jam_selesai = '$jam_selesai' WHERE id_jadwal = '$id_jadwal'";
         $db->query($sql);
-        push_toast('Data jadwal berhasil diubah');
+        push_toast('Data jadwal berhasil diubah', 'success', 'Pastikan untuk melakukan update pertemuan untuk menetapkan pertemuan');
         redirect("../../client/admin/jadwal.php");
     } else {
         push_toast('Gagal mengubah', 'error', 'Pastikan waktu jam mulai kurang dari jam selesai');
