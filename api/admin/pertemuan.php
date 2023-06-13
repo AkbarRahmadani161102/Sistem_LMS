@@ -32,19 +32,21 @@ if (isset($_POST['sync'])) {
     }
 
     foreach (HARI as $index_hari => $hari) {
-        $sql = "SELECT * FROM jadwal 
+        $sql = "SET lc_time_names = 'id_ID';
+        SELECT * FROM jadwal 
         WHERE id_jadwal 
-        NOT IN (SELECT id_jadwal FROM detail_jadwal WHERE YEAR(tgl_pertemuan) = $year AND MONTH(tgl_pertemuan) = $month AND DAYNAME(tgl_pertemuan) = '$index_hari') 
+        NOT IN (SELECT id_jadwal FROM detail_jadwal WHERE YEAR(tgl_pertemuan) = $year AND MONTH(tgl_pertemuan) = $month AND DAYNAME(tgl_pertemuan) = '$hari') 
         AND id_instruktur IS NOT NULL AND hari = '$hari' ORDER BY jam_mulai";
-        $result = $db->query($sql);
-        if ($result->num_rows > 0) {
+        $db->multi_query($sql);
+        $db->next_result();
+
+        if ($result = $db->store_result()) {
             while ($row = $result->fetch_assoc()) {
 
                 $id_jadwal = $row['id_jadwal'];
                 $id_instruktur = $row['id_instruktur'];
 
                 foreach ($array_tgl[$index_hari] as $tgl_pertemuan) {
-
                     $sql = "INSERT INTO detail_jadwal (id_jadwal, id_instruktur, tgl_pertemuan) VALUES ('$id_jadwal', '$id_instruktur', '$tgl_pertemuan')";
                     $db->query($sql);
                 }
@@ -59,9 +61,6 @@ if (isset($_POST['sync'])) {
                     $db->query($sql);
                 }
             }
-        } else {
-            echo "not";
-            // die();
         }
     }
 
@@ -147,7 +146,7 @@ if (isset($_POST['bulk_delete'])) {
         }
         push_toast('Pertemuan Dihapus');
     } catch (\Throwable $th) {
-        push_toast('Pertemuan Gagal Dihapus', 'error','Constraint integrity error');
+        push_toast('Pertemuan Gagal Dihapus', 'error', 'Constraint integrity error');
     }
 }
 redirect('../../client/admin/pertemuan.php');
