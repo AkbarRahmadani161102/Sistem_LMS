@@ -107,7 +107,7 @@ include_once('../../api/util/db.php');
                 popup: 'colored-toast'
             },
             showConfirmButton: false,
-            timer: 3000,
+            timer: <?= isset($_SESSION['toast']['text']) ? 7000 : 3000 ?>,
             timerProgressBar: true
         })
     </script>
@@ -132,7 +132,7 @@ include_once('../../api/util/db.php');
                 title: "<?= $_SESSION['alert']['title'] ?>",
                 showConfirmButton: false,
                 timerProgressBar: true,
-                timer: 3000
+                timer: <?= isset($_SESSION['alert']['text']) ? 7000 : 3000 ?>
             })
         </script>
     <?php endif ?>
