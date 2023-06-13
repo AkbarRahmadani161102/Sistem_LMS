@@ -208,7 +208,7 @@ function format_rupiah(int $dec)
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
                             <div class="flip-card-image"></div>
-                            <h3><span>SEKOLAH MENENGAH KEATAS</span></h3>
+                            <h3><span>SEKOLAH MENENGAH ATAS</span></h3>
                             <ul class="flip-card-feature">
                                 <li>Program Belajar Berbasis Kurikulum</li>
                                 <li>Persiapan Ujian Masuk Perguruan Tinggi</li>
