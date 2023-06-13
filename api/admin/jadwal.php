@@ -62,6 +62,7 @@ if (isset($_POST['update'])) {
         $sql = "UPDATE jadwal SET id_mapel = '$id_mapel', id_kelas = '$id_kelas', hari =  '$hari', jam_mulai = '$jam_mulai', jam_selesai = '$jam_selesai' WHERE id_jadwal = '$id_jadwal'";
         $db->query($sql);
         push_toast('Data jadwal berhasil diubah');
+        redirect("../../client/admin/jadwal.php");
     } else {
         push_toast('Gagal mengubah', 'error', 'Pastikan waktu jam mulai kurang dari jam selesai');
     }
